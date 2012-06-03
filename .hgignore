@@ -1,6 +1,6 @@
 # use glob syntax
 syntax: glob
-*.pyc
+**.pyc
 
 syntax: regexp
 ^\.UNDO/
