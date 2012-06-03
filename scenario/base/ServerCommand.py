@@ -1,0 +1,4 @@
+# ServerCommand
+class ServerCommand:
+    pass
+
