@@ -1,6 +1,7 @@
 # use glob syntax
 syntax: glob
 **.pyc
+**.py_undo
 
 syntax: regexp
-^\.UNDO/
+^\.UNDO/*.*

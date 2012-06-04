@@ -1,8 +1,9 @@
 # ServerCommand
 from scenario import base
 class ServerCommand(base.ServerCommand):
-    def __init__(self, core):
+    def install(self, core):
         self.core = core
+        core.server_cmd = self
 
     def get_client_id(self):
         print 'get_client_id'
