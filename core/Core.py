@@ -1,4 +1,5 @@
 class Core:
+    """provide basic botnet mechanism"""
     def simulate(self):
         print 'core::simulate()'
 
