@@ -1,2 +1,1 @@
-from ClientCommand import ClientCommand
-from ServerCommand import ServerCommand
+from base import *

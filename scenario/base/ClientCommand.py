@@ -1,5 +1,0 @@
-# ClientCommand
-
-class ClientCommand:
-    pass
-

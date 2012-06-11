@@ -1,5 +1,3 @@
-# provide glue of each component
-
 class Core:
     """provide basic botnet mechanism"""
     def simulate(self):
