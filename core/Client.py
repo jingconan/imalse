@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-from CMD import CMD
+from CMD import CMD, FSM
 import sys
 sys.path.append("../..")
 from Node import PhyNode
@@ -23,13 +23,13 @@ client_fsm = {
         'info' : info,
         }
 
-class ClientCMD(CMD):
+class ClientCMD(CMD, FSM):
     """Client Command Meta Description
     define the handle of each transition
     each CMD should claim the basic function set a node much provide
     """
     def __init__(self, fsm_desc):
-        CMD.__init__(self, 'client_cmd', fsm_desc)
+        FSM.__init__(self, 'client_cmd', fsm_desc)
 
     @property
     def srv_addr(self): return self.fsm_desc['info']['srv_addr']

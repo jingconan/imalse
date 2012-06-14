@@ -4,7 +4,7 @@ keywords = ['initial', 'info']
 def fsm_get_states(fsm_desc):
      return list( set( state.strip()  for k in fsm_desc.keys() for state in k.rsplit('->') ) - set(keywords) )
 
-class CMD:
+class FSM:
     """Command Meta Description"""
     def __init__(self, name='cmd', fsm_desc=None):
         self._load_fsm(fsm_desc)
@@ -18,12 +18,6 @@ class CMD:
     def _trigger(self, event_name, *argv, **kwargv):
         """trigger an event, event hander is a class member function"""
         getattr(self, event_name)(*argv, **kwargv)
-
-    def install(self, node):
-        if self._is_okay(node):
-            pass
-        self.node = node
-        node.cmd = self
 
     def start(self):
         self._trigger(self.fsm_desc['start_action'])
@@ -52,3 +46,9 @@ class CMD:
 
         get_graph(cmd).draw(pic_name, prog='dot')
 
+class CMD(object):
+    def install(self, node):
+        if self._is_okay(node):
+            pass
+        self.node = node
+        node.cmd = self
