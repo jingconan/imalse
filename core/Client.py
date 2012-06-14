@@ -23,7 +23,6 @@ client_fsm = {
         'info' : info,
         }
 
-
 class ClientCMD(CMD):
     """Client Command Meta Description
     define the handle of each transition
