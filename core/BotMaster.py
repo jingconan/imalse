@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 from Client import ClientCMD, client_fsm
-from Node import Node
+from Node import PhyNode
 
 class BotMaster(ClientCMD):
     def show(self, sock, data):
@@ -29,6 +29,6 @@ class BotMaster(ClientCMD):
 
 if __name__ == "__main__":
     cmd = BotMaster(client_fsm)
-    node = Node()
+    node = PhyNode()
     cmd.install(node)
     node.start()

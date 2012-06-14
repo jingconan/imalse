@@ -29,8 +29,7 @@ class CMD:
         self._trigger(self.fsm_desc['start_action'])
 
     def get_state(self): return self.node.state
-    def set_state(self, val):
-        self.node.set_state(val)
+    def set_state(self, val): self.node.set_state(val)
     state = property(get_state, set_state)
 
     def export(self, pic_name):

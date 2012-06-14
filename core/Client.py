@@ -1,6 +1,8 @@
 #!/usr/bin/env python
-from base import CMD
-from Node import Node
+from CMD import CMD
+import sys
+sys.path.append("../..")
+from Node import PhyNode
 
 
 # ClientCommand
@@ -40,7 +42,8 @@ class ClientCMD(CMD):
         return True
 
     def request_connect(self):
-        sock = self.node.create_client_socket()
+        # sock = self.node.create_client_socket()
+        sock = self.node.create_sock({'type':'server', 'proto':'tcp'})
         event = self.node.sock_connect(sock, (self.srv_addr, self.srv_port))
         self.sock = sock
         self._trigger(event)
@@ -74,7 +77,7 @@ class ClientCMD(CMD):
 
 if __name__ == "__main__":
     cmd = ClientCMD(client_fsm)
-    node = Node()
+    node = PhyNode()
     cmd.install(node)
     node.start()
 

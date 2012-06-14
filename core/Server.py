@@ -1,6 +1,6 @@
 #!/usr/bin/env python
-from base import CMD
-from Node import Node
+from CMD import CMD
+from Node import PhyNode
 
 info = {
         'srv_addr':'127.0.0.1',
@@ -26,7 +26,7 @@ class ServerCMD(CMD):
     def _is_okay(self, node): return True
 
     def initialize(self):
-        srv_sock = self.node.create_server_socket()
+        srv_sock = self.node.create_sock({'type':'server', 'proto':'tcp'})
         self.node.sock_bind(srv_sock, 3333)
         self.node.sock_listen(srv_sock, 5)
         self.node.set_state('waiting')
@@ -73,13 +73,9 @@ class ServerCMD(CMD):
         print 'receive disconnect request'
         return False
 
-
-
-
-
 if __name__ == "__main__":
     cmd = ServerCMD(client_fsm)
-    node = Node()
+    node = PhyNode()
     cmd.install(node)
     node.start()
 
