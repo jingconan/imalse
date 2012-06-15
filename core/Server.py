@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 from CMD import CMD
 from Node import PhyNode
+import copy
 
 info = {
         'srv_addr':'127.0.0.1',
@@ -8,8 +9,8 @@ info = {
         'request_timeout':10,
     }
 client_fsm = {
-        'waiting -> send_ack' : 'request_conn',
-        'waiting -> send_cmd' : 'get_cmd',
+        # 'waiting -> send_ack' : 'request_conn',
+        # 'waiting -> send_cmd' : 'get_cmd',
         'initial' : 'waiting',
         'start_action' : 'initialize',
         'info' : info,
@@ -18,10 +19,11 @@ keywords = ['initial', 'info']
 
 BOT_MASTER_PASSWORD = '1234'
 
-
 class ServerCMD(CMD):
+    name =  'server_cmd'
     def __init__(self, fsm_desc):
-        CMD.__init__(self, 'server_cmd', fsm_desc)
+        # super(ServerCMD, self).__init__(fsm_desc)
+        CMD.__init__(self, fsm_desc)
 
     def _is_okay(self, node): return True
 
@@ -33,44 +35,36 @@ class ServerCMD(CMD):
 
         while True:
             client_sock, address = self.node.sock_accept(srv_sock)
-            self._trigger('request_conn', client_sock, address)
+            self._trigger('recv_request_conn', client_sock, address)
 
-    def request_conn(self, client_sock, address):
-        print 'receive request from addr: ', address
+    def recv_request_conn(self, client_sock, address):
+        self.logger.info('receive request from addr: %s'%(str(address)))
         self.node.sock_send(client_sock, 'connect_ack')
         self.node.sock_thread_recv(client_sock, 512, self.dispatcher)
-        # self.node.sock_recv(client_sock, 512, self.dispatcher)
-        # print self.node.client_socks
 
     def dispatcher(self, sock, data):
-        print 'dispatcher, recv data', data
         try:
-            print 'data, ', data
-            event = data.rsplit(' > ')[0]
-            user_data =  data.rsplit(' > ')[1]
-            self._trigger(event, sock, user_data)
+            CMD.dispatcher(self, sock, data)
         except Exception as e:
-            import traceback
-            traceback.print_stack()
-            print e
-            print 'unknow message: %s from %s '%(data, self.node.sockets[sock])
+            self.logger.error('unknow message: %s from %s'%(data, self.node.sockets[sock]))
+            self.logger.exception(str(e))
             self.node.sock_send(sock, 'you have sent me a unknown message')
 
     def verify_master(self, sock, data):
-        password = data.rsplit('password:')[1]
-        if password == BOT_MASTER_PASSWORD:
-            print 'bot master password verfied'
+        if data['password'][0] == BOT_MASTER_PASSWORD:
+            self.logger.info( 'bot master password verfied' )
             self.node.set_master_sock(sock)
             self.node.sock_send(sock, 'verifed, hi master, what you want to do? ')
 
-    def send_message_to_all(self, sock, data):
-        print 'start to send_message_to_all'
+    def echo_bots(self, sock, data):
+        self.logger.info('start to echo_bots' )
+        new_data = copy.deepcopy(data)
+        new_data['event'] = ['echo']
         for client_sock in self.node.client_socks:
-            print 'client_sock', client_sock
-            self.node.sock_send(client_sock, data)
+            self.node.sock_send(client_sock, self._dump_json(new_data))
 
     def disconnect(self, sock):
-        print 'receive disconnect request'
+        self.logger.info('receive disconnect request')
         return False
 
 if __name__ == "__main__":

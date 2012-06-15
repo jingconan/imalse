@@ -1,4 +1,7 @@
 #!/usr/bin/env python
+import logging
+import json
+from urlparse import parse_qs
 keywords = ['initial', 'info']
 
 def fsm_get_states(fsm_desc):
@@ -6,9 +9,14 @@ def fsm_get_states(fsm_desc):
 
 class CMD:
     """Command Meta Description"""
-    def __init__(self, name='cmd', fsm_desc=None):
+    def __init__(self, fsm_desc=None):
         self._load_fsm(fsm_desc)
-        self.name = name
+        self._set_logger()
+
+    def _set_logger(self):
+        logging.basicConfig()
+        self.logger = logging.getLogger(self.name)
+        self.logger.setLevel(logging.DEBUG)
 
     def _load_fsm(self, fsm_desc):
         self.fsm_desc = fsm_desc
@@ -17,7 +25,18 @@ class CMD:
 
     def _trigger(self, event_name, *argv, **kwargv):
         """trigger an event, event hander is a class member function"""
+        self.logger.debug('%s has been triggered'%(event_name))
         getattr(self, event_name)(*argv, **kwargv)
+
+    def dispatcher(self, sock, data):
+        self.logger.debug('dispatcher recv data' + data)
+        dt_data = self._load_json(data)
+        self._trigger(dt_data['event'][0], sock, dt_data)
+
+
+    def _cmd_to_json(self, cmd_str): return json.dumps(parse_qs(cmd_str))
+    def _dump_json(self, data): return json.dumps(data)
+    def _load_json(self, js): return json.loads(js)
 
     def install(self, node):
         if self._is_okay(node):

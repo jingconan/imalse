@@ -26,10 +26,13 @@ class BotMasterShowExistence(ClientCMD):
         print 'recv from server: ', data
     def recv_ack(self):
         while True:
-            self.node.sock_send(self.sock, 'verify_master > password:1234')
+            self.node.sock_send(self.sock, self._cmd_to_json('event=verify_master;password=1234;'))
+            # self.node.sock_send(self.sock, 'verify_master>password:1234')
             # self.node.sock_thread_recv(self.sock, 512, self.show)
             self.node.sleep(2)
-            self.node.sock_send(self.sock, 'send_message_to_all > I am the master, I have controlled you')
+            # self.node.sock_send(self.sock, 'send_message_to_all>I am the master, I have controlled you')
+            self.node.sock_send(self.sock,
+                    self._cmd_to_json('event=echo_bots;msg=I am the master, I have controlled you;') )
             self.node.sleep(2)
 
 if __name__ == "__main__":
