@@ -31,7 +31,6 @@ class ClientCMD(CMD):
     def __init__(self, fsm_desc):
         CMD.__init__(self, fsm_desc)
 
-
     @property
     def srv_addr(self): return self.fsm_desc['info']['srv_addr']
     @property
