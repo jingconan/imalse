@@ -75,7 +75,7 @@ class PhyNode(BaseNode):
     def sock_recv(self, sock, bufsize, dispatcher):
         while True:
             data = sock.recv(bufsize)
-            if not data: continue
+            if not data: break
             if dispatcher(sock, data) == 'fail':
                 print 'sock_recv dispater fail, data, ', data
                 break

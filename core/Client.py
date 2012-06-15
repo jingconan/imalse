@@ -28,7 +28,7 @@ class ClientCMD(CMD):
     each CMD should claim the basic function set a node much provide
     """
     name = 'client_cmd'
-    def __init__(self, fsm_desc):
+    def __init__(self, fsm_desc=None):
         CMD.__init__(self, fsm_desc)
 
     @property
@@ -72,4 +72,3 @@ if __name__ == "__main__":
     node = PhyNode()
     cmd.install(node)
     node.start()
-

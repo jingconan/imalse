@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 from CMD import CMD
-from Node import PhyNode
 import copy
 
 info = {
@@ -21,7 +20,7 @@ BOT_MASTER_PASSWORD = '1234'
 
 class ServerCMD(CMD):
     name =  'server_cmd'
-    def __init__(self, fsm_desc):
+    def __init__(self, fsm_desc=None):
         # super(ServerCMD, self).__init__(fsm_desc)
         CMD.__init__(self, fsm_desc)
 
@@ -68,6 +67,7 @@ class ServerCMD(CMD):
         return False
 
 if __name__ == "__main__":
+    from Node import PhyNode
     cmd = ServerCMD(client_fsm)
     node = PhyNode()
     cmd.install(node)

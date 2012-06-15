@@ -31,7 +31,9 @@ class CMD:
     def dispatcher(self, sock, data):
         self.logger.debug('dispatcher recv data' + data)
         dt_data = self._load_json(data)
-        self._trigger(dt_data['event'][0], sock, dt_data)
+        event_name = dt_data['event'][0]
+        del dt_data['event']
+        self._trigger(event_name, sock, dt_data)
 
 
     def _cmd_to_json(self, cmd_str): return json.dumps(parse_qs(cmd_str))
