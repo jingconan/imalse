@@ -1,0 +1,315 @@
+graph internet2 {
+    seattle     [ 
+        ipdests="16.0.0.0/4 32.0.0.0/4"
+        autoack="True"
+
+        traffic="m1a m1b m2 m3 m4 m5 m6 m7"
+
+        // basic harpoon diurnal cycle
+        m1a="modulator start=0.0 generator=s1a profile=((900,),(2,2,2,2,2,2,1,1,1,1,1,1,1,1,2,2,2,2,2,3,3,3,3,3,4,4,4,5,5,6,7,8,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,23,24,24,25,23,24,25,26,26,26,27,26,26,25,24,23,23,22,21,21,21,20,19,18,17,17,16,15,15,14,13,12,12,11,10,9,8,7,6,5,5,4,4,3,3,3,2,3,))"
+        m1b="modulator start=0.0 generator=s1a profile=((900,),(2,2,2,2,2,2,1,1,1,1,1,1,1,1,2,2,2,2,2,3,3,3,3,3,4,4,4,5,5,6,7,8,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,23,24,24,25,23,24,25,26,26,26,27,26,26,25,24,23,23,22,21,21,21,20,19,18,17,17,16,15,15,14,13,12,12,11,10,9,8,7,6,5,5,4,4,3,3,3,2,3,))"
+        s1a="harpoon ipsrc=16.0.0.0/4 ipdst=0.0.0.0/0 flowsize=pareto(50000,1.18) flowstart=exponential(1/5.0) pktsize=normal(1000,200) ipproto=randomchoice(6) sport=randomchoice(22,80,80,80,80,80,21,443) dport=randomunifint(1025,65535) lossrate=randomuniffloat(0.005,0.01) mss=randomchoice(1500,576,1500) emitprocess=normal(x,x*0.1) iptos=randomchoice(0x0,0x10,0x0,0x0,0x0,0x0,0x0,0x08,0x0,0x04,0x02)"
+        s1b="harpoon ipsrc=32.0.0.0/4 ipdst=0.0.0.0/0 flowsize=pareto(50000,1.18) flowstart=exponential(1/5.0) pktsize=normal(1000,200) ipproto=randomchoice(6) sport=randomchoice(22,80,80,80,80,80,21,443) dport=randomunifint(1025,65535) lossrate=randomuniffloat(0.005,0.01) mss=randomchoice(1500,576,1500) emitprocess=normal(x,x*0.1) iptos=randomchoice(0x0,0x10,0x0,0x0,0x0,0x0,0x0,0x08,0x0,0x04,0x02)"
+
+        m2="modulator start=exponential(1.0) generator=s2 profile=((14400,),(1,2,3,3,2,1))"
+        s2="rawflow ipsrc=16.0.0.0/4 ipdst=0.0.0.0/0 sport=80 dport=randomunifint(1024,65535) ipproto=tcp bytes=normal(3000,500) iptos=randomchoice(0x0,0x02) pktsize=normal(1000,200) tcpflags=SYN|FIN|ACK continuous=True interval=exponential(1.0)"
+
+        // udp vbr flows
+        m3="modulator start=exponential(1.0) generator=s3 profile=((14400,),(1,2,3,3,2,1))"
+        s3="rawflow ipsrc=16.0.0.0/4 ipdst=0.0.0.0/0 flowlets=normal(80,10) dport=4444 sport=randomunifint(1024,65535) ipproto=udp pkts=normal(10,1) bytes=normal(1000,100) continuous=True interval=exponential(1/4.0)"
+
+        // echo
+        // icmp dport: high nybble=type, low nybble=code
+        // every second, start up one source; immediate onset and departure
+        m4="modulator start=exponential(1.0) generator=s4 profile=((14400,),(1,2,3,3,2,1))"
+        s4="rawflow ipsrc=16.0.0.0/4 ipdst=0.0.0.0/0 flowlets=1 ipproto=icmp pkts=1 bytes=64 icmptype=8 icmpcode=0 continuous=True interval=exponential(1.0)"
+
+        // echo reply
+        m5="modulator start=exponential(1.0) generator=s5 profile=((14400,),(1,2,3,3,2,1))"
+        s5="rawflow ipsrc=16.0.0.0/4 ipdst=0.0.0.0/0 flowlets=1 ipproto=icmp pkts=1 bytes=64 icmptype=0 icmpcode=0 continuous=True interval=exponential(1/2.0)"
+
+        // various icmp
+        m6="modulator start=exponential(1.0) generator=s6 profile=((14400,),(1,2,3,3,2,1))"
+        s6="rawflow ipsrc=16.0.0.0/4 ipdst=0.0.0.0/0 flowlets=1 ipproto=icmp pkts=1 bytes=64 icmptype=randomchoice(0,3,11,13,8,30) icmpcode=0 continuous=True interval=exponential(1/2.0)"
+
+        m7="modulator start=32400 generator=syns emerge=((1,),frange(1,500,100)) sustain=((600,),(500,)) withdraw=((1,),frange(500,0,-20))"
+        syns="rawflow ipsrc=0.0.0.0/0 ipdst=165.42.20.0/30 dport=80 sport=randomunifint(1,65535) ipproto=tcp pkts=1 bytes=40 tcpflags=SYN flowlets=1 continuous=True interval=exponential(1) autoack=False"
+    ];
+    saltlake    [ 
+        ipdests="48.0.0.0/4 64.0.0.0/4"
+        autoack="True"
+        traffic="m1a m1b m2 m3 m4 m5 m6"
+
+        // basic harpoon diurnal cycle
+        m1a="modulator start=0.0 generator=s1a profile=((900,),(2,2,2,2,2,2,1,1,1,1,1,1,1,1,2,2,2,2,2,3,3,3,3,3,4,4,4,5,5,6,7,8,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,23,24,24,25,23,24,25,26,26,26,27,26,26,25,24,23,23,22,21,21,21,20,19,18,17,17,16,15,15,14,13,12,12,11,10,9,8,7,6,5,5,4,4,3,3,3,2,3,))"
+        m1b="modulator start=0.0 generator=s1a profile=((900,),(2,2,2,2,2,2,1,1,1,1,1,1,1,1,2,2,2,2,2,3,3,3,3,3,4,4,4,5,5,6,7,8,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,23,24,24,25,23,24,25,26,26,26,27,26,26,25,24,23,23,22,21,21,21,20,19,18,17,17,16,15,15,14,13,12,12,11,10,9,8,7,6,5,5,4,4,3,3,3,2,3,))"
+        s1a="harpoon ipsrc=48.0.0.0/4 ipdst=0.0.0.0/0 flowsize=pareto(50000,1.18) flowstart=exponential(1/5.0) pktsize=normal(1000,200) ipproto=randomchoice(6) sport=randomchoice(22,80,80,80,80,80,21,443) dport=randomunifint(1025,65535) lossrate=randomuniffloat(0.005,0.01) mss=randomchoice(1500,576,1500) emitprocess=normal(x,x*0.1) iptos=randomchoice(0x0,0x10,0x0,0x0,0x0,0x0,0x0,0x08,0x0,0x04,0x02)"
+        s1b="harpoon ipsrc=64.0.0.0/4 ipdst=0.0.0.0/0 flowsize=pareto(50000,1.18) flowstart=exponential(1/5.0) pktsize=normal(1000,200) ipproto=randomchoice(6) sport=randomchoice(22,80,80,80,80,80,21,443) dport=randomunifint(1025,65535) lossrate=randomuniffloat(0.005,0.01) mss=randomchoice(1500,576,1500) emitprocess=normal(x,x*0.1) iptos=randomchoice(0x0,0x10,0x0,0x0,0x0,0x0,0x0,0x08,0x0,0x04,0x02)"
+
+        m2="modulator start=exponential(1.0) generator=s2 profile=((14400,),(1,2,3,3,2,1))"
+        s2="rawflow ipsrc=48.0.0.0/4 ipdst=0.0.0.0/0 sport=80 dport=randomunifint(1024,65535) ipproto=tcp bytes=normal(3000,500) iptos=randomchoice(0x0,0x02) pktsize=normal(1000,200) tcpflags=SYN|FIN|ACK continuous=True interval=exponential(1.0)"
+
+        // udp vbr flows
+        m3="modulator start=exponential(1.0) generator=s3 profile=((14400,),(1,2,3,3,2,1))"
+        s3="rawflow ipsrc=48.0.0.0/4 ipdst=0.0.0.0/0 flowlets=normal(80,10) dport=4444 sport=randomunifint(1024,65535) ipproto=udp pkts=normal(10,1) bytes=normal(1000,100) continuous=True interval=exponential(1/4.0)"
+
+        // echo
+        // icmp dport: high nybble=type, low nybble=code
+        // every second, start up one source; immediate onset and departure
+        m4="modulator start=exponential(1.0) generator=s4 profile=((14400,),(1,2,3,3,2,1))"
+        s4="rawflow ipsrc=48.0.0.0/4 ipdst=0.0.0.0/0 flowlets=1 ipproto=icmp pkts=1 bytes=64 icmptype=8 icmpcode=0 continuous=True interval=exponential(1.0)"
+
+        // echo reply
+        m5="modulator start=exponential(1.0) generator=s5 profile=((14400,),(1,2,3,3,2,1))"
+        s5="rawflow ipsrc=48.0.0.0/4 ipdst=0.0.0.0/0 flowlets=1 ipproto=icmp pkts=1 bytes=64 icmptype=0 icmpcode=0 continuous=True interval=exponential(1/2.0)"
+
+        // various icmp
+        m6="modulator start=exponential(1.0) generator=s6 profile=((14400,),(1,2,3,3,2,1))"
+        s6="rawflow ipsrc=48.0.0.0/4 ipdst=0.0.0.0/0 flowlets=1 ipproto=icmp pkts=1 bytes=64 icmptype=randomchoice(0,3,11,13,8,30) icmpcode=0 continuous=True interval=exponential(1/2.0)"
+    ];
+    losangeles  [ 
+        ipdests="80.0.0.0/4 96.0.0.0/4"
+        autoack="True"
+        traffic="m1a m1b m2 m3 m4 m5 m6 m8a m8b"
+
+        // basic harpoon diurnal cycle
+        m1a="modulator start=0.0 generator=s1a profile=((900,),(2,2,2,2,2,2,1,1,1,1,1,1,1,1,2,2,2,2,2,3,3,3,3,3,4,4,4,5,5,6,7,8,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,23,24,24,25,23,24,25,26,26,26,27,26,26,25,24,23,23,22,21,21,21,20,19,18,17,17,16,15,15,14,13,12,12,11,10,9,8,7,6,5,5,4,4,3,3,3,2,3,))"
+        m1b="modulator start=0.0 generator=s1a profile=((900,),(2,2,2,2,2,2,1,1,1,1,1,1,1,1,2,2,2,2,2,3,3,3,3,3,4,4,4,5,5,6,7,8,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,23,24,24,25,23,24,25,26,26,26,27,26,26,25,24,23,23,22,21,21,21,20,19,18,17,17,16,15,15,14,13,12,12,11,10,9,8,7,6,5,5,4,4,3,3,3,2,3,))"
+        s1a="harpoon ipsrc=80.0.0.0/4 ipdst=0.0.0.0/0 flowsize=pareto(50000,1.18) flowstart=exponential(1/5.0) pktsize=normal(1000,200) ipproto=randomchoice(6) sport=randomchoice(22,80,80,80,80,80,21,443) dport=randomunifint(1025,65535) lossrate=randomuniffloat(0.005,0.01) mss=randomchoice(1500,576,1500) emitprocess=normal(x,x*0.1) iptos=randomchoice(0x0,0x10,0x0,0x0,0x0,0x0,0x0,0x08,0x0,0x04,0x02)"
+        s1b="harpoon ipsrc=96.0.0.0/4 ipdst=0.0.0.0/0 flowsize=pareto(50000,1.18) flowstart=exponential(1/5.0) pktsize=normal(1000,200) ipproto=randomchoice(6) sport=randomchoice(22,80,80,80,80,80,21,443) dport=randomunifint(1025,65535) lossrate=randomuniffloat(0.005,0.01) mss=randomchoice(1500,576,1500) emitprocess=normal(x,x*0.1) iptos=randomchoice(0x0,0x10,0x0,0x0,0x0,0x0,0x0,0x08,0x0,0x04,0x02)"
+
+        m2="modulator start=exponential(1.0) generator=s2 profile=((14400,),(1,2,3,3,2,1))"
+        s2="rawflow ipsrc=80.0.0.0/4 ipdst=0.0.0.0/0 sport=80 dport=randomunifint(1024,65535) ipproto=tcp bytes=normal(3000,500) iptos=randomchoice(0x0,0x02) pktsize=normal(1000,200) tcpflags=SYN|FIN|ACK continuous=True interval=exponential(1.0)"
+
+        // udp vbr flows
+        m3="modulator start=exponential(1.0) generator=s3 profile=((14400,),(1,2,3,3,2,1))"
+        s3="rawflow ipsrc=80.0.0.0/4 ipdst=0.0.0.0/0 flowlets=normal(80,10) dport=4444 sport=randomunifint(1024,65535) ipproto=udp pkts=normal(10,1) bytes=normal(1000,100) continuous=True interval=exponential(1/4.0)"
+
+        // echo
+        // icmp dport: high nybble=type, low nybble=code
+        // every second, start up one source; immediate onset and departure
+        m4="modulator start=exponential(1.0) generator=s4 profile=((14400,),(1,2,3,3,2,1))"
+        s4="rawflow ipsrc=80.0.0.0/4 ipdst=0.0.0.0/0 flowlets=1 ipproto=icmp pkts=1 bytes=64 icmptype=8 icmpcode=0 continuous=True interval=exponential(1.0)"
+
+        // echo reply
+        m5="modulator start=exponential(1.0) generator=s5 profile=((14400,),(1,2,3,3,2,1))"
+        s5="rawflow ipsrc=80.0.0.0/4 ipdst=0.0.0.0/0 flowlets=1 ipproto=icmp pkts=1 bytes=64 icmptype=0 icmpcode=0 continuous=True interval=exponential(1/2.0)"
+
+        // various icmp
+        m6="modulator start=exponential(1.0) generator=s6 profile=((14400,),(1,2,3,3,2,1))"
+        s6="rawflow ipsrc=80.0.0.0/4 ipdst=0.0.0.0/0 flowlets=1 ipproto=icmp pkts=1 bytes=64 icmptype=randomchoice(0,3,11,13,8,30) icmpcode=0 continuous=True interval=exponential(1/2.0)"
+
+        // 'subtractive' anomaly
+        m8a="modulator start=72000 generator=sub1a profile=((60,),(1,))"
+        sub1a="subtractive dstnode=atlanta action=removeuniform(0.1)"
+        m8b="modulator start=72600 generator=sub1b profile=((60,),(1,))"
+        sub1b="subtractive dstnode=kansascity ipdstfilt=64.0.0.0/8 action=removeuniform(0.9)"
+    ];
+    houston     [ 
+        ipdests="112.0.0.0/4 128.0.0.0/4"
+        autoack="True"
+        traffic="m1a m1b m2 m3 m4 m5 m6"
+
+        // basic harpoon diurnal cycle
+        m1a="modulator start=0.0 generator=s1a profile=((900,),(2,2,2,2,2,2,1,1,1,1,1,1,1,1,2,2,2,2,2,3,3,3,3,3,4,4,4,5,5,6,7,8,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,23,24,24,25,23,24,25,26,26,26,27,26,26,25,24,23,23,22,21,21,21,20,19,18,17,17,16,15,15,14,13,12,12,11,10,9,8,7,6,5,5,4,4,3,3,3,2,3,))"
+        m1b="modulator start=0.0 generator=s1a profile=((900,),(2,2,2,2,2,2,1,1,1,1,1,1,1,1,2,2,2,2,2,3,3,3,3,3,4,4,4,5,5,6,7,8,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,23,24,24,25,23,24,25,26,26,26,27,26,26,25,24,23,23,22,21,21,21,20,19,18,17,17,16,15,15,14,13,12,12,11,10,9,8,7,6,5,5,4,4,3,3,3,2,3,))"
+        s1a="harpoon ipsrc=112.0.0.0/4 ipdst=0.0.0.0/0 flowsize=pareto(50000,1.18) flowstart=exponential(1/5.0) pktsize=normal(1000,200) ipproto=randomchoice(6) sport=randomchoice(22,80,80,80,80,80,21,443) dport=randomunifint(1025,65535) lossrate=randomuniffloat(0.005,0.01) mss=randomchoice(1500,576,1500) emitprocess=normal(x,x*0.1) iptos=randomchoice(0x0,0x10,0x0,0x0,0x0,0x0,0x0,0x08,0x0,0x04,0x02)"
+        s1b="harpoon ipsrc=128.0.0.0/4 ipdst=0.0.0.0/0 flowsize=pareto(50000,1.18) flowstart=exponential(1/5.0) pktsize=normal(1000,200) ipproto=randomchoice(6) sport=randomchoice(22,80,80,80,80,80,21,443) dport=randomunifint(1025,65535) lossrate=randomuniffloat(0.005,0.01) mss=randomchoice(1500,576,1500) emitprocess=normal(x,x*0.1) iptos=randomchoice(0x0,0x10,0x0,0x0,0x0,0x0,0x0,0x08,0x0,0x04,0x02)"
+
+        m2="modulator start=exponential(1.0) generator=s2 profile=((14400,),(1,2,3,3,2,1))"
+        s2="rawflow ipsrc=112.0.0.0/4 ipdst=0.0.0.0/0 sport=80 dport=randomunifint(1024,65535) ipproto=tcp bytes=normal(3000,500) iptos=randomchoice(0x0,0x02) pktsize=normal(1000,200) tcpflags=SYN|FIN|ACK continuous=True interval=exponential(1.0)"
+
+        // udp vbr flows
+        m3="modulator start=exponential(1.0) generator=s3 profile=((14400,),(1,2,3,3,2,1))"
+        s3="rawflow ipsrc=112.0.0.0/4 ipdst=0.0.0.0/0 flowlets=normal(80,10) dport=4444 sport=randomunifint(1024,65535) ipproto=udp pkts=normal(10,1) bytes=normal(1000,100) continuous=True interval=exponential(1/4.0)"
+
+        // echo
+        // icmp dport: high nybble=type, low nybble=code
+        // every second, start up one source; immediate onset and departure
+        m4="modulator start=exponential(1.0) generator=s4 profile=((14400,),(1,2,3,3,2,1))"
+        s4="rawflow ipsrc=112.0.0.0/4 ipdst=0.0.0.0/0 flowlets=1 ipproto=icmp pkts=1 bytes=64 icmptype=8 icmpcode=0 continuous=True interval=exponential(1.0)"
+
+        // echo reply
+        m5="modulator start=exponential(1.0) generator=s5 profile=((14400,),(1,2,3,3,2,1))"
+        s5="rawflow ipsrc=112.0.0.0/4 ipdst=0.0.0.0/0 flowlets=1 ipproto=icmp pkts=1 bytes=64 icmptype=0 icmpcode=0 continuous=True interval=exponential(1/2.0)"
+
+        // various icmp
+        m6="modulator start=exponential(1.0) generator=s6 profile=((14400,),(1,2,3,3,2,1))"
+        s6="rawflow ipsrc=112.0.0.0/4 ipdst=0.0.0.0/0 flowlets=1 ipproto=icmp pkts=1 bytes=64 icmptype=randomchoice(0,3,11,13,8,30) icmpcode=0 continuous=True interval=exponential(1/2.0)"
+    ];
+    kansascity  [ 
+        ipdests="144.0.0.0/4"
+        autoack="True"
+        traffic="m1a m2 m3 m4 m5 m6"
+
+        // basic harpoon diurnal cycle
+        m1a="modulator start=0.0 generator=s1a profile=((900,),(2,2,2,2,2,2,1,1,1,1,1,1,1,1,2,2,2,2,2,3,3,3,3,3,4,4,4,5,5,6,7,8,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,23,24,24,25,23,24,25,26,26,26,27,26,26,25,24,23,23,22,21,21,21,20,19,18,17,17,16,15,15,14,13,12,12,11,10,9,8,7,6,5,5,4,4,3,3,3,2,3,))"
+        s1a="harpoon ipsrc=144.0.0.0/4 ipdst=0.0.0.0/0 flowsize=pareto(50000,1.18) flowstart=exponential(1/5.0) pktsize=normal(1000,200) ipproto=randomchoice(6) sport=randomchoice(22,80,80,80,80,80,21,443) dport=randomunifint(1025,65535) lossrate=randomuniffloat(0.005,0.01) mss=randomchoice(1500,576,1500) emitprocess=normal(x,x*0.1) iptos=randomchoice(0x0,0x10,0x0,0x0,0x0,0x0,0x0,0x08,0x0,0x04,0x02)"
+
+        m2="modulator start=exponential(1.0) generator=s2 profile=((14400,),(1,2,3,3,2,1))"
+        s2="rawflow ipsrc=144.0.0.0/4 ipdst=0.0.0.0/0 sport=80 dport=randomunifint(1024,65535) ipproto=tcp bytes=normal(3000,500) iptos=randomchoice(0x0,0x02) pktsize=normal(1000,200) tcpflags=SYN|FIN|ACK continuous=True interval=exponential(1.0)"
+
+        // udp vbr flows
+        m3="modulator start=exponential(1.0) generator=s3 profile=((14400,),(1,2,3,3,2,1))"
+        s3="rawflow ipsrc=144.0.0.0/4 ipdst=0.0.0.0/0 flowlets=normal(80,10) dport=4444 sport=randomunifint(1024,65535) ipproto=udp pkts=normal(10,1) bytes=normal(1000,100) continuous=True interval=exponential(1/4.0)"
+
+        // echo
+        // icmp dport: high nybble=type, low nybble=code
+        // every second, start up one source; immediate onset and departure
+        m4="modulator start=exponential(1.0) generator=s4 profile=((14400,),(1,2,3,3,2,1))"
+        s4="rawflow ipsrc=144.0.0.0/4 ipdst=0.0.0.0/0 flowlets=1 ipproto=icmp pkts=1 bytes=64 icmptype=8 icmpcode=0 continuous=True interval=exponential(1.0)"
+
+        // echo reply
+        m5="modulator start=exponential(1.0) generator=s5 profile=((14400,),(1,2,3,3,2,1))"
+        s5="rawflow ipsrc=144.0.0.0/4 ipdst=0.0.0.0/0 flowlets=1 ipproto=icmp pkts=1 bytes=64 icmptype=0 icmpcode=0 continuous=True interval=exponential(1/2.0)"
+
+        // various icmp
+        m6="modulator start=exponential(1.0) generator=s6 profile=((14400,),(1,2,3,3,2,1))"
+        s6="rawflow ipsrc=144.0.0.0/4 ipdst=0.0.0.0/0 flowlets=1 ipproto=icmp pkts=1 bytes=64 icmptype=randomchoice(0,3,11,13,8,30) icmpcode=0 continuous=True interval=exponential(1/2.0)"
+    ];
+    atlanta     [ 
+        ipdests="160.0.0.0/4"
+        autoack="True"
+        traffic="m1a m2 m3 m4 m5 m6"
+
+        // basic harpoon diurnal cycle
+        m1a="modulator start=0.0 generator=s1a profile=((900,),(2,2,2,2,2,2,1,1,1,1,1,1,1,1,2,2,2,2,2,3,3,3,3,3,4,4,4,5,5,6,7,8,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,23,24,24,25,23,24,25,26,26,26,27,26,26,25,24,23,23,22,21,21,21,20,19,18,17,17,16,15,15,14,13,12,12,11,10,9,8,7,6,5,5,4,4,3,3,3,2,3,))"
+        s1a="harpoon ipsrc=160.0.0.0/4 ipdst=0.0.0.0/0 flowsize=pareto(50000,1.18) flowstart=exponential(1/5.0) pktsize=normal(1000,200) ipproto=randomchoice(6) sport=randomchoice(22,80,80,80,80,80,21,443) dport=randomunifint(1025,65535) lossrate=randomuniffloat(0.005,0.01) mss=randomchoice(1500,576,1500) emitprocess=normal(x,x*0.1) iptos=randomchoice(0x0,0x10,0x0,0x0,0x0,0x0,0x0,0x08,0x0,0x04,0x02)"
+
+        m2="modulator start=exponential(1.0) generator=s2 profile=((14400,),(1,2,3,3,2,1))"
+        s2="rawflow ipsrc=160.0.0.0/4 ipdst=0.0.0.0/0 sport=80 dport=randomunifint(1024,65535) ipproto=tcp bytes=normal(3000,500) iptos=randomchoice(0x0,0x02) pktsize=normal(1000,200) tcpflags=SYN|FIN|ACK continuous=True interval=exponential(1.0)"
+
+        // udp vbr flows
+        m3="modulator start=exponential(1.0) generator=s3 profile=((14400,),(1,2,3,3,2,1))"
+        s3="rawflow ipsrc=160.0.0.0/4 ipdst=0.0.0.0/0 flowlets=normal(80,10) dport=4444 sport=randomunifint(1024,65535) ipproto=udp pkts=normal(10,1) bytes=normal(1000,100) continuous=True interval=exponential(1/4.0)"
+
+        // echo
+        // icmp dport: high nybble=type, low nybble=code
+        // every second, start up one source; immediate onset and departure
+        m4="modulator start=exponential(1.0) generator=s4 profile=((14400,),(1,2,3,3,2,1))"
+        s4="rawflow ipsrc=160.0.0.0/4 ipdst=0.0.0.0/0 flowlets=1 ipproto=icmp pkts=1 bytes=64 icmptype=8 icmpcode=0 continuous=True interval=exponential(1.0)"
+
+        // echo reply
+        m5="modulator start=exponential(1.0) generator=s5 profile=((14400,),(1,2,3,3,2,1))"
+        s5="rawflow ipsrc=160.0.0.0/4 ipdst=0.0.0.0/0 flowlets=1 ipproto=icmp pkts=1 bytes=64 icmptype=0 icmpcode=0 continuous=True interval=exponential(1/2.0)"
+
+        // various icmp
+        m6="modulator start=exponential(1.0) generator=s6 profile=((14400,),(1,2,3,3,2,1))"
+        s6="rawflow ipsrc=160.0.0.0/4 ipdst=0.0.0.0/0 flowlets=1 ipproto=icmp pkts=1 bytes=64 icmptype=randomchoice(0,3,11,13,8,30) icmpcode=0 continuous=True interval=exponential(1/2.0)"
+    ];
+    chicago     [ 
+        ipdests="176.0.0.0/4 192.0.0.0/4"
+        autoack="True"
+        traffic="m1a m1b m2 m3 m4 m5 m6 m7"
+
+        // basic harpoon diurnal cycle
+        m1a="modulator start=0.0 generator=s1a profile=((900,),(2,2,2,2,2,2,1,1,1,1,1,1,1,1,2,2,2,2,2,3,3,3,3,3,4,4,4,5,5,6,7,8,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,23,24,24,25,23,24,25,26,26,26,27,26,26,25,24,23,23,22,21,21,21,20,19,18,17,17,16,15,15,14,13,12,12,11,10,9,8,7,6,5,5,4,4,3,3,3,2,3,))"
+        m1b="modulator start=0.0 generator=s1a profile=((900,),(2,2,2,2,2,2,1,1,1,1,1,1,1,1,2,2,2,2,2,3,3,3,3,3,4,4,4,5,5,6,7,8,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,23,24,24,25,23,24,25,26,26,26,27,26,26,25,24,23,23,22,21,21,21,20,19,18,17,17,16,15,15,14,13,12,12,11,10,9,8,7,6,5,5,4,4,3,3,3,2,3,))"
+        s1a="harpoon ipsrc=176.0.0.0/4 ipdst=0.0.0.0/0 flowsize=pareto(50000,1.18) flowstart=exponential(1/5.0) pktsize=normal(1000,200) ipproto=randomchoice(6) sport=randomchoice(22,80,80,80,80,80,21,443) dport=randomunifint(1025,65535) lossrate=randomuniffloat(0.005,0.01) mss=randomchoice(1500,576,1500) emitprocess=normal(x,x*0.1) iptos=randomchoice(0x0,0x10,0x0,0x0,0x0,0x0,0x0,0x08,0x0,0x04,0x02)"
+        s1b="harpoon ipsrc=192.0.0.0/4 ipdst=0.0.0.0/0 flowsize=pareto(50000,1.18) flowstart=exponential(1/5.0) pktsize=normal(1000,200) ipproto=randomchoice(6) sport=randomchoice(22,80,80,80,80,80,21,443) dport=randomunifint(1025,65535) lossrate=randomuniffloat(0.005,0.01) mss=randomchoice(1500,576,1500) emitprocess=normal(x,x*0.1) iptos=randomchoice(0x0,0x10,0x0,0x0,0x0,0x0,0x0,0x08,0x0,0x04,0x02)"
+
+        m2="modulator start=exponential(1.0) generator=s2 profile=((14400,),(1,2,3,3,2,1))"
+        s2="rawflow ipsrc=176.0.0.0/4 ipdst=0.0.0.0/0 sport=80 dport=randomunifint(1024,65535) ipproto=tcp bytes=normal(3000,500) iptos=randomchoice(0x0,0x02) pktsize=normal(1000,200) tcpflags=SYN|FIN|ACK continuous=True interval=exponential(1.0)"
+
+        // udp vbr flows
+        m3="modulator start=exponential(1.0) generator=s3 profile=((14400,),(1,2,3,3,2,1))"
+        s3="rawflow ipsrc=176.0.0.0/4 ipdst=0.0.0.0/0 flowlets=normal(80,10) dport=4444 sport=randomunifint(1024,65535) ipproto=udp pkts=normal(10,1) bytes=normal(1000,100) continuous=True interval=exponential(1/4.0)"
+
+        // echo
+        // icmp dport: high nybble=type, low nybble=code
+        // every second, start up one source; immediate onset and departure
+        m4="modulator start=exponential(1.0) generator=s4 profile=((14400,),(1,2,3,3,2,1))"
+        s4="rawflow ipsrc=176.0.0.0/4 ipdst=0.0.0.0/0 flowlets=1 ipproto=icmp pkts=1 bytes=64 icmptype=8 icmpcode=0 continuous=True interval=exponential(1.0)"
+
+        // echo reply
+        m5="modulator start=exponential(1.0) generator=s5 profile=((14400,),(1,2,3,3,2,1))"
+        s5="rawflow ipsrc=176.0.0.0/4 ipdst=0.0.0.0/0 flowlets=1 ipproto=icmp pkts=1 bytes=64 icmptype=0 icmpcode=0 continuous=True interval=exponential(1/2.0)"
+
+        // various icmp
+        m6="modulator start=exponential(1.0) generator=s6 profile=((14400,),(1,2,3,3,2,1))"
+        s6="rawflow ipsrc=176.0.0.0/4 ipdst=0.0.0.0/0 flowlets=1 ipproto=icmp pkts=1 bytes=64 icmptype=randomchoice(0,3,11,13,8,30) icmpcode=0 continuous=True interval=exponential(1/2.0)"
+
+        // SYN flood that ramps up and winds down in a controlled fashion
+        // at t=10 sec, ramp up as a step function from
+        m7="modulator start=32400 generator=syns emerge=((1,),frange(1,100,10)) sustain=((600,),(100,)) withdraw=((1,),frange(100,0,-10))"
+        syns="rawflow ipsrc=0.0.0.0/0 ipdst=165.42.27.0/29 dport=80 sport=randomunifint(1,65535) ipproto=tcp pkts=1 bytes=40 tcpflags=SYN flowlets=1 continuous=True interval=exponential(1) autoack=False"
+    ];
+    newyork     [ 
+        ipdests="208.0.0.0/4 224.0.0.0/4"
+        autoack="True"
+        traffic="m1a m1b m2 m3 m4 m5 m6"
+
+        // basic harpoon diurnal cycle
+        m1a="modulator start=0.0 generator=s1a profile=((900,),(2,2,2,2,2,2,1,1,1,1,1,1,1,1,2,2,2,2,2,3,3,3,3,3,4,4,4,5,5,6,7,8,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,23,24,24,25,23,24,25,26,26,26,27,26,26,25,24,23,23,22,21,21,21,20,19,18,17,17,16,15,15,14,13,12,12,11,10,9,8,7,6,5,5,4,4,3,3,3,2,3,))"
+        m1b="modulator start=0.0 generator=s1a profile=((900,),(2,2,2,2,2,2,1,1,1,1,1,1,1,1,2,2,2,2,2,3,3,3,3,3,4,4,4,5,5,6,7,8,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,23,24,24,25,23,24,25,26,26,26,27,26,26,25,24,23,23,22,21,21,21,20,19,18,17,17,16,15,15,14,13,12,12,11,10,9,8,7,6,5,5,4,4,3,3,3,2,3,))"
+        s1a="harpoon ipsrc=208.0.0.0/4 ipdst=0.0.0.0/0 flowsize=pareto(50000,1.18) flowstart=exponential(1/5.0) pktsize=normal(1000,200) ipproto=randomchoice(6) sport=randomchoice(22,80,80,80,80,80,21,443) dport=randomunifint(1025,65535) lossrate=randomuniffloat(0.005,0.01) mss=randomchoice(1500,576,1500) emitprocess=normal(x,x*0.1) iptos=randomchoice(0x0,0x10,0x0,0x0,0x0,0x0,0x0,0x08,0x0,0x04,0x02)"
+        s1b="harpoon ipsrc=224.0.0.0/4 ipdst=0.0.0.0/0 flowsize=pareto(50000,1.18) flowstart=exponential(1/5.0) pktsize=normal(1000,200) ipproto=randomchoice(6) sport=randomchoice(22,80,80,80,80,80,21,443) dport=randomunifint(1025,65535) lossrate=randomuniffloat(0.005,0.01) mss=randomchoice(1500,576,1500) emitprocess=normal(x,x*0.1) iptos=randomchoice(0x0,0x10,0x0,0x0,0x0,0x0,0x0,0x08,0x0,0x04,0x02)"
+
+        m2="modulator start=exponential(1.0) generator=s2 profile=((14400,),(1,2,3,3,2,1))"
+        s2="rawflow ipsrc=208.0.0.0/4 ipdst=0.0.0.0/0 sport=80 dport=randomunifint(1024,65535) ipproto=tcp bytes=normal(3000,500) iptos=randomchoice(0x0,0x02) pktsize=normal(1000,200) tcpflags=SYN|FIN|ACK continuous=True interval=exponential(1.0)"
+
+        // udp vbr flows
+        m3="modulator start=exponential(1.0) generator=s3 profile=((14400,),(1,2,3,3,2,1))"
+        s3="rawflow ipsrc=208.0.0.0/4 ipdst=0.0.0.0/0 flowlets=normal(80,10) dport=4444 sport=randomunifint(1024,65535) ipproto=udp pkts=normal(10,1) bytes=normal(1000,100) continuous=True interval=exponential(1/4.0)"
+
+        // echo
+        // icmp dport: high nybble=type, low nybble=code
+        // every second, start up one source; immediate onset and departure
+        m4="modulator start=exponential(1.0) generator=s4 profile=((14400,),(1,2,3,3,2,1))"
+        s4="rawflow ipsrc=208.0.0.0/4 ipdst=0.0.0.0/0 flowlets=1 ipproto=icmp pkts=1 bytes=64 icmptype=8 icmpcode=0 continuous=True interval=exponential(1.0)"
+
+        // echo reply
+        m5="modulator start=exponential(1.0) generator=s5 profile=((14400,),(1,2,3,3,2,1))"
+        s5="rawflow ipsrc=208.0.0.0/4 ipdst=0.0.0.0/0 flowlets=1 ipproto=icmp pkts=1 bytes=64 icmptype=0 icmpcode=0 continuous=True interval=exponential(1/2.0)"
+
+        // various icmp
+        m6="modulator start=exponential(1.0) generator=s6 profile=((14400,),(1,2,3,3,2,1))"
+        s6="rawflow ipsrc=208.0.0.0/4 ipdst=0.0.0.0/0 flowlets=1 ipproto=icmp pkts=1 bytes=64 icmptype=randomchoice(0,3,11,13,8,30) icmpcode=0 continuous=True interval=exponential(1/2.0)"
+    ];
+    washington  [ 
+        ipdests="240.0.0.0/4 0.0.0.0/4"
+        autoack="True"
+        traffic="m1a m1b m2 m3 m4 m5 m6"
+
+        // basic harpoon diurnal cycle
+        m1a="modulator start=0.0 generator=s1a profile=((900,),(2,2,2,2,2,2,1,1,1,1,1,1,1,1,2,2,2,2,2,3,3,3,3,3,4,4,4,5,5,6,7,8,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,23,24,24,25,23,24,25,26,26,26,27,26,26,25,24,23,23,22,21,21,21,20,19,18,17,17,16,15,15,14,13,12,12,11,10,9,8,7,6,5,5,4,4,3,3,3,2,3,))"
+        m1b="modulator start=0.0 generator=s1a profile=((900,),(2,2,2,2,2,2,1,1,1,1,1,1,1,1,2,2,2,2,2,3,3,3,3,3,4,4,4,5,5,6,7,8,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,23,24,24,25,23,24,25,26,26,26,27,26,26,25,24,23,23,22,21,21,21,20,19,18,17,17,16,15,15,14,13,12,12,11,10,9,8,7,6,5,5,4,4,3,3,3,2,3,))"
+        s1a="harpoon ipsrc=240.0.0.0/4 ipdst=0.0.0.0/0 flowsize=pareto(50000,1.18) flowstart=exponential(1/5.0) pktsize=normal(1000,200) ipproto=randomchoice(6) sport=randomchoice(22,80,80,80,80,80,21,443) dport=randomunifint(1025,65535) lossrate=randomuniffloat(0.005,0.01) mss=randomchoice(1500,576,1500) emitprocess=normal(x,x*0.1) iptos=randomchoice(0x0,0x10,0x0,0x0,0x0,0x0,0x0,0x08,0x0,0x04,0x02)"
+        s1b="harpoon ipsrc=0.0.0.0/4 ipdst=0.0.0.0/0 flowsize=pareto(50000,1.18) flowstart=exponential(1/5.0) pktsize=normal(1000,200) ipproto=randomchoice(6) sport=randomchoice(22,80,80,80,80,80,21,443) dport=randomunifint(1025,65535) lossrate=randomuniffloat(0.005,0.01) mss=randomchoice(1500,576,1500) emitprocess=normal(x,x*0.1) iptos=randomchoice(0x0,0x10,0x0,0x0,0x0,0x0,0x0,0x08,0x0,0x04,0x02)"
+
+        m2="modulator start=exponential(1.0) generator=s2 profile=((14400,),(1,2,3,3,2,1))"
+        s2="rawflow ipsrc=240.0.0.0/4 ipdst=0.0.0.0/0 sport=80 dport=randomunifint(1024,65535) ipproto=tcp bytes=normal(3000,500) iptos=randomchoice(0x0,0x02) pktsize=normal(1000,200) tcpflags=SYN|FIN|ACK continuous=True interval=exponential(1.0)"
+
+        // udp vbr flows
+        m3="modulator start=exponential(1.0) generator=s3 profile=((14400,),(1,2,3,3,2,1))"
+        s3="rawflow ipsrc=240.0.0.0/4 ipdst=0.0.0.0/0 flowlets=normal(80,10) dport=4444 sport=randomunifint(1024,65535) ipproto=udp pkts=normal(10,1) bytes=normal(1000,100) continuous=True interval=exponential(1/4.0)"
+
+        // echo
+        // icmp dport: high nybble=type, low nybble=code
+        // every second, start up one source; immediate onset and departure
+        m4="modulator start=exponential(1.0) generator=s4 profile=((14400,),(1,2,3,3,2,1))"
+        s4="rawflow ipsrc=240.0.0.0/4 ipdst=0.0.0.0/0 flowlets=1 ipproto=icmp pkts=1 bytes=64 icmptype=8 icmpcode=0 continuous=True interval=exponential(1.0)"
+
+        // echo reply
+        m5="modulator start=exponential(1.0) generator=s5 profile=((14400,),(1,2,3,3,2,1))"
+        s5="rawflow ipsrc=240.0.0.0/4 ipdst=0.0.0.0/0 flowlets=1 ipproto=icmp pkts=1 bytes=64 icmptype=0 icmpcode=0 continuous=True interval=exponential(1/2.0)"
+
+        // various icmp
+        m6="modulator start=exponential(1.0) generator=s6 profile=((14400,),(1,2,3,3,2,1))"
+        s6="rawflow ipsrc=240.0.0.0/4 ipdst=0.0.0.0/0 flowlets=1 ipproto=icmp pkts=1 bytes=64 icmptype=randomchoice(0,3,11,13,8,30) icmpcode=0 continuous=True interval=exponential(1/2.0)"
+    ];
+
+    seattle -- saltlake [weight=913, capacity=10000000000, delay=0.009];
+    seattle -- losangeles  [weight=1342, capacity=10000000000, delay=0.013];
+    losangeles -- saltlake [weight=1303, capacity=10000000000, delay=0.013];
+    losangeles -- houston [weight=1705, capacity=10000000000, delay=0.017];
+    saltlake -- kansascity [weight=1330, capacity=10000000000, delay=0.013];
+    kansascity -- houston [weight=818, capacity=10000000000, delay=0.008 reliability="failureafter=21600 downfor=37"];
+    atlanta -- houston [weight=1385, capacity=10000000000, delay=0.014];
+    kansascity -- chicago [weight=690, capacity=10000000000, delay=0.007];
+    chicago -- atlanta [weight=1045, capacity=10000000000, delay=0.010];
+    chicago -- newyork [weight=1000, capacity=10000000000, delay=0.010 reliability="failureafter=43200 downfor=73"];
+    chicago -- washington [weight=905, capacity=10000000000, delay=0.009];
+    atlanta -- washington [weight=700, capacity=10000000000, delay=0.007];
+    washington -- newyork [weight=278, capacity=10000000000, delay=0.003];
+}

@@ -1,7 +1,5 @@
 #!/usr/bin/env python
 # ServerCommand
-import sys
-sys.path.append("../..")
 import core
 import copy
 
@@ -15,7 +13,7 @@ class ServerCMD(core.ServerCMD):
         new_data['event'] = data['bot_event']
         del new_data['bot_event']
         for client_sock in self.node.client_socks:
-            self.node.sock_send(client_sock, self._dump_json(new_data))
+            self.node.send(client_sock, self._dump_json(new_data))
 
 if __name__ == "__main__":
     info = {

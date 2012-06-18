@@ -1,9 +1,10 @@
+#!/usr/bin/env pypy
+
 #!/usr/bin/env python
 # node_type = 'Server'
-node_type = 'client'
-scenario = 'simple_ddos'
 import argparse
 import sys, os
+import core.real
 # exec( 'import scenario.%s as scen'%(scenario) )
 def load_module(scenario):
     __import__('scenario.%s'%(scenario))
@@ -12,20 +13,20 @@ def load_module(scenario):
 
 
 def run_server(scen):
-    node = scen.Node()
+    node = core.real.PhyNode()
     cmd = scen.ServerCMD(scen.server_fsm)
     cmd.install(node)
     node.start()
 
 
 def run_client(scen):
-    node = scen.Node()
+    node = core.real.PhyNode()
     ccmd = scen.ClientCMD(scen.client_fsm)
     ccmd.install(node)
     node.start()
 
 def run_botmaster(scen):
-    node = scen.Node()
+    node = core.real.PhyNode()
     ccmd = scen.BotMaster(scen.botmaster_fsm)
     ccmd.install(node)
     node.start()

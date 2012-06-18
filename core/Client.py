@@ -2,7 +2,6 @@
 from CMD import CMD
 import sys
 sys.path.append("../..")
-from Node import PhyNode
 
 # ClientCommand
 # from fsm import FiniteStateMachine
@@ -42,7 +41,7 @@ class ClientCMD(CMD):
 
     def request_connect(self):
         sock = self.node.create_sock({'type':'server', 'proto':'tcp'})
-        event = self.node.sock_connect(sock, (self.srv_addr, self.srv_port))
+        event = self.node.connect(sock, (self.srv_addr, self.srv_port))
         self.sock = sock
         self._trigger(event)
 
@@ -56,19 +55,20 @@ class ClientCMD(CMD):
 
     def recv_disconn_req(self, sock):
         self.logger.info("recv_disconn_req")
-        self.node.sock_close(sock)
+        self.node.close_sock(sock)
 
     def recv_ack(self):
         self.logger.info("connection constructed")
-        self.node.sock_recv(self.sock, 512, self.dispatcher)
+        self.node.recv(self.sock, 512, self.dispatcher)
 
     def echo(self, sock, data):
         self.logger.info("receive echo message, [%s]"%(data['msg'][0]))
         print '-->', data['msg'][0]
 
 
-if __name__ == "__main__":
-    cmd = ClientCMD(client_fsm)
-    node = PhyNode()
-    cmd.install(node)
-    node.start()
+# if __name__ == "__main__":
+#     from Node import PhyNode
+#     cmd = ClientCMD(client_fsm)
+#     node = PhyNode()
+#     cmd.install(node)
+#     node.start()

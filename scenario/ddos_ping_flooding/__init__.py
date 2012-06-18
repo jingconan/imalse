@@ -2,7 +2,6 @@ from ClientCMD import ClientCMD
 from ServerCMD import ServerCMD
 import sys; sys.path.append("../..")
 from core.BotMaster import BotMasterTest as BotMaster
-from core.Node import PhyNode as Node
 
 client_info = {
         'srv_addr':'127.0.0.1',
