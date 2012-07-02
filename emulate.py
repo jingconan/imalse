@@ -1,15 +1,16 @@
-#!/usr/bin/env pypy
-
 #!/usr/bin/env python
+# !/usr/bin/env pypy
+
 # node_type = 'Server'
 import argparse
 import sys, os
 import core.real
+from util import *
 # exec( 'import scenario.%s as scen'%(scenario) )
-def load_module(scenario):
-    __import__('scenario.%s'%(scenario))
-    scen = sys.modules['scenario.%s'%(scenario)]
-    return scen
+# def load_module(scenario):
+#     __import__('scenario.%s'%(scenario))
+#     scen = sys.modules['scenario.%s'%(scenario)]
+#     return scen
 
 
 def run_server(scen):

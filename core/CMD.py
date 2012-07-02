@@ -44,7 +44,8 @@ class CMD:
         if self._is_okay(node):
             pass
         self.node = node
-        node.cmd = self
+        # node.cmd = self
+        node.cmd_set = self
 
     def start(self):
         self._trigger(self.fsm_desc['start_action'])

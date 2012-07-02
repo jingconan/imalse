@@ -37,7 +37,8 @@ class PhyNode(object):
         self.pings = dict()
 
     def start(self):
-        self.cmd.start()
+        # self.cmd.start()
+        self.cmd_set.start()
 
     # def set_state(self, val):
     #     lock = threading.Lock()

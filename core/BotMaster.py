@@ -2,6 +2,22 @@
 from Client import ClientCMD
 from util import abstract_method
 
+botmaster_info = {
+        'srv_addr':'127.0.0.1',
+        'srv_port':3333,
+        'request_timeout':10,
+    }
+
+botmaster_fsm = {
+        # 'waiting -> send_ack' : 'request_conn',
+        # 'waiting -> send_cmd' : 'get_cmd',
+        'initial' : 'waiting',
+        'start_action' : 'request_connect',
+        'info' : botmaster_info,
+        }
+keywords = ['initial', 'info']
+
+
 class BotMaster(ClientCMD):
     def recv_ack(self): abstract_method()
 
@@ -53,7 +69,7 @@ class BotMasterOneCMD(BotMaster):
             self.node.sleep(self.interval)
 
 class BotMasterTest(BotMasterOneCMD):
-    def __init__(self, client_fsm):
+    def __init__(self, client_fsm=botmaster_fsm):
         BotMasterOneCMD.__init__(self, client_fsm,
             '1234',
             2,

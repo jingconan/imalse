@@ -3,6 +3,19 @@
 import core
 import copy
 
+# info = {
+#         'srv_addr':'127.0.0.1',
+#         'srv_port':3333,
+#         'request_timeout':10,
+#     }
+
+# server_fsm = {
+#         'initial' : 'waiting',
+#         'start_action' : 'initialize',
+#         'info' : info,
+#         }
+# keywords = ['initial', 'info']
+
 class ServerCMD(core.ServerCMD):
     # def get_client_id(self):
         # print 'get_client_id'

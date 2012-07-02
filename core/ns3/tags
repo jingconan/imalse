@@ -1,0 +1,80 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+CsmaExperiment	netns3.py	/^class CsmaExperiment(NetnsExperiment):$/;"	c
+ImalseExperiment	Experiment.py	/^class ImalseExperiment(NetnsExperiment):$/;"	c
+ImalseNetnsNode	Node.py	/^class ImalseNetnsNode(NetnsNode):$/;"	c
+Netns	netnsbase.py	/^class Netns(object):$/;"	c
+Netns3	netns3.py	/^class Netns3(Netns):$/;"	c
+NetnsDir	netnsbase.py	/^    class NetnsDir(object):$/;"	c	class:Netns
+NetnsExperiment	netns3.py	/^class NetnsExperiment(object):$/;"	c
+NetnsNode	netns3.py	/^class NetnsNode(ns.network.Node, Netns3):$/;"	c
+Network	Network.py	/^class Network:$/;"	c
+Network	Node.py	/^class Network:$/;"	c
+PingCsmaExperiment	csma-ping.py	/^class PingCsmaExperiment(CsmaExperiment):$/;"	c
+SHELL	netnsbase.py	/^    SHELL = "\/bin\/bash"$/;"	v	class:Netns
+STATEDIR	netnsbase.py	/^    STATEDIR = "\/var\/run\/netns"$/;"	v	class:Netns
+WifiAdhocExperiment	netns3.py	/^class WifiAdhocExperiment(NetnsExperiment):$/;"	c
+__del__	netnsbase.py	/^    def __del__(self):$/;"	m	class:Netns	file:
+__init__	Network.py	/^    def __init__(self, path):$/;"	m	class:Network
+__init__	Node.py	/^    def __init__(self, path):$/;"	m	class:Network
+__init__	netns3.py	/^    def __init__(self):$/;"	m	class:NetnsExperiment
+__init__	netns3.py	/^    def __init__(self, *args, **kwds):$/;"	m	class:NetnsNode
+__init__	netnsbase.py	/^        def __init__(self, source, persistent = False):$/;"	m	class:Netns.NetnsDir
+__init__	netnsbase.py	/^    def __init__(self, name, logfile = None):$/;"	m	class:Netns
+__netnsdirs	netnsbase.py	/^    __netnsdirs = []$/;"	v	class:Netns
+__netnspids	netnsbase.py	/^    __netnspids = []$/;"	v	class:Netns
+acquire_netif	netnsbase.py	/^    def acquire_netif(self, ifname, rename = None):$/;"	m	class:Netns
+add_ipaddr	netnsbase.py	/^    def add_ipaddr(self, ifname, ipaddr):$/;"	m	class:Netns
+add_netnsdir	netnsbase.py	/^    def add_netnsdir(cls, nd):$/;"	m	class:Netns
+add_netnspid	netnsbase.py	/^    def add_netnspid(cls, pid):$/;"	m	class:Netns
+addnetif	netns3.py	/^    def addnetif(self, ifname, ipaddrs = [],$/;"	m	class:Netns3
+atexit	netnsbase.py	/^    def atexit(cls, signum = signal.SIGTERM):$/;"	m	class:Netns
+boot	netnsbase.py	/^    def boot(self):$/;"	m	class:Netns
+cleanup	netns3.py	/^    def cleanup(self):$/;"	m	class:NetnsExperiment
+closeclient	netnsbase.py	/^    def closeclient(self):$/;"	m	class:Netns
+cmd	netnsbase.py	/^    def cmd(self, args):$/;"	m	class:Netns
+config	csma-ping.py	/^    def config(node):$/;"	m	class:PingCsmaExperiment
+createnet	Experiment.py	/^    def createnet(self, devhelper, nodecontainer,$/;"	m	class:ImalseExperiment
+createnet	netns3.py	/^    def createnet(self, devhelper, nodecontainer,$/;"	m	class:NetnsExperiment
+createnodes	Experiment.py	/^    def createnodes(self, numnodes, devhelper, prefix = "10.0.0.0\/8",$/;"	m	class:ImalseExperiment
+createnodes	netns3.py	/^    def createnodes(self, numnodes, devhelper, prefix = "10.0.0.0\/8",$/;"	m	class:NetnsExperiment
+csmahelper	netns3.py	/^    def csmahelper(rate, delay):$/;"	m	class:CsmaExperiment
+del_ipaddr	netnsbase.py	/^    def del_ipaddr(self, ifname, ipaddr):$/;"	m	class:Netns
+del_netnsdir	netnsbase.py	/^    def del_netnsdir(cls, nd):$/;"	m	class:Netns
+del_netnspid	netnsbase.py	/^    def del_netnspid(cls, pid):$/;"	m	class:Netns
+detach	netnsbase.py	/^    def detach(self):$/;"	m	class:Netns
+doaddnetif	netns3.py	/^        def doaddnetif():$/;"	f	function:Netns3.addnetif
+event	netns3.py	/^    def event(time, func, *args, **kwds):$/;"	m	class:NetnsExperiment
+ifdown	netnsbase.py	/^    def ifdown(self, ifname):$/;"	m	class:Netns
+ifup	netnsbase.py	/^    def ifup(self, ifname):$/;"	m	class:Netns
+initparser	csma-ping.py	/^    def initparser(self, parser):$/;"	m	class:PingCsmaExperiment
+initparser	netns3.py	/^    def initparser(self, parser):$/;"	m	class:CsmaExperiment
+initparser	netns3.py	/^    def initparser(self, parser):$/;"	m	class:NetnsExperiment
+initparser	netns3.py	/^    def initparser(self, parser):$/;"	m	class:WifiAdhocExperiment
+install	Network.py	/^    def install(self, core):$/;"	m	class:Network
+install	Node.py	/^    def install(self, core):$/;"	m	class:Network
+kill	netnsbase.py	/^    def kill(self, vcmdwait, sig = signal.SIGTERM):$/;"	m	class:Netns
+main	netns3.py	/^    def main(self, run = True):$/;"	m	class:NetnsExperiment
+netnsdir	netnsbase.py	/^    def netnsdir(self, target, source = None, persistent = False):$/;"	m	class:Netns
+parseprefix	netns3.py	/^def parseprefix(prefixstr):$/;"	f
+ping	csma-ping.py	/^    def ping(node, dst, count = 3):$/;"	m	class:PingCsmaExperiment
+popen	netnsbase.py	/^    def popen(self, args):$/;"	m	class:Netns
+run	netns3.py	/^        def run():$/;"	f	function:NetnsExperiment.event
+run	netns3.py	/^        def run():$/;"	f	function:NetnsExperiment.simthread
+run	netns3.py	/^    def run(self):$/;"	m	class:NetnsExperiment
+set_macaddr	netnsbase.py	/^    def set_macaddr(self, ifname, macaddr):$/;"	m	class:Netns
+setup	csma-ping.py	/^    def setup(self):$/;"	m	class:PingCsmaExperiment
+setup	netns3.py	/^    def setup(self):$/;"	m	class:CsmaExperiment
+setup	netns3.py	/^    def setup(self):$/;"	m	class:WifiAdhocExperiment
+simthread	netns3.py	/^    def simthread(sec):$/;"	m	class:NetnsExperiment
+spawn	netnsbase.py	/^    def spawn(self, args):$/;"	m	class:Netns
+spawnserver	netnsbase.py	/^    def spawnserver(cls, name, logfile = None,$/;"	m	class:Netns
+start	netnsbase.py	/^    def start(self, boot = True):$/;"	m	class:Netns
+stop	netnsbase.py	/^    def stop(self):$/;"	m	class:Netns
+usagestr	netns3.py	/^    def usagestr(self):$/;"	m	class:NetnsExperiment
+x	csma-ping.py	/^    x = PingCsmaExperiment()$/;"	v
+xterm	netnsbase.py	/^    def xterm(self, cmd = SHELL):$/;"	m	class:Netns

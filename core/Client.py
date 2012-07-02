@@ -41,6 +41,7 @@ class ClientCMD(CMD):
 
     def request_connect(self):
         sock = self.node.create_sock({'type':'server', 'proto':'tcp'})
+        print 'sock, ', sock
         event = self.node.connect(sock, (self.srv_addr, self.srv_port))
         self.sock = sock
         self._trigger(event)

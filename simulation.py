@@ -5,23 +5,13 @@ Integrated MALware Simulator & Emulator
 imalse
 prou: `I'm sir`
 """
-# import settings
-import core
+# Create a Experiment
+import sys
+import os
+sys.path.append(os.getcwd())
+from core.ns3.Experiment import *
+from util import *
 
-net = Network('./net_config/x.dot')
-net.install(core)
-
-# install the command set to core
-scmd = ServerCMD()
-scmd.install(core)
-
-ccmd = ClientCMD()
-ccmd.install(core)
-
-
-# install the attack to core
-attack = Attack('simple_ddos.adesc')
-attack.install(core)
-
-
-core.simulate()
+x = ImalseExperiment()
+x.main()
+# Schedule all the events

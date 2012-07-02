@@ -7,7 +7,7 @@ info = {
         'srv_port':3333,
         'request_timeout':10,
     }
-client_fsm = {
+server_fsm = {
         # 'waiting -> send_ack' : 'request_conn',
         # 'waiting -> send_cmd' : 'get_cmd',
         'initial' : 'waiting',
@@ -20,7 +20,7 @@ BOT_MASTER_PASSWORD = '1234'
 
 class ServerCMD(CMD):
     name =  'server_cmd'
-    def __init__(self, fsm_desc=None):
+    def __init__(self, fsm_desc=server_fsm):
         # super(ServerCMD, self).__init__(fsm_desc)
         CMD.__init__(self, fsm_desc)
 

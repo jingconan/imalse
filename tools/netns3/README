@@ -1,0 +1,117 @@
+This code is an example of using Linux namespaces and the ns-3
+real-time scheduler for network emulation.  Real application code runs
+in a native Linux environment that represents emulated nodes, while
+ns-3 controls the packet flow between nodes through emulated networks.
+Python is used to configure and manage the ns-3 network topologies and
+Linux namespaces.
+
+Requirements
+------------
+
+ns-3 built with python bindings
+
+  Available at http://www.nsnam.org/.  Tested with ns-3-dev changeset
+  7570 (ns-3.12.1).
+
+Superuser privileges on a Linux system with namespace support
+
+  Tested with Ubuntu 11.10.
+
+Preferred
+---------
+
+Install the CORE network emulation tool
+
+  Available at http://cs.itd.nrl.navy.mil/work/core/.
+
+Alternative
+-----------
+
+Install the low-level CORE components from the src directory
+
+      # cd src && make && sudo make install && make clean
+
+Quick Start
+-----------
+
+  - Install CORE or build and install the software in the src directory
+
+  - Build ns-3 with python bindings
+
+  - Become root and run example scripts from the ns-3 waf shell
+
+      # cd ${NS3_DIR}
+      # sudo ./waf shell
+      # cd ${NETNS3_DIR}/examples
+      # ./csma-xterm.py -n 4
+      # ./csma-ping.py -h
+
+Background
+----------
+
+Recent Linux kernels include compile-time options for various
+hierarchical namespaces.  When enabled, user processes and kernel
+objects are associated with a set of namespaces that define the
+context in which they operate/exist.  Namespaces are inherited and
+remains fixed unless explicitly altered by a user with sufficient
+privileges.  Namespaces provide fine grain isolation and can be
+combined to create a minimal virtual operating environment.
+
+The configuration options listed below have been available since Linux
+2.6.24:
+
+    CONFIG_IPC_NS	Inter-process communication namespaces
+
+    CONFIG_NET_NS	Network namespaces (network stack, devices,
+    			sockets)
+
+    CONFIG_PID_NS	Process id namespaces (also effects signals,
+    			proc filesystem)
+
+    CONFIG_USER_NS	User namespaces
+
+    CONFIG_UTS_NS	Unix timesharing system namespaces (hostname,
+    			domainname, etc. from uname())
+
+Most namespace functionality is fairly mature and current Ubuntu and
+Fedora distributions enable CONFIG_IPC_NS, CONFIG_NET_NS,
+CONFIG_PID_NS, and CONFIG_UTS_NS by default.
+
+Operating Overview
+------------------
+
+A server process opens a unix domain socket and creates a new
+namespace.  This process then acts as init (pid 1) for the namespace.
+The namespace can be managed through the open socket where subsequent
+operations and descendant processes operate within the newly created
+namespace.  This provides a private network stack and hostname,
+minimally isolated processes, and a shared initial filesystem where
+later mounts are only visible to processes that share the namespace.
+
+Configuring Emulated Nodes
+--------------------------
+
+The python Netns class provides methods to help configure and manage
+namespaces.  Subclasses of Netns can created for further
+customization.
+
+Node configuration can include setting up private directories for
+per-node files, acquiring and configuring network interfaces, and
+running commands.  For example:
+
+	n = netns.Netns("n3")
+	n.netnsdir("/var/run")
+	localetc = n.netnsdir("/usr/local/etc")
+	n.acquire_netif("tap3", rename = "eth0")
+	n.add_ipaddr("1.2.3.4/24")
+	n.ifup("eth0")
+	# create some config files in localetc
+	n.cmd("/some/path/netns3-boot.sh")
+
+See the examples directory and python docstring documentation for more
+details:
+
+	# python
+	>>> import netns
+	>>> help(netns.Netns)
+	...

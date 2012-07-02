@@ -6,3 +6,10 @@ def abstract_method():
 
 class DataEndException(Exception):
     pass
+
+import sys
+def load_module(scenario):
+    __import__('scenario.%s'%(scenario))
+    scen = sys.modules['scenario.%s'%(scenario)]
+    return scen
+

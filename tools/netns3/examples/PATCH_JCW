@@ -1,0 +1,8 @@
+[2012-06-20 12:58:30]
+line 140 at netnsbase.py
+some terminal don't have udmp, cannot use getlogin()
+
+[2012-07-01 18:02:11]
+line 140 at netnsbase.py
+add support of gnome-terminal
+
