@@ -56,33 +56,6 @@ class ImalseExperiment(PingCsmaExperiment):
 
         self._install_cmds()
 
-    def createnet(self, devhelper, nodecontainer,
-                  addrhelper, mask, ifnames = []):
-        tapbridge = ns.tap_bridge.TapBridgeHelper()
-        devices = devhelper.Install(nodecontainer)
-        for i in xrange(nodecontainer.GetN()):
-            n = nodecontainer.Get(i)
-            dev = devices.Get(i)
-            # install a TapBridge on the specified Node and forms the
-            # bridge with the net devices
-            tap = tapbridge.Install(n, dev)
-            tap.SetMode(ns.tap_bridge.TapBridge.CONFIGURE_LOCAL)
-            tapname = "ns3tap%d" % i
-            tap.SetAttribute("DeviceName", ns.core.StringValue(tapname))
-            addr = addrhelper.NewAddress()
-            tap.SetAttribute("IpAddress", ns.network.Ipv4AddressValue(addr))
-            tap.SetAttribute("Netmask", ns.network.Ipv4MaskValue(mask))
-            if ifnames:
-                ifname = ifnames[i]
-            else:
-                ifname = "eth0"
-            n.addnetif(tapname,
-                       ipaddrs = ["%s/%s" % (addr, mask.GetPrefixLength())],
-                       rename = ifname)
-            n.ipaddr = str(addr)
-
-
-
     def node_run(self, node, *args, **kwargs):
         node.cmd_set._trigger(*args, **kwargs)
 

@@ -12,6 +12,12 @@ sys.path.append(os.getcwd())
 from core.ns3.Experiment import *
 from util import *
 
+if len(sys.argv) == 1:
+    os.system('./simulate.py -h')
+    sys.exit(1)
+
 x = ImalseExperiment()
 x.main()
+
 # Schedule all the events
+

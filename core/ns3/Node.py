@@ -22,8 +22,6 @@ class ImalseNetnsNode(NetnsNode, PhyNode):
         stderr.write(err)
         stdout.write(out)
 
-
-
     def stop_ping(self, sock):
         print 'stop_ping'
         # self.node.stop_app(sock, 'ping')
