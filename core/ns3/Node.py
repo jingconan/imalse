@@ -1,7 +1,6 @@
-from netns3 import *
-# import sys
-# sys.path.append("..")
-from BaseNode import BaseNode
+#!/usr/bin/env python
+from core.ns3.netns3 import *
+from core.BaseNode import BaseNode
 from core.real import PhyNode
 
 # class ImalseNetnsNode(NetnsNode, BaseNode):
@@ -26,4 +25,18 @@ class ImalseNetnsNode(NetnsNode, PhyNode):
         print 'stop_ping'
         # self.node.stop_app(sock, 'ping')
 
+nodenum = 0
+from ns.network import Socket
+from ns.internet import TcpSocketFactory
+from ns.core import TypeId
+class ImalseNetnsSimNode(NetnsNode, BaseNode):
+    def __init__(self, *args, **kwargs):
+        global nodenum
+        name = "sim_n%s" %(nodenum)
+        NetnsNode.__init__(self, name, logfile = "/tmp/%s.log" % name)
+        nodenum += 1
 
+    def create_sock(self, desc):
+        sock = Socket.CreateSocket(self, TcpSocketFactory.GetTypeId())
+        print 'sock, ', sock
+        import pdb;pdb.set_trace()

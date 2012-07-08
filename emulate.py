@@ -39,7 +39,8 @@ run_map = {
         }
 
 parser = argparse.ArgumentParser(description='imalse')
-scenario_ops = [f_name for f_name in os.listdir('./scenario/') if not f_name.lower().endswith('py')]
+# scenario_ops = [f_name for f_name in os.listdir('./scenario/') if not f_name.lower().endswith('py')]
+scenario_ops = get_scenario_option()
 parser.add_argument('-s', '--scenario', default='None',
         help='specify the scenario you want to execute. Scenearios availiable are: %s'%(scenario_ops )
         )

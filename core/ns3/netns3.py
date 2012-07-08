@@ -150,11 +150,16 @@ class NetnsExperiment(object):
                           help = "simulation run time; default = %s" %
                           parser.defaults["simtime"])
 
-    def main(self, run = True):
+    def print_help(self):
+        parser = optparse.OptionParser(usage = '')
+        self.initparser(parser)
+        parser.print_help()
+
+    def main(self, args, run = True):
         usage = "%prog [-h] " + self.usagestr() + " ..."
         parser = optparse.OptionParser(usage = usage)
         self.initparser(parser)
-        self.options, self.args = parser.parse_args()
+        self.options, self.args = parser.parse_args(args)
         if run:
             self.run()
 

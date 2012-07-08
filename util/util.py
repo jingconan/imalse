@@ -13,3 +13,8 @@ def load_module(scenario):
     scen = sys.modules['scenario.%s'%(scenario)]
     return scen
 
+import os
+def get_scenario_option(scen_dir = './scenario/'):
+    return [f_name for f_name in os.listdir(scen_dir) if not \
+            ( f_name.lower().endswith('py') or f_name.lower().startswith('.') or f_name.lower().endswith('pyc'))
+            ]

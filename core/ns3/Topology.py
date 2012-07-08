@@ -1,0 +1,203 @@
+#!/usr/bin/env python
+"""This is python implementation of NS3 topology-reader module
+   pybindgen is far from mature and cannot generate usable python binding
+   for this module, so I simply reimplement it in python.
+"""
+class Link(object):
+    def __init__(self, fromName, fromPtr, toName, toPtr):
+        self.m_fromName = fromName;
+        self.m_fromPtr = fromPtr
+        self.m_toName = toName
+        self.m_toPtr = toPtr
+        self.m_linkAttr = dict()
+
+    def GetFromNode(self): return self.m_fromPtr
+    def GetFromNodeName(self): return self.m_fromName
+    def GetToNode(self): return self.m_toPtr
+    def GetToNodeName(self): return self.m_toName
+    def GetAttribute(self, name): pass
+    def SetAttribute(self, name, value): pass
+    pass
+
+import ns.network
+class TopologyReader(object):
+    def __init__(self, fileName=None, NodeCreator=ns.network.Node):
+        self.m_linksList= []
+        self.m_nodeMap = dict()
+        self.m_fileName = fileName
+        self.NodeCreator = NodeCreator
+    def LinksBegin(self):
+        return self.m_linksList[0]
+    def LinksEnd(self):
+        return self.m_linksList[-1]
+    def LinksEmpty(self):
+        return True if not self.linkList else False
+    def AddLink(self, link):
+        self.m_linksList.append(link)
+    def Read(self):
+        raise Exception('NotImplemented')
+    def SetFileName(self, fileName):
+        self.m_fileName = fileName
+
+    def LinksSize(self):
+        return len(self.m_linksList)
+
+class InetTopologyReader(TopologyReader):
+    def Read(self):
+        nodes = ns.network.NodeContainer()
+        fid = open(self.m_fileName, 'r')
+        i = -1
+        while True:
+            i += 1
+            line = fid.readline()
+            if not line: break
+            if i == 0:
+                totnode, totlink = [s.strip() for s in line.rsplit(' ')]
+                continue
+            _from, _to, _lineBuffer = [s.strip() for s in line.rsplit('\t')]
+
+            def get_or_create(name):
+                if name not in self.m_nodeMap.keys():
+                    # node = Node()
+                    node = self.NodeCreator()
+                    nodes.Add(node)
+                else:
+                    node = self.m_nodeMap[name]
+                return node
+
+            _fromNode = get_or_create(_from)
+            _toNode = get_or_create(_to)
+
+            link = Link(_from, _fromNode, _to, _toNode)
+            self.AddLink(link)
+
+        return nodes
+
+class OrbisTopologyReader(TopologyReader):
+    pass
+
+class RocketfuelTopologyReader(TopologyReader):
+    pass
+
+topoMap = {
+        'Inet': InetTopologyReader,
+        'Orbis': OrbisTopologyReader,
+        'Rocketfuel': RocketfuelTopologyReader,
+        }
+
+class TopologyReaderHelper(object):
+    def SetFileName(self, fileName):
+        self.m_fileName = fileName
+        self.NodeCreator = ns.network.Node
+
+    def SetFileType(self, fileType):
+        self.m_fileType = fileType
+
+    def SetNodeCreator(self, NodeCreator):
+        self.NodeCreator = NodeCreator
+
+    def GetTopologyReader(self):
+        return topoMap[self.m_fileType](self.m_fileName, self.NodeCreator)
+
+# from Topology import TopologyReaderHelper
+from ns.nix_vector_routing import Ipv4NixVectorHelper
+from ns.network import NetDeviceContainer
+from ns.point_to_point import PointToPointHelper
+from ns.network import Ipv4Address, Ipv4Mask
+from ns.network import NodeContainer
+from ns.internet import Ipv4InterfaceContainer, Ipv4InterfaceAddress
+import sys
+class TopologyNet():
+    def __init__(self, _input, _format, NodeCreator):
+        self._input = _input
+        self._format = _format
+        self.NodeCreator = NodeCreator
+        self.load_file()
+        self.install_stack()
+        self.init_link()
+        self.init_net_device()
+
+    def load_file(self):
+        self.inFile, self.nodes = self._load_file(self._input, self._format, self.NodeCreator)
+
+    def install_stack(self):
+        self._install_stack(self.nodes)
+
+    def init_link(self):
+        self.linksC = self._init_link(self.inFile)
+
+    def init_net_device(self):
+        self.ndc, self.ipic = self._init_net_device(self.inFile, self.linksC)
+
+    @staticmethod
+    def _load_file(_input, _format, NodeCreator):
+        topoHelp = TopologyReaderHelper()
+        topoHelp.SetFileName(_input)
+        topoHelp.SetFileType(_format)
+        topoHelp.SetNodeCreator(NodeCreator)
+        inFile = topoHelp.GetTopologyReader()
+        nodes = inFile.Read()
+        if inFile.LinksSize() == 0:
+            print "fail to read file"
+            sys.exit(1)
+        return inFile, nodes
+
+    @staticmethod
+    def _install_stack(nodes):
+        stack = ns.internet.InternetStackHelper()
+        nixRouting = Ipv4NixVectorHelper()
+        staticRouting = ns.internet.Ipv4StaticRoutingHelper()
+
+        listRH = ns.internet.Ipv4ListRoutingHelper()
+        listRH.Add(staticRouting, 0)
+        listRH.Add(nixRouting, 10)
+
+        stack.SetRoutingHelper(listRH)
+        stack.Install(nodes)
+
+    @staticmethod
+    def _init_link(inFile):
+        # Initialize the Network Link
+        nc = []
+        for link in inFile.m_linksList:
+            con = NodeContainer()
+            con.Add(link.GetFromNode())
+            con.Add(link.GetToNode())
+            nc.append( con )
+        return nc
+
+    @staticmethod
+    def _init_net_device(inFile, linksC,
+            Delay='2ms', DataRate='5Mbps',
+            ipv4AddrBase="10.0.0.0", ipv4Mask="255.255.255.252"):
+        totlinks = inFile.LinksSize()
+        p2p = PointToPointHelper()
+        ndc = [] # Net Device Container
+        for i in xrange(totlinks):
+            # p2p.SetChannelAttribute("Delay", ns.core.StringValue("2ms"))
+            # p2p.SetDeviceAttribute("DataRate", ns.core.StringValue("5Mbps"))
+            # ndc.append( p2p.Install( nc[i]) )
+            p2p.SetChannelAttribute("Delay", ns.core.StringValue(Delay))
+            p2p.SetDeviceAttribute("DataRate", ns.core.StringValue(DataRate))
+            ndc.append( p2p.Install( linksC[i]) )
+
+        # Create little subnets, one for each couple of nodes
+        address = ns.internet.Ipv4AddressHelper()
+        # address.SetBase(Ipv4Address("10.0.0.0"), Ipv4Mask("255.255.255.252"))
+        address.SetBase(Ipv4Address(ipv4AddrBase), Ipv4Mask(ipv4Mask))
+        ipic = []
+        for i in xrange(totlinks):
+            ipic.append( address.Assign(ndc[i]) )
+            address.NewNetwork()
+        # totalNodes = nodes.GetN()
+        return ndc, ipic
+
+def main():
+    topoHelper = TopologyReaderHelper()
+    topoHelper.SetFileType('Inet')
+    topoHelper.SetFileName('../../net_config/Inet_small_toposample.txt')
+    topoReader = topoHelper.GetTopologyReader()
+    topoReader.Read()
+
+if __name__ == "__main__":
+    main()
