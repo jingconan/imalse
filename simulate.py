@@ -12,22 +12,27 @@ sys.path.append(os.getcwd())
 import argparse
 # import optparse
 
-from core.ns3.Experiment import *
+try:
+    import experiments
+    # from experiments import *
+except ImportError:
+    print 'You should use ns3 waf shell to run this code'
+    sys.exit()
+
 from util import *
 
-# x = ImalseExperiment()
-# x.main()
-# parser = argparse.ArgumentParser(description='imalse')
-# scenario_ops = get_scenario_option()
+exper_options = get_experiment_option()
 parser = argparse.ArgumentParser(description='imalse')
 # parser.add_argument('-e', '--experiment', default='ImalseExperiment',
-parser.add_argument('-e', '--experiment', default='ImalsePingCsmaExperiment',
-        help='specify the experiment'
+parser.add_argument('-e', '--experiment', default='ImalseSimExperiment',
+# parser.add_argument('-e', '--experiment', default='ImalseTopoSimExperiment',
+# parser.add_argument('-e', '--experiment', default='ImalsePingCsmaExperiment',
+        help='specify the experiment. Avaliable experiments are [%s]'%("|").join(exper_options)
         )
 args, exper_args = parser.parse_known_args()
-print 'args, ', args
-print 'exper_args, ', exper_args
-exec('x = %s()'%(args.experiment))
+# print 'args, ', args
+# print 'exper_args, ', exper_args
+exec('x = experiments.%s()'%(args.experiment))
 
 # Print Help when there is not argument
 if len(sys.argv) == 1:
@@ -38,5 +43,3 @@ if len(sys.argv) == 1:
     sys.exit(1)
 
 x.main(exper_args)
-
-

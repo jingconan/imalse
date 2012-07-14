@@ -40,11 +40,15 @@ class ClientCMD(CMD):
         return True
 
     def request_connect(self):
+        """request a connection to server"""
         sock = self.node.create_sock({'type':'server', 'proto':'tcp'})
-        print 'sock, ', sock
-        event = self.node.connect(sock, (self.srv_addr, self.srv_port))
         self.sock = sock
-        self._trigger(event)
+        if self.node.NODE_TYPE.startswith('real'):
+            event = self.node.connect(sock, (self.srv_addr, self.srv_port))
+            self._trigger(event)
+        elif self.node.NODE_TYPE.startswith('sim'):
+            event = self.node.connect(sock, (self.srv_addr, self.srv_port))
+            pass
 
     def connection_refused(self):
         self.logger.info("connection_refused, try 2 seconds later")
@@ -66,6 +70,8 @@ class ClientCMD(CMD):
         self.logger.info("receive echo message, [%s]"%(data['msg'][0]))
         print '-->', data['msg'][0]
 
+    def start(self):
+        self.request_connect()
 
 # if __name__ == "__main__":
 #     from Node import PhyNode

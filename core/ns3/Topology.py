@@ -108,14 +108,14 @@ from ns.network import NodeContainer
 from ns.internet import Ipv4InterfaceContainer, Ipv4InterfaceAddress
 import sys
 class TopologyNet():
-    def __init__(self, _input, _format, NodeCreator):
+    def __init__(self, _input, _format, NodeCreator, *args, **kwargs):
         self._input = _input
         self._format = _format
         self.NodeCreator = NodeCreator
         self.load_file()
         self.install_stack()
         self.init_link()
-        self.init_net_device()
+        self.init_net_device(*args, **kwargs)
 
     def load_file(self):
         self.inFile, self.nodes = self._load_file(self._input, self._format, self.NodeCreator)
@@ -126,8 +126,8 @@ class TopologyNet():
     def init_link(self):
         self.linksC = self._init_link(self.inFile)
 
-    def init_net_device(self):
-        self.ndc, self.ipic = self._init_net_device(self.inFile, self.linksC)
+    def init_net_device(self, *args, **kwargs):
+        self.ndc, self.ipic = self._init_net_device(self.inFile, self.linksC, *args, **kwargs)
 
     @staticmethod
     def _load_file(_input, _format, NodeCreator):
@@ -169,27 +169,22 @@ class TopologyNet():
     @staticmethod
     def _init_net_device(inFile, linksC,
             Delay='2ms', DataRate='5Mbps',
-            ipv4AddrBase="10.0.0.0", ipv4Mask="255.255.255.252"):
+            ipv4AddrBase="10.0.0.0", ipv4Mask="255.255.255.252", *args, **kwargs):
         totlinks = inFile.LinksSize()
         p2p = PointToPointHelper()
         ndc = [] # Net Device Container
         for i in xrange(totlinks):
-            # p2p.SetChannelAttribute("Delay", ns.core.StringValue("2ms"))
-            # p2p.SetDeviceAttribute("DataRate", ns.core.StringValue("5Mbps"))
-            # ndc.append( p2p.Install( nc[i]) )
             p2p.SetChannelAttribute("Delay", ns.core.StringValue(Delay))
             p2p.SetDeviceAttribute("DataRate", ns.core.StringValue(DataRate))
             ndc.append( p2p.Install( linksC[i]) )
 
         # Create little subnets, one for each couple of nodes
         address = ns.internet.Ipv4AddressHelper()
-        # address.SetBase(Ipv4Address("10.0.0.0"), Ipv4Mask("255.255.255.252"))
         address.SetBase(Ipv4Address(ipv4AddrBase), Ipv4Mask(ipv4Mask))
-        ipic = []
+        ipic = [] #ip interface container
         for i in xrange(totlinks):
             ipic.append( address.Assign(ndc[i]) )
             address.NewNetwork()
-        # totalNodes = nodes.GetN()
         return ndc, ipic
 
 def main():

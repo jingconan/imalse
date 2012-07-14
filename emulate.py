@@ -15,20 +15,23 @@ from util import *
 
 def run_server(scen):
     node = core.real.PhyNode()
-    cmd = scen.ServerCMD(scen.server_fsm)
+    # cmd = scen.ServerCMD(scen.server_fsm)
+    cmd = scen.ServerCMD()
     cmd.install(node)
     node.start()
 
 
 def run_client(scen):
     node = core.real.PhyNode()
-    ccmd = scen.ClientCMD(scen.client_fsm)
+    # ccmd = scen.ClientCMD(scen.client_fsm)
+    ccmd = scen.ClientCMD()
     ccmd.install(node)
     node.start()
 
 def run_botmaster(scen):
     node = core.real.PhyNode()
-    ccmd = scen.BotMaster(scen.botmaster_fsm)
+    # ccmd = scen.BotMaster(scen.botmaster_fsm)
+    ccmd = scen.BotMaster()
     ccmd.install(node)
     node.start()
 

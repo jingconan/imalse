@@ -26,15 +26,50 @@ class ServerCMD(CMD):
 
     def _is_okay(self, node): return True
 
+    def start(self):
+        self.initialize()
+
+    @property
+    def addr(self):
+        return self.fsm_desc['info']['srv_addr']
+
+    @property
+    def port(self):
+        return self.fsm_desc['info']['srv_port']
+
     def initialize(self):
-        srv_sock = self.node.create_sock({'type':'server', 'proto':'tcp'})
-        self.node.bind(srv_sock, 3333)
-        self.node.listen(srv_sock, 5)
+        """ initialize the server.
+        If the server is real node. It will call Accept method in blocking way.
+        if the server is simulated. It will set the SetAcceptCallBack
+        """
+        self.srv_sock = self.node.create_sock({'type':'server', 'proto':'tcp'})
+        self.node.bind(self.srv_sock, (self.addr, self.port))
+        self.node.listen(self.srv_sock, 5)
         # self.node.set_state('waiting')
 
-        while True:
-            client_sock, address = self.node.accept(srv_sock)
+        # FIXME this part should be different for sim node and real node.
+        if self.node.NODE_TYPE.startswith('real'):
+            while True:
+                client_sock, address = self.node.accept(self.srv_sock)
+                self._trigger('recv_request_conn', client_sock, address)
+        elif self.node.NODE_TYPE.startswith('sim'):
+            self._sim_node_init()
+        else:
+            raise Exception("Unknown Node Type")
+
+    def _sim_node_init(self):
+        """initialize for ns3 simulated node, ns3 sim node doesn't support blocking mode
+        instead we need to set the callback"""
+        print 'sim node initialization'
+        def connect_request(sock, addr):
+            print 'connect_request'
+            return True
+
+        def connect_created(client_sock, address):
+            print 'connect_created, '
             self._trigger('recv_request_conn', client_sock, address)
+
+        self.srv_sock.SetAcceptCallback(connect_request, connect_created)
 
     def recv_request_conn(self, client_sock, address):
         self.logger.info('receive request from addr: %s'%(str(address)))

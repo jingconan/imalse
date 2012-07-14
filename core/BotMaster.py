@@ -74,7 +74,8 @@ class BotMasterTest(BotMasterOneCMD):
             '1234',
             2,
             -1,
-            'event=forward_to_bots;bot_event=send_ping;hostname=www.google.com;')
+            'event=forward_to_bots;bot_event=send_ping;hostname=127.0.0.1')
+            # 'event=forward_to_bots;bot_event=send_ping;hostname=www.google.com;')
 
 # if __name__ == "__main__":
     # cmd = BotMasterOneCMD(client_fsm,

@@ -3,23 +3,23 @@
 import core
 import copy
 
-# info = {
-#         'srv_addr':'127.0.0.1',
-#         'srv_port':3333,
-#         'request_timeout':10,
-#     }
+info = {
+        'srv_addr':'127.0.0.1',
+        'srv_port':3333,
+        'request_timeout':10,
+    }
 
-# server_fsm = {
-#         'initial' : 'waiting',
-#         'start_action' : 'initialize',
-#         'info' : info,
-#         }
-# keywords = ['initial', 'info']
+server_fsm = {
+        'initial' : 'waiting',
+        'start_action' : 'initialize',
+        'info' : info,
+        }
+keywords = ['initial', 'info']
 
 class ServerCMD(core.ServerCMD):
-    # def get_client_id(self):
-        # print 'get_client_id'
-        # pass
+    def __init__(self):
+        core.ServerCMD.__init__(self, server_fsm)
+
     def forward_to_bots(self, sock, data):
         self.logger.info('start to echo_bots' )
         new_data = copy.deepcopy(data)

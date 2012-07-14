@@ -31,6 +31,7 @@ class PhyNode(object):
     abstraction for physical Node. Will use socket to send real data to the network
     """
     proto_map = {'udp':socket.SOCK_STREAM, 'tcp':socket.SOCK_STREAM}
+    NODE_TYPE = 'real'
 
     def __init__(self):
         self.sockets = dict()

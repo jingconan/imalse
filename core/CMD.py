@@ -30,6 +30,9 @@ class CMD:
 
     def dispatcher(self, sock, data):
         self.logger.debug('dispatcher recv data' + data)
+        print 'data, ', data
+        if not data:
+            return
         dt_data = self._load_json(data)
         event_name = dt_data['event'][0]
         del dt_data['event']

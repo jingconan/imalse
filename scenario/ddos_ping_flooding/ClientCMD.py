@@ -4,6 +4,7 @@ import core
 
 info = {
         'srv_addr':'127.0.0.1',
+        # 'srv_addr':'10.0.0.0',
         'srv_port':3333,
         'request_timeout':10,
     }
