@@ -53,8 +53,13 @@ MSG_MAP = {
         'connect_ack': 121,
         '{"password": ["1234"], "event": ["verify_master"]}':122,
         '{"msg": ["verifed, hi master, what you want to do?"], "event": ["echo"]}':123,
+        '{"hostname": ["127.0.0.1"], "event": ["forward_to_bots"], "bot_event": ["send_ping"]}':124
         }
 MSG_RE_MAP = dict( [ (v,k) for k,v in MSG_MAP.iteritems() ] )
+
+
+def call_method(method, *args, **kwargs):
+    method(*args, **kwargs)
 
 class SocketDict(object):
     def __init__(self):
@@ -85,6 +90,7 @@ class ImalseNetnsSimNode(ns3.Node, BaseNode):
         ns3.Node.__init__(self)
         nodenum += 1
         self.sockets = SocketDict()
+        self.sleep_delay = 0
 
     def create_sock(self, desc):
         sock = ns3.Socket.CreateSocket(self, self.proto_map[desc['proto']])
@@ -94,8 +100,12 @@ class ImalseNetnsSimNode(ns3.Node, BaseNode):
 
     def after(self, t, method, *args, **kwargs):
         """schedue a even after t seconds"""
-        if t == 0:
-            return ns3.Simulator.ScheduleNow(method, *args, **kwargs)
+        # print 't, ', t
+        # print 'method, ', method
+        # print 'args, ', args
+        # print 'kwargs, ', kwargs
+        # if t == 0:
+            # return ns3.Simulator.ScheduleNow(call_method, *args, **kwargs)
         return ns3.Simulator.Schedule(ns3.Simulator.Now()+ns3.Seconds(t),
                 method,
                 *args,
@@ -103,11 +113,15 @@ class ImalseNetnsSimNode(ns3.Node, BaseNode):
 
     def bind(self, sock, addr_port):
         print 'start to bind'
-        print 'addr_port, ', addr_port
-        # dstaddr = ns3.Ipv4Address (addr_port[0])
-        dstaddr = ns3.Ipv4Address ("10.1.1.1")
-        dst = ns3.InetSocketAddress (dstaddr, addr_port[1])
+        addr = self._search_server_addr(addr_port[0])
+        dst = ns3.InetSocketAddress (addr, addr_port[1])
         sock.Bind(dst);
+
+    def _search_server_addr(self, addr):
+        if addr:
+            return ns3.Ipv4Address(addr)
+        else:
+            return self.server_addr_set[0].GetLocal(),
 
     def listen(self, sock, backlog):
         print 'start to listen'
@@ -132,31 +146,19 @@ class ImalseNetnsSimNode(ns3.Node, BaseNode):
         print 'cmd_set dispatcher wil be called'
         self.cmd_set.dispatcher(sock, msg)
 
-        # print_members(packet)
-        # packet.RemoveAllPacketTags ()
-        # packet.RemoveAllByteTags ()
-        # print 'has recive, size[%i]'%(packet.GetSize())
-        # msg_id = packet.GetSize() #FIXME
-        # print 'the message is: ', MSG_RE_MAP[msg_id]
-
-
-        # pt = packet.GetPacketTagIterator()
-        # print 'get tag, ', pt
-        # item = pt.Next()
-        # print 'item ', item
-        # print 'item tag, ', item.GetTypeId()
-        # print_members(pt.Item)
+    def sleep(self, t, call_back=None):
+        if call_back:
+            self.after(t, call_back)
+            return
+        self.sleep_delay = t #FIXME Just to Make Botmaster API Unchanged
 
     def connect(self, sock, addr_port):
         """Will set Connect callback function. If succeeded, self.recv will be called. otherwise
         the sock will be closed"""
-
-        # print 'addr_port, ', addr_port
-        print 'connect to server [%s]'%(self.server_addr_set[0].GetLocal())
+        # print 'connect to server [%s]'%(self.server_addr_set[0].GetLocal())
+        server_addr = self._search_server_addr(addr_port[0])
         inetAddr = ns3.InetSocketAddress(
-                # ns3.Ipv4Address(addr_port[0]),
-                # ns3.Ipv4Address("10.1.1.1"),
-                self.server_addr_set[0].GetLocal(),
+                server_addr,
                 addr_port[1]
                 )
 
@@ -192,8 +194,12 @@ class ImalseNetnsSimNode(ns3.Node, BaseNode):
         print 'send function is called'
         p = ns3.Packet()
         p = self.add_msg(p, data)
-        r = sock.Send(p)
-        print 'send status, ', r
+        print 'sock.Send', sock.Send
+        self.after(self.sleep_delay, sock.Send, p)
+        self.sleep_delay = 0
+
+        # r = sock.Send(p)
+        # print 'send status, ', r
 
     def stop(self):
         pass

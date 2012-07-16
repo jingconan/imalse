@@ -17,6 +17,8 @@ from core.ns3.Experiment import *
 from ns3 import *
 from core.ns3.Node import *
 
+from util import load_module
+
 class ImalseSimExperiment(ImalseExperiment):
     """This is a small ns-3 Experiment with only simulated node"""
 
@@ -129,3 +131,27 @@ class ImalseSimExperiment(ImalseExperiment):
         # start botmaster
         for i in self.botmaster_id_set:
             self.event(t+1, self.node_run, self.get_node(i), 'start')
+
+
+    def _install_cmds(self):
+        """install different command set to nodes according to their type"""
+        scen = load_module(self.options.scenario)
+        botmaster_fsm = scen.botmaster_fsm
+        botmaster_fsm['info']['srv_addr'] = "10.1.1.1"
+
+        server_fsm = scen.server_fsm
+        server_fsm['info']['srv_addr'] = "10.1.1.1"
+
+        client_fsm = scen.client_fsm
+        client_fsm['info']['srv_addr'] = "10.1.1.1"
+
+        for i in xrange(self.node_num):
+            if i in self.botmaster_id_set:
+                cmd = scen.BotMaster(botmaster_fsm)
+            elif i in self.server_id_set:
+                cmd = scen.ServerCMD(server_fsm)
+            elif i in self.client_id_set:
+                cmd = scen.ClientCMD(client_fsm)
+            else:
+                continue
+            cmd.install(self.get_node(i))

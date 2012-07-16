@@ -59,11 +59,14 @@ class BotMasterOneCMD(BotMaster):
     def recv_ack(self):
         self.node.send(self.sock,
                 self._cmd_to_json('event=verify_master;password=%s;'%(self.master_password)))
+        print 'self.node.send(self.sock) finishe'
         self.node.sleep(self.interval)
+        print 'sleep has been called'
         idx = self.num
         while True:
             if idx == 0: break
             idx -= 1
+            print 'send command out'
             self.node.send(self.sock,
                     self._cmd_to_json(self.cmd_str) )
             self.node.sleep(self.interval)
