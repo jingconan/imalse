@@ -12,7 +12,9 @@ class BaseNode(object):
     #################################
     ###  Network Related          ###
     #################################
-    def set_master_sock(self, sock): abstract_method()
+    def set_master_sock(self, sock):
+        self.sockets[sock]['type'] = 'master'
+
     @property
     def client_socks(self): abstract_method()
     #### Socket API ####

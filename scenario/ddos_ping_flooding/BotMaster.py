@@ -18,6 +18,6 @@ keywords = ['initial', 'info']
 
 
 class BotMaster(core.BotMaster.BotMasterTest):
-    def __init__(self):
-        core.BotMaster.BotMasterTest.__init__(self, botmaster_fsm)
+    def __init__(self, fsm=botmaster_fsm):
+        core.BotMaster.BotMasterTest.__init__(self, fsm)
 

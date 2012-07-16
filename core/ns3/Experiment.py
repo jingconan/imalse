@@ -16,10 +16,16 @@ class ImalseExperiment(NetnsExperiment):
     client_id_set = [2, 3]
 
     def get_node(self, i):
+        """get ith nodes"""
         return self.nodes[i]
+
     @property
     def node_num(self):
         return len(self.nodes)
+
+    def node_run(self, node, *args, **kwargs):
+        """run a command on a specific node"""
+        node.cmd_set._trigger(*args, **kwargs)
 
     def _install_cmds(self):
         """install different command set to nodes according to their type"""
@@ -54,9 +60,6 @@ class ImalseExperiment(NetnsExperiment):
                 continue
             self.get_node(i).server_addr_set = server_addr_set
             self.get_node(i).server_set = server_set
-
-    def node_run(self, node, *args, **kwargs):
-        node.cmd_set._trigger(*args, **kwargs)
 
     def print_srv_addr(self):
         for i in self.server_id_set:

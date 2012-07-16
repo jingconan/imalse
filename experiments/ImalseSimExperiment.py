@@ -35,7 +35,7 @@ class ImalseSimExperiment(ImalseExperiment):
         return len(self.nodes)
 
     def create_sim(self):
-        # nSrc = Node(); nDst = Node(); nRtr1 = Node(); nRtr2 = Node(); nDstRtr = Node()
+        """Create the Simulation Scenario"""
         self.nodes = [ImalseNetnsSimNode() for i in xrange(5)]
         nSrc, nDst, nRtr1, nRtr2, nDstRtr = self.nodes
 

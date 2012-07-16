@@ -77,8 +77,10 @@ class PhyNode(object):
         self.sockets[sock] = desc
         return sock
 
-    def bind(self, sock, port):
-        sock.bind(("", port))
+    # def bind(self, sock, port):
+    def bind(self, sock, addr_port):
+        sock.bind(addr_port)
+        # sock.bind(("", port))
 
     def listen(self, sock, backlog):
         sock.listen(backlog)
@@ -157,4 +159,8 @@ class PhyNode(object):
         if app_name == 'ping':
             self.pings[sock].stop()
             del self.pings[sock]
+
+    def dispatcher(self, sock, data):
+        self.cmd_set.dispatcher(sock, data)
+        pass
 

@@ -17,8 +17,8 @@ server_fsm = {
 keywords = ['initial', 'info']
 
 class ServerCMD(core.ServerCMD):
-    def __init__(self):
-        core.ServerCMD.__init__(self, server_fsm)
+    def __init__(self, fsm=server_fsm):
+        core.ServerCMD.__init__(self, fsm)
 
     def forward_to_bots(self, sock, data):
         self.logger.info('start to echo_bots' )

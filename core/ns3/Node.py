@@ -4,8 +4,9 @@ from core.BaseNode import BaseNode
 from core.real import PhyNode
 import sys
 
-# class ImalseNetnsNode(NetnsNode, BaseNode):
 class ImalseNetnsNode(NetnsNode, PhyNode):
+    """Imalse Netns Node, it will use linux namespace to construct virtual machine.
+    And applications will run in these virtual machines."""
     NODE_TYPE = 'real_ns3'
     def __init__(self, *args, **kwargs):
         self.cmd_set = None
@@ -25,22 +26,70 @@ class ImalseNetnsNode(NetnsNode, PhyNode):
 
     def stop_ping(self, sock):
         print 'stop_ping'
-        # self.node.stop_app(sock, 'ping')
 
 nodenum = 0
 import ns3
+# class ConnectACKTag(ns3.Tag):
+#     def __init__(self):
+#         pass
+#     def GetSerializedSize (self):
+#         pass
+        # return 0
+#     def Serialize (self, tag_buffer):
+        # tag_buffer = "CONECT_ACK"
+#         pass
+#     def Deserialize (self, tag_buffer):
+        # self.data = tag_buffer
+#         pass
+#     def Print (os):
+#         pass
+
+#############################################
+# NS3 python binding missing some important
+# APIs, MSG_MAP and MSG_RE_MAP are used
+# to hack the API. Need to be fixed later
+#############################################
+MSG_MAP = {
+        'connect_ack': 121,
+        '{"password": ["1234"], "event": ["verify_master"]}':122,
+        '{"msg": ["verifed, hi master, what you want to do?"], "event": ["echo"]}':123,
+        }
+MSG_RE_MAP = dict( [ (v,k) for k,v in MSG_MAP.iteritems() ] )
+
+class SocketDict(object):
+    def __init__(self):
+        self.data = dict()
+
+    def hash(self, sock):
+        node = sock.GetNode()
+        typeId = sock.GetTypeId()
+        return hash((node.GetSystemId(), typeId.GetName()))
+
+    def __getitem__(self, sock):
+        return self.data[self.hash(sock)]
+
+    def __setitem__(self, sock, value):
+        self.data[self.hash(sock)] = value
+
+
 class ImalseNetnsSimNode(ns3.Node, BaseNode):
     """Simulated Node in NS3 Adapted for Imalse Simulation"""
-    proto_map = {'udp':ns3.UdpSocketFactory.GetTypeId(), 'tcp':ns3.TcpSocketFactory.GetTypeId()}
+    proto_map = {
+            'udp':ns3.UdpSocketFactory.GetTypeId(),
+            'tcp':ns3.TcpSocketFactory.GetTypeId(),
+            }
     NODE_TYPE = 'sim_ns3'
     def __init__(self, *args, **kwargs):
         global nodenum
         name = "sim_n%s" %(nodenum)
         ns3.Node.__init__(self)
         nodenum += 1
+        self.sockets = SocketDict()
 
     def create_sock(self, desc):
         sock = ns3.Socket.CreateSocket(self, self.proto_map[desc['proto']])
+        print 'create sock, ', sock
+        self.sockets[sock] = desc
         return sock
 
     def after(self, t, method, *args, **kwargs):
@@ -58,103 +107,94 @@ class ImalseNetnsSimNode(ns3.Node, BaseNode):
         # dstaddr = ns3.Ipv4Address (addr_port[0])
         dstaddr = ns3.Ipv4Address ("10.1.1.1")
         dst = ns3.InetSocketAddress (dstaddr, addr_port[1])
-        # sock.Bind(dst);
-        def BindSock(sock, dst):
-            print 'BindSock'
-            sock.Bind(dst)
-
-        self.after(0, BindSock, sock, dst)
-
-        def srcSocketRecv (socket):
-            _from = Address()
-            packet = socket.RecvFrom (_from)
-            packet.RemoveAllPacketTags ()
-            packet.RemoveAllByteTags ()
-            if (socket.GetBoundNetDevice ()):
-                ns3.NS_LOG_INFO ("Socket was bound")
-            else:
-                ns3.NS_LOG_INFO ("Socket was not bound")
-
-        sock.SetRecvCallback (srcSocketRecv);
-        # def socket_recv(sock):
-            # print 'socket_recv called '
-            # pass
-
-        # sock.SetRecvCallback (socket_recv);
-        # print 'RecvCallBack has ben set'
+        sock.Bind(dst);
 
     def listen(self, sock, backlog):
         print 'start to listen'
-        def ListenSock(sock):
-            sock.Listen()
-        self.after(0, ListenSock, sock)
-        # sock.Listen()
-
-    def accept(self, sock):
-        return sock, None
+        sock.Listen()
 
     def recv(self, sock, bufsize, dispatcher=None, threaded=False):
         print 'has set dispatcher'
         sock.SetRecvCallback(dispatcher)
         print 'finish set dispatcher'
-        def SockRecv(sock):
-            sock.Recv(bufsize, 0)
-        self.after(0, SockRecv, sock)
-        # data = sock.Recv(bufsize, 0) #FIXME, flag set to be 0, don't know the meaning
+        sock.Recv(bufsize, 0)
+
+    def dispatcher(self, sock):
+        _from = ns3.Address()
+        packet = sock.RecvFrom (_from)
+        msg = self.get_msg(packet)
+        print 'receive message, ', msg
+
+        if msg == 'connect_ack':
+            print 'call cmd_set.recv_ack'
+            self.cmd_set.recv_ack()
+            return
+        print 'cmd_set dispatcher wil be called'
+        self.cmd_set.dispatcher(sock, msg)
+
+        # print_members(packet)
+        # packet.RemoveAllPacketTags ()
+        # packet.RemoveAllByteTags ()
+        # print 'has recive, size[%i]'%(packet.GetSize())
+        # msg_id = packet.GetSize() #FIXME
+        # print 'the message is: ', MSG_RE_MAP[msg_id]
+
+
+        # pt = packet.GetPacketTagIterator()
+        # print 'get tag, ', pt
+        # item = pt.Next()
+        # print 'item ', item
+        # print 'item tag, ', item.GetTypeId()
+        # print_members(pt.Item)
 
     def connect(self, sock, addr_port):
         """Will set Connect callback function. If succeeded, self.recv will be called. otherwise
         the sock will be closed"""
 
         # print 'addr_port, ', addr_port
+        print 'connect to server [%s]'%(self.server_addr_set[0].GetLocal())
         inetAddr = ns3.InetSocketAddress(
                 # ns3.Ipv4Address(addr_port[0]),
-                ns3.Ipv4Address("10.1.1.1"),
+                # ns3.Ipv4Address("10.1.1.1"),
+                self.server_addr_set[0].GetLocal(),
                 addr_port[1]
                 )
+
         def connect_succeeded(sock):
-            print 'connect_succeded'
-            data = self.recv(sock, 512, self.cmd_set.dispatcher)
+            print 'connect succeeded'
+            data = self.recv(sock, 512, self.dispatcher)
 
         def connect_failed(sock):
             print 'connect_failed'
             self.close_sock(sock)
 
         sock.SetConnectCallback(connect_succeeded, connect_failed)
-        print 'server Address is, ', self.server_addr_set[0].GetLocal()
-        def SockConnect(self, sock):
-            sock.Connect(inetAddr)
+        sock.Connect(inetAddr)
 
-        self.after(0, SockConnect, self, sock)
+    @staticmethod
+    def get_msg(p):
+        """get_msg and add_msg are two hack function"""
+        return MSG_RE_MAP[p.GetSize()]
 
-        def WriteUntilBufferFull (localSocket, txSpace):
-            print 'WriteUntilBufferFull'
-            while (currentTxBytes < totalTxBytes and localSocket.GetTxAvailable () > 0):
-                left = totalTxBytes - currentTxBytes
-                dataOffset = currentTxBytes % writeSize
-                toWrite = writeSize - dataOffset
-                toWrite = min (toWrite, left)
-                toWrite = min (toWrite, localSocket.GetTxAvailable ())
-                amountSent = localSocket.Send (data[dataOffset], toWrite, 0)
-                if(amountSent < 0):
-                    # we will be called again when new tx space becomes available.
-                    return;
-                currentTxBytes += amountSent
-            localSocket.Close ()
-        # sock.SetSendCallback (WriteUntilBufferFull)
-
-        def SendStuff (sock, dstaddr, port):
-            print 'Send some packets out'
-            p = ns3.Packet()
-            p.AddPaddingAtEnd (100);
-            r = sock.SendTo (p, 0, ns3.InetSocketAddress(dstaddr,port));
-            print 'r, ', r
-            return;
-        self.after(0, SendStuff, sock, self.server_addr_set[0].GetLocal(), 3333)
-
+    @staticmethod
+    def add_msg(p, msg):
+        msg_id = MSG_MAP.get(msg, None) # FIXME use padding length to present msg, a wordround for python bug
+        if not msg_id:
+            raise Exception('Unknown Message ')
+        p.AddPaddingAtEnd(msg_id)
+        return p
+        # if data == "connect_ack":
+            # tag = ConnectACKTag()
+        # p.AddPacketTag(tag)
 
     def send(self, sock, data):
-        sock.Send()
+        print 'data, ', data
+        print 'send function is called'
+        p = ns3.Packet()
+        p = self.add_msg(p, data)
+        r = sock.Send(p)
+        print 'send status, ', r
 
-
+    def stop(self):
+        pass
 

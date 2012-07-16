@@ -20,8 +20,8 @@ client_fsm = {
         }
 
 class ClientCMD(core.ClientCMD):
-    def __init__(self, client_fsm=client_fsm):
-        core.ClientCMD.__init__(self, client_fsm)
+    def __init__(self, fsm=client_fsm):
+        core.ClientCMD.__init__(self, fsm)
 
     def send_ping(self, sock, data):
         self.node.ping(sock,data, threaded=True)

