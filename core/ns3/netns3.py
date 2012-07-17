@@ -126,8 +126,8 @@ class NetnsExperiment(object):
         print "running simulator for %s sec" % self.options.simtime
         t = self.simthread(self.options.simtime)
         while True:
-            # t.join(60.0)
-            t.join(10.0)
+            t.join(60.0)
+            # t.join(10.0)
             if not t.isAlive():
                 break
         print "simulator done"

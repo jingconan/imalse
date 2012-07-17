@@ -19,6 +19,9 @@ from core.ns3.Node import *
 
 from util import load_module
 
+# ns.core.GlobalValue.Bind("SimulatorImplementationType",
+        # ns.core.StringValue("ns3::SimulatorImpl"))
+
 class ImalseSimExperiment(ImalseExperiment):
     """This is a small ns-3 Experiment with only simulated node"""
 
