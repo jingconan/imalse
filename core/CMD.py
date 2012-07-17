@@ -2,15 +2,11 @@
 import logging
 import json
 from urlparse import parse_qs
-keywords = ['initial', 'info']
-
-def fsm_get_states(fsm_desc):
-     return list( set( state.strip()  for k in fsm_desc.keys() for state in k.rsplit('->') ) - set(keywords) )
 
 class CMD:
     """Command Meta Description"""
-    def __init__(self, fsm_desc=None):
-        self._load_fsm(fsm_desc)
+    def __init__(self, desc=None):
+        self.desc = desc
         self._set_logger()
 
     def _set_logger(self):
@@ -18,19 +14,10 @@ class CMD:
         self.logger = logging.getLogger(self.name)
         self.logger.setLevel(logging.DEBUG)
 
-    def _load_fsm(self, fsm_desc):
-        self.fsm_desc = fsm_desc
-        self.state_set = fsm_get_states(fsm_desc)
-        self.state = self.fsm_desc['initial']
-
     def _trigger(self, event_name, *argv, **kwargv):
         """trigger an event, event hander is a class member function"""
         self.logger.debug('%s has been triggered'%(event_name))
-        self.logger.debug('argv%s, kwargs%s'%(argv, kwargv))
-        print 'even_name, type', type(event_name)
-        print 'getattr, ', getattr(self, event_name)
         getattr(self, event_name)(*argv, **kwargv)
-        print '__trigger finishe'
 
     def dispatcher(self, sock, data):
         self.logger.debug('dispatcher recv data' + data)
@@ -60,24 +47,3 @@ class CMD:
     def get_state(self): return self.node.state
     def set_state(self, val): self.node.set_state(val)
     state = property(get_state, set_state)
-
-    def export(self, pic_name):
-        from fsm import State, FiniteStateMachine, get_graph
-        cmd = FiniteStateMachine(self.name)
-
-        # create states
-        states_name_set = fsm_get_states(self.fsm_desc)
-        states = dict()
-        for name in states_name_set:
-            initial = True if ( name == self.fsm_desc['initial'] ) else False
-            states[name] = State(name, machine=cmd, initial=initial)
-
-        # create transitions
-        for k, v in self.fsm_desc.iteritems():
-            if k in keywords:
-                continue
-            s, ns = [ state.strip() for state in k.rsplit('->') ]
-            states[s][v] = states[ns]
-
-        get_graph(cmd).draw(pic_name, prog='dot')
-

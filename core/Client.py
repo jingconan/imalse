@@ -1,24 +1,14 @@
 #!/usr/bin/env python
 from CMD import CMD
 import sys
-sys.path.append("../..")
 
 # ClientCommand
-# from fsm import FiniteStateMachine
-info = {
+# Default Parameter Setting for Client
+client_fsm = {
+        'start_action' : 'request_connect',
         'srv_addr':'127.0.0.1',
         'srv_port':3333,
         'request_timeout':10,
-    }
-client_fsm = {
-        # 'conn -> disconn' : 'disconn_req | cmd_time_out',
-        # 'disconn -> conn' : 'recv_ack',
-        # 'disconn -> disconn' : 'request_time_out | connection_refused',
-        # 'conn -> exe_cmd' : 'recv_cmd',
-        # 'exe_cmd -> conn' : 'cmd_done',
-        'initial' : 'disconn',
-        'start_action' : 'request_connect',
-        'info' : info,
         }
 
 class ClientCMD(CMD):
@@ -27,13 +17,13 @@ class ClientCMD(CMD):
     each CMD should claim the basic function set a node much provide
     """
     name = 'client_cmd'
-    def __init__(self, fsm_desc=None):
-        CMD.__init__(self, fsm_desc)
+    def __init__(self, desc=None):
+        CMD.__init__(self, desc)
 
     @property
-    def srv_addr(self): return self.fsm_desc['info']['srv_addr']
+    def srv_addr(self): return self.desc['srv_addr']
     @property
-    def srv_port(self): return self.fsm_desc['info']['srv_port']
+    def srv_port(self): return self.desc['srv_port']
 
     def _is_okay(self, node):
         """check whether this command set is compmatible with the node"""

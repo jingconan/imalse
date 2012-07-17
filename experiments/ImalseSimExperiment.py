@@ -118,7 +118,8 @@ class ImalseSimExperiment(ImalseExperiment):
     def setup(self):
         print 'setup'
         self.create_sim()
-        self._install_cmds()
+        # self._install_cmds()
+        self._install_cmds(srv_addr = "10.1.1.1")
         self._set_server_info()
 
         # start servers
@@ -136,25 +137,30 @@ class ImalseSimExperiment(ImalseExperiment):
             self.event(t+1, self.node_run, self.get_node(i), 'start')
 
 
-    def _install_cmds(self):
+    def _install_cmds(self, srv_addr=None):
         """install different command set to nodes according to their type"""
         scen = load_module(self.options.scenario)
-        botmaster_fsm = scen.botmaster_fsm
-        botmaster_fsm['info']['srv_addr'] = "10.1.1.1"
+        botmaster_desc = scen.botmaster_desc
+        server_desc = scen.server_desc
+        client_desc = scen.client_desc
+        # botmaster_desc['srv_addr'] = "10.1.1.1"
+        print 'srv_addr, ', srv_addr
+        if srv_addr:
+            botmaster_desc['srv_addr'] = srv_addr
+            server_desc['srv_addr'] = srv_addr
+            client_desc['srv_addr'] = srv_addr
 
-        server_fsm = scen.server_fsm
-        server_fsm['info']['srv_addr'] = "10.1.1.1"
-
-        client_fsm = scen.client_fsm
-        client_fsm['info']['srv_addr'] = "10.1.1.1"
+            # botmaster_desc['srv_addr'] = "10.1.1.1"
+            # server_desc['srv_addr'] = "10.1.1.1"
+            # client_desc['srv_addr'] = "10.1.1.1"
 
         for i in xrange(self.node_num):
             if i in self.botmaster_id_set:
-                cmd = scen.BotMaster(botmaster_fsm)
+                cmd = scen.BotMaster(botmaster_desc)
             elif i in self.server_id_set:
-                cmd = scen.ServerCMD(server_fsm)
+                cmd = scen.ServerCMD(server_desc)
             elif i in self.client_id_set:
-                cmd = scen.ClientCMD(client_fsm)
+                cmd = scen.ClientCMD(client_desc)
             else:
                 continue
             cmd.install(self.get_node(i))

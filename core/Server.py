@@ -3,24 +3,20 @@ from CMD import CMD
 import copy
 
 ## Default Parameter Settings
-info = {
+server_desc = {
+        'initial' : 'waiting',
+        'start_action' : 'initialize',
         'srv_addr':'127.0.0.1',
         'srv_port':3333,
         'request_timeout':10,
-    }
-server_fsm = {
-        'initial' : 'waiting',
-        'start_action' : 'initialize',
-        'info' : info,
         }
-keywords = ['initial', 'info']
 
 BOT_MASTER_PASSWORD = '1234'
 
 class ServerCMD(CMD):
     name =  'server_cmd'
-    def __init__(self, fsm_desc=server_fsm):
-        CMD.__init__(self, fsm_desc)
+    def __init__(self, desc=server_desc):
+        CMD.__init__(self, desc)
 
     def _is_okay(self, node): return True
 
@@ -28,12 +24,10 @@ class ServerCMD(CMD):
         self.initialize()
 
     @property
-    def addr(self):
-        return self.fsm_desc['info']['srv_addr']
+    def addr(self): return self.desc['srv_addr']
 
     @property
-    def port(self):
-        return self.fsm_desc['info']['srv_port']
+    def port(self): return self.desc['srv_port']
 
     def initialize(self):
         """ initialize the server.
