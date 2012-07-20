@@ -74,7 +74,9 @@ class ServerCMD(CMD):
             CMD.dispatcher(self, sock, data)
         except Exception as e:
             self.logger.error('unknow message: %s from %s'%(data, self.node.sockets[sock]))
-            self.logger.exception(str(e))
+            self.logger.exception("\n----------------\n the error is: \n" + \
+                    str(e) + \
+                    "\n----------------\n")
             self.node.send(sock, 'you have sent me a unknown message')
 
     def verify_master(self, sock, data):

@@ -17,11 +17,28 @@ class BotMaster(ClientCMD):
         print 'recv from server: ', data
 
 class BotMasterManInput(BotMaster):
+    @staticmethod
+    def print_help():
+        docs = """
+        A typical command consists of a series of equality sentences
+        for example:
+            event=forward_to_bots;bot_event=send_ping;hostname=127.0.0.1;
+        which means:
+            event is the command that will run on server, "forward_to_bots" will
+            be executed this time.
+            bot_event is the command that will executed on bots
+            hostname is the parameter for the send_ping command
+        """
+        print docs
+
     def recv_ack(self):
         print 'connection constructed'
         while True:
-            cmd = raw_input('hi master, please input your command: ')
-            print 'cmd, ', cmd
+            cmd = raw_input('hi master, please input your command(h for help): ')
+            if cmd == 'h':
+                self.print_help()
+                continue
+            print 'the following command will to send to execute: ', cmd
             if cmd == 'q':
                 self.node.send(self.sock, 'master exit')
                 self.node.close_sock(self.sock)

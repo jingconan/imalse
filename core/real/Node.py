@@ -25,7 +25,7 @@ class PingThread(StoppableThread):
             ping_para[k] = v[0]
         verbose_ping(**ping_para)
 
-
+from ftplib import FTP
 class PhyNode(object):
     """Node can maintain a lot of sockets
     abstraction for physical Node. Will use socket to send real data to the network
@@ -41,11 +41,20 @@ class PhyNode(object):
         # self.cmd.start()
         self.cmd_set.start()
 
-    # def set_state(self, val):
-    #     lock = threading.Lock()
-    #     lock.acquire()
-    #     self.state = val
-    #     lock.release()
+    #################################
+    ###  File System              ###
+    #################################
+    def get_file_list(self, max_num,
+            file_filter, path, ):
+        files = []
+        for path, subdirs, files in os.walk(path):
+            if os.path.splitext(name)[1] in file_filter:
+                f = str(os.path.join(path, name))
+                files.append(f)
+
+    def load_file(self, f):
+        fid = open(f, 'r')
+        return fid.read()
 
     #################################
     ###  Some Utility Function    ###
@@ -144,6 +153,9 @@ class PhyNode(object):
         sock.close()
         del self.sockets[sock]
 
+    #################################
+    ###       Application         ###
+    #################################
     def ping(self, sock, data, threaded=False):
         if threaded:
             ping_th = PingThread(data)
@@ -154,6 +166,10 @@ class PhyNode(object):
             for k, v in data.iteritems():
                 ping_para[k] = v[0]
             verbose_ping(**ping_para)
+
+    def ftp_upload(self, f, host, user, password):
+        ftp = FTP(host, user, password)
+        ftp.storbinary('STOR %s'%(f), open(f))
 
     def stop_app(self, sock, app_name):
         if app_name == 'ping':
