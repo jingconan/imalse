@@ -12,7 +12,7 @@ def augment_bracket(string):
 
 def split_data(data):
     split = data.rsplit('}{')
-    # if len(split) == 1: return split
+    if len(split) == 1: return split
     return [augment_bracket(s) for s in split]
 
 class CMD:
