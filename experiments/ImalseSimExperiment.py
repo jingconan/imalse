@@ -25,7 +25,8 @@ class ImalseSimExperiment(ImalsePureSimExperiment):
     """This is a small ns-3 Experiment with only simulated node"""
     server_id_set = [0]
     botmaster_id_set = [1]
-    client_id_set = [2, 3, 4]
+    # client_id_set = [2, 3]
+    client_id_set = [2]
 
     def initparser(self, parser):
         super(ImalseSimExperiment, self).initparser(parser)

@@ -12,9 +12,11 @@ class ImalsePureSimExperiment(ImalseExperiment):
         self.setup()
         print "running simulator for %s sec" % self.options.simtime
         ns.core.Simulator.Stop(ns.core.Seconds(self.options.simtime))
-        ns.core.Simulator.Run(signal_check_frequency = -1)
+        # ns.core.Simulator.Run(signal_check_frequency = -1)
+        ns.core.Simulator.Run()
+        self.cleanup()
+        ns.core.Simulator.Destroy()
         print "simulator done"
-        # self.cleanup()
     @staticmethod
     def event(time, func, *args, **kwds):
         def run():

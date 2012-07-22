@@ -53,15 +53,14 @@ class ServerCMD(CMD):
         instead we need to set the callback"""
         print 'sim node initialization'
         def connect_request(sock, addr):
-            self.logger.info('connect_request')
+            self.logger.info('connect_request at sock [%s] from [%s]'%(str(sock), str(addr)))
             return True
 
         def connect_created(client_sock, address):
-            self.logger.info('connect_created')
-            print 'client_sock, ', client_sock
+            self.logger.info('connect_created for client sock [%s] and address[%s]'%(str(client_sock), str(address)))
             self.node.sockets[client_sock] = {'type':'client', 'proto': 'tcp'}
-            for sock, v in self.node.sockets.iteritems():
-                print 'self.node.sock, ', sock, 'self.node.v, ', v
+            # for sock, v in self.node.sockets.iteritems():
+            #     print 'self.node.sock, ', sock, 'self.node.v, ', v
             self._trigger('recv_request_conn', client_sock, address)
 
         self.srv_sock.SetAcceptCallback(connect_request, connect_created)

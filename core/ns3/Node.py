@@ -112,7 +112,7 @@ class ImalseNetnsSimNode(ns3.Node, BaseNode):
     def client_socks(self):
         # print '----------------------'
         # for sock, v in self.sockets.iteritems():
-        #     print 'sock, ', type(sock)
+        #     print 'sock, ', type(sock), 'sock val, ', sock
         #     print 'v, ', v
         # print '----------------------'
         return [sock for sock, v in self.sockets.iteritems() if v['type'] == 'client']
@@ -150,14 +150,15 @@ class ImalseNetnsSimNode(ns3.Node, BaseNode):
 
     def recv(self, sock, bufsize, dispatcher=None, threaded=False):
         sock.SetRecvCallback(dispatcher)
-        self.logger.debug('Node [%s] has set recv dispatcher'%(self.name) )
-        sock.Recv(bufsize, 0)
+        self.logger.debug('Node [%s] has set recv dispatcher for sock [%s]'%(self.name, str(sock)) )
+        # sock.Recv(bufsize, 0)
+        sock.Recv()
 
     def dispatcher(self, sock):
         _from = ns3.Address()
         packet = sock.RecvFrom (_from)
         msg = self.get_msg(packet)
-        self.logger.debug('Node [%s] has receive message %s'%(self.name, msg) )
+        self.logger.debug('Node [%s] has receive message %s from sock [%s]'%(self.name, msg, sock) )
 
         if msg == 'connect_ack':
             self.logger.debug('Node [%s] call self.recv_ack s'%(self.name) )
@@ -218,7 +219,12 @@ class ImalseNetnsSimNode(ns3.Node, BaseNode):
         p = ns3.Packet()
         p = self.add_msg(p, data)
         # print 'sock.Send', sock.Send
-        self.after(self.sleep_delay, sock.Send, p)
+        # def sendCb(sock, cb):
+            # print 'avaliable bytes for sock [%s] is [%i] '%(str(sock), cb)
+        # sock.SetSendCallback(sendCb)
+        # self.after(self.sleep_delay, sock.Send, p)
+        value = sock.Send(p)
+        print '[%i] bytes have been sent out'%(value)
         self.sleep_delay = 0
 
     def stop(self):
