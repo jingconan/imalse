@@ -11,6 +11,7 @@ botmaster_desc= {
         }
 
 class BotMaster(ClientCMD):
+    name = 'bot_master_cmd'
     def recv_ack(self): abstract_method()
 
     def echo(self, sock, data):

@@ -13,17 +13,19 @@
              Source
 """
 
-from core.ns3.Experiment import *
+# from core.ns3.Experiment import *
+from core.ns3.PureSimExperiment import *
 from ns3 import *
 from core.ns3.Node import *
 
-from util import load_module
+from util import load_module, get_scenario_option
 
-# ns.core.GlobalValue.Bind("SimulatorImplementationType",
-        # ns.core.StringValue("ns3::SimulatorImpl"))
-
-class ImalseSimExperiment(ImalseExperiment):
+# class ImalseSimExperiment(ImalseExperiment):
+class ImalseSimExperiment(ImalsePureSimExperiment):
     """This is a small ns-3 Experiment with only simulated node"""
+    server_id_set = [0]
+    botmaster_id_set = [1]
+    client_id_set = [2, 3, 4]
 
     def initparser(self, parser):
         super(ImalseSimExperiment, self).initparser(parser)
@@ -121,20 +123,25 @@ class ImalseSimExperiment(ImalseExperiment):
         # self._install_cmds()
         self._install_cmds(srv_addr = "10.1.1.1")
         self._set_server_info()
+        self.start_nodes()
 
+    def start_nodes(self):
         # start servers
         for i in self.server_id_set:
+            print 'node [%i] type [%s] start at [%f]s'%(i, 'server', 0)
             self.event(0, self.node_run, self.get_node(i), 'start')
 
         # start clients
         t = 0
         for i in self.client_id_set:
-            t += 1
+            t += 2
+            print 'node [%i] type [%s] start at [%f]s'%(i, 'client', t)
             self.event(t, self.node_run, self.get_node(i), 'start')
 
         # start botmaster
         for i in self.botmaster_id_set:
-            self.event(t+1, self.node_run, self.get_node(i), 'start')
+            print 'node [%i] type [%s] start at [%f]s'%(i, 'botmaster', t+2)
+            self.event(t+2, self.node_run, self.get_node(i), 'start')
 
 
     def _install_cmds(self, srv_addr=None):

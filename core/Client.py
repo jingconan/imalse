@@ -31,14 +31,15 @@ class ClientCMD(CMD):
 
     def request_connect(self):
         """request a connection to server"""
+        self.logger.debug('request_connect')
         sock = self.node.create_sock({'type':'server', 'proto':'tcp'})
         self.sock = sock
         if self.node.NODE_TYPE.startswith('real'):
             event = self.node.connect(sock, (self.srv_addr, self.srv_port))
             self._trigger(event)
         elif self.node.NODE_TYPE.startswith('sim'):
+            print 'sim connect'
             event = self.node.connect(sock, (self.srv_addr, self.srv_port))
-            pass
 
     def connection_refused(self):
         self.logger.info("connection_refused, try 2 seconds later")

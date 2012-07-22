@@ -55,17 +55,4 @@ class ImalseTopoSimExperiment(ImalseSimExperiment):
         # self._install_cmds(srv_addr = "10.0.0.0")
         self.print_srv_addr()
         self._set_server_info()
-
-        if self.node_num == 0: return
-        for i in self.server_id_set:
-            self.event(0, self.node_run, self.get_node(i), 'start')
-
-        # start clients
-        t = 0
-        for i in self.client_id_set:
-            t += 1
-            self.event(t, self.node_run, self.get_node(i), 'start')
-
-        # start botmaster
-        for i in self.botmaster_id_set:
-            self.event(t+1, self.node_run, self.get_node(i), 'start')
+        self.start_nodes()

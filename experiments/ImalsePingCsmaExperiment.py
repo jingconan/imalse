@@ -2,6 +2,10 @@ from core.ns3.Experiment import *
 
 class ImalsePingCsmaExperiment(PingCsmaExperiment, ImalseExperiment):
     """Ping Flooding Experiment On a Csma Network"""
+    server_id_set = [0]
+    botmaster_id_set = [1]
+    client_id_set = [2, 3, 4]
+
     def __init__(self, *argv, **kwargv):
         PingCsmaExperiment.__init__(self, *argv, **kwargv)
         ImalseExperiment.__init__(self)
@@ -65,8 +69,9 @@ class ImalsePingCsmaExperiment(PingCsmaExperiment, ImalseExperiment):
         if not self.nodes:
             return
         for i in xrange(len(self.nodes)):
-            print 'node [%i] start at [%f]s'%(i, i)
-            self.event(i+1, self.node_run, self.nodes[i], 'start') # start server
+            if i in self.id_set:
+                print 'node [%i] start at [%f]s'%(i, i)
+                self.event(i+1, self.node_run, self.nodes[i], 'start') # start server
             # self.event(1, self.nodes[0], 'start') # start server
             # self.event(1, self.nodes[1], 'start') # start botmaster
             # self.event(1, self.nodes[1], 'start') # start botmaster

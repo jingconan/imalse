@@ -58,6 +58,10 @@ class ServerCMD(CMD):
 
         def connect_created(client_sock, address):
             self.logger.info('connect_created')
+            print 'client_sock, ', client_sock
+            self.node.sockets[client_sock] = {'type':'client', 'proto': 'tcp'}
+            for sock, v in self.node.sockets.iteritems():
+                print 'self.node.sock, ', sock, 'self.node.v, ', v
             self._trigger('recv_request_conn', client_sock, address)
 
         self.srv_sock.SetAcceptCallback(connect_request, connect_created)

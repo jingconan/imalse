@@ -13,7 +13,10 @@ class ImalseExperiment(NetnsExperiment):
     """Base Class for Imalse Experiment"""
     server_id_set = [0]
     botmaster_id_set = [1]
-    client_id_set = [2, 3]
+    client_id_set = [2, 3, 4]
+    @property
+    def id_set(self):
+        return self.server_id_set + self.botmaster_id_set + self.client_id_set
 
     def get_node(self, i):
         """get ith nodes"""
