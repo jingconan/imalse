@@ -1,12 +1,19 @@
 #!/usr/bin/env python
-from core.ns3.netns3 import *
+"""
+This file defined the for NS3 simulator.
+two types of nodes are defined:
+    1. **ImalseNetnsNode**, used for netns3 simulation.
+    2. **ImalseNetnsSimNode**, used for ns3 pure simulation.
+"""
 from core.BaseNode import BaseNode
-from core.real import PhyNode
 import sys
 
+from core.real import PhyNode
+from core.ns3.netns3 import *
 class ImalseNetnsNode(NetnsNode, PhyNode):
     """Imalse Netns Node, it will use linux namespace to construct virtual machine.
-    And applications will run in these virtual machines."""
+    And applications will run in these virtual machines.
+    """
     NODE_TYPE = 'real_ns3'
     def __init__(self, *args, **kwargs):
         self.cmd_set = None
@@ -64,7 +71,6 @@ MSG_RE_MAP = dict( [ (v,k) for k,v in MSG_MAP.iteritems() ] )
 def call_method(method, *args, **kwargs):
     method(*args, **kwargs)
 
-import itertools
 class SocketDict(dict):
     def __init__(self):
         self.sockets = dict()
@@ -110,11 +116,6 @@ class ImalseNetnsSimNode(ns3.Node, BaseNode):
 
     @property
     def client_socks(self):
-        # print '----------------------'
-        # for sock, v in self.sockets.iteritems():
-        #     print 'sock, ', type(sock), 'sock val, ', sock
-        #     print 'v, ', v
-        # print '----------------------'
         return [sock for sock, v in self.sockets.iteritems() if v['type'] == 'client']
 
     def create_sock(self, desc):
@@ -142,30 +143,42 @@ class ImalseNetnsSimNode(ns3.Node, BaseNode):
         if addr:
             return ns3.Ipv4Address(addr)
         else:
-            return self.server_addr_set[0].GetLocal(),
+            return self.server_addr_set[0].GetLocal(), 1
 
     def listen(self, sock, backlog):
         self.logger.debug('Node [%s] start to listen'%(self.name) )
         sock.Listen()
 
     def recv(self, sock, bufsize, dispatcher=None, threaded=False):
-        sock.SetRecvCallback(dispatcher)
         self.logger.debug('Node [%s] has set recv dispatcher for sock [%s]'%(self.name, str(sock)) )
-        # sock.Recv(bufsize, 0)
+        sock.SetRecvCallback(dispatcher)
         sock.Recv()
+        # sock.Recv(bufsize, 0)
 
     def dispatcher(self, sock):
+        """node level dispatcher, it will read data from the socket,
+        parse the data into approariate format and handle the data to
+        cmd.dispatcher()
+        """
+#FIXME this function was not exculated in pure simulation mode
+        # if self.name == "sim_n%s" %(2):
+            # import pdb;pdb.set_trace()
+
         _from = ns3.Address()
         packet = sock.RecvFrom (_from)
         msg = self.get_msg(packet)
-        self.logger.debug('Node [%s] has receive message %s from sock [%s]'%(self.name, msg, sock) )
+        self.logger.debug('Node [%s] has receive message %s from sock [%s] and node [%s]'%(self.name, msg, sock, _from) )
 
         if msg == 'connect_ack':
             self.logger.debug('Node [%s] call self.recv_ack s'%(self.name) )
             self.cmd_set.recv_ack()
-            return
-        self.logger.debug('Node [%s] call cmd_set.dispatcher'%(self.name) )
-        self.cmd_set.dispatcher(sock, msg)
+        else:
+            self.logger.debug('Node [%s] call cmd_set.dispatcher'%(self.name) )
+            self.cmd_set.dispatcher(sock, msg)
+
+        # self.recv(sock, 512, self.dispatcher)
+        self.after(0.1, self.recv, sock, 512, self.dispatcher)
+        # self.after(0, self.recv, sock, 512, self.dispatcher)
 
     def sleep(self, t, call_back=None):
         if call_back:
@@ -176,25 +189,24 @@ class ImalseNetnsSimNode(ns3.Node, BaseNode):
     def connect(self, sock, addr_port):
         """Will set Connect callback function. If succeeded, self.recv will be called. otherwise
         the sock will be closed"""
-        # print 'connect to server [%s]'%(self.server_addr_set[0].GetLocal())
         server_addr = self._search_server_addr(addr_port[0])
-        # print 'connect to server [%s]'%(server_addr)
         inetAddr = ns3.InetSocketAddress(
                 # server_addr,
-                self.server_addr_set[0].GetLocal(),
+                self.server_addr_set[0].GetLocal(), # connect to first server
                 addr_port[1]
                 )
 
         def connect_succeeded(sock):
             self.logger.debug('Node [%s] connect succeeded'%(self.name) )
-            data = self.recv(sock, 512, self.dispatcher)
+            self.recv(sock, 512, self.dispatcher)
 
         def connect_failed(sock):
             self.logger.debug('Node [%s] connect failed'%(self.name) )
             self.close_sock(sock)
 
         sock.SetConnectCallback(connect_succeeded, connect_failed)
-        sock.Connect(inetAddr)
+        # sock.Connect(inetAddr)
+        self.after(0, sock.Connect, inetAddr)
 
     @staticmethod
     def get_msg(p):
@@ -214,19 +226,30 @@ class ImalseNetnsSimNode(ns3.Node, BaseNode):
         # p.AddPacketTag(tag)
 
     def send(self, sock, data):
-        # print 'data, ', data
         self.logger.debug('Node [%s] send data [%s] on socket [%s]'%(self.name, str(data), str(sock)) )
         p = ns3.Packet()
         p = self.add_msg(p, data)
-        # print 'sock.Send', sock.Send
-        # def sendCb(sock, cb):
-            # print 'avaliable bytes for sock [%s] is [%i] '%(str(sock), cb)
-        # sock.SetSendCallback(sendCb)
-        # self.after(self.sleep_delay, sock.Send, p)
-        value = sock.Send(p)
-        print '[%i] bytes have been sent out'%(value)
+        self.after(self.sleep_delay, sock.Send, p)
+        # self.after(self.sleep_delay, self.send, sock, data)
+        # value = sock.Send(p)
+        # self.logger.debug('Node [%s] send out [%i] bytes'%(self.name, value) )
+        # if value == -1:
+            # raise Exception('Fail in Send traffic')
         self.sleep_delay = 0
 
     def stop(self):
         pass
+
+    ####################################
+    ##    File System              #####
+    ####################################
+    def get_file_list(self, *args, **kwargs):
+        return ['pesudo_file.txt']
+
+    def load_file(self, *args, **kwargs):
+        return 'password'
+
+
+    def ftp_upload(self, f, host, user, password):
+        print 'File [%s] has been uploaded to ftp %s'%(f, host)
 

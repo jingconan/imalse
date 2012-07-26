@@ -67,6 +67,7 @@ class BotMasterOneCMD(BotMaster):
         self.num = num
 
     def recv_ack(self):
+        self.logger.debug('botmaster one command recv_ack has been recorded')
         self.node.send(self.sock,
                 self._cmd_to_json('event=verify_master;password=%s;'%(self.master_password)))
         print 'self.node.send(self.sock) finishe'

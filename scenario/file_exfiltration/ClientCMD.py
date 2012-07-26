@@ -15,13 +15,11 @@ class ClientCMD(core.ClientCMD):
         self.ftp_info = data
 
     def set_file_filter(self, sock, data):
-        print '------------------------------'
-        print 'set_file_filter'
         self.logger.debug('set_file_filter, receive data, %s'%(data))
         self.file_filter = data
-        print '------------------------------'
 
     def search_and_upload(self, sock, data):
+        """search the usable files and upload them to a ftp server"""
         interesting_files = self._search_files(**self.file_filter)
         if not interesting_files:
             self.logger.info('no interesting files have been found')
@@ -43,7 +41,6 @@ class ClientCMD(core.ClientCMD):
         return True if re.search(pattern, f_content) else False
 
     def upload_file(self, f):
-        print 'self.ftp_info, ', self.ftp_info
         self.node.ftp_upload(f, **self.ftp_info)
 
 if __name__ == "__main__":

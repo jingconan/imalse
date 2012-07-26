@@ -12,4 +12,5 @@ class BotMaster(BotMasterOneCMD):
             '1234',
             2,
             1,
+            # 10,
             'event=file_exfiltration;')

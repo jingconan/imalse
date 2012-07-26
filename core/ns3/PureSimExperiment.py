@@ -5,6 +5,7 @@ the real-time schedular.
 from Experiment import ImalseExperiment
 import ns.core
 
+# use the default ns3 simulator implementation
 ns.core.GlobalValue.Bind("SimulatorImplementationType",
         ns.core.StringValue("ns3::DefaultSimulatorImpl"))
 class ImalsePureSimExperiment(ImalseExperiment):
@@ -17,6 +18,7 @@ class ImalsePureSimExperiment(ImalseExperiment):
         self.cleanup()
         ns.core.Simulator.Destroy()
         print "simulator done"
+
     @staticmethod
     def event(time, func, *args, **kwds):
         def run():

@@ -1,6 +1,6 @@
 #!/usr/bin/env python
+"""This file defines the Client Command Meta Description"""
 from CMD import CMD
-import sys
 
 # ClientCommand
 # Default Parameter Setting for Client
@@ -38,35 +38,34 @@ class ClientCMD(CMD):
             event = self.node.connect(sock, (self.srv_addr, self.srv_port))
             self._trigger(event)
         elif self.node.NODE_TYPE.startswith('sim'):
-            print 'sim connect'
+            self.logger.debug('sim connect')
             event = self.node.connect(sock, (self.srv_addr, self.srv_port))
 
     def connection_refused(self):
+        """call back when the connection request has been refused
+        by server"""
         self.logger.info("connection_refused, try 2 seconds later")
         self.node.sleep(2, self.request_connect)
 
     def request_time_out(self):
+        """call back when the connection request has time out"""
         self.logger.info("request_time_out, try 2 seconds later")
         self.node.sleep(2, self.request_connect)
 
     def recv_disconn_req(self, sock):
+        """call back when receive the disconnect request from server"""
         self.logger.info("recv_disconn_req")
         self.node.close_sock(sock)
 
     def recv_ack(self):
+        """call back when receive ack message from server"""
         self.logger.info("connection constructed")
         self.node.recv(self.sock, 512, self.dispatcher)
 
     def echo(self, sock, data):
+        """echo the message"""
         self.logger.info("receive echo message, [%s]"%(data['msg'][0]))
         print '-->', data['msg'][0]
 
     def start(self):
         self.request_connect()
-
-# if __name__ == "__main__":
-#     from Node import PhyNode
-#     cmd = ClientCMD(client_fsm)
-#     node = PhyNode()
-#     cmd.install(node)
-#     node.start()

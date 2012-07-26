@@ -23,6 +23,7 @@ class ServerCMD(core.ServerCMD):
         print 'sock_num', sock_num
         print 'broke_socks', broke_socks
         client_socks = self.node.client_socks
+        # import pdb;pdb.set_trace()
 
         new_broke_socks = []
         self.logger.debug('cmd [%s] will be send to bots: [%s]'%(str(cmd), str(bots)))
