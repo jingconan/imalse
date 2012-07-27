@@ -140,11 +140,11 @@ class ImalseNetnsSimNode(ns3.Node, BaseNode):
     def bind(self, sock, addr_port):
         self.logger.debug('Node [%s] start to bind to %s'%(self.name, addr_port) )
         addr = self._search_server_addr(addr_port[0])
-        # print 'addr, ', addr
-        # print 'type addr,', type(addr)
         # import pdb;pdb.set_trace()
         dst = ns3.InetSocketAddress (addr, addr_port[1])
+        # dst = ns3.InetSocketAddress (ns3.Ipv4Address('10.0.1.1'), addr_port[1])
         sock.Bind(dst);
+        # sock.Bind();
 
     def _search_server_addr(self, addr):
         if addr:
@@ -199,11 +199,12 @@ class ImalseNetnsSimNode(ns3.Node, BaseNode):
         server_addr = self._search_server_addr(addr_port[0])
         print 'server_addr, ', server_addr
         print 'serval local, ', self.server_addr_set[0].GetLocal()
+        print 'serval local, ', type(self.server_addr_set[0].GetLocal())
         assert(str(server_addr) == str(self.server_addr_set[0].GetLocal()))
         # import pdb;pdb.set_trace()
         inetAddr = ns3.InetSocketAddress(
-                server_addr,
-                # self.server_addr_set[0].GetLocal(), # connect to first server
+                # server_addr,
+                self.server_addr_set[0].GetLocal(), # connect to first server
                 addr_port[1]
                 )
 
@@ -216,8 +217,17 @@ class ImalseNetnsSimNode(ns3.Node, BaseNode):
             self.close_sock(sock)
 
         sock.SetConnectCallback(connect_succeeded, connect_failed)
-        # sock.Connect(inetAddr)
-        self.after(0, sock.Connect, inetAddr)
+        ret = sock.Connect(inetAddr)
+        print 'ret, ', ret
+        # x = inetAddr.GetIpv4()
+        # from inspect import getmembers
+        # for a, b in getmembers(x): print a, b
+        # print sock
+        # print ns3.InetSocketAddress.IsMatchingType(inetAddr)
+        # ns3.TcpSocketFactory.GetTypeId()
+        # import pdb;pdb.set_trace()
+        # self.after(0, sock.Connect, inetAddr)
+        # import pdb;pdb.set_trace()
 
     @staticmethod
     def get_msg(p):

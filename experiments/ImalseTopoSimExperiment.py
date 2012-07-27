@@ -3,14 +3,15 @@ The experiment is purely simulated, namely all nodes are simulated in ns3.
 It demos the process of loading a predefined topology file.
 """
 # from core.ns3.Experiment import *
-from core.ns3.Node import ImalseNetnsSimNode, ImalseNetnsNode
+from core.ns3.Node import ImalseNetnsSimNode
 from ImalseSimExperiment import ImalseSimExperiment
 from core.ns3.Topology import TopologyNet
 import os
 NODE_NUM = 0
 
-ADDR_BASE = "10.0.0.0"
+NETWORK_BASE = "10.0.0.0"
 SERVER_ADDR = "10.0.0.1"
+# SERVER_ADDR = "0.0.0.1"
 IP_MASK = "255.255.255.0"
 
 # class ImalseTopoSimExperiment(ImalseExperiment):
@@ -18,9 +19,10 @@ class ImalseTopoSimExperiment(ImalseSimExperiment):
     """This is pure ns-3 topology Experiment without emulated node"""
     server_id_set = [0]
     botmaster_id_set = [1]
+    # botmaster_id_set = [2]
     client_id_set = [2, 3, 4, 5, 6]
     # client_id_set = [2]
-
+    # client_id_set = []
 
     def initparser(self, parser):
         super(ImalseTopoSimExperiment, self).initparser(parser)
@@ -40,18 +42,13 @@ class ImalseTopoSimExperiment(ImalseSimExperiment):
         return self.net.nodes.GetN()
 
     def setup(self):
-        def ImalseNetnsNodeCreator():
-            global NODE_NUM
-            NODE_NUM += 1
-            name = "n%s" %NODE_NUM
-            return ImalseNetnsNode(name, logfile = "/tmp/%s.log" % name)
-
         self.net = TopologyNet(
                 os.path.abspath(self.options.topology_file),
                 self.options.topology_type,
                 ImalseNetnsSimNode,
-                ipv4AddrBase= ADDR_BASE,
-                ipv4Mask = IP_MASK
+                ipv4Mask = IP_MASK,
+                ipv4NetworkBase=NETWORK_BASE,
+                ipv4AddrBase = SERVER_ADDR
                 )
 
         self._install_cmds(srv_addr = SERVER_ADDR)
