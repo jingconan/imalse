@@ -43,16 +43,42 @@ class ImalseExperiment(NetnsExperiment):
         """run a command on a specific node"""
         node.cmd_set._trigger(*args, **kwargs)
 
-    def _install_cmds(self):
-        """install different command set to nodes according to their type"""
+    # def _install_cmds(self):
+    #     """install different command set to nodes according to their type"""
+    #     scen = load_module(self.options.scenario)
+    #     for i in xrange(self.node_num):
+    #         if i in self.botmaster_id_set:
+    #             cmd = scen.BotMaster()
+    #         elif i in self.server_id_set:
+    #             cmd = scen.ServerCMD()
+    #         elif i in self.client_id_set:
+    #             cmd = scen.ClientCMD()
+    #         else:
+    #             continue
+    #         cmd.install(self.get_node(i))
+
+    def _install_cmds(self, srv_addr=None):
+        """install different command set to nodes according to their type
+        can manually set the server address
+        """
         scen = load_module(self.options.scenario)
+        botmaster_desc = scen.botmaster_desc
+        server_desc = scen.server_desc
+        client_desc = scen.client_desc
+        # botmaster_desc['srv_addr'] = "10.1.1.1"
+        print 'srv_addr, ', srv_addr
+        if srv_addr:
+            botmaster_desc['srv_addr'] = srv_addr
+            server_desc['srv_addr'] = srv_addr
+            client_desc['srv_addr'] = srv_addr
+
         for i in xrange(self.node_num):
             if i in self.botmaster_id_set:
-                cmd = scen.BotMaster()
+                cmd = scen.BotMaster(botmaster_desc)
             elif i in self.server_id_set:
-                cmd = scen.ServerCMD()
+                cmd = scen.ServerCMD(server_desc)
             elif i in self.client_id_set:
-                cmd = scen.ClientCMD()
+                cmd = scen.ClientCMD(client_desc)
             else:
                 continue
             cmd.install(self.get_node(i))

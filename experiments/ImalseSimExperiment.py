@@ -149,30 +149,24 @@ class ImalseSimExperiment(ImalsePureSimExperiment):
             self.event(t+2, self.node_run, self.get_node(i), 'start')
 
 
-    def _install_cmds(self, srv_addr=None):
-        """install different command set to nodes according to their type"""
-        scen = load_module(self.options.scenario)
-        botmaster_desc = scen.botmaster_desc
-        server_desc = scen.server_desc
-        client_desc = scen.client_desc
-        # botmaster_desc['srv_addr'] = "10.1.1.1"
-        print 'srv_addr, ', srv_addr
-        if srv_addr:
-            botmaster_desc['srv_addr'] = srv_addr
-            server_desc['srv_addr'] = srv_addr
-            client_desc['srv_addr'] = srv_addr
+    # def _install_cmds(self, srv_addr=None):
+        # """install different command set to nodes according to their type"""
+        # scen = load_module(self.options.scenario)
+        # botmaster_desc = scen.botmaster_desc
+        # server_desc = scen.server_desc
+        # client_desc = scen.client_desc
+        # if srv_addr:
+        #     botmaster_desc['srv_addr'] = srv_addr
+        #     server_desc['srv_addr'] = srv_addr
+        #     client_desc['srv_addr'] = srv_addr
 
-            # botmaster_desc['srv_addr'] = "10.1.1.1"
-            # server_desc['srv_addr'] = "10.1.1.1"
-            # client_desc['srv_addr'] = "10.1.1.1"
-
-        for i in xrange(self.node_num):
-            if i in self.botmaster_id_set:
-                cmd = scen.BotMaster(botmaster_desc)
-            elif i in self.server_id_set:
-                cmd = scen.ServerCMD(server_desc)
-            elif i in self.client_id_set:
-                cmd = scen.ClientCMD(client_desc)
-            else:
-                continue
-            cmd.install(self.get_node(i))
+        # for i in xrange(self.node_num):
+        #     if i in self.botmaster_id_set:
+        #         cmd = scen.BotMaster(botmaster_desc)
+        #     elif i in self.server_id_set:
+        #         cmd = scen.ServerCMD(server_desc)
+        #     elif i in self.client_id_set:
+        #         cmd = scen.ClientCMD(client_desc)
+        #     else:
+        #         continue
+        #     cmd.install(self.get_node(i))

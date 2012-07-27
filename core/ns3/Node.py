@@ -140,6 +140,9 @@ class ImalseNetnsSimNode(ns3.Node, BaseNode):
     def bind(self, sock, addr_port):
         self.logger.debug('Node [%s] start to bind to %s'%(self.name, addr_port) )
         addr = self._search_server_addr(addr_port[0])
+        # print 'addr, ', addr
+        # print 'type addr,', type(addr)
+        # import pdb;pdb.set_trace()
         dst = ns3.InetSocketAddress (addr, addr_port[1])
         sock.Bind(dst);
 
@@ -147,7 +150,7 @@ class ImalseNetnsSimNode(ns3.Node, BaseNode):
         if addr:
             return ns3.Ipv4Address(addr)
         else:
-            return self.server_addr_set[0].GetLocal(), 1
+            return self.server_addr_set[0].GetLocal()
 
     def listen(self, sock, backlog):
         self.logger.debug('Node [%s] start to listen'%(self.name) )
@@ -197,9 +200,10 @@ class ImalseNetnsSimNode(ns3.Node, BaseNode):
         print 'server_addr, ', server_addr
         print 'serval local, ', self.server_addr_set[0].GetLocal()
         assert(str(server_addr) == str(self.server_addr_set[0].GetLocal()))
+        # import pdb;pdb.set_trace()
         inetAddr = ns3.InetSocketAddress(
-                # server_addr,
-                self.server_addr_set[0].GetLocal(), # connect to first server
+                server_addr,
+                # self.server_addr_set[0].GetLocal(), # connect to first server
                 addr_port[1]
                 )
 

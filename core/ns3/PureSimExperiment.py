@@ -5,6 +5,7 @@ the real-time schedular.
 from Experiment import ImalseExperiment
 import ns.core
 class ImalsePureSimExperiment(ImalseExperiment):
+    """Pure Sim Experiemtn Doesn't depend on netns3 can run in simulated time"""
     def _init(self):
         # use the default ns3 simulator implementation
         ns.core.GlobalValue.Bind("SimulatorImplementationType",
