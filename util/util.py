@@ -22,12 +22,21 @@ def get_scenario_option(scen_dir = './scenario/'):
 def get_experiment_option(scen_dir = './experiments/'):
     return [f_name[:-3] for f_name in os.listdir(scen_dir) if f_name.endswith('Experiment.py') ]
 
-
 from inspect import getmembers
+# def get_experiment_option():
+    # import experiments
+    # v = getmembers(experiments)
+    # return [vl for vl in v if vl.endswith('Experiment')]
+
 def print_members(cls):
     """for debug, print the member function of a class"""
     v = getmembers(cls)
     for vl in v:
         print vl[0]
+
+# if __name__ == "__main__":
+    # sys.path.insert(0, '..')
+    # res = get_experiment_option()
+    # print res
 
 

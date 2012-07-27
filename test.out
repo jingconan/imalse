@@ -1,0 +1,26 @@
+skipping experiment: [ImalseTopoHybridExperiment], scenario:[file_exfiltration]
+skipping experiment: [ImalseTopoHybridExperiment], scenario:[infecting]
+skipping experiment: [ImalseTopoHybridExperiment], scenario:[ddos_ping_flooding]
+----------------------------------------------------------------------------------------------------
+testing experiment: [ImalseSimExperiment], scenario:[file_exfiltration]
+----------------------------------------------------------------------------------------------------
+skipping experiment: [ImalseSimExperiment], scenario:[infecting]
+skipping experiment: [ImalseSimExperiment], scenario:[ddos_ping_flooding]
+----------------------------------------------------------------------------------------------------
+testing experiment: [ImalseTopoExperiment], scenario:[file_exfiltration]
+----------------------------------------------------------------------------------------------------
+skipping experiment: [ImalseTopoExperiment], scenario:[infecting]
+skipping experiment: [ImalseTopoExperiment], scenario:[ddos_ping_flooding]
+----------------------------------------------------------------------------------------------------
+testing experiment: [ImalseTopoSimExperiment], scenario:[file_exfiltration]
+----------------------------------------------------------------------------------------------------
+skipping experiment: [ImalseTopoSimExperiment], scenario:[infecting]
+skipping experiment: [ImalseTopoSimExperiment], scenario:[ddos_ping_flooding]
+skipping experiment: [ImalseHybridExperiment], scenario:[file_exfiltration]
+skipping experiment: [ImalseHybridExperiment], scenario:[infecting]
+skipping experiment: [ImalseHybridExperiment], scenario:[ddos_ping_flooding]
+----------------------------------------------------------------------------------------------------
+testing experiment: [ImalsePingCsmaExperiment], scenario:[file_exfiltration]
+----------------------------------------------------------------------------------------------------
+skipping experiment: [ImalsePingCsmaExperiment], scenario:[infecting]
+skipping experiment: [ImalsePingCsmaExperiment], scenario:[ddos_ping_flooding]

@@ -1,4 +1,8 @@
+"""
+This Experiment Runs on netns3 model
+"""
 from core.ns3.Experiment import *
+from util import get_scenario_option
 
 class ImalsePingCsmaExperiment(PingCsmaExperiment, ImalseExperiment):
     """Ping Flooding Experiment On a Csma Network"""

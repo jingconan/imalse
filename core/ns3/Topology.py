@@ -144,6 +144,7 @@ class TopologyNet():
 
     @staticmethod
     def _install_stack(nodes):
+        """install the network stack for all nodes"""
         stack = ns.internet.InternetStackHelper()
         nixRouting = Ipv4NixVectorHelper()
         staticRouting = ns.internet.Ipv4StaticRoutingHelper()
@@ -157,7 +158,9 @@ class TopologyNet():
 
     @staticmethod
     def _init_link(inFile):
-        # Initialize the Network Link
+        """Initialize the Network Link
+        return the container contains all the links.
+        """
         nc = []
         for link in inFile.m_linksList:
             con = NodeContainer()
@@ -170,6 +173,8 @@ class TopologyNet():
     def _init_net_device(inFile, linksC,
             Delay='2ms', DataRate='5Mbps',
             ipv4AddrBase="10.0.0.0", ipv4Mask="255.255.255.252", *args, **kwargs):
+        """ initialize the p2p link and assign the ip address.
+        """
         totlinks = inFile.LinksSize()
         p2p = PointToPointHelper()
         ndc = [] # Net Device Container

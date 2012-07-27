@@ -1,19 +1,32 @@
+"""
+this file describe the netns3 experiment for imalse
+"""
 from core.ns3.netns3 import *
 from core.ns3.Node import *
 from core.ns3.csma_ping import *
 import ns3
 
-from util import load_module, get_scenario_option
+from util import load_module
+# , get_scenario_option
 
 # for test, just select the first node as server, the second node as botmaster, all other nodes
 # are clients
 # class ImalseExperiment(NetnsExperiment):
 # class ImalseExperiment(PingCsmaExperiment):
 class ImalseExperiment(NetnsExperiment):
-    """Base Class for Imalse Experiment"""
+    """Base Class for Imalse Experiment
+    It is based on the NetnsExperiment
+    """
     server_id_set = [0]
     botmaster_id_set = [1]
     client_id_set = [2, 3, 4]
+    def __init__(self, *args, **kwargs):
+        super(ImalseExperiment, self).__init__(*args, **kwargs)
+        self._init()
+
+    def _init(self):
+        pass
+
     @property
     def id_set(self):
         return self.server_id_set + self.botmaster_id_set + self.client_id_set
@@ -45,6 +58,7 @@ class ImalseExperiment(NetnsExperiment):
             cmd.install(self.get_node(i))
 
     def _get_server_addr(self):
+        """The all the server address"""
         addr_set = []
         for i in self.server_id_set:
             ipv4Addr = self.get_node(i).GetObject(ns3.TypeId.LookupByName("ns3::Ipv4")).GetAddress(1, 0)

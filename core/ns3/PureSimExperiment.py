@@ -4,11 +4,12 @@ the real-time schedular.
 """
 from Experiment import ImalseExperiment
 import ns.core
-
-# use the default ns3 simulator implementation
-ns.core.GlobalValue.Bind("SimulatorImplementationType",
-        ns.core.StringValue("ns3::DefaultSimulatorImpl"))
 class ImalsePureSimExperiment(ImalseExperiment):
+    def _init(self):
+        # use the default ns3 simulator implementation
+        ns.core.GlobalValue.Bind("SimulatorImplementationType",
+                ns.core.StringValue("ns3::DefaultSimulatorImpl"))
+
     def run(self):
         self.setup()
         print "running simulator for %s sec" % self.options.simtime

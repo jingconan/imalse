@@ -27,7 +27,7 @@ parser = argparse.ArgumentParser(description='imalse')
 parser.add_argument('-e', '--experiment', default='ImalseSimExperiment',
 # parser.add_argument('-e', '--experiment', default='ImalseTopoSimExperiment',
 # parser.add_argument('-e', '--experiment', default='ImalsePingCsmaExperiment',
-        help='specify the experiment. Avaliable experiments are [%s]'%("|").join(exper_options)
+        help='specify the experiment. Avaliable experiments are [%s]'%(" |").join(exper_options)
         )
 args, exper_args = parser.parse_known_args()
 # print 'args, ', args

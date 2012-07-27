@@ -1,4 +1,6 @@
-""" Test program for multi-interface host, static routing
+"""
+Test program for multi-interface host, static routing, the network topology
+is as follows:
 
          Destination host (10.20.1.2)
                  |
@@ -11,16 +13,18 @@
              |      /
               \    /
              Source
+This is a pure simulation Experiments, namely all the nodes are
+simulated in ns3.
 """
 
 # from core.ns3.Experiment import *
 from core.ns3.PureSimExperiment import *
 from ns3 import *
 from core.ns3.Node import *
-
 from util import load_module, get_scenario_option
 
 # class ImalseSimExperiment(ImalseExperiment):
+import ns.core
 class ImalseSimExperiment(ImalsePureSimExperiment):
     """This is a small ns-3 Experiment with only simulated node"""
     server_id_set = [0]

@@ -105,12 +105,16 @@ class ImalseNetnsSimNode(ns3.Node, BaseNode):
             }
     NODE_TYPE = 'sim_ns3'
     name = 'ImalseNetnsSimNode'
-    def __init__(self, *args, **kwargs):
+    def __init__(self, name=None, *args, **kwargs):
         BaseNode.__init__(self)
-        global nodenum
-        self.name = "sim_n%s" %(nodenum)
+        if name is None:
+            global nodenum
+            self.name = "sim_n%s" %(nodenum)
+            nodenum += 1
+        else:
+            self.name = name
+
         ns3.Node.__init__(self)
-        nodenum += 1
         self.sockets = SocketDict()
         self.sleep_delay = 0
 
@@ -134,7 +138,7 @@ class ImalseNetnsSimNode(ns3.Node, BaseNode):
                 **kwargs)
 
     def bind(self, sock, addr_port):
-        self.logger.debug('Node [%s] start to bind'%(self.name) )
+        self.logger.debug('Node [%s] start to bind to %s'%(self.name, addr_port) )
         addr = self._search_server_addr(addr_port[0])
         dst = ns3.InetSocketAddress (addr, addr_port[1])
         sock.Bind(dst);
@@ -190,6 +194,9 @@ class ImalseNetnsSimNode(ns3.Node, BaseNode):
         """Will set Connect callback function. If succeeded, self.recv will be called. otherwise
         the sock will be closed"""
         server_addr = self._search_server_addr(addr_port[0])
+        print 'server_addr, ', server_addr
+        print 'serval local, ', self.server_addr_set[0].GetLocal()
+        assert(str(server_addr) == str(self.server_addr_set[0].GetLocal()))
         inetAddr = ns3.InetSocketAddress(
                 # server_addr,
                 self.server_addr_set[0].GetLocal(), # connect to first server
