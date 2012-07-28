@@ -27,6 +27,15 @@ class ImalseExperiment(NetnsExperiment):
     def _init(self):
         pass
 
+    # def setup(self):
+    #     devhelper = self.csmahelper(rate = self.options.rate,
+    #                                 delay = self.options.delay)
+    #     self.createnodes(self.options.numnodes, devhelper)
+
+    def setup(self):
+        pass
+
+
     @property
     def id_set(self):
         return self.server_id_set + self.botmaster_id_set + self.client_id_set

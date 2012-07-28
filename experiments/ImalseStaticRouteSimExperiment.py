@@ -25,20 +25,12 @@ from util import load_module, get_scenario_option
 
 # class ImalseSimExperiment(ImalseExperiment):
 import ns.core
-class ImalseSimExperiment(ImalsePureSimExperiment):
+class ImalseStaticRouteSimExperiment(ImalsePureSimExperiment):
     """This is a small ns-3 Experiment with only simulated node"""
     server_id_set = [0]
     botmaster_id_set = [1]
     # client_id_set = [2, 3]
     client_id_set = [2]
-
-    def initparser(self, parser):
-        super(ImalseSimExperiment, self).initparser(parser)
-        scenario_ops = get_scenario_option()
-        parser.add_option('-s', '--scenario', dest="scenario",
-                default='ddos_ping_flooding',
-                help='specify the scenario you want to execute. Scenearios availiable are: %s'%(scenario_ops),
-                )
 
     def get_node(self, i):
         return self.nodes[i]
@@ -129,44 +121,3 @@ class ImalseSimExperiment(ImalsePureSimExperiment):
         self._install_cmds(srv_addr = "10.1.1.1")
         self._set_server_info()
         self.start_nodes()
-
-    def start_nodes(self):
-        # start servers
-        for i in self.server_id_set:
-            print 'node [%i] type [%s] start at [%f]s'%(i, 'server', 0)
-            self.event(0, self.node_run, self.get_node(i), 'start')
-
-        # start clients
-        t = 0
-        for i in self.client_id_set:
-            t += 2
-            print 'node [%i] type [%s] start at [%f]s'%(i, 'client', t)
-            self.event(t, self.node_run, self.get_node(i), 'start')
-
-        # start botmaster
-        for i in self.botmaster_id_set:
-            print 'node [%i] type [%s] start at [%f]s'%(i, 'botmaster', t+2)
-            self.event(t+2, self.node_run, self.get_node(i), 'start')
-
-
-    # def _install_cmds(self, srv_addr=None):
-        # """install different command set to nodes according to their type"""
-        # scen = load_module(self.options.scenario)
-        # botmaster_desc = scen.botmaster_desc
-        # server_desc = scen.server_desc
-        # client_desc = scen.client_desc
-        # if srv_addr:
-        #     botmaster_desc['srv_addr'] = srv_addr
-        #     server_desc['srv_addr'] = srv_addr
-        #     client_desc['srv_addr'] = srv_addr
-
-        # for i in xrange(self.node_num):
-        #     if i in self.botmaster_id_set:
-        #         cmd = scen.BotMaster(botmaster_desc)
-        #     elif i in self.server_id_set:
-        #         cmd = scen.ServerCMD(server_desc)
-        #     elif i in self.client_id_set:
-        #         cmd = scen.ClientCMD(client_desc)
-        #     else:
-        #         continue
-        #     cmd.install(self.get_node(i))

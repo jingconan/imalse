@@ -1,6 +1,5 @@
-from ImalseSimExperiment import *
-from ImalseTopoSimExperiment import *
-from ImalsePingCsmaExperiment import *
-from ImalseTopoExperiment import *
-from ImalseHybridExperiment import *
-from ImalseTopoHybridExperiment import *
+from util import get_experiment_option
+files = get_experiment_option()
+for f in files:
+    exec('from %s import *'%(f))
+

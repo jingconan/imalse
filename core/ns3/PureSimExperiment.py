@@ -4,12 +4,36 @@ the real-time schedular.
 """
 from Experiment import ImalseExperiment
 import ns.core
+from util import get_scenario_option
 class ImalsePureSimExperiment(ImalseExperiment):
     """Pure Sim Experiemtn Doesn't depend on netns3 can run in simulated time"""
-    def _init(self):
+    # def _init(self):
         # use the default ns3 simulator implementation
+        # ns.core.GlobalValue.Bind("SimulatorImplementationType",
+                # ns.core.StringValue("ns3::DefaultSimulatorImpl"))
+
+        # ns.core.GlobalValue.Bind("SimulatorImplementationType",
+                # ns.core.StringValue("ns3::VisualSimulatorImpl"))
+
+    def initparser(self, parser):
+        super(ImalsePureSimExperiment, self).initparser(parser)
+        parser.set_defaults(SimulatorImplementationType='DefaultSimulatorImpl')
+        parser.add_option("", "--SimulatorImplementationType", dest = "SimulatorImplementationType")
+
+        scenario_ops = get_scenario_option()
+        parser.add_option('-s', '--scenario', dest="scenario",
+                default='ddos_ping_flooding',
+                help='specify the scenario you want to execute. Scenearios availiable are: %s'%(scenario_ops),
+                )
+
+
+
+    def setup(self):
+        super(ImalsePureSimExperiment, self).setup()
+        # ns.core.GlobalValue.Bind("SimulatorImplementationType",
+                # ns.core.StringValue("ns3::VisualSimulatorImpl"))
         ns.core.GlobalValue.Bind("SimulatorImplementationType",
-                ns.core.StringValue("ns3::DefaultSimulatorImpl"))
+                ns.core.StringValue("ns3::%s"%(self.options.SimulatorImplementationType)))
 
     def run(self):
         self.setup()
@@ -26,3 +50,22 @@ class ImalsePureSimExperiment(ImalseExperiment):
         def run():
             func(*args, **kwds)
         ns.core.Simulator.Schedule(ns.core.Time(str(time)), run)
+
+    def start_nodes(self):
+        # start servers
+        for i in self.server_id_set:
+            print 'node [%i] type [%s] start at [%f]s'%(i, 'server', 0)
+            self.event(0, self.node_run, self.get_node(i), 'start')
+
+        # start clients
+        t = 0
+        for i in self.client_id_set:
+            t += 2
+            print 'node [%i] type [%s] start at [%f]s'%(i, 'client', t)
+            self.event(t, self.node_run, self.get_node(i), 'start')
+
+        # start botmaster
+        for i in self.botmaster_id_set:
+            print 'node [%i] type [%s] start at [%f]s'%(i, 'botmaster', t+2)
+            self.event(t+2, self.node_run, self.get_node(i), 'start')
+

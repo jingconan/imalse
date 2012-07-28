@@ -2,9 +2,10 @@
 The experiment is purely simulated, namely all nodes are simulated in ns3.
 It demos the process of loading a predefined topology file.
 """
+import settings
 # from core.ns3.Experiment import *
+from core.ns3.PureSimExperiment import ImalsePureSimExperiment
 from core.ns3.Node import ImalseNetnsSimNode
-from ImalseSimExperiment import ImalseSimExperiment
 from core.ns3.Topology import TopologyNet
 import os
 NODE_NUM = 0
@@ -15,7 +16,8 @@ SERVER_ADDR = "10.0.0.1"
 IP_MASK = "255.255.255.0"
 
 # class ImalseTopoSimExperiment(ImalseExperiment):
-class ImalseTopoSimExperiment(ImalseSimExperiment):
+# class ImalseTopoSimExperiment(ImalseSimExperiment):
+class ImalseTopoSimExperiment(ImalsePureSimExperiment):
     """This is pure ns-3 topology Experiment without emulated node"""
     server_id_set = [0]
     botmaster_id_set = [1]
@@ -26,7 +28,7 @@ class ImalseTopoSimExperiment(ImalseSimExperiment):
 
     def initparser(self, parser):
         super(ImalseTopoSimExperiment, self).initparser(parser)
-        parser.set_defaults(topology_file="./net_config/Inet_small_toposample.txt",
+        parser.set_defaults(topology_file=settings.ROOT+"/net_config/Inet_small_toposample.txt",
                 topology_type = 'Inet',
                 )
         parser.add_option("-f", "--topology_file", dest = "topology_file",
@@ -35,6 +37,10 @@ class ImalseTopoSimExperiment(ImalseSimExperiment):
                 help='type of topology file',
                 )
 
+        # import ns.visualizer
+        # import ns3
+        # cmd = ns3.CommandLine()
+
     def get_node(self, i):
         return self.net.nodes.Get(i)
     @property
@@ -42,6 +48,7 @@ class ImalseTopoSimExperiment(ImalseSimExperiment):
         return self.net.nodes.GetN()
 
     def setup(self):
+        super(ImalseTopoSimExperiment, self).setup()
         self.net = TopologyNet(
                 os.path.abspath(self.options.topology_file),
                 self.options.topology_type,
