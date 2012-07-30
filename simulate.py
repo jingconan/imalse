@@ -1,27 +1,22 @@
 #!/usr/bin/env python
 """
 This is the main file of the
+simulator part of
 Integrated MALware Simulator & Emulator
 imalse
 prou: `I'm sir`
 """
-# Create a Experiment
-# import sys
-# import os
-# sys.path.append(os.getcwd())
-
 import sys
 import settings
 import argparse
-# import optparse
 
-import experiments
-# try:
-    # import experiments
-    # from experiments import *
-# except ImportError:
-    # print 'You should use ns3 waf shell to run this code'
-    # sys.exit()
+# import experiments
+try:
+    import experiments
+    from experiments import *
+except ImportError:
+    print 'You should use ns3 waf shell to run this code'
+    sys.exit()
 
 from util import get_experiment_option
 

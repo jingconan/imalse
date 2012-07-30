@@ -57,7 +57,7 @@ import ns3
 # to hack the API. Need to be fixed later
 #############################################
 MSG_MAP = {
-        'connect_ack': 121,
+        'connect_ack': 21,
         '{"password": ["1234"], "event": ["verify_master"]}':122,
         '{"msg": ["verifed, hi master, what you want to do?"], "event": ["echo"]}':123,
         '{"hostname": ["127.0.0.1"], "event": ["forward_to_bots"], "bot_event": ["send_ping"]}':124,
@@ -157,9 +157,11 @@ class ImalseNetnsSimNode(ns3.Node, BaseNode):
         sock.Listen()
 
     def recv(self, sock, bufsize, dispatcher=None, threaded=False):
-        self.logger.debug('Node [%s] has set recv dispatcher for sock [%s]'%(self.name, str(sock)) )
+        self.logger.debug('Node [%s] has set recv dispatcher [%s] for sock [%s]'%(self.name, dispatcher, str(sock)) )
         sock.SetRecvCallback(dispatcher)
+        self.logger.debug('Node [%s] has finish set recv dispatcher for sock [%s]'%(self.name, str(sock)) )
         sock.Recv()
+        self.logger.debug('sock.Recv finished')
         # sock.Recv(bufsize, 0)
 
     def dispatcher(self, sock):
@@ -173,6 +175,7 @@ class ImalseNetnsSimNode(ns3.Node, BaseNode):
 
         _from = ns3.Address()
         packet = sock.RecvFrom (_from)
+        # import pdb;pdb.set_trace()
         msg = self.get_msg(packet)
         self.logger.debug('Node [%s] has receive message %s from sock [%s] and node [%s]'%(self.name, msg, sock, _from) )
 
@@ -232,7 +235,10 @@ class ImalseNetnsSimNode(ns3.Node, BaseNode):
     @staticmethod
     def get_msg(p):
         """get_msg and add_msg are two hack function"""
+        print 'p.GetSize(), ', p.GetSize()
+        # import pdb;pdb.set_trace()
         return MSG_RE_MAP[p.GetSize()]
+        # return MSG_RE_MAP[21]
 
     @staticmethod
     def add_msg(p, msg):
@@ -240,8 +246,11 @@ class ImalseNetnsSimNode(ns3.Node, BaseNode):
         msg_id = MSG_MAP.get(msg, None) # FIXME use padding length to present msg, a wordround for python bug
         if not msg_id:
             raise Exception('Unknown Message %s'%(msg))
-        p.AddPaddingAtEnd(msg_id)
-        return p
+        # p.AddPaddingAtEnd(msg_id)
+        # FIXME due to the bug of pyviz, we cannot AddPading to existing packets, instead
+        # a new packet is created
+        p2 = ns3.Packet(msg_id)
+        return p2
         # if data == "connect_ack":
             # tag = ConnectACKTag()
         # p.AddPacketTag(tag)

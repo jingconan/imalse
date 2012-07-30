@@ -12,11 +12,8 @@ NODE_NUM = 0
 
 NETWORK_BASE = "10.0.0.0"
 SERVER_ADDR = "10.0.0.1"
-# SERVER_ADDR = "0.0.0.1"
 IP_MASK = "255.255.255.0"
 
-# class ImalseTopoSimExperiment(ImalseExperiment):
-# class ImalseTopoSimExperiment(ImalseSimExperiment):
 class ImalseTopoSimExperiment(ImalsePureSimExperiment):
     """This is pure ns-3 topology Experiment without emulated node"""
     server_id_set = [0]
@@ -36,10 +33,6 @@ class ImalseTopoSimExperiment(ImalsePureSimExperiment):
         parser.add_option('-p', '--topology_type', dest="topology_type",
                 help='type of topology file',
                 )
-
-        # import ns.visualizer
-        # import ns3
-        # cmd = ns3.CommandLine()
 
     def get_node(self, i):
         return self.net.nodes.Get(i)

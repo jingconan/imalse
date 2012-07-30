@@ -17,8 +17,10 @@ class ImalsePureSimExperiment(ImalseExperiment):
 
     def initparser(self, parser):
         super(ImalsePureSimExperiment, self).initparser(parser)
-        parser.set_defaults(SimulatorImplementationType='DefaultSimulatorImpl')
-        parser.add_option("", "--SimulatorImplementationType", dest = "SimulatorImplementationType")
+        parser.set_defaults(SimulatorImplementationType='Default')
+        parser.add_option("", "--SimulatorImpl", dest = "SimulatorImplementationType",
+                help="the simulator implementation Type, available options are['Realtime', 'Default', 'Visual']")
+
 
         scenario_ops = get_scenario_option()
         parser.add_option('-s', '--scenario', dest="scenario",
@@ -33,7 +35,7 @@ class ImalsePureSimExperiment(ImalseExperiment):
         # ns.core.GlobalValue.Bind("SimulatorImplementationType",
                 # ns.core.StringValue("ns3::VisualSimulatorImpl"))
         ns.core.GlobalValue.Bind("SimulatorImplementationType",
-                ns.core.StringValue("ns3::%s"%(self.options.SimulatorImplementationType)))
+                ns.core.StringValue("ns3::%sSimulatorImpl"%(self.options.SimulatorImplementationType)))
 
     def run(self):
         self.setup()
