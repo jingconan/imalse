@@ -1,0 +1,16 @@
+#!/usr/bin/env python
+
+"""
+This is shortcut command to run simulate.py in ns3 ./waf shell
+"""
+import settings
+import sys
+import subprocess
+
+cmd = settings.ROOT + '/simulate.py ' + ' '.join(sys.argv[1:])
+# print cmd
+waf_cmd = ['cd', settings.NS3_PATH, '&&', './waf', '--pyrun', '"%s"'%(cmd)]
+
+# subprocess.check_call(['cd', settings.NS3_PATH, '&&', './waf', '--pyrun', '"%s"'%(cmd)])
+print '--> %s'%(' '.join(waf_cmd))
+subprocess.check_call(' '.join(waf_cmd), shell=True)

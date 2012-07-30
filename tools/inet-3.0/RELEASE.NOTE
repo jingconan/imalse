@@ -1,0 +1,60 @@
+This file keeps track of changes/bugs found in the Inet program.  The number of
+``*'' indicates the significance of the change with 5 ``*'' indicating a major
+change and ``*'' a minor update.
+
+
+***** updated 2/1/01
+
+Inet 2.1 changes the way the number of nodes between 2 and 20 are generated.
+
+Instead of relying on the exponential growth law I from our observations,
+we compute the constant C by normalizing the number of total nodes with degrees
+between 2 and 20 with the sum of powers of degrees from 2 to 20.  The 
+computation is changed because the older version is not able to generate enough 
+nodes between degrees 2 and 20.  The explanation is that the exponential growth
+law I is not a perfect model for the growth of C and can not generate enough
+nodes as the size of network increases.
+
+Inet 2.1 also eliminates some unnecessary output messages and inappropriate
+punctuation marks.
+
+** updated 5/1/01
+
+Thanks to Zhao Yi Xin (zhaoyx@csnet1.cs.tsinghua.edu.cn) for uncovering a bug
+in computing the number of bidirectional edges in degree.c.  This cause the
+degree of the highest degree node to be augmented by 1 incorrectly, which will
+leave one node (not necessarily the node with the highest degree) with one 
+unfilled degree.
+
+* update 5/1/01
+
+Better error handling when illegal options are used.
+
+*** update 8/11/01
+
+Thanks to  Shi Zhou (shi.zhou@elec.qmul.ac.uk) for reporting the existence of
+redundant links in the output.  This was cause by a bug in phase III of the
+topology generation, when a previously connected neighbor whose degree is
+not yet filled is mistakingly added again to the list of candidate to select 
+from.  We do not believe this will change the simulation result qualitatively
+due to the small number of redundant links.
+
+Comparison of Inet-2.1 and Inet-2.2
+
+node #		fraction of degree 1 nodes		Inet-2.1	Inet-2.2
+						links	redundant	links
+3200		.292 (default)			6026	62 (1%)		6026
+5000		.292 (default)			9872	41 (.4%)	9872
+8000		.292 (default)			16327	110(.6%)	16327
+
+3200		.25				6816	53 (.9%)	6816
+5000		.25				10754	38 (.3%)	10754
+8000		.25				17370	125(.7%)	17370
+
+***** update 05/28/02
+
+Release of Inet-3.0
+-changes in degree distribution and connectivity probabilities. see Inet-3.0
+ technical report for details.
+
+ http://topology.eecs.umich.edu/inet/

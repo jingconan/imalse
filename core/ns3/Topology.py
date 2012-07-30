@@ -44,7 +44,10 @@ class TopologyReader(object):
         return len(self.m_linksList)
 
 class InetTopologyReader(TopologyReader):
+    """reader for `inet topology generator file<http://topology.eecs.umich.edu/inet/>`_
+    """
     def Read(self):
+        print 'Start to read InetTopologyReader file...'
         nodes = ns.network.NodeContainer()
         fid = open(self.m_fileName, 'r')
         i = -1
@@ -77,6 +80,7 @@ class InetTopologyReader(TopologyReader):
             link = Link(_fromNode, _from, _toNode, _to)
             self.AddLink(link)
 
+        print 'finish scanning topology, there are [%i] nodes'%(nodes.GetN())
         return nodes
 
 class OrbisTopologyReader(TopologyReader):
@@ -227,9 +231,12 @@ class TopologyNet():
 def main():
     topoHelper = TopologyReaderHelper()
     topoHelper.SetFileType('Inet')
-    topoHelper.SetFileName('../../net_config/Inet_small_toposample.txt')
+    # topoHelper.SetFileName('../../net_config/Inet_small_toposample.txt')
+    topoHelper.SetFileName('../../net_config/Inet_toposample.txt')
     topoReader = topoHelper.GetTopologyReader()
-    topoReader.Read()
+    nodes = topoReader.Read()
+    print 'nodes, ', nodes
+    print 'node number, ', nodes.GetN()
 
 if __name__ == "__main__":
     main()

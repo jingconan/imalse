@@ -1,0 +1,101 @@
+.\" Copyright (c) 1999, 2000, 2002 Regents of the University of Michigan, Ann Arbor.
+.\" All rights reserved. 
+.\"
+.\"     @(#)inet.1
+.\"
+.\" Jared Winick, Cheng Jin, Qian Chen, Sugih Jamin
+.\" Department of Computer Science
+.\" University of Michigan, Ann Arbor
+.\" Send questions to jwinick@eecs.umich.edu
+.TH inet 1 "4 June 2002"
+.UC 6
+.SH NAME
+inet \- an AS-level Internet topology generator.
+
+.SH SYNOPSIS
+\fBinet \-n \fIN\fP [\fB\-d \fIk\fP] [\fB\-p \fIn\fP] [\fB\-s \fIsd\fP] 
+[\fB\-f \fIof\fP]
+
+.SH DESCRIPTION
+The ``Inet'' generator generates an AS-level representation of the Internet
+with qualitatively similar connectivity.  It is important to note that Inet
+only provides the connectivity information; the generated topologies do not
+have any information pertaining to latency, bandwidth etc.  It 
+generates random networks with characteristics similar to those of the
+Internet from November 1997 to Feb 2002, and beyond.  The generator
+should be used to generate network of no less than 3037 nodes, which is the 
+number of ASs on the Internet in November 1997.
+
+.SH OPTIONS
+.TP
+.BI \-n " N"
+The total number of nodes in the topology.
+.TP
+.BI \-d " k"
+The fraction of degree-one nodes. Default is 0.3.
+.TP
+.BI \-p " n"
+The size of the plane used for node placement.  Default is 10,000.
+.TP
+.BI \-s " sd"
+The seed to initialize the random number generator.  Default is 0.
+.TP
+.BI \-f " of"
+The debugging output file name.  Default is \fIstderr\fP.
+
+.SH EXAMPLES
+.PP
+To generate a 6,000-node network with default values:
+
+.nf
+  example% inet -n 6000 > Inet.6000
+.fi
+
+.PP
+To generate a 6,000-node network on a 10,000 by 10,000 plane with 30% of total
+nodes as degree-one nodes, random seed of 16, and debug file \fIdebug\fP:
+
+.nf
+  example% inet -n 6000 -f debug -d .3 -s 16 -p 10000 > Inet.6000
+.fi
+
+.SH OUTPUT FORMAT
+The output of inet follows the following format:
+
+.RS
+.nf
+nodes links
+\&...
+
+id x y
+\&...
+
+id1 id2 weight
+.fi
+.RE
+
+.PP
+The first line of the output specifies the number of nodes with
+\fInodes\fP, and the number of undirected links with
+\fIlinks\fP.
+The next section contains the location of each node.  
+Each line contains the node id, \fIid\fP,
+and the xy-coordinate, \fIx\fP and \fIy\fP.
+The last section contains the list of links in the topology.  
+Each line contains the node ids of the two end points of the link,
+\fIid1\fP and \fIid2\fP, and the link weight \fIweight\fP.
+.PP
+.SH SEE ALSO
+The software
+package with source code for Unix, can be found at:
+.br
+http://topology.eecs.umich.edu/inet/
+
+.SH AUTHORS
+Jared Winick	<jwinick@eecs.umich.edu>
+.br
+Cheng Jin       <chengjin@eecs.umich.edu>     
+.br               
+Qian Chen       <qianc@eecs.umich.edu>              
+.br               
+Sugih Jamin     <jamin@eecs.umich.edu>     

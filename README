@@ -1,0 +1,13 @@
+before you do anything, update the ROOT variable in settings.py to be the
+absolute path of current folder. no slash '/' at the end.
+
+if you want to use emulator, run
+    $ ./emulate.py
+
+if you want to use simulator, you have two ways:
+    1. enter ns3 waf-sh by going to NS3 path and type:
+        $ ./waf shell
+       go back to this folder and type
+        $ ./simulator.py
+    2. if you are lazy. update the NS3_PATH value in settings.py and type
+        $ ./sim
