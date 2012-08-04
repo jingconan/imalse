@@ -5,9 +5,9 @@ if you want to use emulator, run
     $ ./emulate.py
 
 if you want to use simulator, you have two ways:
-    1. enter ns3 waf-sh by going to NS3 path and type:
+    1. going to NS3 path and type:
         $ ./waf shell
-       go back to this folder and type
+       you will enter ns3 waf-sh. Then in this shell, go back to this folder and type
         $ ./simulator.py
-    2. if you are lazy. update the NS3_PATH value in settings.py and type
+    2. if you are lazy. just update the NS3_PATH value in settings.py and type
         $ ./sim

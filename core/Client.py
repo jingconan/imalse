@@ -18,6 +18,7 @@ class ClientCMD(CMD):
     """
     name = 'client_cmd'
     def __init__(self, desc=None):
+        """initialization of ClientCMD"""
         CMD.__init__(self, desc)
 
     @property

@@ -5,14 +5,10 @@ from core.ns3.netns3 import *
 from core.ns3.Node import *
 from core.ns3.csma_ping import *
 import ns3
-
 from util import load_module
-# , get_scenario_option
 
 # for test, just select the first node as server, the second node as botmaster, all other nodes
 # are clients
-# class ImalseExperiment(NetnsExperiment):
-# class ImalseExperiment(PingCsmaExperiment):
 class ImalseExperiment(NetnsExperiment):
     """Base Class for Imalse Experiment
     It is based on the NetnsExperiment
@@ -24,17 +20,8 @@ class ImalseExperiment(NetnsExperiment):
         super(ImalseExperiment, self).__init__(*args, **kwargs)
         self._init()
 
-    def _init(self):
-        pass
-
-    # def setup(self):
-    #     devhelper = self.csmahelper(rate = self.options.rate,
-    #                                 delay = self.options.delay)
-    #     self.createnodes(self.options.numnodes, devhelper)
-
-    def setup(self):
-        pass
-
+    def _init(self): pass
+    def setup(self): pass
 
     @property
     def id_set(self):
@@ -51,20 +38,6 @@ class ImalseExperiment(NetnsExperiment):
     def node_run(self, node, *args, **kwargs):
         """run a command on a specific node"""
         node.cmd_set._trigger(*args, **kwargs)
-
-    # def _install_cmds(self):
-    #     """install different command set to nodes according to their type"""
-    #     scen = load_module(self.options.scenario)
-    #     for i in xrange(self.node_num):
-    #         if i in self.botmaster_id_set:
-    #             cmd = scen.BotMaster()
-    #         elif i in self.server_id_set:
-    #             cmd = scen.ServerCMD()
-    #         elif i in self.client_id_set:
-    #             cmd = scen.ClientCMD()
-    #         else:
-    #             continue
-    #         cmd.install(self.get_node(i))
 
     def _install_cmds(self, srv_addr=None):
         """install different command set to nodes according to their type
@@ -114,6 +87,7 @@ class ImalseExperiment(NetnsExperiment):
             self.get_node(i).server_set = server_set
 
     def print_srv_addr(self):
+        """print out the address of the server"""
         for i in self.server_id_set:
             ipv4Addr = self.get_node(i).GetObject(ns3.TypeId.LookupByName("ns3::Ipv4")).GetAddress(1, 0)
             print 'The server addr of server [%i ]: '%(i), ipv4Addr

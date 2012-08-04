@@ -16,21 +16,16 @@ is as follows:
 This is a pure simulation Experiments, namely all the nodes are
 simulated in ns3.
 """
+from core.ns3.PureSimExperiment import ImalsePureSimExperiment
+from core.ns3.Node import ImalseNetnsSimNode
+from ns3 import NodeContainer, InternetStackHelper, PointToPointHelper, StringValue, Ipv4AddressHelper, Ipv4Address, Ipv4, Ipv4Mask, Ipv4StaticRoutingHelper
 
-# from core.ns3.Experiment import *
-from core.ns3.PureSimExperiment import *
-from ns3 import *
-from core.ns3.Node import *
-from util import load_module, get_scenario_option
-
-# class ImalseSimExperiment(ImalseExperiment):
-import ns.core
 class ImalseStaticRouteSimExperiment(ImalsePureSimExperiment):
     """This is a small ns-3 Experiment with only simulated node"""
     server_id_set = [0]
     botmaster_id_set = [1]
-    # client_id_set = [2, 3]
-    client_id_set = [2]
+    client_id_set = [2, 3]
+    # client_id_set = [2]
 
     def get_node(self, i):
         return self.nodes[i]
@@ -115,6 +110,7 @@ class ImalseStaticRouteSimExperiment(ImalsePureSimExperiment):
         staticRoutingRtr2.AddHostRouteTo (Ipv4Address ("10.1.1.1"), Ipv4Address ("10.1.2.1"), 1);
 
     def setup(self):
+        super(ImalseStaticRouteSimExperiment, self).setup()
         print 'setup'
         self.create_sim()
         # self._install_cmds()

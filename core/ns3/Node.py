@@ -221,7 +221,7 @@ class ImalseNetnsSimNode(ns3.Node, BaseNode):
 
         sock.SetConnectCallback(connect_succeeded, connect_failed)
         ret = sock.Connect(inetAddr)
-        print 'ret, ', ret
+        # print 'ret, ', ret
         # x = inetAddr.GetIpv4()
         # from inspect import getmembers
         # for a, b in getmembers(x): print a, b

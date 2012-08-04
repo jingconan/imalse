@@ -1,0 +1,6 @@
+import sys
+from sphinx import main
+sphinx_cmd =  sys.argv[0]
+imalse_dir = sphinx_cmd.rsplit('/doc/sphinx-build')[0]
+sys.path.insert(0, imalse_dir)
+main(sys.argv)

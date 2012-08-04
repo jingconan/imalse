@@ -15,8 +15,13 @@ def split_data(data):
     if len(split) == 1: return split
     return [augment_bracket(s) for s in split]
 
-class CMD:
-    """Command Meta Description"""
+class UnknownEventException(Exception):
+    pass
+
+class CMD(object):
+    """Command Meta Description.
+    Define a set of commands that can be run.
+    """
     def __init__(self, desc=None):
         self.desc = desc
         self._set_logger()
@@ -32,7 +37,18 @@ class CMD:
         getattr(self, event_name)(*argv, **kwargv)
 
     def dispatcher(self, sock, data):
-        """data may contain on or more command"""
+        """data may contain on or more command
+        Args:
+
+            - **sock**: the socket that receive the data.
+            - **data**: data is a sequence of json encode string. "event" key
+                is required and is the name of the command that will be run
+                a example is: {"password": ["1234"], "event": ["verify_master"]}
+        Returns:
+            None
+        Raises:
+            UnknownEventException
+        """
         self.logger.debug('dispatcher recv data' + data)
         if not data:
             return
@@ -55,7 +71,7 @@ class CMD:
             event_name = dt_data['event']
         else:
             print type(dt_data['event'])
-            raise Exception('Unknown event type')
+            raise UnknownEventException('Unknown event type')
         del dt_data['event']
         self.logger.debug('event_name will be trigged: ' + event_name)
         self._trigger(event_name, sock, dt_data)
@@ -66,13 +82,14 @@ class CMD:
     def _load_json(self, js): return json.loads(js)
 
     def install(self, node):
+        """ install the command set to node. """
         if self._is_okay(node):
             pass
         self.node = node
-        # node.cmd = self
         node.cmd_set = self
 
     def start(self):
+        """start the command set"""
         self._trigger(self.fsm_desc['start_action'])
 
     def get_state(self): return self.node.state

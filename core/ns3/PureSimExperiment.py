@@ -7,14 +7,6 @@ import ns.core
 from util import get_scenario_option
 class ImalsePureSimExperiment(ImalseExperiment):
     """Pure Sim Experiemtn Doesn't depend on netns3 can run in simulated time"""
-    # def _init(self):
-        # use the default ns3 simulator implementation
-        # ns.core.GlobalValue.Bind("SimulatorImplementationType",
-                # ns.core.StringValue("ns3::DefaultSimulatorImpl"))
-
-        # ns.core.GlobalValue.Bind("SimulatorImplementationType",
-                # ns.core.StringValue("ns3::VisualSimulatorImpl"))
-
     def initparser(self, parser):
         super(ImalsePureSimExperiment, self).initparser(parser)
         parser.set_defaults(SimulatorImplementationType='Default')
@@ -27,8 +19,6 @@ class ImalsePureSimExperiment(ImalseExperiment):
                 default='ddos_ping_flooding',
                 help='specify the scenario you want to execute. Scenearios availiable are: %s'%(scenario_ops),
                 )
-
-
 
     def setup(self):
         super(ImalsePureSimExperiment, self).setup()

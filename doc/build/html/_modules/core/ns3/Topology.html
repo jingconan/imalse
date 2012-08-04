@@ -1,0 +1,337 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>core.ns3.Topology &mdash; imalse v0.0 alpha documentation</title>
+    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.0 alpha',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="imalse v0.0 alpha documentation" href="../../../index.html" />
+    <link rel="up" title="core.ns3" href="../ns3.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">imalse v0.0 alpha documentation</a> &raquo;</li>
+          <li><a href="../../index.html" >Module code</a> &raquo;</li>
+          <li><a href="../../core.html" >core</a> &raquo;</li>
+          <li><a href="../ns3.html" accesskey="U">core.ns3</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for core.ns3.Topology</h1><div class="highlight"><pre>
+<span class="c">#!/usr/bin/env python</span>
+<span class="sd">&quot;&quot;&quot;This is python implementation of NS3 topology-reader module</span>
+<span class="sd">   pybindgen is far from mature and cannot generate usable python binding</span>
+<span class="sd">   for this module, so I simply reimplement it in python.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="k">class</span> <span class="nc">Link</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="c"># def __init__(self, fromName, fromPtr, toName, toPtr):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fromPtr</span><span class="p">,</span> <span class="n">fromName</span><span class="p">,</span> <span class="n">toPtr</span><span class="p">,</span> <span class="n">toName</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">m_fromName</span> <span class="o">=</span> <span class="n">fromName</span><span class="p">;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">m_fromPtr</span> <span class="o">=</span> <span class="n">fromPtr</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">m_toName</span> <span class="o">=</span> <span class="n">toName</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">m_toPtr</span> <span class="o">=</span> <span class="n">toPtr</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">m_linkAttr</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">GetFromNode</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">m_fromPtr</span>
+    <span class="k">def</span> <span class="nf">GetFromNodeName</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">m_fromName</span>
+    <span class="k">def</span> <span class="nf">GetToNode</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">m_toPtr</span>
+    <span class="k">def</span> <span class="nf">GetToNodeName</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">m_toName</span>
+    <span class="k">def</span> <span class="nf">GetAttribute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span> <span class="k">pass</span>
+    <span class="k">def</span> <span class="nf">SetAttribute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span> <span class="k">pass</span>
+
+<span class="kn">import</span> <span class="nn">ns.network</span>
+<div class="viewcode-block" id="TopologyReader"><a class="viewcode-back" href="../../../API.html#core.ns3.Topology.TopologyReader">[docs]</a><span class="k">class</span> <span class="nc">TopologyReader</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;base class for Topology Reader&quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fileName</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">NodeCreator</span><span class="o">=</span><span class="n">ns</span><span class="o">.</span><span class="n">network</span><span class="o">.</span><span class="n">Node</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">m_linksList</span><span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">m_nodeMap</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">m_fileName</span> <span class="o">=</span> <span class="n">fileName</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">NodeCreator</span> <span class="o">=</span> <span class="n">NodeCreator</span>
+    <span class="k">def</span> <span class="nf">LinksBegin</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">m_linksList</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">def</span> <span class="nf">LinksEnd</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">m_linksList</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">def</span> <span class="nf">LinksEmpty</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">True</span> <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">linkList</span> <span class="k">else</span> <span class="bp">False</span>
+    <span class="k">def</span> <span class="nf">AddLink</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">link</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">m_linksList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">link</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">Read</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s">&#39;NotImplemented&#39;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">SetFileName</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fileName</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">m_fileName</span> <span class="o">=</span> <span class="n">fileName</span>
+
+    <span class="k">def</span> <span class="nf">LinksSize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">m_linksList</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="InetTopologyReader"><a class="viewcode-back" href="../../../API.html#core.ns3.Topology.InetTopologyReader">[docs]</a><span class="k">class</span> <span class="nc">InetTopologyReader</span><span class="p">(</span><span class="n">TopologyReader</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;reader for `inet topology generator file&lt;http://topology.eecs.umich.edu/inet/&gt;`_</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">Read</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">print</span> <span class="s">&#39;Start to read InetTopologyReader file...&#39;</span>
+        <span class="n">nodes</span> <span class="o">=</span> <span class="n">ns</span><span class="o">.</span><span class="n">network</span><span class="o">.</span><span class="n">NodeContainer</span><span class="p">()</span>
+        <span class="n">fid</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">m_fileName</span><span class="p">,</span> <span class="s">&#39;r&#39;</span><span class="p">)</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+            <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">line</span> <span class="o">=</span> <span class="n">fid</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">line</span><span class="p">:</span> <span class="k">break</span>
+            <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">totnode</span><span class="p">,</span> <span class="n">totlink</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">line</span><span class="o">.</span><span class="n">rsplit</span><span class="p">(</span><span class="s">&#39; &#39;</span><span class="p">)]</span>
+                <span class="k">continue</span>
+            <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">totnode</span><span class="p">:</span> <span class="c"># ignore the positive information</span>
+                <span class="k">continue</span>
+
+            <span class="n">_from</span><span class="p">,</span> <span class="n">_to</span><span class="p">,</span> <span class="n">_lineBuffer</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">line</span><span class="o">.</span><span class="n">rsplit</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\t</span><span class="s">&#39;</span><span class="p">)]</span>
+
+            <span class="k">def</span> <span class="nf">get_or_create</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">node</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">m_nodeMap</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
+                <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+                    <span class="n">node</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">NodeCreator</span><span class="p">()</span>
+                    <span class="n">nodes</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">m_nodeMap</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">node</span>
+
+                <span class="k">return</span> <span class="n">node</span>
+
+            <span class="n">_fromNode</span> <span class="o">=</span> <span class="n">get_or_create</span><span class="p">(</span><span class="n">_from</span><span class="p">)</span>
+            <span class="n">_toNode</span> <span class="o">=</span> <span class="n">get_or_create</span><span class="p">(</span><span class="n">_to</span><span class="p">)</span>
+
+            <span class="c"># link = Link(_from, _fromNode, _to, _toNode)</span>
+            <span class="n">link</span> <span class="o">=</span> <span class="n">Link</span><span class="p">(</span><span class="n">_fromNode</span><span class="p">,</span> <span class="n">_from</span><span class="p">,</span> <span class="n">_toNode</span><span class="p">,</span> <span class="n">_to</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">AddLink</span><span class="p">(</span><span class="n">link</span><span class="p">)</span>
+
+        <span class="k">print</span> <span class="s">&#39;finish scanning topology, there are [</span><span class="si">%i</span><span class="s">] nodes&#39;</span><span class="o">%</span><span class="p">(</span><span class="n">nodes</span><span class="o">.</span><span class="n">GetN</span><span class="p">())</span>
+        <span class="k">return</span> <span class="n">nodes</span>
+</div>
+<span class="k">class</span> <span class="nc">OrbisTopologyReader</span><span class="p">(</span><span class="n">TopologyReader</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+<span class="k">class</span> <span class="nc">RocketfuelTopologyReader</span><span class="p">(</span><span class="n">TopologyReader</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+<span class="n">topoMap</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s">&#39;Inet&#39;</span><span class="p">:</span> <span class="n">InetTopologyReader</span><span class="p">,</span>
+        <span class="s">&#39;Orbis&#39;</span><span class="p">:</span> <span class="n">OrbisTopologyReader</span><span class="p">,</span>
+        <span class="s">&#39;Rocketfuel&#39;</span><span class="p">:</span> <span class="n">RocketfuelTopologyReader</span><span class="p">,</span>
+        <span class="p">}</span>
+
+<div class="viewcode-block" id="TopologyReaderHelper"><a class="viewcode-back" href="../../../API.html#core.ns3.Topology.TopologyReaderHelper">[docs]</a><span class="k">class</span> <span class="nc">TopologyReaderHelper</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">SetFileName</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fileName</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">m_fileName</span> <span class="o">=</span> <span class="n">fileName</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">NodeCreator</span> <span class="o">=</span> <span class="n">ns</span><span class="o">.</span><span class="n">network</span><span class="o">.</span><span class="n">Node</span>
+
+    <span class="k">def</span> <span class="nf">SetFileType</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fileType</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">m_fileType</span> <span class="o">=</span> <span class="n">fileType</span>
+
+    <span class="k">def</span> <span class="nf">SetNodeCreator</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">NodeCreator</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">NodeCreator</span> <span class="o">=</span> <span class="n">NodeCreator</span>
+
+    <span class="k">def</span> <span class="nf">GetTopologyReader</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">topoMap</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">m_fileType</span><span class="p">](</span><span class="bp">self</span><span class="o">.</span><span class="n">m_fileName</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">NodeCreator</span><span class="p">)</span>
+
+<span class="c"># from Topology import TopologyReaderHelper</span></div>
+<span class="kn">from</span> <span class="nn">ns.nix_vector_routing</span> <span class="kn">import</span> <span class="n">Ipv4NixVectorHelper</span>
+<span class="kn">from</span> <span class="nn">ns.network</span> <span class="kn">import</span> <span class="n">NetDeviceContainer</span>
+<span class="kn">from</span> <span class="nn">ns.point_to_point</span> <span class="kn">import</span> <span class="n">PointToPointHelper</span>
+<span class="kn">from</span> <span class="nn">ns.network</span> <span class="kn">import</span> <span class="n">Ipv4Address</span><span class="p">,</span> <span class="n">Ipv4Mask</span>
+<span class="kn">from</span> <span class="nn">ns.network</span> <span class="kn">import</span> <span class="n">NodeContainer</span>
+<span class="kn">from</span> <span class="nn">ns.internet</span> <span class="kn">import</span> <span class="n">Ipv4InterfaceContainer</span><span class="p">,</span> <span class="n">Ipv4InterfaceAddress</span>
+<span class="kn">from</span> <span class="nn">ns.core</span> <span class="kn">import</span> <span class="n">ofstream</span>
+<span class="kn">import</span> <span class="nn">ns3</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<div class="viewcode-block" id="TopologyNet"><a class="viewcode-back" href="../../../API.html#core.ns3.Topology.TopologyNet">[docs]</a><span class="k">class</span> <span class="nc">TopologyNet</span><span class="p">():</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_input</span><span class="p">,</span> <span class="n">_format</span><span class="p">,</span> <span class="n">NodeCreator</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_input</span> <span class="o">=</span> <span class="n">_input</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_format</span> <span class="o">=</span> <span class="n">_format</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">NodeCreator</span> <span class="o">=</span> <span class="n">NodeCreator</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">load_file</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">install_stack</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">init_link</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">init_net_device</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="c"># create routing table</span>
+        <span class="n">ns3</span><span class="o">.</span><span class="n">Ipv4GlobalRoutingHelper</span><span class="o">.</span><span class="n">PopulateRoutingTables</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">load_file</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inFile</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_load_file</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_input</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_format</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">NodeCreator</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">install_stack</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_install_stack</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">init_link</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">linksC</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_init_link</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inFile</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">init_net_device</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ndc</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ipic</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_init_net_device</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inFile</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">linksC</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_load_file</span><span class="p">(</span><span class="n">_input</span><span class="p">,</span> <span class="n">_format</span><span class="p">,</span> <span class="n">NodeCreator</span><span class="p">):</span>
+        <span class="n">topoHelp</span> <span class="o">=</span> <span class="n">TopologyReaderHelper</span><span class="p">()</span>
+        <span class="n">topoHelp</span><span class="o">.</span><span class="n">SetFileName</span><span class="p">(</span><span class="n">_input</span><span class="p">)</span>
+        <span class="n">topoHelp</span><span class="o">.</span><span class="n">SetFileType</span><span class="p">(</span><span class="n">_format</span><span class="p">)</span>
+        <span class="n">topoHelp</span><span class="o">.</span><span class="n">SetNodeCreator</span><span class="p">(</span><span class="n">NodeCreator</span><span class="p">)</span>
+        <span class="n">inFile</span> <span class="o">=</span> <span class="n">topoHelp</span><span class="o">.</span><span class="n">GetTopologyReader</span><span class="p">()</span>
+        <span class="n">nodes</span> <span class="o">=</span> <span class="n">inFile</span><span class="o">.</span><span class="n">Read</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">inFile</span><span class="o">.</span><span class="n">LinksSize</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">print</span> <span class="s">&quot;fail to read file&quot;</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">inFile</span><span class="p">,</span> <span class="n">nodes</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_install_stack</span><span class="p">(</span><span class="n">nodes</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;install the network stack for all nodes&quot;&quot;&quot;</span>
+        <span class="n">stack</span> <span class="o">=</span> <span class="n">ns</span><span class="o">.</span><span class="n">internet</span><span class="o">.</span><span class="n">InternetStackHelper</span><span class="p">()</span>
+        <span class="n">nixRouting</span> <span class="o">=</span> <span class="n">Ipv4NixVectorHelper</span><span class="p">()</span>
+        <span class="n">staticRouting</span> <span class="o">=</span> <span class="n">ns</span><span class="o">.</span><span class="n">internet</span><span class="o">.</span><span class="n">Ipv4StaticRoutingHelper</span><span class="p">()</span>
+        <span class="c"># olsr = ns3.OlsrHelper()</span>
+
+
+        <span class="n">listRH</span> <span class="o">=</span> <span class="n">ns</span><span class="o">.</span><span class="n">internet</span><span class="o">.</span><span class="n">Ipv4ListRoutingHelper</span><span class="p">()</span>
+        <span class="n">listRH</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="n">staticRouting</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">listRH</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="n">nixRouting</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+        <span class="c"># listRH.Add(olsr, 10)</span>
+
+        <span class="c"># stack.SetRoutingHelper(listRH)</span>
+        <span class="n">stack</span><span class="o">.</span><span class="n">Install</span><span class="p">(</span><span class="n">nodes</span><span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_init_link</span><span class="p">(</span><span class="n">inFile</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialize the Network Link</span>
+<span class="sd">        return the container contains all the links.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">nc</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">link</span> <span class="ow">in</span> <span class="n">inFile</span><span class="o">.</span><span class="n">m_linksList</span><span class="p">:</span>
+            <span class="n">con</span> <span class="o">=</span> <span class="n">NodeContainer</span><span class="p">()</span>
+            <span class="n">con</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="n">link</span><span class="o">.</span><span class="n">GetFromNode</span><span class="p">())</span>
+            <span class="n">con</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="n">link</span><span class="o">.</span><span class="n">GetToNode</span><span class="p">())</span>
+            <span class="n">nc</span><span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="n">con</span> <span class="p">)</span>
+        <span class="k">return</span> <span class="n">nc</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_init_net_device</span><span class="p">(</span><span class="n">inFile</span><span class="p">,</span> <span class="n">linksC</span><span class="p">,</span>
+            <span class="n">Delay</span><span class="o">=</span><span class="s">&#39;2ms&#39;</span><span class="p">,</span> <span class="n">DataRate</span><span class="o">=</span><span class="s">&#39;5Mbps&#39;</span><span class="p">,</span>
+            <span class="n">ipv4NetworkBase</span><span class="o">=</span><span class="s">&quot;10.0.0.0&quot;</span><span class="p">,</span> <span class="n">ipv4Mask</span><span class="o">=</span><span class="s">&quot;255.255.255.252&quot;</span><span class="p">,</span> <span class="n">ipv4AddrBase</span><span class="o">=</span><span class="s">&quot;10.0.0.1&quot;</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; initialize the p2p link and assign the ip address.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">totlinks</span> <span class="o">=</span> <span class="n">inFile</span><span class="o">.</span><span class="n">LinksSize</span><span class="p">()</span>
+        <span class="n">p2p</span> <span class="o">=</span> <span class="n">PointToPointHelper</span><span class="p">()</span>
+        <span class="n">ndc</span> <span class="o">=</span> <span class="p">[]</span> <span class="c"># Net Device Container</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="n">totlinks</span><span class="p">):</span>
+            <span class="n">p2p</span><span class="o">.</span><span class="n">SetChannelAttribute</span><span class="p">(</span><span class="s">&quot;Delay&quot;</span><span class="p">,</span> <span class="n">ns</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">StringValue</span><span class="p">(</span><span class="n">Delay</span><span class="p">))</span>
+            <span class="n">p2p</span><span class="o">.</span><span class="n">SetDeviceAttribute</span><span class="p">(</span><span class="s">&quot;DataRate&quot;</span><span class="p">,</span> <span class="n">ns</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">StringValue</span><span class="p">(</span><span class="n">DataRate</span><span class="p">))</span>
+            <span class="n">ndc</span><span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="n">p2p</span><span class="o">.</span><span class="n">Install</span><span class="p">(</span> <span class="n">linksC</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="p">)</span>
+
+        <span class="c"># Create little subnets, one for each couple of nodes</span>
+        <span class="n">mask</span> <span class="o">=</span> <span class="n">Ipv4Mask</span><span class="p">(</span><span class="n">ipv4Mask</span><span class="p">)</span>
+        <span class="n">base</span><span class="o">=</span><span class="n">Ipv4Address</span><span class="p">(</span><span class="s">&quot;0.0.0.1&quot;</span><span class="p">)</span> <span class="c"># FIXME</span>
+        <span class="k">assert</span><span class="p">(</span><span class="n">ipv4AddrBase</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">==</span><span class="s">&#39;1&#39;</span><span class="p">)</span>
+        <span class="n">address</span> <span class="o">=</span> <span class="n">ns</span><span class="o">.</span><span class="n">internet</span><span class="o">.</span><span class="n">Ipv4AddressHelper</span><span class="p">()</span>
+        <span class="n">address</span><span class="o">.</span><span class="n">SetBase</span><span class="p">(</span>
+                <span class="n">network</span><span class="o">=</span><span class="n">Ipv4Address</span><span class="p">(</span><span class="n">ipv4NetworkBase</span><span class="p">),</span>
+                <span class="n">mask</span> <span class="o">=</span> <span class="n">mask</span><span class="p">,</span>
+                <span class="n">base</span> <span class="o">=</span> <span class="n">base</span>
+                <span class="c"># mask=Ipv4Mask(ipv4Mask),</span>
+                <span class="c"># base=Ipv4Address(ipv4AddrBase)</span>
+                <span class="c"># base=Ipv4Address(&#39;0.0.0.1&#39;)</span>
+                <span class="p">)</span>
+        <span class="c"># print ipv4NetworkBase</span>
+        <span class="c"># print ipv4Mask</span>
+        <span class="c"># print ipv4AddrBase</span>
+
+        <span class="n">ipic</span> <span class="o">=</span> <span class="p">[]</span> <span class="c">#ip interface container</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="n">totlinks</span><span class="p">):</span>
+            <span class="n">ipic</span><span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="n">address</span><span class="o">.</span><span class="n">Assign</span><span class="p">(</span><span class="n">ndc</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="p">)</span>
+            <span class="n">address</span><span class="o">.</span><span class="n">NewNetwork</span><span class="p">()</span>
+
+        <span class="c"># _ascii = ofstream(&quot;wifi-ap.tr&quot;)</span>
+        <span class="c"># p2p.EnableAsciiAll(&quot;test&quot;)</span>
+
+        <span class="k">return</span> <span class="n">ndc</span><span class="p">,</span> <span class="n">ipic</span>
+</div>
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="n">topoHelper</span> <span class="o">=</span> <span class="n">TopologyReaderHelper</span><span class="p">()</span>
+    <span class="n">topoHelper</span><span class="o">.</span><span class="n">SetFileType</span><span class="p">(</span><span class="s">&#39;Inet&#39;</span><span class="p">)</span>
+    <span class="c"># topoHelper.SetFileName(&#39;../../net_config/Inet_small_toposample.txt&#39;)</span>
+    <span class="n">topoHelper</span><span class="o">.</span><span class="n">SetFileName</span><span class="p">(</span><span class="s">&#39;../../net_config/Inet_toposample.txt&#39;</span><span class="p">)</span>
+    <span class="n">topoReader</span> <span class="o">=</span> <span class="n">topoHelper</span><span class="o">.</span><span class="n">GetTopologyReader</span><span class="p">()</span>
+    <span class="n">nodes</span> <span class="o">=</span> <span class="n">topoReader</span><span class="o">.</span><span class="n">Read</span><span class="p">()</span>
+    <span class="k">print</span> <span class="s">&#39;nodes, &#39;</span><span class="p">,</span> <span class="n">nodes</span>
+    <span class="k">print</span> <span class="s">&#39;node number, &#39;</span><span class="p">,</span> <span class="n">nodes</span><span class="o">.</span><span class="n">GetN</span><span class="p">()</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">imalse v0.0 alpha documentation</a> &raquo;</li>
+          <li><a href="../../index.html" >Module code</a> &raquo;</li>
+          <li><a href="../../core.html" >core</a> &raquo;</li>
+          <li><a href="../ns3.html" >core.ns3</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, Jing Conan Wang.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+    </div>
+  </body>
+</html>

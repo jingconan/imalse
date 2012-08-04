@@ -59,8 +59,8 @@ class BotMasterManInput(BotMaster):
 #             self.node.sleep(2)
 
 class BotMasterOneCMD(BotMaster):
-    def __init__(self, client_fsm, master_password, interval, num, cmd_str):
-        ClientCMD.__init__(self, client_fsm)
+    def __init__(self, desc, master_password, interval, num, cmd_str):
+        ClientCMD.__init__(self, desc)
         self.master_password = master_password
         self.cmd_str = cmd_str
         self.interval = interval

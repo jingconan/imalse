@@ -1,0 +1,214 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>core.ns3.Experiment &mdash; imalse v0.0 alpha documentation</title>
+    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.0 alpha',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="imalse v0.0 alpha documentation" href="../../../index.html" />
+    <link rel="up" title="core.ns3" href="../ns3.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">imalse v0.0 alpha documentation</a> &raquo;</li>
+          <li><a href="../../index.html" >Module code</a> &raquo;</li>
+          <li><a href="../../core.html" >core</a> &raquo;</li>
+          <li><a href="../ns3.html" accesskey="U">core.ns3</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for core.ns3.Experiment</h1><div class="highlight"><pre>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">this file describe the netns3 experiment for imalse</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">core.ns3.netns3</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">core.ns3.Node</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">core.ns3.csma_ping</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">import</span> <span class="nn">ns3</span>
+
+<span class="kn">from</span> <span class="nn">util</span> <span class="kn">import</span> <span class="n">load_module</span>
+<span class="c"># , get_scenario_option</span>
+
+<span class="c"># for test, just select the first node as server, the second node as botmaster, all other nodes</span>
+<span class="c"># are clients</span>
+<span class="c"># class ImalseExperiment(NetnsExperiment):</span>
+<span class="c"># class ImalseExperiment(PingCsmaExperiment):</span>
+<div class="viewcode-block" id="ImalseExperiment"><a class="viewcode-back" href="../../../API.html#core.ns3.Experiment.ImalseExperiment">[docs]</a><span class="k">class</span> <span class="nc">ImalseExperiment</span><span class="p">(</span><span class="n">NetnsExperiment</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Base Class for Imalse Experiment</span>
+<span class="sd">    It is based on the NetnsExperiment</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">server_id_set</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">botmaster_id_set</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">client_id_set</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">ImalseExperiment</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_init</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">_init</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span>
+
+    <span class="c"># def setup(self):</span>
+    <span class="c">#     devhelper = self.csmahelper(rate = self.options.rate,</span>
+    <span class="c">#                                 delay = self.options.delay)</span>
+    <span class="c">#     self.createnodes(self.options.numnodes, devhelper)</span>
+
+    <span class="k">def</span> <span class="nf">setup</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span>
+
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">id_set</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">server_id_set</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">botmaster_id_set</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">client_id_set</span>
+
+<div class="viewcode-block" id="ImalseExperiment.get_node"><a class="viewcode-back" href="../../../API.html#core.ns3.Experiment.ImalseExperiment.get_node">[docs]</a>    <span class="k">def</span> <span class="nf">get_node</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;get ith nodes&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+</div>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">node_num</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">)</span>
+
+<div class="viewcode-block" id="ImalseExperiment.node_run"><a class="viewcode-back" href="../../../API.html#core.ns3.Experiment.ImalseExperiment.node_run">[docs]</a>    <span class="k">def</span> <span class="nf">node_run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;run a command on a specific node&quot;&quot;&quot;</span>
+        <span class="n">node</span><span class="o">.</span><span class="n">cmd_set</span><span class="o">.</span><span class="n">_trigger</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="c"># def _install_cmds(self):</span>
+    <span class="c">#     &quot;&quot;&quot;install different command set to nodes according to their type&quot;&quot;&quot;</span>
+    <span class="c">#     scen = load_module(self.options.scenario)</span>
+    <span class="c">#     for i in xrange(self.node_num):</span>
+    <span class="c">#         if i in self.botmaster_id_set:</span>
+    <span class="c">#             cmd = scen.BotMaster()</span>
+    <span class="c">#         elif i in self.server_id_set:</span>
+    <span class="c">#             cmd = scen.ServerCMD()</span>
+    <span class="c">#         elif i in self.client_id_set:</span>
+    <span class="c">#             cmd = scen.ClientCMD()</span>
+    <span class="c">#         else:</span>
+    <span class="c">#             continue</span>
+    <span class="c">#         cmd.install(self.get_node(i))</span>
+</div>
+    <span class="k">def</span> <span class="nf">_install_cmds</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">srv_addr</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;install different command set to nodes according to their type</span>
+<span class="sd">        can manually set the server address</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">scen</span> <span class="o">=</span> <span class="n">load_module</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">scenario</span><span class="p">)</span>
+        <span class="n">botmaster_desc</span> <span class="o">=</span> <span class="n">scen</span><span class="o">.</span><span class="n">botmaster_desc</span>
+        <span class="n">server_desc</span> <span class="o">=</span> <span class="n">scen</span><span class="o">.</span><span class="n">server_desc</span>
+        <span class="n">client_desc</span> <span class="o">=</span> <span class="n">scen</span><span class="o">.</span><span class="n">client_desc</span>
+        <span class="c"># botmaster_desc[&#39;srv_addr&#39;] = &quot;10.1.1.1&quot;</span>
+        <span class="k">print</span> <span class="s">&#39;srv_addr, &#39;</span><span class="p">,</span> <span class="n">srv_addr</span>
+        <span class="k">if</span> <span class="n">srv_addr</span><span class="p">:</span>
+            <span class="n">botmaster_desc</span><span class="p">[</span><span class="s">&#39;srv_addr&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">srv_addr</span>
+            <span class="n">server_desc</span><span class="p">[</span><span class="s">&#39;srv_addr&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">srv_addr</span>
+            <span class="n">client_desc</span><span class="p">[</span><span class="s">&#39;srv_addr&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">srv_addr</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">node_num</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">botmaster_id_set</span><span class="p">:</span>
+                <span class="n">cmd</span> <span class="o">=</span> <span class="n">scen</span><span class="o">.</span><span class="n">BotMaster</span><span class="p">(</span><span class="n">botmaster_desc</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">server_id_set</span><span class="p">:</span>
+                <span class="n">cmd</span> <span class="o">=</span> <span class="n">scen</span><span class="o">.</span><span class="n">ServerCMD</span><span class="p">(</span><span class="n">server_desc</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">client_id_set</span><span class="p">:</span>
+                <span class="n">cmd</span> <span class="o">=</span> <span class="n">scen</span><span class="o">.</span><span class="n">ClientCMD</span><span class="p">(</span><span class="n">client_desc</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="n">cmd</span><span class="o">.</span><span class="n">install</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_node</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">_get_server_addr</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;The all the server address&quot;&quot;&quot;</span>
+        <span class="n">addr_set</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">server_id_set</span><span class="p">:</span>
+            <span class="n">ipv4Addr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_node</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">.</span><span class="n">GetObject</span><span class="p">(</span><span class="n">ns3</span><span class="o">.</span><span class="n">TypeId</span><span class="o">.</span><span class="n">LookupByName</span><span class="p">(</span><span class="s">&quot;ns3::Ipv4&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">GetAddress</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="n">addr_set</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ipv4Addr</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">addr_set</span>
+
+    <span class="k">def</span> <span class="nf">_get_server_nodes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">get_node</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">server_id_set</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">_set_server_info</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Only Set Server information for simulated nodes&quot;&quot;&quot;</span>
+        <span class="n">server_addr_set</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_server_addr</span><span class="p">()</span>
+        <span class="n">server_set</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_server_nodes</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">node_num</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">server_id_set</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_node</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">.</span><span class="n">NODE_TYPE</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&#39;real&#39;</span><span class="p">):</span>
+                <span class="k">continue</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">get_node</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">.</span><span class="n">server_addr_set</span> <span class="o">=</span> <span class="n">server_addr_set</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">get_node</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">.</span><span class="n">server_set</span> <span class="o">=</span> <span class="n">server_set</span>
+
+<div class="viewcode-block" id="ImalseExperiment.print_srv_addr"><a class="viewcode-back" href="../../../API.html#core.ns3.Experiment.ImalseExperiment.print_srv_addr">[docs]</a>    <span class="k">def</span> <span class="nf">print_srv_addr</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">server_id_set</span><span class="p">:</span>
+            <span class="n">ipv4Addr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_node</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">.</span><span class="n">GetObject</span><span class="p">(</span><span class="n">ns3</span><span class="o">.</span><span class="n">TypeId</span><span class="o">.</span><span class="n">LookupByName</span><span class="p">(</span><span class="s">&quot;ns3::Ipv4&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">GetAddress</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="k">print</span> <span class="s">&#39;The server addr of server [</span><span class="si">%i</span><span class="s"> ]: &#39;</span><span class="o">%</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="n">ipv4Addr</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">imalse v0.0 alpha documentation</a> &raquo;</li>
+          <li><a href="../../index.html" >Module code</a> &raquo;</li>
+          <li><a href="../../core.html" >core</a> &raquo;</li>
+          <li><a href="../ns3.html" >core.ns3</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, Jing Conan Wang.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+    </div>
+  </body>
+</html>

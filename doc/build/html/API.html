@@ -1,0 +1,416 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>API Documentation &mdash; imalse v0.0 alpha documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.0 alpha',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="imalse v0.0 alpha documentation" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="index.html">imalse v0.0 alpha documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="api-documentation">
+<h1>API Documentation<a class="headerlink" href="#api-documentation" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="botnet-basic-command-meta-description">
+<h2>Botnet Basic Command Meta Description<a class="headerlink" href="#botnet-basic-command-meta-description" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="core.CMD">
+<em class="property">class </em><tt class="descclassname">core.</tt><tt class="descname">CMD</tt><big>(</big><em>desc=None</em><big>)</big><a class="headerlink" href="#core.CMD" title="Permalink to this definition">¶</a></dt>
+<dd><p>Command Meta Description.
+Define a set of commands that can be run.</p>
+<dl class="method">
+<dt id="core.CMD.dispatcher">
+<tt class="descname">dispatcher</tt><big>(</big><em>sock</em>, <em>data</em><big>)</big><a class="headerlink" href="#core.CMD.dispatcher" title="Permalink to this definition">¶</a></dt>
+<dd><p>data may contain on or more command
+Args:</p>
+<blockquote>
+<div><ul>
+<li><p class="first"><strong>sock</strong>: the socket that receive the data.</p>
+</li>
+<li><dl class="first docutils">
+<dt><strong>data</strong>: data is a sequence of json encode string. &#8220;event&#8221; key</dt>
+<dd><p class="first last">is required and is the name of the command that will be run
+a example is: {&#8220;password&#8221;: [&#8220;1234&#8221;], &#8220;event&#8221;: [&#8220;verify_master&#8221;]}</p>
+</dd>
+</dl>
+</li>
+</ul>
+</div></blockquote>
+<dl class="docutils">
+<dt>Returns:</dt>
+<dd>None</dd>
+<dt>Raises:</dt>
+<dd>UnknownEventException</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="core.CMD.install">
+<tt class="descname">install</tt><big>(</big><em>node</em><big>)</big><a class="headerlink" href="#core.CMD.install" title="Permalink to this definition">¶</a></dt>
+<dd><p>install the command set to node.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="core.CMD.start">
+<tt class="descname">start</tt><big>(</big><big>)</big><a class="headerlink" href="#core.CMD.start" title="Permalink to this definition">¶</a></dt>
+<dd><p>start the command set</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="core.Server.ServerCMD">
+<em class="property">class </em><tt class="descclassname">core.Server.</tt><tt class="descname">ServerCMD</tt><big>(</big><em>desc={'srv_port': 3333</em>, <em>'request_timeout': 10</em>, <em>'initial': 'waiting'</em>, <em>'start_action': 'initialize'</em>, <em>'srv_addr': '127.0.0.1'}</em><big>)</big><a class="reference internal" href="_modules/core/Server.html#ServerCMD"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.Server.ServerCMD" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="core.Server.ServerCMD.dispatcher">
+<tt class="descname">dispatcher</tt><big>(</big><em>sock</em>, <em>data</em><big>)</big><a class="reference internal" href="_modules/core/Server.html#ServerCMD.dispatcher"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.Server.ServerCMD.dispatcher" title="Permalink to this definition">¶</a></dt>
+<dd><p>just enclosure of CMD dispatcher</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="core.Server.ServerCMD.echo_bots">
+<tt class="descname">echo_bots</tt><big>(</big><em>sock</em>, <em>data</em><big>)</big><a class="reference internal" href="_modules/core/Server.html#ServerCMD.echo_bots"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.Server.ServerCMD.echo_bots" title="Permalink to this definition">¶</a></dt>
+<dd><p>send echo command to all bots</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="core.Server.ServerCMD.initialize">
+<tt class="descname">initialize</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/core/Server.html#ServerCMD.initialize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.Server.ServerCMD.initialize" title="Permalink to this definition">¶</a></dt>
+<dd><p>initialize the server.
+If the server is real node. It will call Accept method in blocking way.
+if the server is simulated. It will set the SetAcceptCallBack</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="core.Server.ServerCMD.recv_request_conn">
+<tt class="descname">recv_request_conn</tt><big>(</big><em>client_sock</em>, <em>address</em><big>)</big><a class="reference internal" href="_modules/core/Server.html#ServerCMD.recv_request_conn"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.Server.ServerCMD.recv_request_conn" title="Permalink to this definition">¶</a></dt>
+<dd><p>call back for receive the connection request</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="core.Server.ServerCMD.verify_master">
+<tt class="descname">verify_master</tt><big>(</big><em>sock</em>, <em>data</em><big>)</big><a class="reference internal" href="_modules/core/Server.html#ServerCMD.verify_master"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.Server.ServerCMD.verify_master" title="Permalink to this definition">¶</a></dt>
+<dd><p>verify the identity of the master</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="core.Client.ClientCMD">
+<em class="property">class </em><tt class="descclassname">core.Client.</tt><tt class="descname">ClientCMD</tt><big>(</big><em>desc=None</em><big>)</big><a class="reference internal" href="_modules/core/Client.html#ClientCMD"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.Client.ClientCMD" title="Permalink to this definition">¶</a></dt>
+<dd><p>Client Command Meta Description
+define the handle of each transition
+each CMD should claim the basic function set a node much provide</p>
+<dl class="method">
+<dt id="core.Client.ClientCMD.connection_refused">
+<tt class="descname">connection_refused</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/core/Client.html#ClientCMD.connection_refused"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.Client.ClientCMD.connection_refused" title="Permalink to this definition">¶</a></dt>
+<dd><p>call back when the connection request has been refused
+by server</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="core.Client.ClientCMD.echo">
+<tt class="descname">echo</tt><big>(</big><em>sock</em>, <em>data</em><big>)</big><a class="reference internal" href="_modules/core/Client.html#ClientCMD.echo"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.Client.ClientCMD.echo" title="Permalink to this definition">¶</a></dt>
+<dd><p>echo the message</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="core.Client.ClientCMD.recv_ack">
+<tt class="descname">recv_ack</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/core/Client.html#ClientCMD.recv_ack"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.Client.ClientCMD.recv_ack" title="Permalink to this definition">¶</a></dt>
+<dd><p>call back when receive ack message from server</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="core.Client.ClientCMD.recv_disconn_req">
+<tt class="descname">recv_disconn_req</tt><big>(</big><em>sock</em><big>)</big><a class="reference internal" href="_modules/core/Client.html#ClientCMD.recv_disconn_req"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.Client.ClientCMD.recv_disconn_req" title="Permalink to this definition">¶</a></dt>
+<dd><p>call back when receive the disconnect request from server</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="core.Client.ClientCMD.request_connect">
+<tt class="descname">request_connect</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/core/Client.html#ClientCMD.request_connect"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.Client.ClientCMD.request_connect" title="Permalink to this definition">¶</a></dt>
+<dd><p>request a connection to server</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="core.Client.ClientCMD.request_time_out">
+<tt class="descname">request_time_out</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/core/Client.html#ClientCMD.request_time_out"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.Client.ClientCMD.request_time_out" title="Permalink to this definition">¶</a></dt>
+<dd><p>call back when the connection request has time out</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="basenode">
+<h2>BaseNode<a class="headerlink" href="#basenode" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="core.BaseNode.BaseNode">
+<em class="property">class </em><tt class="descclassname">core.BaseNode.</tt><tt class="descname">BaseNode</tt><a class="reference internal" href="_modules/core/BaseNode.html#BaseNode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.BaseNode.BaseNode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Virtual Base Class For all nodes</p>
+<dl class="method">
+<dt id="core.BaseNode.BaseNode.close_socks">
+<tt class="descname">close_socks</tt><big>(</big><em>socks_seq_set</em>, <em>_type='client'</em><big>)</big><a class="reference internal" href="_modules/core/BaseNode.html#BaseNode.close_socks"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.BaseNode.BaseNode.close_socks" title="Permalink to this definition">¶</a></dt>
+<dd><p>sock_seq_set is the sequence of socks in this type of sock</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="emulation">
+<h2>Emulation<a class="headerlink" href="#emulation" title="Permalink to this headline">¶</a></h2>
+<p>This section contains the functions for emulation support.</p>
+<dl class="class">
+<dt id="core.ns3.Node.PhyNode">
+<em class="property">class </em><tt class="descclassname">core.ns3.Node.</tt><tt class="descname">PhyNode</tt><a class="headerlink" href="#core.ns3.Node.PhyNode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Node can maintain a lot of sockets
+abstraction for physical Node. Will use socket to send real data to the network</p>
+<dl class="method">
+<dt id="core.ns3.Node.PhyNode.close_socks">
+<tt class="descname">close_socks</tt><big>(</big><em>socks_seq_set</em>, <em>_type='client'</em><big>)</big><a class="headerlink" href="#core.ns3.Node.PhyNode.close_socks" title="Permalink to this definition">¶</a></dt>
+<dd><p>sock_seq_set is the sequence of socks in this type of sock</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="simulation">
+<h2>Simulation<a class="headerlink" href="#simulation" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="topology-mode">
+<h3>Topology Mode<a class="headerlink" href="#topology-mode" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="core.ns3.Topology.TopologyReader">
+<em class="property">class </em><tt class="descclassname">core.ns3.Topology.</tt><tt class="descname">TopologyReader</tt><big>(</big><em>fileName=None</em>, <em>NodeCreator=&lt;type 'network.Node'&gt;</em><big>)</big><a class="reference internal" href="_modules/core/ns3/Topology.html#TopologyReader"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.ns3.Topology.TopologyReader" title="Permalink to this definition">¶</a></dt>
+<dd><p>base class for Topology Reader</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="core.ns3.Topology.InetTopologyReader">
+<em class="property">class </em><tt class="descclassname">core.ns3.Topology.</tt><tt class="descname">InetTopologyReader</tt><big>(</big><em>fileName=None</em>, <em>NodeCreator=&lt;type 'network.Node'&gt;</em><big>)</big><a class="reference internal" href="_modules/core/ns3/Topology.html#InetTopologyReader"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.ns3.Topology.InetTopologyReader" title="Permalink to this definition">¶</a></dt>
+<dd><p>reader for <a href="#id1"><span class="problematic" id="id2">`inet topology generator file&lt;http://topology.eecs.umich.edu/inet/&gt;`_</span></a></p>
+</dd></dl>
+
+<dl class="class">
+<dt id="core.ns3.Topology.TopologyReaderHelper">
+<em class="property">class </em><tt class="descclassname">core.ns3.Topology.</tt><tt class="descname">TopologyReaderHelper</tt><a class="reference internal" href="_modules/core/ns3/Topology.html#TopologyReaderHelper"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.ns3.Topology.TopologyReaderHelper" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<span class="target" id="module-core.ns3.Topology"></span><p>This is python implementation of NS3 topology-reader module
+pybindgen is far from mature and cannot generate usable python binding
+for this module, so I simply reimplement it in python.</p>
+<dl class="class">
+<dt>
+<em class="property">class </em><tt class="descclassname">core.ns3.Topology.</tt><tt class="descname">InetTopologyReader</tt><big>(</big><em>fileName=None</em>, <em>NodeCreator=&lt;type 'network.Node'&gt;</em><big>)</big><a class="reference internal" href="_modules/core/ns3/Topology.html#InetTopologyReader"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>reader for <a href="#id3"><span class="problematic" id="id4">`inet topology generator file&lt;http://topology.eecs.umich.edu/inet/&gt;`_</span></a></p>
+</dd></dl>
+
+<dl class="class">
+<dt>
+<em class="property">class </em><tt class="descclassname">core.ns3.Topology.</tt><tt class="descname">TopologyReader</tt><big>(</big><em>fileName=None</em>, <em>NodeCreator=&lt;type 'network.Node'&gt;</em><big>)</big><a class="reference internal" href="_modules/core/ns3/Topology.html#TopologyReader"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>base class for Topology Reader</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="core.ns3.Topology.TopologyNet">
+<em class="property">class </em><tt class="descclassname">core.ns3.Topology.</tt><tt class="descname">TopologyNet</tt><big>(</big><em>_input</em>, <em>_format</em>, <em>NodeCreator</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/core/ns3/Topology.html#TopologyNet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.ns3.Topology.TopologyNet" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="netns3-mode">
+<h3>Netns3 Mode<a class="headerlink" href="#netns3-mode" title="Permalink to this headline">¶</a></h3>
+<p>This section contains the functions for NS3 support.</p>
+<dl class="class">
+<dt id="core.ns3.Experiment.ImalseExperiment">
+<em class="property">class </em><tt class="descclassname">core.ns3.Experiment.</tt><tt class="descname">ImalseExperiment</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/core/ns3/Experiment.html#ImalseExperiment"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.ns3.Experiment.ImalseExperiment" title="Permalink to this definition">¶</a></dt>
+<dd><p>Base Class for Imalse Experiment
+It is based on the NetnsExperiment</p>
+<dl class="method">
+<dt id="core.ns3.Experiment.ImalseExperiment.get_node">
+<tt class="descname">get_node</tt><big>(</big><em>i</em><big>)</big><a class="reference internal" href="_modules/core/ns3/Experiment.html#ImalseExperiment.get_node"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.ns3.Experiment.ImalseExperiment.get_node" title="Permalink to this definition">¶</a></dt>
+<dd><p>get ith nodes</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="core.ns3.Experiment.ImalseExperiment.node_run">
+<tt class="descname">node_run</tt><big>(</big><em>node</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/core/ns3/Experiment.html#ImalseExperiment.node_run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.ns3.Experiment.ImalseExperiment.node_run" title="Permalink to this definition">¶</a></dt>
+<dd><p>run a command on a specific node</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="core.ns3.Experiment.ImalseExperiment.print_srv_addr">
+<tt class="descname">print_srv_addr</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/core/ns3/Experiment.html#ImalseExperiment.print_srv_addr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.ns3.Experiment.ImalseExperiment.print_srv_addr" title="Permalink to this definition">¶</a></dt>
+<dd><p>print out the address of the server</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="core.ns3.Node.ImalseNetnsNode">
+<em class="property">class </em><tt class="descclassname">core.ns3.Node.</tt><tt class="descname">ImalseNetnsNode</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/core/ns3/Node.html#ImalseNetnsNode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.ns3.Node.ImalseNetnsNode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Imalse Netns Node, it will use linux namespace to construct virtual machine.
+And applications will run in these virtual machines.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="pure-simulation-mode">
+<h3>Pure Simulation Mode<a class="headerlink" href="#pure-simulation-mode" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="core.ns3.Node.ImalseNetnsSimNode">
+<em class="property">class </em><tt class="descclassname">core.ns3.Node.</tt><tt class="descname">ImalseNetnsSimNode</tt><big>(</big><em>name=None</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/core/ns3/Node.html#ImalseNetnsSimNode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.ns3.Node.ImalseNetnsSimNode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Simulated Node in NS3 Adapted for Imalse Simulation</p>
+<dl class="staticmethod">
+<dt id="core.ns3.Node.ImalseNetnsSimNode.add_msg">
+<em class="property">static </em><tt class="descname">add_msg</tt><big>(</big><em>p</em>, <em>msg</em><big>)</big><a class="reference internal" href="_modules/core/ns3/Node.html#ImalseNetnsSimNode.add_msg"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.ns3.Node.ImalseNetnsSimNode.add_msg" title="Permalink to this definition">¶</a></dt>
+<dd><p>encode the message to the packet</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="core.ns3.Node.ImalseNetnsSimNode.after">
+<tt class="descname">after</tt><big>(</big><em>t</em>, <em>method</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/core/ns3/Node.html#ImalseNetnsSimNode.after"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.ns3.Node.ImalseNetnsSimNode.after" title="Permalink to this definition">¶</a></dt>
+<dd><p>schedue a even after t seconds</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="core.ns3.Node.ImalseNetnsSimNode.connect">
+<tt class="descname">connect</tt><big>(</big><em>sock</em>, <em>addr_port</em><big>)</big><a class="reference internal" href="_modules/core/ns3/Node.html#ImalseNetnsSimNode.connect"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.ns3.Node.ImalseNetnsSimNode.connect" title="Permalink to this definition">¶</a></dt>
+<dd><p>Will set Connect callback function. If succeeded, self.recv will be called. otherwise
+the sock will be closed</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="core.ns3.Node.ImalseNetnsSimNode.dispatcher">
+<tt class="descname">dispatcher</tt><big>(</big><em>sock</em><big>)</big><a class="reference internal" href="_modules/core/ns3/Node.html#ImalseNetnsSimNode.dispatcher"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.ns3.Node.ImalseNetnsSimNode.dispatcher" title="Permalink to this definition">¶</a></dt>
+<dd><p>node level dispatcher, it will read data from the socket,
+parse the data into approariate format and handle the data to
+cmd.dispatcher()</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="core.ns3.Node.ImalseNetnsSimNode.get_msg">
+<em class="property">static </em><tt class="descname">get_msg</tt><big>(</big><em>p</em><big>)</big><a class="reference internal" href="_modules/core/ns3/Node.html#ImalseNetnsSimNode.get_msg"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.ns3.Node.ImalseNetnsSimNode.get_msg" title="Permalink to this definition">¶</a></dt>
+<dd><p>get_msg and add_msg are two hack function</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="core.ns3.PureSimExperiment.ImalsePureSimExperiment">
+<em class="property">class </em><tt class="descclassname">core.ns3.PureSimExperiment.</tt><tt class="descname">ImalsePureSimExperiment</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/core/ns3/PureSimExperiment.html#ImalsePureSimExperiment"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.ns3.PureSimExperiment.ImalsePureSimExperiment" title="Permalink to this definition">¶</a></dt>
+<dd><p>Pure Sim Experiemtn Doesn&#8217;t depend on netns3 can run in simulated time</p>
+</dd></dl>
+
+<div class="toctree-wrapper compound">
+<ul class="simple">
+</ul>
+</div>
+<p>Contents:</p>
+<div class="section" id="indices-and-tables">
+<h4>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h4>
+<ul class="simple">
+<li><a class="reference internal" href="genindex.html"><em>Index</em></a></li>
+<li><a class="reference internal" href="py-modindex.html"><em>Module Index</em></a></li>
+<li><a class="reference internal" href="search.html"><em>Search Page</em></a></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">API Documentation</a><ul>
+<li><a class="reference internal" href="#botnet-basic-command-meta-description">Botnet Basic Command Meta Description</a></li>
+<li><a class="reference internal" href="#basenode">BaseNode</a></li>
+<li><a class="reference internal" href="#emulation">Emulation</a></li>
+<li><a class="reference internal" href="#simulation">Simulation</a><ul>
+<li><a class="reference internal" href="#topology-mode">Topology Mode</a></li>
+<li><a class="reference internal" href="#netns3-mode">Netns3 Mode</a></li>
+<li><a class="reference internal" href="#pure-simulation-mode">Pure Simulation Mode</a><ul>
+<li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/API.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="index.html">imalse v0.0 alpha documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, Jing Conan Wang.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+    </div>
+  </body>
+</html>

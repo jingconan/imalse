@@ -9,7 +9,15 @@ botmaster_desc = {
         'request_timeout':10,
         }
 
-class BotMaster(core.BotMaster.BotMasterTest):
+class BotMaster(core.BotMaster.BotMasterOneCMD):
     def __init__(self, desc=botmaster_desc):
-        core.BotMaster.BotMasterTest.__init__(self, desc)
+        core.BotMaster.BotMasterOneCMD.__init__(self,
+            desc = desc,
+            master_password = '1234',
+            interval = 2,
+            num = 11,
+            cmd_str = 'event=forward_to_bots;bot_event=send_ping;hostname=127.0.0.1')
+            # 'event=forward_to_bots;bot_event=send_ping;hostname=10.0.0.0')
+            # 'event=forward_to_bots;bot_event=send_ping;hostname=www.google.com;')
+
 

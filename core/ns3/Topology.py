@@ -18,10 +18,10 @@ class Link(object):
     def GetToNodeName(self): return self.m_toName
     def GetAttribute(self, name): pass
     def SetAttribute(self, name, value): pass
-    pass
 
 import ns.network
 class TopologyReader(object):
+    """base class for Topology Reader"""
     def __init__(self, fileName=None, NodeCreator=ns.network.Node):
         self.m_linksList= []
         self.m_nodeMap = dict()
