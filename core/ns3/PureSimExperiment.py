@@ -2,10 +2,12 @@
 In Pure Sim experiments, all nodes are simulated. So we don't need
 the real-time schedular.
 """
-from Experiment import ImalseExperiment
+from core.ns3.Node import ImalseNetnsSimNode
+from ImalseNetnsExperiment import ImalseNetnsExperiment
 import ns.core
 from util import get_scenario_option
-class ImalsePureSimExperiment(ImalseExperiment):
+
+class ImalsePureSimExperiment(ImalseNetnsExperiment):
     """Pure Sim Experiemtn Doesn't depend on netns3 can run in simulated time"""
     def initparser(self, parser):
         super(ImalsePureSimExperiment, self).initparser(parser)
@@ -14,16 +16,14 @@ class ImalsePureSimExperiment(ImalseExperiment):
                 help="the simulator implementation Type, available options are['Realtime', 'Default', 'Visual']")
 
 
-        scenario_ops = get_scenario_option()
-        parser.add_option('-s', '--scenario', dest="scenario",
-                default='ddos_ping_flooding',
-                help='specify the scenario you want to execute. Scenearios availiable are: %s'%(scenario_ops),
-                )
+        # scenario_ops = get_scenario_option()
+        # parser.add_option('-s', '--scenario', dest="scenario",
+                # default='ddos_ping_flooding',
+                # help='specify the scenario you want to execute. Scenearios availiable are: %s'%(scenario_ops),
+                # )
 
     def setup(self):
         super(ImalsePureSimExperiment, self).setup()
-        # ns.core.GlobalValue.Bind("SimulatorImplementationType",
-                # ns.core.StringValue("ns3::VisualSimulatorImpl"))
         ns.core.GlobalValue.Bind("SimulatorImplementationType",
                 ns.core.StringValue("ns3::%sSimulatorImpl"%(self.options.SimulatorImplementationType)))
 
@@ -61,3 +61,6 @@ class ImalsePureSimExperiment(ImalseExperiment):
             print 'node [%i] type [%s] start at [%f]s'%(i, 'botmaster', t+2)
             self.event(t+2, self.node_run, self.get_node(i), 'start')
 
+    @staticmethod
+    def NodeCreator():
+        return ImalseNetnsSimNode()

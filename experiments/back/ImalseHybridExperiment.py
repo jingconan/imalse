@@ -3,10 +3,12 @@ This file is experiment showing the simulation of hybrid ns3 nodes and
 real nodes.
 """
 import ns.core
-from ImalseTopoExperiment import ImalseTopoExperiment
+# from ImalseTopoExperiment import ImalseTopoExperiment
+from ImalseTopoNetnsExperiment import ImalseTopoNetnsExperiment
 
 
-class ImalseHybridExperiment(ImalseTopoExperiment):
+# class ImalseHybridExperiment(ImalseTopoExperiment):
+class ImalseHybridExperiment(ImalseTopoNetnsExperiment):
     """This is Hybrid Experiment with some nodes are simulated and some other nodes are real nodes
     """
 

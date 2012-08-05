@@ -1,29 +1,21 @@
 """
-The experiment is based on netns3
 It demos the process of loading a predefined topology file.
 """
-from core.ns3.Node import ImalseNetnsNode
+import settings
 from core.ns3.Topology import TopologyNet
-from core.ns3.Experiment import ImalseExperiment
-from util import get_scenario_option
-import ns.core
-
 import os
-NODE_NUM = 0
 
-SERVER_ADDR = "10.0.0.0"
+NETWORK_BASE = "10.0.0.0"
+SERVER_ADDR = "10.0.0.1"
 IP_MASK = "255.255.255.0"
 
-ns.core.GlobalValue.Bind("SimulatorImplementationType",
-                         ns.core.StringValue("ns3::RealtimeSimulatorImpl"))
-
-ns.core.GlobalValue.Bind("ChecksumEnabled", ns.core.BooleanValue("true"))
-
-class ImalseTopoExperiment(ImalseExperiment):
+class TopoExperiment(BaseClass):
     """This is pure ns-3 topology Experiment without emulated node"""
     def initparser(self, parser):
-        super(ImalseTopoExperiment, self).initparser(parser)
-        parser.set_defaults(topology_file="./net_config/Inet_small_toposample.txt",
+        # import pdb;pdb.set_trace()
+        super(TopoExperiment, self).initparser(parser)
+
+        parser.set_defaults(topology_file=settings.ROOT+"/net_config/Inet_small_toposample.txt",
                 topology_type = 'Inet',
                 )
         parser.add_option("-f", "--topology_file", dest = "topology_file",
@@ -32,34 +24,25 @@ class ImalseTopoExperiment(ImalseExperiment):
                 help='type of topology file',
                 )
 
-        scenario_ops = get_scenario_option()
-        parser.add_option('-s', '--scenario', dest="scenario",
-                default='ddos_ping_flooding',
-                help='specify the scenario you want to execute. Scenearios availiable are: %s'%(scenario_ops),
-                )
-
     def get_node(self, i):
         return self.net.nodes.Get(i)
     @property
     def node_num(self):
         return self.net.nodes.GetN()
 
-    def setup(self):
-        def ImalseNetnsNodeCreator():
-            global NODE_NUM
-            NODE_NUM += 1
-            name = "n%s" %NODE_NUM
-            return ImalseNetnsNode(name, logfile = "/tmp/%s.log" % name)
 
-        self.net = TopologyNet(os.path.abspath(self.options.topology_file),
+    def setup(self):
+        super(TopoExperiment, self).setup()
+        self.net = TopologyNet(
+                os.path.abspath(self.options.topology_file),
                 self.options.topology_type,
-                ImalseNetnsNodeCreator,
-                ipv4AddrBase= SERVER_ADDR,
-                ipv4Mask = IP_MASK
+                self.NodeCreator,
+                ipv4Mask = IP_MASK,
+                ipv4NetworkBase=NETWORK_BASE,
+                ipv4AddrBase = SERVER_ADDR
                 )
 
-        self._install_cmds()
-        # self._install_cmds(srv_addr = "10.0.0.0")
+        self._install_cmds(srv_addr = SERVER_ADDR)
         self.print_srv_addr()
         self._set_server_info()
         self.start_nodes()

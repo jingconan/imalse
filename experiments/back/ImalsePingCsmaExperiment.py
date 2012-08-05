@@ -1,10 +1,15 @@
 """
 This Experiment Runs on netns3 model
 """
-from core.ns3.Experiment import *
+# from core.ns3.Experiment import *
+from core.ns3.ImalseNetnsExperiment import ImalseNetnsExperiment
 from util import get_scenario_option
+from core.ns3 import ImalseNetnsNode
+from core.ns3.csma_ping import PingCsmaExperiment, parseprefix
+import ns.network
 
-class ImalsePingCsmaExperiment(PingCsmaExperiment, ImalseExperiment):
+# class ImalsePingCsmaExperiment(PingCsmaExperiment, ImalseExperiment):
+class ImalsePingCsmaExperiment(PingCsmaExperiment, ImalseNetnsExperiment):
     """Ping Flooding Experiment On a Csma Network"""
     server_id_set = [0]
     botmaster_id_set = [1]
@@ -12,10 +17,10 @@ class ImalsePingCsmaExperiment(PingCsmaExperiment, ImalseExperiment):
 
     def __init__(self, *argv, **kwargv):
         PingCsmaExperiment.__init__(self, *argv, **kwargv)
-        ImalseExperiment.__init__(self)
+        ImalseNetnsExperiment.__init__(self)
 
     def initparser(self, parser):
-        CsmaExperiment.initparser(self, parser)
+        PingCsmaExperiment.initparser(self, parser)
         parser.set_defaults(simtime = 10, pingcount = 3)
         parser.add_option("-c", "--pingcount", dest = "pingcount",
                           help = "ping count; default = %s" %
@@ -67,7 +72,7 @@ class ImalsePingCsmaExperiment(PingCsmaExperiment, ImalseExperiment):
 
     def setup(self):
         print 'this is setup of experiment'
-        CsmaExperiment.setup(self)
+        PingCsmaExperiment.setup(self)
         for n in self.nodes:
             self.event(0, self.config, n)
         if not self.nodes:

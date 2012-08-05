@@ -5,7 +5,8 @@ real nodes.
 from core.ns3.Node import ImalseNetnsNode, ImalseNetnsSimNode
 from core.ns3.Topology import TopologyNet
 import ns.core
-from ImalseTopoExperiment import ImalseTopoExperiment
+# from ImalseTopoExperiment import ImalseTopoExperiment
+from ImalseTopoNetnsExperiment import ImalseTopoNetnsExperiment
 
 import os
 NODE_NUM = 0

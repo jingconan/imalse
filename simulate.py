@@ -7,35 +7,43 @@ imalse
 prou: `I'm sir`
 """
 import sys
-import settings
 import argparse
 
-# import experiments
-try:
-    import experiments
-    from experiments import *
-except ImportError:
-    print 'You should use ns3 waf shell to run this code'
-    sys.exit()
+# try:
+#     import experiments
+# except ImportError as e:
+#     print 'You should use ns3 waf shell to run this code'
+#     print 'error, ', e
+#     sys.exit()
+import experiments
 
 from util import get_experiment_option
 
 exper_options = get_experiment_option()
 parser = argparse.ArgumentParser(description='imalse')
-# parser.add_argument('-e', '--experiment', default='ImalseExperiment',
-parser.add_argument('-e', '--experiment', default='ImalseTopoSimExperiment',
-# parser.add_argument('-e', '--experiment', default='ImalsePingCsmaExperiment',
+
+parser.add_argument('-e', '--experiment', default='TopoExperiment',
         help='specify the experiment. Avaliable experiments are [%s]'%(" |").join(exper_options)
         )
-args, exper_args = parser.parse_known_args()
-exec('x = experiments.%s()'%(args.experiment))
 
-# Print Help when there is not argument
+parser.add_argument('--mode', default='sim',
+        help="specify the mode, can be ['netns3' | 'sim'], default is 'sim'. "
+        )
+
+
+args, exper_args = parser.parse_known_args()
+# exec('meta_exper = experiments.%s()'%(args.experiment))
+# meta_exper = experiments.__dict__[args.experiment]
+# exper_class = experiments.experiment_factory(meta_exper, args.mode)
+exper_class = experiments.experiment_factory(args.experiment, args.mode)
+exper = exper_class()
+
+# Print Help when there is no argument
 if len(sys.argv) == 1:
     print '---------Experment Selction Arguments-----------'
     parser.print_help()
     print '---------Exeriment Options-----------------------'
-    x.print_help()
+    exper.print_help()
     sys.exit(1)
 
-x.main(exper_args)
+exper.main(exper_args)

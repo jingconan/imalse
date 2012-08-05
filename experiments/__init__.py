@@ -1,5 +1,7 @@
-from util import get_experiment_option
-files = get_experiment_option()
-for f in files:
-    exec('from %s import *'%(f))
+# from util import get_experiment_option
+# files = get_experiment_option()
+# for f in files:
+#     exec('from %s import *'%(f))
+
+from API import experiment_factory
 

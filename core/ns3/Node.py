@@ -65,6 +65,7 @@ MSG_MAP = {
         '{"host": "thales.bu.edu", "password": "imalse", "user": "imalse-ftp", "event": "set_ftp_info"}':126,
         '{"directory": ".", "pattern": "assword", "suffix": [".txt"], "event": "set_file_filter"}':127,
         '{"event": "search_and_upload"}':128,
+        '{"hostname": ["127.0.0.1"], "event": ["send_ping"]}':129,
         }
 MSG_RE_MAP = dict( [ (v,k) for k,v in MSG_MAP.iteritems() ] )
 
@@ -282,4 +283,10 @@ class ImalseNetnsSimNode(ns3.Node, BaseNode):
 
     def ftp_upload(self, f, host, user, password):
         print 'File [%s] has been uploaded to ftp %s'%(f, host)
+
+    ####################################
+    ##    File System              #####
+    ####################################
+    def ping(self, sock, data, threaded):
+        print 'ImalseNetnsSimNode.ping: this is just a stub, please finish it'
 
