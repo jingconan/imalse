@@ -32,9 +32,6 @@ parser.add_argument('--mode', default='sim',
 
 
 args, exper_args = parser.parse_known_args()
-# exec('meta_exper = experiments.%s()'%(args.experiment))
-# meta_exper = experiments.__dict__[args.experiment]
-# exper_class = experiments.experiment_factory(meta_exper, args.mode)
 exper_class = experiments.experiment_factory(args.experiment, args.mode)
 exper = exper_class()
 
@@ -43,6 +40,7 @@ if len(sys.argv) == 1:
     print '---------Experment Selction Arguments-----------'
     parser.print_help()
     print '---------Exeriment Options-----------------------'
+    # import pdb;pdb.set_trace()
     exper.print_help()
     sys.exit(1)
 

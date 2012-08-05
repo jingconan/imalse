@@ -113,6 +113,7 @@ class ImalseExperiment(object):
 
 # for test, just select the first node as server, the second node as botmaster, all other nodes
 # are clients
+import optparse
 class ImalseNetnsExperiment(ImalseExperiment, NetnsExperiment):
     """Base Class for Imalse Experiment
     It is based on the NetnsExperiment
@@ -167,8 +168,6 @@ class ImalsePureSimExperiment(ImalseExperiment):
                           help = "simulation run time; default = %s" %
                           parser.defaults["simtime"])
 
-
-
     def setup(self):
         super(ImalsePureSimExperiment, self).setup()
         ns.core.GlobalValue.Bind("SimulatorImplementationType",
@@ -195,7 +194,6 @@ class ImalsePureSimExperiment(ImalseExperiment):
         return ImalseNetnsSimNode()
 
     def main(self, args, run = True):
-        import optparse
         usage = "%prog [-h] " + self.usagestr() + " ..."
         parser = optparse.OptionParser(usage = usage)
         self.initparser(parser)
@@ -206,10 +204,15 @@ class ImalsePureSimExperiment(ImalseExperiment):
     def usagestr(self):
         return "[-n <numnodes>] [-t <simtime>]"
 
+    def print_help(self):
+        parser = optparse.OptionParser(usage = '')
+        self.initparser(parser)
+        parser.print_help()
+
     def cleanup(self):
         ns.core.Simulator.Destroy()
-        while self.nodes:
-            n = self.nodes.pop()
+        for i in xrange(self.node_num):
+            n = self.get_node(i)
             n.stop()
 
 
