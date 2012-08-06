@@ -10,6 +10,8 @@ from util import get_scenario_option, abstract_method
 NODE_NUM = 0
 
 class ImalseExperiment(object):
+    """ Base class for all ImalseExperiment
+    """
     server_id_set = [0]
     botmaster_id_set = [1]
     client_id_set = [2, 3, 4]
@@ -41,6 +43,7 @@ class ImalseExperiment(object):
         node.cmd_set._trigger(*args, **kwargs)
 
     def start_nodes(self):
+        """specify when each node should start"""
         # start servers
         for i in self.server_id_set:
             print 'node [%i] type [%s] start at [%f]s'%(i, 'server', 0)
@@ -115,13 +118,12 @@ class ImalseExperiment(object):
 # are clients
 import optparse
 class ImalseNetnsExperiment(ImalseExperiment, NetnsExperiment):
-    """Base Class for Imalse Experiment
-    It is based on the NetnsExperiment
+    """Base Class for Imalse Experiment in netns3 mode
     """
     def __init__(self, *args, **kwargs):
         # super(ImalseNetnsExperiment, self).__init__(*args, **kwargs)
-        NetnsExperiment.__init__(*args, **kwargs)
-        ImalseExperiment.__init__()
+        NetnsExperiment.__init__(self, *args, **kwargs)
+        ImalseExperiment.__init__(self)
         self._init()
 
     def initparser(self, parser):
@@ -185,6 +187,7 @@ class ImalsePureSimExperiment(ImalseExperiment):
 
     @staticmethod
     def event(time, func, *args, **kwds):
+        """schedule an event to simulator"""
         def run():
             func(*args, **kwds)
         ns.core.Simulator.Schedule(ns.core.Time(str(time)), run)
@@ -214,5 +217,3 @@ class ImalsePureSimExperiment(ImalseExperiment):
         for i in xrange(self.node_num):
             n = self.get_node(i)
             n.stop()
-
-

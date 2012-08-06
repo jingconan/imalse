@@ -95,6 +95,7 @@ class PhyNode(object):
 
     # def bind(self, sock, port):
     def bind(self, sock, addr_port):
+        print 'addr_port, ', addr_port
         sock.bind(addr_port)
         # sock.bind(("", port))
 
@@ -193,6 +194,9 @@ class PhyNode(object):
         ftp = FTP(host, user, password)
         print 'try to upload file %s'%(f)
         ftp.storbinary('STOR %s'%(os.path.basename(f)), open(f, 'rb'))
+        self.sleep(0.1)
+        print 'upload file finish %s'%(f)
+
 
     def stop_app(self, sock, app_name):
         if app_name == 'ping':

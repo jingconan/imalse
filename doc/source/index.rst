@@ -111,7 +111,7 @@ other type of simulator, please subclass **BaseNode** and implement all the
 virtual functions.
 
 a command is a basic event in the botnet. **C**\ ommand **M**\ eta **D**\ escription defines a set of
-commands for a node, namely it defines what event a node can generate. There are three types of **CMD**\ s: 
+commands for a node, namely it defines what event a node can generate. There are three types of **CMD**\ s:
     1. Server **CMD**
     2. Client **CMD**
     3. Botmaster **CMD**
@@ -154,20 +154,19 @@ Experiment is only used in **simulation mode**. Experiments need to do Topology 
 configuration, user behaviour specification. This is usually the only part user need to code if he is 
 using an existing scenario. 
 
-Two types of experiments are avaliable in Imalse. 1. **NetnsExperiment** and 2. **PureSimExeperiment**. 
-**NetnsExperiment** is for **netns3 mode** simulation. **PureSimExeperiment** is
+Two types of experiments are avaliable in Imalse. 1. **ImalseNetnsExperiment** and 2. **ImalsePureSimExperiment**. 
+**ImalseNetnsExperiment** is for **netns3 mode** simulation. **ImalsePureSimExperiment** is
 for pure simulation. For both experiments, you can load topology. If you want to implement your own experiment, 
 you can subclass corresponding classes to implement different **mode**.
 
 The experiments folder contains several examples of experiment
-    1. **ImalseTopoSimExperiment**
-    2. **ImalseTopoExperiment**
-    3. **ImalseStaticRouteExperiment**
-    4. **ImalseStaticRouteSimExperiment**
-    5. **ImalsePingCsmaExperiment**
+    1. **StaticRouteExperiment**
+    2. **TopoExperiment.py**
 
-
-
+Demo:
+------------------------------
+this is the link for a demo
+`video <http://www.youtube.com/watch?v=CZ91McFlIvo&feature=plcp>`_
 
 
 
@@ -185,8 +184,6 @@ and ns3 sim node to be transparent.
 
 .. toctree::
    :maxdepth: 3
-
-    api
 
 Contents:
 

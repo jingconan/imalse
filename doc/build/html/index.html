@@ -73,7 +73,7 @@ several real seconds.</li>
 <li><strong>hybrid approach</strong>: of pure ns3 mode and netns3 mode</li>
 </ul>
 </div></blockquote>
-<img alt="_images/imalse-abstract23.png" class="align-center" src="_images/imalse-abstract23.png" />
+<img alt="_images/imalse-abstract25.png" class="align-center" src="_images/imalse-abstract25.png" />
 <div class="section" id="typical-use-case">
 <h3>Typical Use Case<a class="headerlink" href="#typical-use-case" title="Permalink to this headline">¶</a></h3>
 <p>Suppose Conan is a Ph.D student who has proposed a novel anomaly
@@ -117,7 +117,7 @@ time to sleep and enjoy the classical music. :)</p>
 <p>To support the variety of modes noted above, Imalse design in a way that to
 seperate the botnet mechanism and the network.</p>
 <p>The general structure of Imalse is shown in the following figure:</p>
-<img alt="_images/genearal-structure21.png" class="align-center" src="_images/genearal-structure21.png" />
+<img alt="_images/genearal-structure23.png" class="align-center" src="_images/genearal-structure23.png" />
 <p><strong>Node</strong> and <strong>C</strong>ommand <strong>M</strong>eta <strong>D</strong>escription are the two key concepts in the design.
 <strong>Node</strong> is the abstraction of a real computer. A node should support:</p>
 <blockquote>
@@ -149,11 +149,57 @@ translate the commands and send commands to Clients.</p>
 <p>In <strong>core</strong> module, imalse provides a basic framework for the botnet and the
 support to real network, netns3 and NS3. User can create their own flavor of
 botnet by subclassing <strong>ServerCMD</strong>, <strong>ClientCMD</strong> and <strong>BotmasterCMD</strong>, each
-flavor is called a new <strong>scenario</strong>.
-implement</p>
-<div align="center" class="align-center"><object data="_images/client_fsm12.svg" height="400px" type="image/svg+xml"><embed height="400px" src="_images/client_fsm12.svg" type="image/svg+xml" /></object>
+flavor is called a new <strong>scenario</strong>.</p>
+<p>The basic botnet mechanism can be described as <strong>F</strong>inite <strong>S</strong>tate <strong>M</strong>achine. The <strong>FSM</strong> for the <strong>ClientCMD</strong> is as follows:</p>
+<div align="center" class="align-center"><object data="_images/client_fsm14.svg" height="400px" type="image/svg+xml"><embed height="400px" src="_images/client_fsm14.svg" type="image/svg+xml" /></object>
 </div>
 </div>
+<div class="section" id="scenario">
+<h3>Scenario:<a class="headerlink" href="#scenario" title="Permalink to this headline">¶</a></h3>
+<p>As a noted above, user can create their own flavor of <strong>Botnet</strong>, which is so
+called <strong>scenario</strong>. Currently, Imalse provides two sample <strong>scenarios</strong>:</p>
+<blockquote>
+<div><ol class="arabic">
+<li><dl class="first docutils">
+<dt><strong>ddos_ping_flooding</strong>: in this scenario, botmaster can issue <strong>send_pings</strong></dt>
+<dd><p class="first last">command to initiate a ddos ping flooding attack to a specific server.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><strong>file_exfiltration</strong>: in this scenario, botmaster can request bots to search</dt>
+<dd><p class="first last">in the file system with any file that contains a certain pattern,
+like <strong>password</strong>. Whenver an interesting is found, the bot will
+upload the file to a ftp server.</p>
+</dd>
+</dl>
+</li>
+</ol>
+</div></blockquote>
+</div>
+<div class="section" id="experiment">
+<h3>Experiment<a class="headerlink" href="#experiment" title="Permalink to this headline">¶</a></h3>
+<p>Experiment is only used in <strong>simulation mode</strong>. Experiments need to do Topology and network
+configuration, user behaviour specification. This is usually the only part user need to code if he is
+using an existing scenario.</p>
+<p>Two types of experiments are avaliable in Imalse. 1. <strong>ImalseNetnsExperiment</strong> and 2. <strong>ImalsePureSimExperiment</strong>.
+<strong>ImalseNetnsExperiment</strong> is for <strong>netns3 mode</strong> simulation. <strong>ImalsePureSimExperiment</strong> is
+for pure simulation. For both experiments, you can load topology. If you want to implement your own experiment,
+you can subclass corresponding classes to implement different <strong>mode</strong>.</p>
+<dl class="docutils">
+<dt>The experiments folder contains several examples of experiment</dt>
+<dd><ol class="first last arabic simple">
+<li><strong>StaticRouteExperiment</strong></li>
+<li><strong>TopoExperiment.py</strong></li>
+</ol>
+</dd>
+</dl>
+</div>
+</div>
+<div class="section" id="demo">
+<h2>Demo:<a class="headerlink" href="#demo" title="Permalink to this headline">¶</a></h2>
+<p>this is the link for a demo
+<a class="reference external" href="http://www.youtube.com/watch?v=CZ91McFlIvo&amp;feature=plcp">video</a></p>
 </div>
 <div class="section" id="extension">
 <h2>Extension:<a class="headerlink" href="#extension" title="Permalink to this headline">¶</a></h2>
@@ -194,8 +240,11 @@ and ns3 sim node to be transparent.</p>
 </li>
 <li><a class="reference internal" href="#description">Description:</a><ul>
 <li><a class="reference internal" href="#basic-botnet-mechanism">Basic Botnet Mechanism:</a></li>
+<li><a class="reference internal" href="#scenario">Scenario:</a></li>
+<li><a class="reference internal" href="#experiment">Experiment</a></li>
 </ul>
 </li>
+<li><a class="reference internal" href="#demo">Demo:</a></li>
 <li><a class="reference internal" href="#extension">Extension:</a><ul>
 </ul>
 </li>

@@ -111,7 +111,7 @@ other type of simulator, please subclass **BaseNode** and implement all the
 virtual functions.
 
 a command is a basic event in the botnet. **C**\ ommand **M**\ eta **D**\ escription defines a set of
-commands for a node, namely it defines what event a node can generate. There are three types of **CMD**\ s: 
+commands for a node, namely it defines what event a node can generate. There are three types of **CMD**\ s:
     1. Server **CMD**
     2. Client **CMD**
     3. Botmaster **CMD**
@@ -126,11 +126,48 @@ In **core** module, imalse provides a basic framework for the botnet and the
 support to real network, netns3 and NS3. User can create their own flavor of
 botnet by subclassing **ServerCMD**, **ClientCMD** and **BotmasterCMD**, each
 flavor is called a new **scenario**.
-implement
+
+The basic botnet mechanism can be described as **F**\ inite **S**\ tate **M**\
+achine. The **FSM** for the **ClientCMD** is as follows:
 
 .. image:: ./figure/client_fsm.svg
     :align: center 
     :height: 400px
+
+Scenario:
+++++++++++++++++++++++++++++++
+
+As a noted above, user can create their own flavor of **Botnet**, which is so
+called **scenario**. Currently, Imalse provides two sample **scenarios**: 
+
+    1. **ddos_ping_flooding**: in this scenario, botmaster can issue **send_pings** 
+           command to initiate a ddos ping flooding attack to a specific server.
+    2. **file_exfiltration**: in this scenario, botmaster can request bots to search
+           in the file system with any file that contains a certain pattern,
+           like **password**. Whenver an interesting is found, the bot will
+           upload the file to a ftp server.
+
+Experiment
+++++++++++++++++++++++++++++++
+
+Experiment is only used in **simulation mode**. Experiments need to do Topology and network
+configuration, user behaviour specification. This is usually the only part user need to code if he is 
+using an existing scenario. 
+
+Two types of experiments are avaliable in Imalse. 1. **ImalseNetnsExperiment** and 2. **ImalsePureSimExperiment**. 
+**ImalseNetnsExperiment** is for **netns3 mode** simulation. **ImalsePureSimExperiment** is
+for pure simulation. For both experiments, you can load topology. If you want to implement your own experiment, 
+you can subclass corresponding classes to implement different **mode**.
+
+The experiments folder contains several examples of experiment
+    1. **StaticRouteExperiment**
+    2. **TopoExperiment.py**
+
+Demo:
+------------------------------
+this is the link for a demo
+`video <http://www.youtube.com/watch?v=CZ91McFlIvo&feature=plcp>`_
+
 
 
 
@@ -147,8 +184,6 @@ and ns3 sim node to be transparent.
 
 .. toctree::
    :maxdepth: 3
-
-    api
 
 Contents:
 

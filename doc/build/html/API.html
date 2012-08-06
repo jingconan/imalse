@@ -254,9 +254,8 @@ for this module, so I simply reimplement it in python.</p>
 <p>This section contains the functions for NS3 support.</p>
 <dl class="class">
 <dt id="core.ns3.Experiment.ImalseExperiment">
-<em class="property">class </em><tt class="descclassname">core.ns3.Experiment.</tt><tt class="descname">ImalseExperiment</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/core/ns3/Experiment.html#ImalseExperiment"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.ns3.Experiment.ImalseExperiment" title="Permalink to this definition">¶</a></dt>
-<dd><p>Base Class for Imalse Experiment
-It is based on the NetnsExperiment</p>
+<em class="property">class </em><tt class="descclassname">core.ns3.Experiment.</tt><tt class="descname">ImalseExperiment</tt><a class="reference internal" href="_modules/core/ns3/Experiment.html#ImalseExperiment"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.ns3.Experiment.ImalseExperiment" title="Permalink to this definition">¶</a></dt>
+<dd><p>Base class for all ImalseExperiment</p>
 <dl class="method">
 <dt id="core.ns3.Experiment.ImalseExperiment.get_node">
 <tt class="descname">get_node</tt><big>(</big><em>i</em><big>)</big><a class="reference internal" href="_modules/core/ns3/Experiment.html#ImalseExperiment.get_node"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.ns3.Experiment.ImalseExperiment.get_node" title="Permalink to this definition">¶</a></dt>
@@ -273,6 +272,24 @@ It is based on the NetnsExperiment</p>
 <dt id="core.ns3.Experiment.ImalseExperiment.print_srv_addr">
 <tt class="descname">print_srv_addr</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/core/ns3/Experiment.html#ImalseExperiment.print_srv_addr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.ns3.Experiment.ImalseExperiment.print_srv_addr" title="Permalink to this definition">¶</a></dt>
 <dd><p>print out the address of the server</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="core.ns3.Experiment.ImalseExperiment.start_nodes">
+<tt class="descname">start_nodes</tt><big>(</big><big>)</big><a class="headerlink" href="#core.ns3.Experiment.ImalseExperiment.start_nodes" title="Permalink to this definition">¶</a></dt>
+<dd><p>specify when each node should start</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="core.ns3.Experiment.ImalseNetnsExperiment">
+<em class="property">class </em><tt class="descclassname">core.ns3.Experiment.</tt><tt class="descname">ImalseNetnsExperiment</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#core.ns3.Experiment.ImalseNetnsExperiment" title="Permalink to this definition">¶</a></dt>
+<dd><p>Base Class for Imalse Experiment in netns3 mode</p>
+<dl class="method">
+<dt id="core.ns3.Experiment.ImalseNetnsExperiment.get_node">
+<tt class="descname">get_node</tt><big>(</big><em>i</em><big>)</big><a class="headerlink" href="#core.ns3.Experiment.ImalseNetnsExperiment.get_node" title="Permalink to this definition">¶</a></dt>
+<dd><p>get ith nodes</p>
 </dd></dl>
 
 </dd></dl>
@@ -327,9 +344,15 @@ cmd.dispatcher()</p>
 </dd></dl>
 
 <dl class="class">
-<dt id="core.ns3.PureSimExperiment.ImalsePureSimExperiment">
-<em class="property">class </em><tt class="descclassname">core.ns3.PureSimExperiment.</tt><tt class="descname">ImalsePureSimExperiment</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/core/ns3/PureSimExperiment.html#ImalsePureSimExperiment"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.ns3.PureSimExperiment.ImalsePureSimExperiment" title="Permalink to this definition">¶</a></dt>
+<dt id="core.ns3.Experiment.ImalsePureSimExperiment">
+<em class="property">class </em><tt class="descclassname">core.ns3.Experiment.</tt><tt class="descname">ImalsePureSimExperiment</tt><a class="headerlink" href="#core.ns3.Experiment.ImalsePureSimExperiment" title="Permalink to this definition">¶</a></dt>
 <dd><p>Pure Sim Experiemtn Doesn&#8217;t depend on netns3 can run in simulated time</p>
+<dl class="staticmethod">
+<dt id="core.ns3.Experiment.ImalsePureSimExperiment.event">
+<em class="property">static </em><tt class="descname">event</tt><big>(</big><em>time</em>, <em>func</em>, <em>*args</em>, <em>**kwds</em><big>)</big><a class="headerlink" href="#core.ns3.Experiment.ImalsePureSimExperiment.event" title="Permalink to this definition">¶</a></dt>
+<dd><p>schedule an event to simulator</p>
+</dd></dl>
+
 </dd></dl>
 
 <div class="toctree-wrapper compound">

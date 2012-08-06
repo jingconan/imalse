@@ -8,6 +8,6 @@ if you want to use simulator, you have two ways:
     1. going to NS3 path and type:
         $ ./waf shell
        you will enter ns3 waf-sh. Then in this shell, go back to this folder and type
-        $ ./simulator.py
+        $ ./simulate.py
     2. if you are lazy. just update the NS3_PATH value in settings.py and type
         $ ./sim

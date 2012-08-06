@@ -55,6 +55,9 @@ This section contains the functions for NS3 support.
 .. autoclass:: core.ns3.Experiment.ImalseExperiment
     :members:
 
+.. autoclass:: core.ns3.Experiment.ImalseNetnsExperiment
+    :members:
+
 .. autoclass:: core.ns3.Node.ImalseNetnsNode
     :members:
 
@@ -64,9 +67,8 @@ Pure Simulation Mode
 .. autoclass:: core.ns3.Node.ImalseNetnsSimNode
     :members:
 
-.. autoclass:: core.ns3.PureSimExperiment.ImalsePureSimExperiment
+.. autoclass:: core.ns3.Experiment.ImalsePureSimExperiment
     :members:
-
 
 .. toctree::
    :maxdepth: 2
@@ -81,4 +83,3 @@ Indices and tables
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
-
