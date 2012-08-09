@@ -9,7 +9,7 @@ from core.BaseNode import BaseNode
 import sys
 
 from core.real import PhyNode
-from core.ns3.netns3 import *
+from core.ns3.netns3 import NetnsNode
 class ImalseNetnsNode(NetnsNode, PhyNode):
     """Imalse Netns Node, it will use linux namespace to construct virtual machine.
     And applications will run in these virtual machines.
@@ -36,26 +36,14 @@ class ImalseNetnsNode(NetnsNode, PhyNode):
 
 nodenum = 0
 import ns3
-# class ConnectACKTag(ns3.Tag):
-#     def __init__(self):
-#         pass
-#     def GetSerializedSize (self):
-#         pass
-        # return 0
-#     def Serialize (self, tag_buffer):
-        # tag_buffer = "CONECT_ACK"
-#         pass
-#     def Deserialize (self, tag_buffer):
-        # self.data = tag_buffer
-#         pass
-#     def Print (os):
-#         pass
 
 #############################################
 # NS3 python binding missing some important
 # APIs, MSG_MAP and MSG_RE_MAP are used
 # to hack the API. Need to be fixed later
 #############################################
+## Been Fixed at[2012-08-08 23:20:52], MSG_MAP and MSG_RE_MAP now becomes useless.
+
 MSG_MAP = {
         'connect_ack': 21,
         '{"password": ["1234"], "event": ["verify_master"]}':122,
@@ -235,6 +223,22 @@ class ImalseNetnsSimNode(ns3.Node, BaseNode):
 
     @staticmethod
     def get_msg(p):
+        """get message from the pacetk"""
+        h = ns3.ImalseHeader()
+        p.RemoveHeader(h)
+        msg = h.GetData()
+        return msg
+
+    @staticmethod
+    def add_msg(p, msg):
+        """add message to pacekt"""
+        h = ns3.ImalseHeader()
+        h.SetData(msg)
+        p.AddHeader(h)
+        return p
+
+    @staticmethod
+    def get_msg_deprec(p):
         """get_msg and add_msg are two hack function"""
         print 'p.GetSize(), ', p.GetSize()
         # import pdb;pdb.set_trace()
@@ -242,7 +246,7 @@ class ImalseNetnsSimNode(ns3.Node, BaseNode):
         # return MSG_RE_MAP[21]
 
     @staticmethod
-    def add_msg(p, msg):
+    def add_msg_deprec(p, msg):
         """encode the message to the packet"""
         msg_id = MSG_MAP.get(msg, None) # FIXME use padding length to present msg, a wordround for python bug
         if not msg_id:

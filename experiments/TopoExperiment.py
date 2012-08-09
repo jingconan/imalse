@@ -6,8 +6,8 @@ from core.ns3.Topology import TopologyNet
 import os
 
 NETWORK_BASE = "10.0.0.0"
-# SERVER_ADDR = "10.0.0.1"
-SERVER_ADDR = "127.0.0.1"
+SERVER_ADDR = "10.0.0.1"
+# SERVER_ADDR = "127.0.0.1"
 IP_MASK = "255.255.255.0"
 
 class TopoExperiment(BaseClass):

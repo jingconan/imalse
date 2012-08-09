@@ -23,7 +23,7 @@
     <script type="text/javascript" src="../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
     <link rel="top" title="imalse v0.0 alpha documentation" href="../../../index.html" />
-    <link rel="up" title="core.ns3" href="../ns3.html" /> 
+    <link rel="up" title="core" href="../../core.html" /> 
   </head>
   <body>
     <div class="related">
@@ -37,8 +37,7 @@
              >modules</a> |</li>
         <li><a href="../../../index.html">imalse v0.0 alpha documentation</a> &raquo;</li>
           <li><a href="../../index.html" >Module code</a> &raquo;</li>
-          <li><a href="../../core.html" >core</a> &raquo;</li>
-          <li><a href="../ns3.html" accesskey="U">core.ns3</a> &raquo;</li> 
+          <li><a href="../../core.html" accesskey="U">core</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -51,70 +50,65 @@
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">this file describe the netns3 experiment for imalse</span>
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="kn">from</span> <span class="nn">core.ns3.netns3</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">core.ns3.Node</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">core.ns3.csma_ping</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">core.ns3.netns3</span> <span class="kn">import</span> <span class="n">NetnsExperiment</span>
+<span class="kn">from</span> <span class="nn">core.ns3.Node</span> <span class="kn">import</span> <span class="n">ImalseNetnsNode</span>
 <span class="kn">import</span> <span class="nn">ns3</span>
-
 <span class="kn">from</span> <span class="nn">util</span> <span class="kn">import</span> <span class="n">load_module</span>
-<span class="c"># , get_scenario_option</span>
+<span class="kn">from</span> <span class="nn">util</span> <span class="kn">import</span> <span class="n">get_scenario_option</span><span class="p">,</span> <span class="n">abstract_method</span>
 
-<span class="c"># for test, just select the first node as server, the second node as botmaster, all other nodes</span>
-<span class="c"># are clients</span>
-<span class="c"># class ImalseExperiment(NetnsExperiment):</span>
-<span class="c"># class ImalseExperiment(PingCsmaExperiment):</span>
-<div class="viewcode-block" id="ImalseExperiment"><a class="viewcode-back" href="../../../API.html#core.ns3.Experiment.ImalseExperiment">[docs]</a><span class="k">class</span> <span class="nc">ImalseExperiment</span><span class="p">(</span><span class="n">NetnsExperiment</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Base Class for Imalse Experiment</span>
-<span class="sd">    It is based on the NetnsExperiment</span>
+<span class="n">NODE_NUM</span> <span class="o">=</span> <span class="mi">0</span>
+
+<div class="viewcode-block" id="ImalseExperiment"><a class="viewcode-back" href="../../../API.html#core.ns3.Experiment.ImalseExperiment">[docs]</a><span class="k">class</span> <span class="nc">ImalseExperiment</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Base class for all ImalseExperiment</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">server_id_set</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     <span class="n">botmaster_id_set</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span>
     <span class="n">client_id_set</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">ImalseExperiment</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_init</span><span class="p">()</span>
-
-    <span class="k">def</span> <span class="nf">_init</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">pass</span>
-
-    <span class="c"># def setup(self):</span>
-    <span class="c">#     devhelper = self.csmahelper(rate = self.options.rate,</span>
-    <span class="c">#                                 delay = self.options.delay)</span>
-    <span class="c">#     self.createnodes(self.options.numnodes, devhelper)</span>
-
-    <span class="k">def</span> <span class="nf">setup</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">pass</span>
-
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">id_set</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">server_id_set</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">botmaster_id_set</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">client_id_set</span>
 
+    <span class="k">def</span> <span class="nf">initparser</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parser</span><span class="p">):</span>
+        <span class="n">scenario_ops</span> <span class="o">=</span> <span class="n">get_scenario_option</span><span class="p">()</span>
+        <span class="n">parser</span><span class="o">.</span><span class="n">add_option</span><span class="p">(</span><span class="s">&#39;-s&#39;</span><span class="p">,</span> <span class="s">&#39;--scenario&#39;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s">&quot;scenario&quot;</span><span class="p">,</span>
+                <span class="n">default</span><span class="o">=</span><span class="s">&#39;ddos_ping_flooding&#39;</span><span class="p">,</span>
+                <span class="n">help</span><span class="o">=</span><span class="s">&#39;specify the scenario you want to execute. Scenearios availiable are: </span><span class="si">%s</span><span class="s">&#39;</span><span class="o">%</span><span class="p">(</span><span class="n">scenario_ops</span><span class="p">),</span>
+                <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_init</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">pass</span>
+    <span class="k">def</span> <span class="nf">setup</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">pass</span>
+
 <div class="viewcode-block" id="ImalseExperiment.get_node"><a class="viewcode-back" href="../../../API.html#core.ns3.Experiment.ImalseExperiment.get_node">[docs]</a>    <span class="k">def</span> <span class="nf">get_node</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;get ith nodes&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="n">abstract_method</span><span class="p">()</span>
 </div>
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">node_num</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">)</span>
+        <span class="n">abstract_method</span><span class="p">()</span>
 
 <div class="viewcode-block" id="ImalseExperiment.node_run"><a class="viewcode-back" href="../../../API.html#core.ns3.Experiment.ImalseExperiment.node_run">[docs]</a>    <span class="k">def</span> <span class="nf">node_run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;run a command on a specific node&quot;&quot;&quot;</span>
         <span class="n">node</span><span class="o">.</span><span class="n">cmd_set</span><span class="o">.</span><span class="n">_trigger</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="ImalseExperiment.start_nodes"><a class="viewcode-back" href="../../../API.html#core.ns3.Experiment.ImalseExperiment.start_nodes">[docs]</a>    <span class="k">def</span> <span class="nf">start_nodes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;specify when each node should start&quot;&quot;&quot;</span>
+        <span class="c"># start servers</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">server_id_set</span><span class="p">:</span>
+            <span class="k">print</span> <span class="s">&#39;node [</span><span class="si">%i</span><span class="s">] type [</span><span class="si">%s</span><span class="s">] start at [</span><span class="si">%f</span><span class="s">]s&#39;</span><span class="o">%</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="s">&#39;server&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">event</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">node_run</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_node</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="s">&#39;start&#39;</span><span class="p">)</span>
 
-    <span class="c"># def _install_cmds(self):</span>
-    <span class="c">#     &quot;&quot;&quot;install different command set to nodes according to their type&quot;&quot;&quot;</span>
-    <span class="c">#     scen = load_module(self.options.scenario)</span>
-    <span class="c">#     for i in xrange(self.node_num):</span>
-    <span class="c">#         if i in self.botmaster_id_set:</span>
-    <span class="c">#             cmd = scen.BotMaster()</span>
-    <span class="c">#         elif i in self.server_id_set:</span>
-    <span class="c">#             cmd = scen.ServerCMD()</span>
-    <span class="c">#         elif i in self.client_id_set:</span>
-    <span class="c">#             cmd = scen.ClientCMD()</span>
-    <span class="c">#         else:</span>
-    <span class="c">#             continue</span>
-    <span class="c">#         cmd.install(self.get_node(i))</span>
+        <span class="c"># start clients</span>
+        <span class="n">t</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">client_id_set</span><span class="p">:</span>
+            <span class="n">t</span> <span class="o">+=</span> <span class="mi">2</span>
+            <span class="k">print</span> <span class="s">&#39;node [</span><span class="si">%i</span><span class="s">] type [</span><span class="si">%s</span><span class="s">] start at [</span><span class="si">%f</span><span class="s">]s&#39;</span><span class="o">%</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="s">&#39;client&#39;</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">event</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">node_run</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_node</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="s">&#39;start&#39;</span><span class="p">)</span>
+
+        <span class="c"># start botmaster</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">botmaster_id_set</span><span class="p">:</span>
+            <span class="k">print</span> <span class="s">&#39;node [</span><span class="si">%i</span><span class="s">] type [</span><span class="si">%s</span><span class="s">] start at [</span><span class="si">%f</span><span class="s">]s&#39;</span><span class="o">%</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="s">&#39;botmaster&#39;</span><span class="p">,</span> <span class="n">t</span><span class="o">+</span><span class="mi">2</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">event</span><span class="p">(</span><span class="n">t</span><span class="o">+</span><span class="mi">2</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">node_run</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_node</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="s">&#39;start&#39;</span><span class="p">)</span>
 </div>
     <span class="k">def</span> <span class="nf">_install_cmds</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">srv_addr</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;install different command set to nodes according to their type</span>
@@ -164,9 +158,114 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">get_node</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">.</span><span class="n">server_set</span> <span class="o">=</span> <span class="n">server_set</span>
 
 <div class="viewcode-block" id="ImalseExperiment.print_srv_addr"><a class="viewcode-back" href="../../../API.html#core.ns3.Experiment.ImalseExperiment.print_srv_addr">[docs]</a>    <span class="k">def</span> <span class="nf">print_srv_addr</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;print out the address of the server&quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">server_id_set</span><span class="p">:</span>
             <span class="n">ipv4Addr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_node</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">.</span><span class="n">GetObject</span><span class="p">(</span><span class="n">ns3</span><span class="o">.</span><span class="n">TypeId</span><span class="o">.</span><span class="n">LookupByName</span><span class="p">(</span><span class="s">&quot;ns3::Ipv4&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">GetAddress</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-            <span class="k">print</span> <span class="s">&#39;The server addr of server [</span><span class="si">%i</span><span class="s"> ]: &#39;</span><span class="o">%</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="n">ipv4Addr</span></div></div>
+            <span class="k">print</span> <span class="s">&#39;The server addr of server [</span><span class="si">%i</span><span class="s"> ]: &#39;</span><span class="o">%</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="n">ipv4Addr</span>
+
+<span class="c"># for test, just select the first node as server, the second node as botmaster, all other nodes</span>
+<span class="c"># are clients</span></div></div>
+<span class="kn">import</span> <span class="nn">optparse</span>
+<div class="viewcode-block" id="ImalseNetnsExperiment"><a class="viewcode-back" href="../../../API.html#core.ns3.Experiment.ImalseNetnsExperiment">[docs]</a><span class="k">class</span> <span class="nc">ImalseNetnsExperiment</span><span class="p">(</span><span class="n">ImalseExperiment</span><span class="p">,</span> <span class="n">NetnsExperiment</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Base Class for Imalse Experiment in netns3 mode</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="c"># super(ImalseNetnsExperiment, self).__init__(*args, **kwargs)</span>
+        <span class="n">NetnsExperiment</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">ImalseExperiment</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_init</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">initparser</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parser</span><span class="p">):</span>
+        <span class="n">ImalseExperiment</span><span class="o">.</span><span class="n">initparser</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parser</span><span class="p">)</span>
+        <span class="n">NetnsExperiment</span><span class="o">.</span><span class="n">initparser</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parser</span><span class="p">)</span>
+
+<div class="viewcode-block" id="ImalseNetnsExperiment.get_node"><a class="viewcode-back" href="../../../API.html#core.ns3.Experiment.ImalseNetnsExperiment.get_node">[docs]</a>    <span class="k">def</span> <span class="nf">get_node</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;get ith nodes&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+</div>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">node_num</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">NodeCreator</span><span class="p">():</span>
+        <span class="k">global</span> <span class="n">NODE_NUM</span>
+        <span class="n">NODE_NUM</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="s">&quot;n</span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span><span class="n">NODE_NUM</span>
+        <span class="k">return</span> <span class="n">ImalseNetnsNode</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">logfile</span> <span class="o">=</span> <span class="s">&quot;/tmp/</span><span class="si">%s</span><span class="s">.log&quot;</span> <span class="o">%</span> <span class="n">name</span><span class="p">)</span>
+
+</div>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">In Pure Sim experiments, all nodes are simulated. So we don&#39;t need</span>
+<span class="sd">the real-time schedular.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">core.ns3.Node</span> <span class="kn">import</span> <span class="n">ImalseNetnsSimNode</span>
+<span class="kn">import</span> <span class="nn">ns.core</span>
+
+<div class="viewcode-block" id="ImalsePureSimExperiment"><a class="viewcode-back" href="../../../API.html#core.ns3.Experiment.ImalsePureSimExperiment">[docs]</a><span class="k">class</span> <span class="nc">ImalsePureSimExperiment</span><span class="p">(</span><span class="n">ImalseExperiment</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Pure Sim Experiemtn Doesn&#39;t depend on netns3 can run in simulated time&quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">initparser</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parser</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">ImalsePureSimExperiment</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">initparser</span><span class="p">(</span><span class="n">parser</span><span class="p">)</span>
+        <span class="n">parser</span><span class="o">.</span><span class="n">set_defaults</span><span class="p">(</span><span class="n">SimulatorImplementationType</span><span class="o">=</span><span class="s">&#39;Default&#39;</span><span class="p">)</span>
+        <span class="n">parser</span><span class="o">.</span><span class="n">add_option</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">,</span> <span class="s">&quot;--SimulatorImpl&quot;</span><span class="p">,</span> <span class="n">dest</span> <span class="o">=</span> <span class="s">&quot;SimulatorImplementationType&quot;</span><span class="p">,</span>
+                <span class="n">help</span><span class="o">=</span><span class="s">&quot;the simulator implementation Type, available options are[&#39;Realtime&#39;, &#39;Default&#39;, &#39;Visual&#39;]&quot;</span><span class="p">)</span>
+
+
+        <span class="n">parser</span><span class="o">.</span><span class="n">set_defaults</span><span class="p">(</span><span class="n">numnodes</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">simtime</span> <span class="o">=</span> <span class="mi">30</span><span class="p">)</span>
+        <span class="n">parser</span><span class="o">.</span><span class="n">add_option</span><span class="p">(</span><span class="s">&quot;-n&quot;</span><span class="p">,</span> <span class="s">&quot;--numnodes&quot;</span><span class="p">,</span> <span class="n">dest</span> <span class="o">=</span> <span class="s">&quot;numnodes&quot;</span><span class="p">,</span> <span class="nb">type</span> <span class="o">=</span> <span class="nb">int</span><span class="p">,</span>
+                          <span class="n">help</span> <span class="o">=</span> <span class="s">&quot;number of nodes; default = </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span>
+                          <span class="n">parser</span><span class="o">.</span><span class="n">defaults</span><span class="p">[</span><span class="s">&quot;numnodes&quot;</span><span class="p">])</span>
+        <span class="n">parser</span><span class="o">.</span><span class="n">add_option</span><span class="p">(</span><span class="s">&quot;-t&quot;</span><span class="p">,</span> <span class="s">&quot;--simtime&quot;</span><span class="p">,</span> <span class="n">dest</span> <span class="o">=</span> <span class="s">&quot;simtime&quot;</span><span class="p">,</span> <span class="nb">type</span> <span class="o">=</span> <span class="nb">float</span><span class="p">,</span>
+                          <span class="n">help</span> <span class="o">=</span> <span class="s">&quot;simulation run time; default = </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span>
+                          <span class="n">parser</span><span class="o">.</span><span class="n">defaults</span><span class="p">[</span><span class="s">&quot;simtime&quot;</span><span class="p">])</span>
+
+    <span class="k">def</span> <span class="nf">setup</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">ImalsePureSimExperiment</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">setup</span><span class="p">()</span>
+        <span class="n">ns</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">GlobalValue</span><span class="o">.</span><span class="n">Bind</span><span class="p">(</span><span class="s">&quot;SimulatorImplementationType&quot;</span><span class="p">,</span>
+                <span class="n">ns</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">StringValue</span><span class="p">(</span><span class="s">&quot;ns3::</span><span class="si">%s</span><span class="s">SimulatorImpl&quot;</span><span class="o">%</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">SimulatorImplementationType</span><span class="p">)))</span>
+
+    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">setup</span><span class="p">()</span>
+        <span class="k">print</span> <span class="s">&quot;running simulator for </span><span class="si">%s</span><span class="s"> sec&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">simtime</span>
+        <span class="n">ns</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">Simulator</span><span class="o">.</span><span class="n">Stop</span><span class="p">(</span><span class="n">ns</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">Seconds</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">simtime</span><span class="p">))</span>
+        <span class="c"># ns.core.Simulator.Run(signal_check_frequency = -1)</span>
+        <span class="n">ns</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">Simulator</span><span class="o">.</span><span class="n">Run</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cleanup</span><span class="p">()</span>
+        <span class="n">ns</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">Simulator</span><span class="o">.</span><span class="n">Destroy</span><span class="p">()</span>
+        <span class="k">print</span> <span class="s">&quot;simulator done&quot;</span>
+
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="ImalsePureSimExperiment.event"><a class="viewcode-back" href="../../../API.html#core.ns3.Experiment.ImalsePureSimExperiment.event">[docs]</a>    <span class="k">def</span> <span class="nf">event</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">func</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;schedule an event to simulator&quot;&quot;&quot;</span>
+        <span class="k">def</span> <span class="nf">run</span><span class="p">():</span>
+            <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+        <span class="n">ns</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">Simulator</span><span class="o">.</span><span class="n">Schedule</span><span class="p">(</span><span class="n">ns</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">Time</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">time</span><span class="p">)),</span> <span class="n">run</span><span class="p">)</span>
+</div>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">NodeCreator</span><span class="p">():</span>
+        <span class="k">return</span> <span class="n">ImalseNetnsSimNode</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">run</span> <span class="o">=</span> <span class="bp">True</span><span class="p">):</span>
+        <span class="n">usage</span> <span class="o">=</span> <span class="s">&quot;%prog [-h] &quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">usagestr</span><span class="p">()</span> <span class="o">+</span> <span class="s">&quot; ...&quot;</span>
+        <span class="n">parser</span> <span class="o">=</span> <span class="n">optparse</span><span class="o">.</span><span class="n">OptionParser</span><span class="p">(</span><span class="n">usage</span> <span class="o">=</span> <span class="n">usage</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">initparser</span><span class="p">(</span><span class="n">parser</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">run</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">usagestr</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">&quot;[-n &lt;numnodes&gt;] [-t &lt;simtime&gt;]&quot;</span>
+
+    <span class="k">def</span> <span class="nf">print_help</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">parser</span> <span class="o">=</span> <span class="n">optparse</span><span class="o">.</span><span class="n">OptionParser</span><span class="p">(</span><span class="n">usage</span> <span class="o">=</span> <span class="s">&#39;&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">initparser</span><span class="p">(</span><span class="n">parser</span><span class="p">)</span>
+        <span class="n">parser</span><span class="o">.</span><span class="n">print_help</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">cleanup</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">ns</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">Simulator</span><span class="o">.</span><span class="n">Destroy</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">node_num</span><span class="p">):</span>
+            <span class="n">n</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_node</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+            <span class="n">n</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span></div>
 </pre></div>
 
           </div>
@@ -202,8 +301,7 @@
              >modules</a> |</li>
         <li><a href="../../../index.html">imalse v0.0 alpha documentation</a> &raquo;</li>
           <li><a href="../../index.html" >Module code</a> &raquo;</li>
-          <li><a href="../../core.html" >core</a> &raquo;</li>
-          <li><a href="../ns3.html" >core.ns3</a> &raquo;</li> 
+          <li><a href="../../core.html" >core</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">

@@ -23,7 +23,7 @@
     <script type="text/javascript" src="../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
     <link rel="top" title="imalse v0.0 alpha documentation" href="../../../index.html" />
-    <link rel="up" title="core.ns3" href="../ns3.html" /> 
+    <link rel="up" title="core" href="../../core.html" /> 
   </head>
   <body>
     <div class="related">
@@ -37,8 +37,7 @@
              >modules</a> |</li>
         <li><a href="../../../index.html">imalse v0.0 alpha documentation</a> &raquo;</li>
           <li><a href="../../index.html" >Module code</a> &raquo;</li>
-          <li><a href="../../core.html" >core</a> &raquo;</li>
-          <li><a href="../ns3.html" accesskey="U">core.ns3</a> &raquo;</li> 
+          <li><a href="../../core.html" accesskey="U">core</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -115,6 +114,7 @@
         <span class="s">&#39;{&quot;host&quot;: &quot;thales.bu.edu&quot;, &quot;password&quot;: &quot;imalse&quot;, &quot;user&quot;: &quot;imalse-ftp&quot;, &quot;event&quot;: &quot;set_ftp_info&quot;}&#39;</span><span class="p">:</span><span class="mi">126</span><span class="p">,</span>
         <span class="s">&#39;{&quot;directory&quot;: &quot;.&quot;, &quot;pattern&quot;: &quot;assword&quot;, &quot;suffix&quot;: [&quot;.txt&quot;], &quot;event&quot;: &quot;set_file_filter&quot;}&#39;</span><span class="p">:</span><span class="mi">127</span><span class="p">,</span>
         <span class="s">&#39;{&quot;event&quot;: &quot;search_and_upload&quot;}&#39;</span><span class="p">:</span><span class="mi">128</span><span class="p">,</span>
+        <span class="s">&#39;{&quot;hostname&quot;: [&quot;127.0.0.1&quot;], &quot;event&quot;: [&quot;send_ping&quot;]}&#39;</span><span class="p">:</span><span class="mi">129</span><span class="p">,</span>
         <span class="p">}</span>
 <span class="n">MSG_RE_MAP</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span> <span class="p">[</span> <span class="p">(</span><span class="n">v</span><span class="p">,</span><span class="n">k</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">MSG_MAP</span><span class="o">.</span><span class="n">iteritems</span><span class="p">()</span> <span class="p">]</span> <span class="p">)</span>
 
@@ -332,6 +332,12 @@
 
     <span class="k">def</span> <span class="nf">ftp_upload</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">host</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="n">password</span><span class="p">):</span>
         <span class="k">print</span> <span class="s">&#39;File [</span><span class="si">%s</span><span class="s">] has been uploaded to ftp </span><span class="si">%s</span><span class="s">&#39;</span><span class="o">%</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">host</span><span class="p">)</span>
+
+    <span class="c">####################################</span>
+    <span class="c">##    File System              #####</span>
+    <span class="c">####################################</span>
+    <span class="k">def</span> <span class="nf">ping</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sock</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">threaded</span><span class="p">):</span>
+        <span class="k">print</span> <span class="s">&#39;ImalseNetnsSimNode.ping: this is just a stub, please finish it&#39;</span>
 </pre></div></div>
 
           </div>
@@ -367,8 +373,7 @@
              >modules</a> |</li>
         <li><a href="../../../index.html">imalse v0.0 alpha documentation</a> &raquo;</li>
           <li><a href="../../index.html" >Module code</a> &raquo;</li>
-          <li><a href="../../core.html" >core</a> &raquo;</li>
-          <li><a href="../ns3.html" >core.ns3</a> &raquo;</li> 
+          <li><a href="../../core.html" >core</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">

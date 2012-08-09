@@ -1,0 +1,32 @@
+# -*- Mode: python; py-indent-offset: 4; indent-tabs-mode: nil; coding: utf-8; -*-
+
+# def options(opt):
+#     pass
+
+# def configure(conf):
+#     conf.check_nonfatal(header_name='stdint.h', define_name='HAVE_STDINT_H')
+
+def build(bld):
+    module = bld.create_ns3_module('imalse', ['core', 'network'])
+    module.source = [
+        'model/imalse.cc',
+        'helper/imalse-helper.cc',
+        ]
+
+    module_test = bld.create_ns3_module_test_library('imalse')
+    module_test.source = [
+        'test/imalse-test-suite.cc',
+        ]
+
+    headers = bld.new_task_gen(features=['ns3header'])
+    headers.module = 'imalse'
+    headers.source = [
+        'model/imalse.h',
+        'helper/imalse-helper.h',
+        ]
+
+    if bld.env.ENABLE_EXAMPLES:
+        bld.add_subdirs('examples')
+
+    bld.ns3_python_bindings()
+
