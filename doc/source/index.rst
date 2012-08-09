@@ -249,9 +249,69 @@ in the command line.
 
 Installation:
 ------------------------------
-Under Construction.
+
+Installation of NS3
++++++++++++++++++++++++++++++
+We recommend you to install a revised version NS3 based on NS3.14.1. We add the
+imalse module to this to deal with the packet manipulation. Run the following
+command in the bash.
+
+.. code-block:: bash
+    
+    wget https://bitbucket.org/hbhzwj/imalse/downloads/ns-allinone-3.14.1-with-imalse.tar.gz
+    tar -xzvf ns-allinone-3.14.1-with-imalse.tar.gz
+    cd ns-allinone-3.14.1-with-imalse
+    ./build.py
+
+It will check the dependencies first. be careful about the message of and
+install the corresponding dependencies. Under Ubuntu 12.04, you can install the dependencies by typing
+
+.. code-block:: bash
+
+    sudo apt-get install g++ python-dev gccxml python-pygccxml python-pygraphviz python-pygoocanvas
+
+After building the ns-allinone successfully. There is one more thing you need to
+do. The ns3.14.1 has a bug in python binding of dsr, the most recently added
+module. You need disable the import of dsr binding in ns3.py.
+
+.. code-block:: bash
+
+    cd ns-allinone-3.14.1-with-imalse/ns-3.14.1/build/bindings/python/
+    vi ns3.py
+then comment the 
+
+.. code-block:: python
+
+    from ns.dsr import * 
+
+line.
+
+Installation of Common Open Research Emulator
++++++++++++++++++++++++++++++
+We use netns3 to vituralize the node in which requires common open research
+emulator. Since netns3 has been integrated into imalse, you just need install
+CORE
+
+Refer to the following
+http://pf.itd.nrl.navy.mil/core/core-html/Installing-from-Packages-on-Ubuntu.html for installation of common open research emulator.
 
 
+
+Download imalse
++++++++++++++++++++++++++++++
+
+
+Then download the tarbar for the imalse
+
+.. code-block:: bash
+
+   wget -O imalse.tar.bz2 https://bitbucket.org/hbhzwj/imalse/get/94d1ff15736f.tar.bz2
+   tar -xvf imalse.tar.bz2
+
+or you can use hg clone command in the previous section to get the lastest
+version. The last thing you need to to is to change the ROOT and NS3_PATH in
+settings.py. ROOT should be the directory of the imalse source code and NS#_PATH 
+should be the directory for the NS3.
 
 
 .. toctree::

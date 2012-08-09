@@ -1,0 +1,47 @@
+install the dependency
+.. code-block:: bash
+
+    sudo apt-get install libev-dev bridge-utils ebtables
+    sudo apt-get install util-vserver
+
+.. code-block:: bash
+
+    wget http://downloads.pf.itd.nrl.navy.mil/core/source/core-src-4.3.tgz
+    tar -xzvf core-src-4.3.tgz
+    cd core-src-4.3
+    ./configure
+
+if everything is okay, you can get the following message:
+
+.. code-block:: bash
+
+    core 4.3 Configuration:
+
+      Host System Type:           
+      C Compiler and flags:       gcc  -O3 -Werror -Wall -D_GNU_SOURCE
+      Install prefix:             /usr/local
+      CORE GUI path:              /usr/local/lib/core
+      CORE GUI config path:       ${HOME}/.core
+      CORE config path:           /etc/core
+      CORE logs path:             /var/log
+      Features to build:
+      Python bindings:            yes
+      Linux Namespaces emulation: yes
+      Linux OpenVZ emulation:     no
+      FreeBSD Virtnet emulation:  no
+      Documentation:              no
+
+      ------------------------------------------------------------------------
+      On this platform you can run core as a normal user.
+      ------------------------------------------------------------------------
+
+Installation of netns3
++++++++++++++++++++++++++++++
+imalse contains one copy of the netns3 source code. 
+
+.. code-block:: bash
+
+    cd ./tools/netns3/src/
+    
+
+
