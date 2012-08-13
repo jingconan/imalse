@@ -181,18 +181,18 @@
         <span class="c"># create routing table</span>
         <span class="n">ns3</span><span class="o">.</span><span class="n">Ipv4GlobalRoutingHelper</span><span class="o">.</span><span class="n">PopulateRoutingTables</span><span class="p">()</span>
 
-    <span class="k">def</span> <span class="nf">load_file</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="TopologyNet.load_file"><a class="viewcode-back" href="../../../API.html#core.ns3.Topology.TopologyNet.load_file">[docs]</a>    <span class="k">def</span> <span class="nf">load_file</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">inFile</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_load_file</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_input</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_format</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">NodeCreator</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">install_stack</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</div>
+<div class="viewcode-block" id="TopologyNet.install_stack"><a class="viewcode-back" href="../../../API.html#core.ns3.Topology.TopologyNet.install_stack">[docs]</a>    <span class="k">def</span> <span class="nf">install_stack</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_install_stack</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">init_link</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</div>
+<div class="viewcode-block" id="TopologyNet.init_link"><a class="viewcode-back" href="../../../API.html#core.ns3.Topology.TopologyNet.init_link">[docs]</a>    <span class="k">def</span> <span class="nf">init_link</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">linksC</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_init_link</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inFile</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">init_net_device</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+</div>
+<div class="viewcode-block" id="TopologyNet.init_net_device"><a class="viewcode-back" href="../../../API.html#core.ns3.Topology.TopologyNet.init_net_device">[docs]</a>    <span class="k">def</span> <span class="nf">init_net_device</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ndc</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ipic</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_init_net_device</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inFile</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">linksC</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-
+</div>
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_load_file</span><span class="p">(</span><span class="n">_input</span><span class="p">,</span> <span class="n">_format</span><span class="p">,</span> <span class="n">NodeCreator</span><span class="p">):</span>
         <span class="n">topoHelp</span> <span class="o">=</span> <span class="n">TopologyReaderHelper</span><span class="p">()</span>

@@ -73,7 +73,7 @@ several real seconds.</li>
 <li><strong>hybrid approach</strong>: of pure ns3 mode and netns3 mode</li>
 </ul>
 </div></blockquote>
-<img alt="_images/imalse-abstract9.png" class="align-center" src="_images/imalse-abstract9.png" />
+<img alt="_images/imalse-abstract13.png" class="align-center" src="_images/imalse-abstract13.png" />
 <div class="section" id="typical-use-case">
 <h3>Typical Use Case<a class="headerlink" href="#typical-use-case" title="Permalink to this headline">¶</a></h3>
 <p>Suppose Conan is a Ph.D student who has proposed a novel anomaly
@@ -119,7 +119,7 @@ time to sleep and enjoy the classical music. :)</p>
 <p>To support the variety of modes noted above, Imalse design in a way that to
 seperate the botnet mechanism and the network.</p>
 <p>The general structure of Imalse is shown in the following figure:</p>
-<img alt="_images/genearal-structure9.png" class="align-center" src="_images/genearal-structure9.png" />
+<img alt="_images/genearal-structure13.png" class="align-center" src="_images/genearal-structure13.png" />
 <p><strong>Node</strong> and <strong>C</strong>ommand <strong>M</strong>eta <strong>D</strong>escription are the two key concepts in the design.
 <strong>Node</strong> is the abstraction of a real computer. A node should support:</p>
 <blockquote>
@@ -153,7 +153,7 @@ support to real network, netns3 and NS3. User can create their own flavor of
 botnet by subclassing <strong>ServerCMD</strong>, <strong>ClientCMD</strong> and <strong>BotmasterCMD</strong>, each
 flavor is called a new <strong>scenario</strong>.</p>
 <p>The basic botnet mechanism can be described as <strong>F</strong>inite <strong>S</strong>tate <strong>M</strong>achine. The <strong>FSM</strong> for the <strong>ClientCMD</strong> is as follows:</p>
-<img alt="_images/client_fsm.png" class="align-center" src="_images/client_fsm.png" style="height: 400px;" />
+<img alt="_images/client_fsm4.png" class="align-center" src="_images/client_fsm4.png" style="height: 400px;" />
 </div>
 <div class="section" id="scenario">
 <h3>Scenario:<a class="headerlink" href="#scenario" title="Permalink to this headline">¶</a></h3>
@@ -308,10 +308,23 @@ tar -xvf imalse.tar.bz2
 version. The last thing you need to to is to change the ROOT and NS3_PATH in
 settings.py. ROOT should be the directory of the imalse source code and NS#_PATH
 should be the directory for the NS3.</p>
+</div>
+</div>
+<div class="section" id="acknowledgement">
+<h2>Acknowledgement<a class="headerlink" href="#acknowledgement" title="Permalink to this headline">¶</a></h2>
+<p>First, I need to thank Hugo González, my advisor in the <em>Google Summer of Code
+2012</em> for his guidance and support in this memorable summer. He made the general
+direction and provided tons of usefule suggestions during the developing process.</p>
+<p>Second, I need to thank my advisor <a class="reference external" href="http://ionia.bu.edu/">Yannis Paschalidis</a> for his continuous support
+since I joined the lab. As a experienced researcher and renowned scholar, he has taught me
+so much in the past two years.</p>
+<p>Third, I need to thank Google for sponsoring this program. Google is a really
+awesome company. I wish I can have more opportunites to work with them in the
+future.</p>
+<p>Last, I need to thank my girlfriend for her understanding and support.</p>
 <div class="toctree-wrapper compound">
 <ul class="simple">
 </ul>
-</div>
 </div>
 </div>
 </div>
@@ -349,9 +362,10 @@ should be the directory for the NS3.</p>
 <li><a class="reference internal" href="#installation">Installation:</a><ul>
 <li><a class="reference internal" href="#installation-of-ns3">Installation of NS3</a></li>
 <li><a class="reference internal" href="#installation-of-common-open-research-emulator">Installation of Common Open Research Emulator</a></li>
-<li><a class="reference internal" href="#download-imalse">Download imalse</a><ul>
+<li><a class="reference internal" href="#download-imalse">Download imalse</a></li>
 </ul>
 </li>
+<li><a class="reference internal" href="#acknowledgement">Acknowledgement</a><ul>
 </ul>
 </li>
 </ul>

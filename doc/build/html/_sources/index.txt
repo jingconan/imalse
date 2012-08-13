@@ -314,6 +314,22 @@ settings.py. ROOT should be the directory of the imalse source code and NS#_PATH
 should be the directory for the NS3.
 
 
+Acknowledgement
+------------------------------
+First, I need to thank Hugo González, my advisor in the *Google Summer of Code
+2012* for his guidance and support in this memorable summer. He made the general
+direction and provided tons of usefule suggestions during the developing process.
+
+Second, I need to thank my advisor `Yannis Paschalidis <http://ionia.bu.edu/>`_ for his continuous support 
+since I joined the lab. As a experienced researcher and renowned scholar, he has taught me
+so much in the past two years.
+
+Third, I need to thank Google for sponsoring this program. Google is a really
+awesome company. I wish I can have more opportunites to work with them in the
+future.
+
+Last, I need to thank my girlfriend for her understanding and support.
+
 .. toctree::
    :maxdepth: 3
 

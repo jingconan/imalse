@@ -35,6 +35,7 @@ class ManualTopoExperiment(TopoExperiment):
                 self.NodeCreator,
                 self.load_net_settings(),
                 )
+        self.net.set_trace()
 
         self._install_cmds(srv_addr = SERVER_ADDR)
         self.print_srv_addr()

@@ -238,15 +238,82 @@ for this module, so I simply reimplement it in python.</p>
 </dd></dl>
 
 <dl class="class">
+<dt id="core.ns3.Topology.ManualTopologyNet">
+<em class="property">class </em><tt class="descclassname">core.ns3.Topology.</tt><tt class="descname">ManualTopologyNet</tt><big>(</big><em>_input</em>, <em>_format</em>, <em>NodeCreator</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#core.ns3.Topology.ManualTopologyNet" title="Permalink to this definition">¶</a></dt>
+<dd><p>Topology network with manual ip settings</p>
+<dl class="method">
+<dt id="core.ns3.Topology.ManualTopologyNet.init_net_device">
+<tt class="descname">init_net_device</tt><big>(</big><em>net_settings</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#core.ns3.Topology.ManualTopologyNet.init_net_device" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initial the ip address and network devices</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="core.ns3.Topology.TopologyNet">
+<em class="property">class </em><tt class="descclassname">core.ns3.Topology.</tt><tt class="descname">TopologyNet</tt><big>(</big><em>_input</em>, <em>_format</em>, <em>NodeCreator</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/core/ns3/Topology.html#TopologyNet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.ns3.Topology.TopologyNet" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load Topology File and Contruct the Network Accordingly</p>
+<dl class="method">
+<dt id="core.ns3.Topology.TopologyNet.init_link">
+<tt class="descname">init_link</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/core/ns3/Topology.html#TopologyNet.init_link"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.ns3.Topology.TopologyNet.init_link" title="Permalink to this definition">¶</a></dt>
+<dd><p>Construct Point to Point Link in the Network</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="core.ns3.Topology.TopologyNet.init_net_device">
+<tt class="descname">init_net_device</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/core/ns3/Topology.html#TopologyNet.init_net_device"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.ns3.Topology.TopologyNet.init_net_device" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initial the ip address and network devices</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="core.ns3.Topology.TopologyNet.install_stack">
+<tt class="descname">install_stack</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/core/ns3/Topology.html#TopologyNet.install_stack"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.ns3.Topology.TopologyNet.install_stack" title="Permalink to this definition">¶</a></dt>
+<dd><p>Install Internet Stack</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="core.ns3.Topology.TopologyNet.load_file">
+<tt class="descname">load_file</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/core/ns3/Topology.html#TopologyNet.load_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.ns3.Topology.TopologyNet.load_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load Topology File</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
 <dt>
 <em class="property">class </em><tt class="descclassname">core.ns3.Topology.</tt><tt class="descname">TopologyReader</tt><big>(</big><em>fileName=None</em>, <em>NodeCreator=&lt;type 'network.Node'&gt;</em><big>)</big><a class="reference internal" href="_modules/core/ns3/Topology.html#TopologyReader"><span class="viewcode-link">[source]</span></a></dt>
 <dd><p>base class for Topology Reader</p>
 </dd></dl>
 
 <dl class="class">
-<dt id="core.ns3.Topology.TopologyNet">
-<em class="property">class </em><tt class="descclassname">core.ns3.Topology.</tt><tt class="descname">TopologyNet</tt><big>(</big><em>_input</em>, <em>_format</em>, <em>NodeCreator</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/core/ns3/Topology.html#TopologyNet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#core.ns3.Topology.TopologyNet" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dt>
+<em class="property">class </em><tt class="descclassname">core.ns3.Topology.</tt><tt class="descname">TopologyNet</tt><big>(</big><em>_input</em>, <em>_format</em>, <em>NodeCreator</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/core/ns3/Topology.html#TopologyNet"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Load Topology File and Contruct the Network Accordingly</p>
+<dl class="method">
+<dt>
+<tt class="descname">init_link</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/core/ns3/Topology.html#TopologyNet.init_link"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Construct Point to Point Link in the Network</p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<tt class="descname">init_net_device</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/core/ns3/Topology.html#TopologyNet.init_net_device"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Initial the ip address and network devices</p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<tt class="descname">install_stack</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/core/ns3/Topology.html#TopologyNet.install_stack"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Install Internet Stack</p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<tt class="descname">load_file</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/core/ns3/Topology.html#TopologyNet.load_file"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Load Topology File</p>
+</dd></dl>
+
+</dd></dl>
 
 </div>
 <div class="section" id="netns3-mode">

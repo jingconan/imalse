@@ -243,20 +243,20 @@ def get_net_addr(ipaddress, netmask):
     ip = ipaddress.split(".")
     netm = netmask.split(".")
     addr = str(int(ip[0])&(~int(netm[0])))+"."+str(int(ip[1])&(~int(netm[1])))+"."+str(int(ip[2])& (~int(netm[2])))+"."+str(int(ip[3])&(~int(netm[3])))
-    print 'addr, ', addr
     return addr
 
 
 from util import len2mask
+import settings
 # import ns3
 class ManualTopologyNet(TopologyNet):
     """Topology network with manual ip settings"""
     @staticmethod
     def CIDR_to_subnet_mask(s_addr):
+        """change CIDR format to address, net address and mask address"""
         addr, prefix_len = s_addr.rsplit('/')
         mask = len2mask(int(prefix_len))
         net = get_net(addr, mask)
-        print 'addr, ', addr, 'mask, ', mask, 'net, ', net
         return addr, net, mask
 
     def get_link_name(self, i):
@@ -268,17 +268,30 @@ class ManualTopologyNet(TopologyNet):
         default = self.net_settings.link_attr_default
         return self.net_settings.link_attr.get(self.get_link_name(i), default)
 
+    def set_trace(self):
+        for n in self.net_settings.pcap_nodes:
+            self.p2p.EnablePcap(settings.ROOT + "/res/trace-node", ns3.NodeContainer(self.nodes.Get(n)), 0)
+
+        for l in self.net_settings.pcap_links:
+            self.p2p.EnablePcap(settings.ROOT + "/res/trace-link", self.get_link_ndc(l))
+
+    def get_link_ndc(self, i):
+        if isinstance(i, tuple):
+            return self.link_ndc_map[i]
+        return self.link_ndc_map[self.get_link_name(i)]
+
     def init_net_device(self, net_settings, *args, **kwargs):
         """Initial the ip address and network devices"""
         self.net_settings = net_settings
         totlinks = self.inFile.LinksSize()
         p2p = ns3.PointToPointHelper()
-        ndc = [] # Net Device Container
+
+        self.link_ndc_map = dict()
         for i in xrange(totlinks):
             Delay, DataRate = self.get_link_attr(i)
             p2p.SetChannelAttribute("Delay", ns.core.StringValue(Delay))
             p2p.SetDeviceAttribute("DataRate", ns.core.StringValue(DataRate))
-            ndc.append( p2p.Install( self.linksC[i]) )
+            self.link_ndc_map[self.get_link_name(i)] = p2p.Install( self.linksC[i] )
 
         # Create little subnets, one for each couple of nodes
         defaultAddressHelper = ns3.Ipv4AddressHelper()
@@ -295,19 +308,20 @@ class ManualTopologyNet(TopologyNet):
         for i in xrange(totlinks):
             ips = self.net_settings.link_to_ip_map.get(self.get_link_name(i), None)
             if not ips:
-                ipic.append( defaultAddressHelper.Assign(ndc[i]) )
+                # ipic.append( defaultAddressHelper.Assign(ndc[i]) )
+                ipic.append( defaultAddressHelper.Assign(self.get_link_ndc(i)) )
                 addressHelper.NewNetwork()
                 continue
 
             addr, netBase, mask = self.CIDR_to_subnet_mask(ips[0])
             net_addr = get_net_addr(addr, mask)
-            print 'net_addr, ', net_addr
             addressHelper.SetBase(
                     network=ns3.Ipv4Address(netBase),
                     mask = ns3.Ipv4Mask(mask),
                     base = ns3.Ipv4Address(net_addr),
                     )
-            ip1 = addressHelper.Assign(ns3.NetDeviceContainer(ndc[i].Get(0)))
+            # ip1 = addressHelper.Assign(ns3.NetDeviceContainer(ndc[i].Get(0)))
+            ip1 = addressHelper.Assign(ns3.NetDeviceContainer(self.get_link_ndc(i).Get(0)))
 
             addr, netBase, mask = self.CIDR_to_subnet_mask(ips[1])
             net_addr = get_net_addr(addr, mask)
@@ -316,7 +330,8 @@ class ManualTopologyNet(TopologyNet):
                     mask = ns3.Ipv4Mask(mask),
                     base = ns3.Ipv4Address(net_addr)
                     )
-            ip2 = addressHelper.Assign(ns3.NetDeviceContainer(ndc[i].Get(1)))
+            # ip2 = addressHelper.Assign(ns3.NetDeviceContainer(ndc[i].Get(1)))
+            ip2 = addressHelper.Assign(ns3.NetDeviceContainer(self.get_link_ndc(i).Get(1)))
             ipic.append((ip1, ip2))
 
         self.p2p = p2p
@@ -325,7 +340,7 @@ class ManualTopologyNet(TopologyNet):
         # _ascii = ofstream("wifi-ap.tr")
         # p2p.EnableAsciiAll("test")
 
-        return ndc, ipic
+        return ipic
 
 
 def main():
