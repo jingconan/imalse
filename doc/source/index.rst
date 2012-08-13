@@ -132,7 +132,7 @@ flavor is called a new **scenario**.
 The basic botnet mechanism can be described as **F**\ inite **S**\ tate **M**\
 achine. The **FSM** for the **ClientCMD** is as follows:
 
-.. image:: ./figure/client_fsm.svg
+.. image:: ./figure/client_fsm.png
     :align: center 
     :height: 400px
 

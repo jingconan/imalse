@@ -111,15 +111,15 @@ class TopologyReaderHelper(object):
 
 # from Topology import TopologyReaderHelper
 from ns.nix_vector_routing import Ipv4NixVectorHelper
-from ns.network import NetDeviceContainer
+# from ns.network import NetDeviceContainer
 from ns.point_to_point import PointToPointHelper
 from ns.network import Ipv4Address, Ipv4Mask
 from ns.network import NodeContainer
-from ns.internet import Ipv4InterfaceContainer, Ipv4InterfaceAddress
-from ns.core import ofstream
+# from ns.internet import Ipv4InterfaceContainer, Ipv4InterfaceAddress
 import ns3
 import sys
 class TopologyNet():
+    """Load Topology File and Contruct the Network Accordingly"""
     def __init__(self, _input, _format, NodeCreator, *args, **kwargs):
         self._input = _input
         self._format = _format
@@ -133,16 +133,23 @@ class TopologyNet():
         ns3.Ipv4GlobalRoutingHelper.PopulateRoutingTables()
 
     def load_file(self):
+        """Load Topology File"""
         self.inFile, self.nodes = self._load_file(self._input, self._format, self.NodeCreator)
 
     def install_stack(self):
+        """Install Internet Stack"""
         self._install_stack(self.nodes)
 
     def init_link(self):
+        """Construct Point to Point Link in the Network"""
         self.linksC = self._init_link(self.inFile)
 
     def init_net_device(self, *args, **kwargs):
+        """Initial the ip address and network devices"""
         self.ndc, self.ipic = self._init_net_device(self.inFile, self.linksC, *args, **kwargs)
+
+    def set_pcap_trace():
+        pass
 
     @staticmethod
     def _load_file(_input, _format, NodeCreator):
@@ -164,7 +171,6 @@ class TopologyNet():
         nixRouting = Ipv4NixVectorHelper()
         staticRouting = ns.internet.Ipv4StaticRoutingHelper()
         # olsr = ns3.OlsrHelper()
-
 
         listRH = ns.internet.Ipv4ListRoutingHelper()
         listRH.Add(staticRouting, 0)
@@ -214,19 +220,113 @@ class TopologyNet():
                 # base=Ipv4Address(ipv4AddrBase)
                 # base=Ipv4Address('0.0.0.1')
                 )
-        # print ipv4NetworkBase
-        # print ipv4Mask
-        # print ipv4AddrBase
 
         ipic = [] #ip interface container
         for i in xrange(totlinks):
             ipic.append( address.Assign(ndc[i]) )
             address.NewNetwork()
 
+        # from ns.core import ofstream
         # _ascii = ofstream("wifi-ap.tr")
         # p2p.EnableAsciiAll("test")
 
         return ndc, ipic
+
+
+def get_net(ipaddress, netmask):
+    ip = ipaddress.split(".")
+    netm = netmask.split(".")
+    network = str(int(ip[0])&int(netm[0]))+"."+str(int(ip[1])&int(netm[1]))+"."+str(int(ip[2])&int(netm[2]))+"."+str(int(ip[3])&int(netm[3]))
+    return network
+
+def get_net_addr(ipaddress, netmask):
+    ip = ipaddress.split(".")
+    netm = netmask.split(".")
+    addr = str(int(ip[0])&(~int(netm[0])))+"."+str(int(ip[1])&(~int(netm[1])))+"."+str(int(ip[2])& (~int(netm[2])))+"."+str(int(ip[3])&(~int(netm[3])))
+    print 'addr, ', addr
+    return addr
+
+
+from util import len2mask
+# import ns3
+class ManualTopologyNet(TopologyNet):
+    """Topology network with manual ip settings"""
+    @staticmethod
+    def CIDR_to_subnet_mask(s_addr):
+        addr, prefix_len = s_addr.rsplit('/')
+        mask = len2mask(int(prefix_len))
+        net = get_net(addr, mask)
+        print 'addr, ', addr, 'mask, ', mask, 'net, ', net
+        return addr, net, mask
+
+    def get_link_name(self, i):
+        link = self.inFile.m_linksList[i]
+        link_name = (int(link.GetFromNodeName()), int(link.GetToNodeName()) )
+        return link_name
+
+    def get_link_attr(self, i):
+        default = self.net_settings.link_attr_default
+        return self.net_settings.link_attr.get(self.get_link_name(i), default)
+
+    def init_net_device(self, net_settings, *args, **kwargs):
+        """Initial the ip address and network devices"""
+        self.net_settings = net_settings
+        totlinks = self.inFile.LinksSize()
+        p2p = ns3.PointToPointHelper()
+        ndc = [] # Net Device Container
+        for i in xrange(totlinks):
+            Delay, DataRate = self.get_link_attr(i)
+            p2p.SetChannelAttribute("Delay", ns.core.StringValue(Delay))
+            p2p.SetDeviceAttribute("DataRate", ns.core.StringValue(DataRate))
+            ndc.append( p2p.Install( self.linksC[i]) )
+
+        # Create little subnets, one for each couple of nodes
+        defaultAddressHelper = ns3.Ipv4AddressHelper()
+        defaultAddr, defaultNetBase, defaultMask = self.CIDR_to_subnet_mask(net_settings.ipv4_net_addr_base)
+        netAddr = get_net_addr(defaultAddr, defaultMask)
+        defaultAddressHelper.SetBase(
+                network=ns3.Ipv4Address(defaultNetBase),
+                mask = ns3.Ipv4Mask(defaultMask),
+                base = ns3.Ipv4Address(netAddr),
+                )
+
+        addressHelper = ns3.Ipv4AddressHelper()
+        ipic = [] #ip interface container
+        for i in xrange(totlinks):
+            ips = self.net_settings.link_to_ip_map.get(self.get_link_name(i), None)
+            if not ips:
+                ipic.append( defaultAddressHelper.Assign(ndc[i]) )
+                addressHelper.NewNetwork()
+                continue
+
+            addr, netBase, mask = self.CIDR_to_subnet_mask(ips[0])
+            net_addr = get_net_addr(addr, mask)
+            print 'net_addr, ', net_addr
+            addressHelper.SetBase(
+                    network=ns3.Ipv4Address(netBase),
+                    mask = ns3.Ipv4Mask(mask),
+                    base = ns3.Ipv4Address(net_addr),
+                    )
+            ip1 = addressHelper.Assign(ns3.NetDeviceContainer(ndc[i].Get(0)))
+
+            addr, netBase, mask = self.CIDR_to_subnet_mask(ips[1])
+            net_addr = get_net_addr(addr, mask)
+            addressHelper.SetBase(
+                    network=ns3.Ipv4Address(netBase),
+                    mask = ns3.Ipv4Mask(mask),
+                    base = ns3.Ipv4Address(net_addr)
+                    )
+            ip2 = addressHelper.Assign(ns3.NetDeviceContainer(ndc[i].Get(1)))
+            ipic.append((ip1, ip2))
+
+        self.p2p = p2p
+
+        # from ns.core import ofstream
+        # _ascii = ofstream("wifi-ap.tr")
+        # p2p.EnableAsciiAll("test")
+
+        return ndc, ipic
+
 
 def main():
     topoHelper = TopologyReaderHelper()
