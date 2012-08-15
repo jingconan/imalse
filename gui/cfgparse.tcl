@@ -60,14 +60,13 @@
 
 proc dumpputs {method dest string} {
     switch -exact -- $method {
-	file {
-	    puts $dest $string
-	}
-	string {
-	    global $dest
-	    append $dest "$string
-"
-	}
+        file {
+            puts $dest $string
+        }
+        string {
+            global $dest
+            append $dest "$string\n"
+        }
     }
 }
 
@@ -95,77 +94,79 @@ proc dumpCfg {method dest} {
 
     global g_comments
     if { [info exists g_comments] && $g_comments != "" } {
-	dumpputs $method $dest "comments \{"
-	foreach line [split $g_comments "\n"] { dumpputs $method $dest "$line" }
-	dumpputs $method $dest "\}"
-	dumpputs $method $dest ""
+        dumpputs $method $dest "comments \{"
+        foreach line [split $g_comments "\n"] { 
+            dumpputs $method $dest "$line" 
+        }
+        dumpputs $method $dest "\}"
+        dumpputs $method $dest ""
     }
 
     foreach node $node_list {
-	global $node
-	upvar 0 $node lnode
-	dumpputs $method $dest "node $node \{"
+        global $node
+        upvar 0 $node lnode
+        dumpputs $method $dest "node $node \{"
 	foreach element $lnode {
 	    if { "[lindex $element 0]" == "network-config" } {
-		dumpputs $method $dest "    network-config \{"
-		foreach line [lindex $element 1] {
-		    dumpputs $method $dest "	$line"
-		}
-		dumpputs $method $dest "    \}"
+            dumpputs $method $dest "    network-config \{"
+            foreach line [lindex $element 1] {
+                dumpputs $method $dest "	$line"
+            }
+            dumpputs $method $dest "    \}"
 	    } elseif { "[lindex $element 0]" == "custom-config" } {
-		dumpputs $method $dest "    custom-config \{"
-		foreach line [lindex $element 1] {
-		    if { $line != {} } {
-			if { [catch {set str [lindex $line 0]} err] } {
-				puts "error loading config: $err"
-				puts "problem section: [lindex $element 0]"
-				puts "problem line: $line"
-				set str ""
-			}
-			if { $str == "config" } {
-			    dumpputs $method $dest "	config \{"
-			    foreach element [lindex $line 1] {
-				dumpputs $method $dest "	$element"
-			    }
-			    dumpputs $method $dest "	\}"
-			} else {
-			    dumpputs $method $dest "	$line"
-			}
-		    }
-		}
-		dumpputs $method $dest "    \}"
+            dumpputs $method $dest "    custom-config \{"
+            foreach line [lindex $element 1] {
+                if { $line != {} } {
+                if { [catch {set str [lindex $line 0]} err] } {
+                    puts "error loading config: $err"
+                    puts "problem section: [lindex $element 0]"
+                    puts "problem line: $line"
+                    set str ""
+                }
+                if { $str == "config" } {
+                    dumpputs $method $dest "	config \{"
+                    foreach element [lindex $line 1] {
+                    dumpputs $method $dest "	$element"
+                    }
+                    dumpputs $method $dest "	\}"
+                } else {
+                    dumpputs $method $dest "	$line"
+                }
+                }
+            }
+            dumpputs $method $dest "    \}"
 	    } elseif { "[lindex $element 0]" == "ipsec-config" } { 
-		dumpputs $method $dest "    ipsec-config \{"
-		foreach line [lindex $element 1] {
-		    if { $line != {} } {
-			dumpputs $method $dest "	$line"
-		    }
-		}
-		dumpputs $method $dest "    \}"
+            dumpputs $method $dest "    ipsec-config \{"
+            foreach line [lindex $element 1] {
+                if { $line != {} } {
+                dumpputs $method $dest "	$line"
+                }
+            }
+            dumpputs $method $dest "    \}"
 	    } elseif { "[lindex $element 0]" == "custom-pre-config-commands" } {
-		#Boeing custom pre config commands
-		dumpputs $method $dest "    custom-pre-config-commands \{"
-		foreach line [lindex $element 1] {
-		    dumpputs $method $dest "	$line"
-		}
-		dumpputs $method $dest "    \}"
-	    } elseif { "[lindex $element 0]" == "custom-post-config-commands" } {
-		#Boeing custom post config commands
-		dumpputs $method $dest "    custom-post-config-commands \{"
-		foreach line [lindex $element 1] {
-		    dumpputs $method $dest "	$line"
-		}
-		dumpputs $method $dest "    \}"
+            #Boeing custom pre config commands
+            dumpputs $method $dest "    custom-pre-config-commands \{"
+            foreach line [lindex $element 1] {
+                dumpputs $method $dest "	$line"
+            }
+            dumpputs $method $dest "    \}"
+        } elseif { "[lindex $element 0]" == "custom-post-config-commands" } {
+            #Boeing custom post config commands
+            dumpputs $method $dest "    custom-post-config-commands \{"
+            foreach line [lindex $element 1] {
+                dumpputs $method $dest "	$line"
+            }
+            dumpputs $method $dest "    \}"
 	    } elseif { "[lindex $element 0]" == "ine-config" } {
-	    # Boeing: INE config support
-		dumpputs $method $dest "    ine-config \{"
-		foreach line [lindex $element 1] {
-		    dumpputs $method $dest "	$line"
-		}
-		dumpputs $method $dest "    \}"
-	    # end Boeing
+            # Boeing: INE config support
+            dumpputs $method $dest "    ine-config \{"
+            foreach line [lindex $element 1] {
+                dumpputs $method $dest "	$line"
+            }
+            dumpputs $method $dest "    \}"
+            # end Boeing
 	    } else {
-		dumpputs $method $dest "    $element"
+            dumpputs $method $dest "    $element"
 	    }
 	}
 	dumpputs $method $dest "\}"
@@ -540,7 +541,12 @@ proc loadCfg { cfg } {
 			services {
 			    lappend $object "services {$value}"
 			}
-
+            role {
+                lappend $object "role {$value}"
+            }
+            traceflag {
+                lappend $object "traceflag {$value}"
+            }
 			default {
 			    # Boeing - added warning
 			    puts -nonewline "config file warning: unknown confi"

@@ -37,29 +37,3 @@ def print_members(cls):
     v = getmembers(cls)
     for vl in v:
         print vl[0]
-
-
-# CIDR to Netmask conversion
-# (c) 2010 Peter Bittner, http://linux.bittner.it/blog
-#
-# Tip for an excellent background read: "IP subnetting made easy"
-# http://articles.techrepublic.com.com/5100-10878_11-6089187.html
-
-def len2mask(len):
-    """Convert a bit length to a dotted netmask (aka. CIDR to netmask)"""
-    mask = ''
-    if not isinstance(len, int) or len < 0 or len > 32:
-        print "Illegal subnet length: %s (which is a %s)" % (str(len), type(len).__name__)
-        return None
-
-    for t in range(4):
-        if len > 7:
-            mask += '255.'
-        else:
-            dec = 255 - (2**(8 - len) - 1)
-            mask += str(dec) + '.'
-        len -= 8
-        if len < 0:
-            len = 0
-
-    return mask[:-1]

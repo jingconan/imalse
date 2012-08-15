@@ -16,7 +16,7 @@ class ManualTopoExperiment(TopoExperiment):
     def initparser(self, parser):
         TopoExperiment.initparser(self, parser)
 
-        parser.set_defaults(net_settings=settings.ROOT+"/net_config/net_settings.py",
+        parser.set_defaults(net_settings="net_config/net_settings.py",
                 )
         parser.add_option('--net_settings', dest="net_settings",
                 help='net settings file',
@@ -24,16 +24,28 @@ class ManualTopoExperiment(TopoExperiment):
 
     def load_net_settings(self):
         s = {}
-        execfile(self.options.net_settings, s)
+        execfile(settings.ROOT + '/' + self.options.net_settings, s)
         return Namespace(s)
+
+    def load_exper_settings(self, ns):
+        from util import CIDR_to_subnet_mask
+        # botnet related configuration
+        self.server_id_set = ns.server_id_set
+        self.botmaster_id_set = ns.botmaster_id_set
+        self.client_id_set = ns.client_id_set
+        self.SERVER_ADDR, self.NETWORK_BASE, self.IP_MASK = CIDR_to_subnet_mask(ns.server_addr[0]);
 
     def setup(self):
         BaseClass.setup(self)
+        net_settings = self.load_net_settings()
+        self.load_exper_settings(net_settings)
+
         self.net = ManualTopologyNet(
-                os.path.abspath(self.options.topology_file),
+                # os.path.abspath(self.options.topology_file),
+                settings.ROOT + '/' + self.options.topology_file,
                 self.options.topology_type,
                 self.NodeCreator,
-                self.load_net_settings(),
+                net_settings,
                 )
         self.net.set_trace()
 

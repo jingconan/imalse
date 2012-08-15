@@ -49,16 +49,16 @@ proc animateCursor {} {
     if { [clock seconds] == $clock_seconds } {
         update
         return
-}
-set clock_seconds [clock seconds]
-if { $cursorState } {
-    .c config -cursor watch
-    set cursorState 0
-} else {
-    .c config -cursor pirate
-    set cursorState 1
-}
-update
+    }
+    set clock_seconds [clock seconds]
+    if { $cursorState } {
+        .c config -cursor watch
+        set cursorState 0
+    } else {
+        .c config -cursor pirate
+        set cursorState 1
+    }
+    update
 }
 
 #****f* editor.tcl/removeGUILink
@@ -88,20 +88,20 @@ proc removeGUILink { link atomic } {
         removeNode [getNodeMirror $node1]
         removeNode $node1
         .c delete $node1
-} elseif { [nodeType $node2] == "pseudo" } {
-    removeLink [getLinkMirror $link]
-    removeLink $link
-    removeNode [getNodeMirror $node2]
-    removeNode $node2
-    .c delete $node2
-} else {
-    removeLink $link
-}
-.c delete $link
-if { $atomic == "atomic" } {
-    set changed 1
-    updateUndoLog
-}
+    } elseif { [nodeType $node2] == "pseudo" } {
+        removeLink [getLinkMirror $link]
+        removeLink $link
+        removeNode [getNodeMirror $node2]
+        removeNode $node2
+        .c delete $node2
+    } else {
+        removeLink $link
+    }
+    .c delete $link
+    if { $atomic == "atomic" } {
+        set changed 1
+        updateUndoLog
+    }
 }
 
 #****f* editor.tcl/removeGUINode
@@ -122,13 +122,13 @@ proc removeGUINode { node } {
         set peer [peerByIfc $node $ifc]
         set link [lindex [.c gettags "link && $node && $peer"] 1]
         removeGUILink $link non-atomic
-}
-if { [lsearch -exact "oval rectangle label text marker" $type] != -1 } {
-    deleteAnnotation .c $type $node
-} elseif { $type != "pseudo" } {
-    removeNode $node
-    .c delete $node
-}
+    }
+    if { [lsearch -exact "oval rectangle label text marker" $type] != -1 } {
+        deleteAnnotation .c $type $node
+    } elseif { $type != "pseudo" } {
+        removeNode $node
+        .c delete $node
+    }
 }
 
 #****f* editor.tcl/updateUndoLog
@@ -154,7 +154,7 @@ proc updateUndoLog {} {
         updateUndoRedoMenu ""
         # Boeing: XXX why is this set here?
         set changed 0
-}
+    }
 }
 
 #****f* editor.tcl/undo
@@ -176,7 +176,7 @@ proc undo {} {
         .c config -cursor watch
         loadCfg $undolog($undolevel)
         switchCanvas none
-}
+    }
 }
 
 #****f* editor.tcl/redo
@@ -200,7 +200,7 @@ proc redo {} {
         .c config -cursor watch
         loadCfg $undolog($undolevel)
         switchCanvas none
-}
+    }
 }
 
 proc updateUndoRedoMenu { forced } {
@@ -209,14 +209,14 @@ proc updateUndoRedoMenu { forced } {
     if { $forced == "" } {
         if { $undolevel > 0 } { set undo "normal" } else { set undo "disabled" }
         if { $redolevel > $undolevel } { set redo "normal"
-} else { set redo "disabled" }
-} else {
-    set undo $forced
-    set redo $forced
-}
+        } else { set redo "disabled" }
+    } else {
+        set undo $forced
+        set redo $forced
+    }
 
-.menubar.edit entryconfigure "Undo" -state $undo
-.menubar.edit entryconfigure "Redo" -state $redo
+    .menubar.edit entryconfigure "Undo" -state $undo
+    .menubar.edit entryconfigure "Redo" -state $redo
 }
 
 #****f* editor.tcl/redrawAll
@@ -239,88 +239,88 @@ proc redrawAll {} {
     set e_sizey [expr {int($sizey * $zoom)}]
     set border 28
     .c configure -scrollregion \
-    "-$border -$border [expr {$e_sizex + $border}] \
-    [expr {$e_sizey + $border}]"
+        "-$border -$border [expr {$e_sizex + $border}] \
+        [expr {$e_sizey + $border}]"
 
 
     .c delete all
     set background [.c create rectangle 0 0 $e_sizex $e_sizey \
-    -fill white -tags "background"]
-    # Boeing: wallpaper
+        -fill white -tags "background"]
+        # Boeing: wallpaper
     set wallpaper [lindex [getCanvasWallpaper $curcanvas] 0]
     set wallpaperStyle [lindex [getCanvasWallpaper $curcanvas] 1]
     if { $wallpaper != "" } {
         drawWallpaper .c $wallpaper $wallpaperStyle
-}
-# end Boeing
+    }
+    # end Boeing
 
-if { $showAnnotations == 1 } {
-    foreach obj $annotation_list {
+    if { $showAnnotations == 1 } {
+        foreach obj $annotation_list {
         # fix annotations having no canvas (from old config)
-        if { [getNodeCanvas $obj] == "" } { setNodeCanvas $obj $curcanvas}
-        if { [getNodeCanvas $obj] == $curcanvas } {
-            drawAnnotation $obj
-       }
-   } 
-}
-
-# Grid
-set e_grid [expr {int($grid * $zoom)}]
-set e_grid2 [expr {$e_grid * 2}]
-if { $showGrid } {
-    for { set x $e_grid } { $x < $e_sizex } { incr x $e_grid } {
-        if { [expr {$x % $e_grid2}] != 0 } {
-            if { $zoom > 0.5 } {
-                .c create line $x 1 $x $e_sizey \
-                -fill gray -dash {1 7} -tags "grid"
+            if { [getNodeCanvas $obj] == "" } { setNodeCanvas $obj $curcanvas}
+            if { [getNodeCanvas $obj] == $curcanvas } {
+                drawAnnotation $obj
+            }
+        } 
     }
-    } else {
-        .c create line $x 1 $x $e_sizey -fill gray -dash {1 3} \
-        -tags "grid"
+
+    # Grid
+    set e_grid [expr {int($grid * $zoom)}]
+    set e_grid2 [expr {$e_grid * 2}]
+    if { $showGrid } {
+        for { set x $e_grid } { $x < $e_sizex } { incr x $e_grid } {
+            if { [expr {$x % $e_grid2}] != 0 } {
+                if { $zoom > 0.5 } {
+                    .c create line $x 1 $x $e_sizey \
+                        -fill gray -dash {1 7} -tags "grid"
+                }
+            } else {
+                .c create line $x 1 $x $e_sizey -fill gray -dash {1 3} \
+                    -tags "grid"
+            }
+        }
+        for { set y $e_grid } { $y < $e_sizey } { incr y $e_grid } {
+            if { [expr {$y % $e_grid2}] != 0 } {
+                if { $zoom > 0.5 } {
+                    .c create line 1 $y $e_sizex $y \
+                        -fill gray -dash {1 7} -tags "grid"
+                }
+            } else {
+                .c create line 1 $y $e_sizex $y -fill gray -dash {1 3} \
+                    -tags "grid"
+            }
+        }
     }
-}
-for { set y $e_grid } { $y < $e_sizey } { incr y $e_grid } {
-    if { [expr {$y % $e_grid2}] != 0 } {
-        if { $zoom > 0.5 } {
-            .c create line 1 $y $e_sizex $y \
-            -fill gray -dash {1 7} -tags "grid"
+
+    .c lower -withtags background
+
+    foreach node $node_list {
+        if { [getNodeCanvas $node] == $curcanvas } {
+            drawNode .c $node
+        }
     }
-    } else {
-        .c create line 1 $y $e_sizex $y -fill gray -dash {1 3} \
-        -tags "grid"
+    foreach link $link_list {
+        set nodes [linkPeers $link]
+        if { [getNodeCanvas [lindex $nodes 0]] != $curcanvas ||
+             [getNodeCanvas [lindex $nodes 1]] != $curcanvas } {
+            continue
+        }
+        drawLink $link
+        redrawLink $link
+        updateLinkLabel $link
     }
-}
-}
 
-.c lower -withtags background
+    .c config -cursor left_ptr
 
-foreach node $node_list {
-    if { [getNodeCanvas $node] == $curcanvas } {
-        drawNode .c $node
-}
-  }
-  foreach link $link_list {
-      set nodes [linkPeers $link]
-      if { [getNodeCanvas [lindex $nodes 0]] != $curcanvas ||
-          [getNodeCanvas [lindex $nodes 1]] != $curcanvas } {
-              continue
-}
-drawLink $link
-redrawLink $link
-updateLinkLabel $link
-}
-
-.c config -cursor left_ptr
-
-# Boeing
-global oper_mode execMode
-# TODO: instead of recalculating ranges, keep a list of wlanlinks
-#       and redraw them here
-if { $oper_mode == "exec" } {
-    foreach wlan [findWlanNodes ""] { updateAllRanges $wlan 1 }
-}
-raiseAll .c
-# end Boeing
+    # Boeing
+    global oper_mode execMode
+    # TODO: instead of recalculating ranges, keep a list of wlanlinks
+    #       and redraw them here
+    if { $oper_mode == "exec" } {
+        foreach wlan [findWlanNodes ""] { updateAllRanges $wlan 1 }
+    }
+    raiseAll .c
+    # end Boeing
 }
 
 #****f* editor.tcl/drawNode
@@ -358,73 +358,73 @@ proc drawNode { c node } {
     if { $type == "router" } {
         set model [getNodeModel $node]
         set cimg [getNodeTypeImage $model normal]
-}
-set tmp [absPathname [getCustomImage $node]]
-if { $tmp != "" } { set cimg $tmp }
-if { $cimg != "" } {
+    }
+    set tmp [absPathname [getCustomImage $node]]
+    if { $tmp != "" } { set cimg $tmp }
+    if { $cimg != "" } {
     # name of global variable storing the image is the filename without path
-    set img [file tail $cimg] 
-    # create the variable if the image hasn't been loaded before
-    global [set img]
-    if { ![info exists $img] } {
-        if { [catch {
+        set img [file tail $cimg] 
+        # create the variable if the image hasn't been loaded before
+        global [set img]
+        if { ![info exists $img] } {
+            if { [catch {
                 set [set img] [image create photo -file $cimg]
                 createScaledImages $img
-    } e ] } { ;# problem loading image file
-        puts "icon error: $e"
-        set cimg "" ;# fall back to default model icon
+            } e ] } { ;# problem loading image file
+                      puts "icon error: $e"
+                      set cimg "" ;# fall back to default model icon
+            }
+        }
+        if { $cimg != "" } { ;# only if image file loaded
+                             global $img$imgzoom
+                             $c create image $x $y -image [set $img$imgzoom] -tags "node $node"
+        }
     }
-}
-if { $cimg != "" } { ;# only if image file loaded
-    global $img$imgzoom
-    $c create image $x $y -image [set $img$imgzoom] -tags "node $node"
-}
-}
-if { $cimg == "" } {
-    if { $type == "pseudo" } {
-        $c create image $x $y -image [set $type] -tags "node $node"
-} else {
-    # create scaled images based on zoom level
-    global $type$imgzoom
-    $c create image $x $y -image [set $type$imgzoom] \
-    -tags "node $node"
-}
-}
-set coords [getNodeLabelCoords $node]
-set x [expr {[lindex $coords 0] * $zoom}]
-set y [expr {[lindex $coords 1] * $zoom}]
-if { [nodeType $node] != "pseudo" } { ;# Boeing: show remote server
-    set loc [getNodeLocation $node]
-    set labelstr0 ""
-    if { $loc != "" } { set labelstr0 "([getNodeLocation $node]):" }
-    set labelstr1 [getNodeName $node];
-    set labelstr2 ""
-    if [info exists getNodePartition] { [getNodePartition $node]; }
-    set l [format "%s%s\n%s" $labelstr0 $labelstr1 $labelstr2];
-    set label [$c create text $x $y -fill blue \
-    -text "$l" \
-    -tags "nodelabel $node"]
-} else {
-    set pnode [getNodeName $node]
-    set pcanvas [getNodeCanvas $pnode]
-    set ifc [ifcByPeer $pnode [getNodeMirror $node]]
-    if { $pcanvas != $curcanvas } {
-        set label [$c create text $x $y -fill blue \
-        -text "[getNodeName $pnode]:$ifc@[getCanvasName $pcanvas]" \
-        -tags "nodelabel $node" -justify center]
-} else {
-    set label [$c create text $x $y -fill blue \
-    -text "[getNodeName $pnode]:$ifc" \
-    -tags "nodelabel $node" -justify center]
-}
-}
-if { $showNodeLabels == 0} {
-    $c itemconfigure $label -state hidden
-}
-global invisible
-if { $invisible == 1 && [nodeType $node] == "pseudo" } {
-    $c itemconfigure $label -state hidden
-}
+    if { $cimg == "" } {
+        if { $type == "pseudo" } {
+            $c create image $x $y -image [set $type] -tags "node $node"
+        } else {
+        # create scaled images based on zoom level
+            global $type$imgzoom
+            $c create image $x $y -image [set $type$imgzoom] \
+                -tags "node $node"
+        }
+    }
+    set coords [getNodeLabelCoords $node]
+    set x [expr {[lindex $coords 0] * $zoom}]
+    set y [expr {[lindex $coords 1] * $zoom}]
+    if { [nodeType $node] != "pseudo" } { ;# Boeing: show remote server
+                                          set loc [getNodeLocation $node]
+                                          set labelstr0 ""
+                                          if { $loc != "" } { set labelstr0 "([getNodeLocation $node]):" }
+                                          set labelstr1 [getNodeName $node];
+                                          set labelstr2 ""
+                                          if [info exists getNodePartition] { [getNodePartition $node]; }
+                                          set l [format "%s%s\n%s" $labelstr0 $labelstr1 $labelstr2];
+                                          set label [$c create text $x $y -fill blue \
+                                              -text "$l" \
+                                              -tags "nodelabel $node"]
+    } else {
+        set pnode [getNodeName $node]
+        set pcanvas [getNodeCanvas $pnode]
+        set ifc [ifcByPeer $pnode [getNodeMirror $node]]
+        if { $pcanvas != $curcanvas } {
+            set label [$c create text $x $y -fill blue \
+                -text "[getNodeName $pnode]:$ifc@[getCanvasName $pcanvas]" \
+                -tags "nodelabel $node" -justify center]
+        } else {
+            set label [$c create text $x $y -fill blue \
+                -text "[getNodeName $pnode]:$ifc" \
+                -tags "nodelabel $node" -justify center]
+        }
+    }
+    if { $showNodeLabels == 0} {
+        $c itemconfigure $label -state hidden
+    }
+    global invisible
+    if { $invisible == 1 && [nodeType $node] == "pseudo" } {
+        $c itemconfigure $label -state hidden
+    }
 }
 
 #****f* editor.tcl/drawLink
@@ -447,47 +447,47 @@ proc drawLink { link } {
     set lwidth [getLinkWidth $link]
     if { [getLinkMirror $link] != "" } {
         set newlink [.c create line 0 0 0 0 \
-        -fill [getLinkColor $link] -width $lwidth \
-        -tags "link $link $lnode1 $lnode2" -arrow both]
-} else {
-    set newlink [.c create line 0 0 0 0 \
-    -fill [getLinkColor $link] -width $lwidth \
-    -tags "link $link $lnode1 $lnode2"]
-}
-# Boeing: links between two nodes on different servers
-if { [getNodeLocation $lnode1] != [getNodeLocation $lnode2]} {
-    .c itemconfigure $newlink -dash ",";
-}
-# end Boeing
-# XXX Invisible pseudo-liks
-global invisible
-if { $invisible == 1 && [getLinkMirror $link] != "" } {
-    .c itemconfigure $link -state hidden
-}
-# Boeing: wlan links are hidden
-if { [nodeType $lnode1] == "wlan" || [nodeType $lnode2] == "wlan" } {
-    global zoom
-    set imgzoom $zoom
-    if { $zoom == 0.75 || $zoom == 1.5 } { set imgzoom 1.0 }
-    global antenna$imgzoom
-    .c itemconfigure $link -state hidden
-    .c create image 0 0 -image [set antenna$imgzoom] \
-    -tags "antenna $lnode2 $link"
-    .c create text 0 0 -tags "interface $lnode1 $link" -justify center
-    .c create text 0 0 -tags "interface $lnode2 $link" -justify center
-    .c raise interface "link || linklabel || background"
-} else {
-    .c raise $newlink background
-    .c create text 0 0 -tags "linklabel $link" -justify center
-    .c create text 0 0 -tags "interface $lnode1 $link" -justify center
-    .c create text 0 0 -tags "interface $lnode2 $link" -justify center
-    .c raise linklabel "link || background"
-    .c raise interface "link || linklabel || background"
-}
-foreach n [list $lnode1 $lnode2] {
-    if { [getNodeHidden $n] } { hideNode $n }
-    statline "Hidden node(s) exist."
-}
+            -fill [getLinkColor $link] -width $lwidth \
+            -tags "link $link $lnode1 $lnode2" -arrow both]
+    } else {
+        set newlink [.c create line 0 0 0 0 \
+            -fill [getLinkColor $link] -width $lwidth \
+            -tags "link $link $lnode1 $lnode2"]
+    }
+    # Boeing: links between two nodes on different servers
+    if { [getNodeLocation $lnode1] != [getNodeLocation $lnode2]} {
+        .c itemconfigure $newlink -dash ",";
+    }
+    # end Boeing
+    # XXX Invisible pseudo-liks
+    global invisible
+    if { $invisible == 1 && [getLinkMirror $link] != "" } {
+        .c itemconfigure $link -state hidden
+    }
+    # Boeing: wlan links are hidden
+    if { [nodeType $lnode1] == "wlan" || [nodeType $lnode2] == "wlan" } {
+        global zoom
+        set imgzoom $zoom
+        if { $zoom == 0.75 || $zoom == 1.5 } { set imgzoom 1.0 }
+        global antenna$imgzoom
+        .c itemconfigure $link -state hidden
+        .c create image 0 0 -image [set antenna$imgzoom] \
+            -tags "antenna $lnode2 $link"
+        .c create text 0 0 -tags "interface $lnode1 $link" -justify center
+        .c create text 0 0 -tags "interface $lnode2 $link" -justify center
+        .c raise interface "link || linklabel || background"
+    } else {
+        .c raise $newlink background
+        .c create text 0 0 -tags "linklabel $link" -justify center
+        .c create text 0 0 -tags "interface $lnode1 $link" -justify center
+        .c create text 0 0 -tags "interface $lnode2 $link" -justify center
+        .c raise linklabel "link || background"
+        .c raise interface "link || linklabel || background"
+    }
+    foreach n [list $lnode1 $lnode2] {
+        if { [getNodeHidden $n] } { hideNode $n }
+        statline "Hidden node(s) exist."
+    }
 }
 
 
@@ -500,21 +500,21 @@ proc drawWlanLink { node1 node2 wlan } {
     set wlanlink [$c find withtag "wlanlink && $node1 && $node2 && $wlan"]
     if { $wlanlink != "" } {
         return $wlanlink ;# already exists
-}
+    }
 
-set color [getWlanColor $wlan]
+    set color [getWlanColor $wlan]
 
-set xy [getNodeCoords $node1]
-set x [lindex $xy 0]; set y [lindex $xy 1]
-set pxy [getNodeCoords $node2]
-set px [lindex $pxy 0]; set py [lindex $pxy 1]
+    set xy [getNodeCoords $node1]
+    set x [lindex $xy 0]; set y [lindex $xy 1]
+    set pxy [getNodeCoords $node2]
+    set px [lindex $pxy 0]; set py [lindex $pxy 1]
 
-set wlanlink [$c create line [expr {$x*$zoom}] [expr {$y*$zoom}] \
-[expr {$px*$zoom}] [expr {$py*$zoom}] \
--fill $color -width $defLinkWidth \
--tags "wlanlink $node1 $node2 $wlan"]
-$c raise $wlanlink "background || grid || oval || rectangle"
-return $wlanlink
+    set wlanlink [$c create line [expr {$x*$zoom}] [expr {$y*$zoom}] \
+        [expr {$px*$zoom}] [expr {$py*$zoom}] \
+        -fill $color -width $defLinkWidth \
+        -tags "wlanlink $node1 $node2 $wlan"]
+    $c raise $wlanlink "background || grid || oval || rectangle"
+    return $wlanlink
 }
 
 
@@ -540,36 +540,36 @@ proc chooseIfName { lnode1 lnode2 } {
     switch -exact -- [nodeType $lnode1] {
         pc {
             return eth
-}
-host {
-    return eth
-}
-hub {
-    return e
-}
-lanswitch {
-    return e
-}
-router {
-    return eth
-}
-rj45 {
-    return 
-}
-tunnel {
-    return e
-}
-ktunnel {
-    return
-}
-wlan {
-    return e
-}
-default {
-    return eth
-    # end Boeing: below
-}
-}
+        }
+        host {
+            return eth
+        }
+        hub {
+            return e
+        }
+        lanswitch {
+            return e
+        }
+        router {
+            return eth
+        }
+        rj45 {
+            return 
+        }
+        tunnel {
+            return e
+        }
+        ktunnel {
+            return
+        }
+        wlan {
+            return e
+        }
+        default {
+            return eth
+            # end Boeing: below
+        }
+    }
 }
 
 
@@ -598,10 +598,10 @@ proc listLANnodes { l2node l2peers } {
         if { [ lsearch {lanswitch hub wlan} $type] != -1 } {
             if { [lsearch $l2peers $peer] == -1 } {
                 set l2peers [listLANnodes $peer $l2peers]
+            }
+        }
     }
-}
-}
-return $l2peers
+    return $l2peers
 }
 
 #****f* editor.tcl/calcDxDy
@@ -625,38 +625,38 @@ proc calcDxDy { lnode } {
         set x 1
         set y 1
         return
-}
-switch -exact -- [nodeType $lnode] {
-    hub {
-        set x [expr {1.5 / $zoom}]
-        set y [expr {2.6 / $zoom}]
-}
-lanswitch {
-    set x [expr {1.5 / $zoom}]
-    set y [expr {2.6 / $zoom}]
-}
-router {
-    set x [expr {1 / $zoom}]
-    set y [expr {2 / $zoom}]
-}
-rj45 {
-    set x [expr {1 / $zoom}]
-    set y [expr {1 / $zoom}]
-}
-tunnel {
-    set x [expr {1 / $zoom}]
-    set y [expr {1 / $zoom}]
-}
-wlan {
-    set x [expr {1.5 / $zoom}]
-    set y [expr {2.6 / $zoom}]
-}
-default {
-    set x [expr {1 / $zoom}]
-    set y [expr {2 / $zoom}]
-}
-}
-return
+    }
+    switch -exact -- [nodeType $lnode] {
+        hub {
+            set x [expr {1.5 / $zoom}]
+            set y [expr {2.6 / $zoom}]
+        }
+        lanswitch {
+            set x [expr {1.5 / $zoom}]
+            set y [expr {2.6 / $zoom}]
+        }
+        router {
+            set x [expr {1 / $zoom}]
+            set y [expr {2 / $zoom}]
+        }
+        rj45 {
+            set x [expr {1 / $zoom}]
+            set y [expr {1 / $zoom}]
+        }
+        tunnel {
+            set x [expr {1 / $zoom}]
+            set y [expr {1 / $zoom}]
+        }
+        wlan {
+            set x [expr {1.5 / $zoom}]
+            set y [expr {2.6 / $zoom}]
+        }
+        default {
+            set x [expr {1 / $zoom}]
+            set y [expr {2 / $zoom}]
+        }
+    }
+    return
 }
 
 #****f* editor.tcl/updateIfcLabel
@@ -682,29 +682,29 @@ proc updateIfcLabel { lnode1 lnode2 } {
     set ifipv6addr [getIfcIPv6addr $lnode1 $ifc]
     if { $ifc == 0 } {
         set ifc ""
-}
-if { [getIfcOperState $lnode1 $ifc] == "down" } {
-    set labelstr "*"
-} else {
-    set labelstr ""
-}
-if { $showIfNames } {
-    set labelstr "$labelstr$ifc"
-}
-if { $showIfIPaddrs && $ifipv4addr != "" } {
-    set labelstr "$labelstr$ifipv4addr"
-}
-if { $showIfIPv6addrs && $ifipv6addr != "" } {
-    set labelstr "$labelstr$ifipv6addr"
-}
-set labelstr \
-[string range $labelstr 0 [expr {[string length $labelstr] - 2}]]
-.c itemconfigure "interface && $lnode1 && $link" \
--text "$labelstr"
-# Boeing: hide ifc label on wlans
-if { [nodeType $lnode1] == "wlan" } { 
-    .c itemconfigure "interface && $lnode1 && $link" -state hidden
-}
+    }
+    if { [getIfcOperState $lnode1 $ifc] == "down" } {
+        set labelstr "*"
+    } else {
+        set labelstr ""
+    }
+    if { $showIfNames } {
+        set labelstr "$labelstr$ifc"
+    }
+    if { $showIfIPaddrs && $ifipv4addr != "" } {
+        set labelstr "$labelstr$ifipv4addr"
+    }
+    if { $showIfIPv6addrs && $ifipv6addr != "" } {
+        set labelstr "$labelstr$ifipv6addr"
+    }
+    set labelstr \
+        [string range $labelstr 0 [expr {[string length $labelstr] - 2}]]
+    .c itemconfigure "interface && $lnode1 && $link" \
+        -text "$labelstr"
+        # Boeing: hide ifc label on wlans
+    if { [nodeType $lnode1] == "wlan" } { 
+        .c itemconfigure "interface && $lnode1 && $link" -state hidden
+    }
 }
 
 
@@ -729,22 +729,22 @@ proc updateLinkLabel { link } {
     set labelstr "$labelstr[getLinkBandwidthString $link]"
     if { "$delstr" != "" } {
         set labelstr "$labelstr$delstr"
-}
-if { "$ber" != "" } {
-    if { [lindex $systype 0] == "Linux" } { set berstr "per=$ber" 
-    } else { set berstr "ber=$ber" }
-    set labelstr "$labelstr$berstr"
-}
-if { "$dup" != "" } {
-    set dupstr "dup=$dup%"
-    set labelstr "$labelstr$dupstr"
-}
-set labelstr \
-[string range $labelstr 0 [expr {[string length $labelstr] - 2}]]
-.c itemconfigure "linklabel && $link" -text "$labelstr"
-if { $showLinkLabels == 0} {
-    .c itemconfigure "linklabel && $link" -state hidden
-}
+    }
+    if { "$ber" != "" } {
+        if { [lindex $systype 0] == "Linux" } { set berstr "per=$ber" 
+        } else { set berstr "ber=$ber" }
+        set labelstr "$labelstr$berstr"
+    }
+    if { "$dup" != "" } {
+        set dupstr "dup=$dup%"
+        set labelstr "$labelstr$dupstr"
+    }
+    set labelstr \
+        [string range $labelstr 0 [expr {[string length $labelstr] - 2}]]
+    .c itemconfigure "linklabel && $link" -text "$labelstr"
+    if { $showLinkLabels == 0} {
+        .c itemconfigure "linklabel && $link" -state hidden
+    }
 }
 
 
@@ -762,11 +762,11 @@ proc redrawAllLinks {} {
     foreach link $link_list {
         set nodes [linkPeers $link]
         if { [getNodeCanvas [lindex $nodes 0]] != $curcanvas ||
-            [getNodeCanvas [lindex $nodes 1]] != $curcanvas } {
-                continue
-}
-redrawLink $link
-}
+             [getNodeCanvas [lindex $nodes 1]] != $curcanvas } {
+            continue
+        }
+        redrawLink $link
+    }
 }
 
 
@@ -806,31 +806,31 @@ proc redrawLink { link } {
     .c coords "linklabel && $link" $lx $ly
 
     set n [expr {sqrt (($x1 - $x2) * ($x1 - $x2) + \
-        ($y1 - $y2) * ($y1 - $y2)) * 0.015}]
-        if { $n < 1 } {
-            set n 1
-}
+                 ($y1 - $y2) * ($y1 - $y2)) * 0.015}]
+    if { $n < 1 } {
+        set n 1
+    }
 
-calcDxDy $lnode1
-set lx [expr {($x1 * ($n * $dx - 1) + $x2) / $n / $dx}]
-set ly [expr {($y1 * ($n * $dy - 1) + $y2) / $n / $dy}]
-.c coords "interface && $lnode1 && $link" $lx $ly
-updateIfcLabel $lnode1 $lnode2
+    calcDxDy $lnode1
+    set lx [expr {($x1 * ($n * $dx - 1) + $x2) / $n / $dx}]
+    set ly [expr {($y1 * ($n * $dy - 1) + $y2) / $n / $dy}]
+    .c coords "interface && $lnode1 && $link" $lx $ly
+    updateIfcLabel $lnode1 $lnode2
 
-calcDxDy $lnode2
-set lx [expr {($x1 + $x2 * ($n * $dx - 1)) / $n / $dx}]
-set ly [expr {($y1 + $y2 * ($n * $dy - 1)) / $n / $dy}]
-.c coords "interface && $lnode2 && $link" $lx $ly
-updateIfcLabel $lnode2 $lnode1
-# Boeing - wlan antennas
-if { [nodeType $lnode1] == "wlan" } {
-    global zoom
-    set an [lsearch -exact [findWlanNodes $lnode2] $lnode1]
-    if { $an < 0 || $an >= 5 } { set an 0 }
-    set dx [expr {20 - (10*$an)}]
-    .c coords "antenna && $lnode2 && $link" [expr {$x2-($dx*$zoom)}] \
-    [expr {$y2-(20*$zoom)}]
-}
+    calcDxDy $lnode2
+    set lx [expr {($x1 + $x2 * ($n * $dx - 1)) / $n / $dx}]
+    set ly [expr {($y1 + $y2 * ($n * $dy - 1)) / $n / $dy}]
+    .c coords "interface && $lnode2 && $link" $lx $ly
+    updateIfcLabel $lnode2 $lnode1
+    # Boeing - wlan antennas
+    if { [nodeType $lnode1] == "wlan" } {
+        global zoom
+        set an [lsearch -exact [findWlanNodes $lnode2] $lnode1]
+        if { $an < 0 || $an >= 5 } { set an 0 }
+        set dx [expr {20 - (10*$an)}]
+        .c coords "antenna && $lnode2 && $link" [expr {$x2-($dx*$zoom)}] \
+            [expr {$y2-(20*$zoom)}]
+    }
 }
 
 # Boeing
@@ -891,11 +891,11 @@ proc splitGUILink { link } {
     set y2 [lindex [getNodeCoords $orig_node2] 1]
 
     setNodeCoords $new_node1 \
-    "[expr {($x1 + 0.4 * ($x2 - $x1)) / $zoom}] \
-    [expr {($y1 + 0.4 * ($y2 - $y1)) / $zoom}]"
+        "[expr {($x1 + 0.4 * ($x2 - $x1)) / $zoom}] \
+        [expr {($y1 + 0.4 * ($y2 - $y1)) / $zoom}]"
     setNodeCoords $new_node2 \
-    "[expr {($x1 + 0.6 * ($x2 - $x1)) / $zoom}] \
-    [expr {($y1 + 0.6 * ($y2 - $y1)) / $zoom}]"
+        "[expr {($x1 + 0.6 * ($x2 - $x1)) / $zoom}] \
+        [expr {($y1 + 0.6 * ($y2 - $y1)) / $zoom}]"
     setNodeLabelCoords $new_node1 [getNodeCoords $new_node1]
     setNodeLabelCoords $new_node2 [getNodeCoords $new_node2]
 
@@ -923,48 +923,48 @@ proc selectNode { c obj } {
     $c addtag selected withtag "node && $node"
     if { [nodeType $node] == "pseudo" } {
         set bbox [$c bbox "nodelabel && $node"]
-} elseif { [nodeType $node] == "rectangle" } {
-    $c addtag selected withtag "rectangle && $node"
-    set bbox [$c bbox "rectangle && $node"]
-} elseif { [nodeType $node] == "text" } {
-    $c addtag selected withtag "text && $node"
-    set bbox [$c bbox "text && $node"]
-} elseif { [nodeType $node] == "oval" } {
-    $c addtag selected withtag "oval && $node"
-    set bbox [$c bbox "oval && $node"]
-} else {
-    set bbox [$c bbox "node && $node"]
-}
-set bx1 [expr {[lindex $bbox 0] - 2}]
-set by1 [expr {[lindex $bbox 1] - 2}]
-set bx2 [expr {[lindex $bbox 2] + 1}]
-set by2 [expr {[lindex $bbox 3] + 1}]
-$c delete -withtags "selectmark && $node"
-$c create line $bx1 $by1 $bx2 $by1 $bx2 $by2 $bx1 $by2 $bx1 $by1 \
--dash {6 4} -fill black -width 1 -tags "selectmark $node"
+    } elseif { [nodeType $node] == "rectangle" } {
+        $c addtag selected withtag "rectangle && $node"
+        set bbox [$c bbox "rectangle && $node"]
+    } elseif { [nodeType $node] == "text" } {
+        $c addtag selected withtag "text && $node"
+        set bbox [$c bbox "text && $node"]
+    } elseif { [nodeType $node] == "oval" } {
+        $c addtag selected withtag "oval && $node"
+        set bbox [$c bbox "oval && $node"]
+    } else {
+        set bbox [$c bbox "node && $node"]
+    }
+    set bx1 [expr {[lindex $bbox 0] - 2}]
+    set by1 [expr {[lindex $bbox 1] - 2}]
+    set bx2 [expr {[lindex $bbox 2] + 1}]
+    set by2 [expr {[lindex $bbox 3] + 1}]
+    $c delete -withtags "selectmark && $node"
+    $c create line $bx1 $by1 $bx2 $by1 $bx2 $by2 $bx1 $by2 $bx1 $by1 \
+        -dash {6 4} -fill black -width 1 -tags "selectmark $node"
 }
 
 proc selectNodes { nodelist } {
     foreach node $nodelist {
         selectNode .c [.c find withtag "node && $node"]
-}
+    }
 }
 
 proc selectedNodes {} {
     set selected {}
     foreach obj [.c find withtag "node && selected"] {
         lappend selected [lindex [.c gettags $obj] 1]
-}
-foreach obj [.c find withtag "oval && selected"] {
-    lappend selected [lindex [.c gettags $obj] 1]
-}
-foreach obj [.c find withtag "rectangle && selected"] {
-    lappend selected [lindex [.c gettags $obj] 1]
-}
-foreach obj [.c find withtag "text && selected"] {
-    lappend selected [lindex [.c gettags $obj] 1]
-}
-return $selected
+    }
+    foreach obj [.c find withtag "oval && selected"] {
+        lappend selected [lindex [.c gettags $obj] 1]
+    }
+    foreach obj [.c find withtag "rectangle && selected"] {
+        lappend selected [lindex [.c gettags $obj] 1]
+    }
+    foreach obj [.c find withtag "text && selected"] {
+        lappend selected [lindex [.c gettags $obj] 1]
+    }
+    return $selected
 }
 
 proc selectedRealNodes {} {
@@ -972,12 +972,12 @@ proc selectedRealNodes {} {
     foreach obj [.c find withtag "node && selected"] {
         set node [lindex [.c gettags $obj] 1]
         if { [getNodeMirror $node] != "" ||
-            [nodeType $node] == "rj45" } {
-                continue
-}
-lappend selected $node
-}
-return $selected
+             [nodeType $node] == "rj45" } {
+            continue
+        }
+        lappend selected $node
+    }
+    return $selected
 }
 
 proc selectAdjacent {} {
@@ -990,13 +990,13 @@ proc selectAdjacent {} {
             set peer [peerByIfc $node $ifc]
             if { [getNodeMirror $peer] != "" } {
                 return
+            }
+            if { [lsearch $adjacent $peer] < 0 } {
+                lappend adjacent $peer
+            }
+        }
     }
-    if { [lsearch $adjacent $peer] < 0 } {
-        lappend adjacent $peer
-    }
-}
-}
-selectNodes $adjacent
+    selectNodes $adjacent
 }
 
 #****f* editor.tcl/button3link
@@ -1028,54 +1028,54 @@ proc button3link { c x y } {
         set link [lindex [$c gettags {linklabel && current}] 1]
         if { $link == "" } {
             return
-}
-}
+        }
+    }
 
-.button3menu delete 0 end
+    .button3menu delete 0 end
 
-#
-# Configure link
-#
-.button3menu add command -label "Configure" \
--command "popupConfigDialog $c"
+    #
+    # Configure link
+    #
+    .button3menu add command -label "Configure" \
+        -command "popupConfigDialog $c"
 
-#
-# Delete link
-#
-if { $oper_mode != "exec" } {
-    .button3menu add command -label "Delete" \
-    -command "removeGUILink $link atomic"
-} else {
-    .button3menu add command -label "Delete" \
-    -state disabled
-}
+        #
+        # Delete link
+        #
+    if { $oper_mode != "exec" } {
+        .button3menu add command -label "Delete" \
+            -command "removeGUILink $link atomic"
+    } else {
+        .button3menu add command -label "Delete" \
+            -state disabled
+    }
 
-#
-# Split link
-#
-if { $oper_mode != "exec" && [getLinkMirror $link] == "" } {
-    .button3menu add command -label "Split" \
-    -command "splitGUILink $link"
-} else {
-    .button3menu add command -label "Split" \
-    -state disabled
-}
+    #
+    # Split link
+    #
+    if { $oper_mode != "exec" && [getLinkMirror $link] == "" } {
+        .button3menu add command -label "Split" \
+            -command "splitGUILink $link"
+    } else {
+        .button3menu add command -label "Split" \
+            -state disabled
+    }
 
-#
-# Merge two pseudo nodes / links
-#
-if { $oper_mode != "exec" && [getLinkMirror $link] != "" &&
-    [getNodeCanvas [getNodeMirror [lindex [linkPeers $link] 1]]] ==
-    $curcanvas } {
+    #
+    # Merge two pseudo nodes / links
+    #
+    if { $oper_mode != "exec" && [getLinkMirror $link] != "" &&
+         [getNodeCanvas [getNodeMirror [lindex [linkPeers $link] 1]]] ==
+         $curcanvas } {
         .button3menu add command -label "Merge" \
-        -command "mergeGUINode [lindex [linkPeers $link] 1]"
-} else {
-    .button3menu add command -label "Merge" -state disabled
-}
+            -command "mergeGUINode [lindex [linkPeers $link] 1]"
+    } else {
+        .button3menu add command -label "Merge" -state disabled
+    }
 
-set x [winfo pointerx .]
-set y [winfo pointery .]
-tk_popup .button3menu $x $y
+    set x [winfo pointerx .]
+    set y [winfo pointery .]
+    tk_popup .button3menu $x $y
 }
 
 
@@ -1097,38 +1097,38 @@ proc movetoCanvas { canvas } {
     foreach node $selected_nodes {
         setNodeCanvas $node $canvas
         set changed 1
-}
-foreach obj [.c find withtag "linklabel"] {
-    set link [lindex [.c gettags $obj] 1]
-    set link_peers [linkPeers $link]
-    set peer1 [lindex $link_peers 0]
-    set peer2 [lindex $link_peers 1]
-    set peer1_in_selected [lsearch $selected_nodes $peer1]
-    set peer2_in_selected [lsearch $selected_nodes $peer2]
-    if { ($peer1_in_selected == -1 && $peer2_in_selected != -1) ||
-        ($peer1_in_selected != -1 && $peer2_in_selected == -1) } {
+    }
+    foreach obj [.c find withtag "linklabel"] {
+        set link [lindex [.c gettags $obj] 1]
+        set link_peers [linkPeers $link]
+        set peer1 [lindex $link_peers 0]
+        set peer2 [lindex $link_peers 1]
+        set peer1_in_selected [lsearch $selected_nodes $peer1]
+        set peer2_in_selected [lsearch $selected_nodes $peer2]
+        if { ($peer1_in_selected == -1 && $peer2_in_selected != -1) ||
+             ($peer1_in_selected != -1 && $peer2_in_selected == -1) } {
             if { [nodeType $peer2] == "pseudo" } {
                 setNodeCanvas $peer2 $canvas
                 if { [getNodeCanvas [getNodeMirror $peer2]] == $canvas } {
                     mergeLink $link
+                }
+                continue
+            }
+            set new_nodes [splitLink $link pseudo]
+            set new_node1 [lindex $new_nodes 0]
+            set new_node2 [lindex $new_nodes 1]
+            setNodeMirror $new_node1 $new_node2
+            setNodeMirror $new_node2 $new_node1
+            setNodeName $new_node1 $peer2
+            setNodeName $new_node2 $peer1
+            set link1 [linkByPeers $peer1 $new_node1]
+            set link2 [linkByPeers $peer2 $new_node2]
+            setLinkMirror $link1 $link2
+            setLinkMirror $link2 $link1
+        }
     }
-    continue
-    }
-    set new_nodes [splitLink $link pseudo]
-    set new_node1 [lindex $new_nodes 0]
-    set new_node2 [lindex $new_nodes 1]
-    setNodeMirror $new_node1 $new_node2
-    setNodeMirror $new_node2 $new_node1
-    setNodeName $new_node1 $peer2
-    setNodeName $new_node2 $peer1
-    set link1 [linkByPeers $peer1 $new_node1]
-    set link2 [linkByPeers $peer2 $new_node2]
-    setLinkMirror $link1 $link2
-    setLinkMirror $link2 $link1
-}
-}
-updateUndoLog
-redrawAll
+    updateUndoLog
+    redrawAll
 }
 
 
@@ -1191,240 +1191,240 @@ proc button3node { c x y button } {
         set node [lindex [$c gettags {nodelabel && current}] 1]
         if { $node == "" } {
             return
-}
-}
-set mirror_node [getNodeMirror $node]
-
-if { [$c gettags "node && $node && selected"] == "" } {
-    $c dtag node selected
-    $c delete -withtags selectmark
-    selectNode $c [$c find withtag "current"]
-}
-
-# open up shells upon double-click or shift/ctrl-click
-set shell $g_prefs(shell)
-if { $button == "shift" || $button == "ctrl" } {
-    # only open bash shells for NETWORK nodes and remote routers
-    if { [[typemodel $node].layer] != "NETWORK" } {
-        if { [getNodeModel $node] != "remote" } {
-            return
+        }
     }
-}
-if { $button == "shift" } {	;# normal bash shell
-    spawnShell $node $shell
-} else { 			;# right-click vtysh shell
-    set cmd [[typemodel $node].shellcmd $node] 
-    if { $cmd != "/bin/sh" && $cmd != "" } { spawnShell $node $cmd }
-}
-return ;# open shell, don't post a menu
-}
+    set mirror_node [getNodeMirror $node]
 
-#
-# below here we build and post a menu
-#
-.button3menu delete 0 end
+    if { [$c gettags "node && $node && selected"] == "" } {
+        $c dtag node selected
+        $c delete -withtags selectmark
+        selectNode $c [$c find withtag "current"]
+    }
 
-#
-# Select adjacent
-#
-if { [nodeType $node] != "pseudo" } {
-    .button3menu add command -label "Select adjacent" \
-    -command "selectAdjacent"
-} else {
-    .button3menu add command -label "Select adjacent" \
-    -command "selectAdjacent" -state disabled
-}
+    # open up shells upon double-click or shift/ctrl-click
+    set shell $g_prefs(shell)
+    if { $button == "shift" || $button == "ctrl" } {
+    # only open bash shells for NETWORK nodes and remote routers
+        if { [[typemodel $node].layer] != "NETWORK" } {
+            if { [getNodeModel $node] != "remote" } {
+                return
+            }
+        }
+        if { $button == "shift" } {	;# normal bash shell
+                                    spawnShell $node $shell
+        } else { 			;# right-click vtysh shell
+                    set cmd [[typemodel $node].shellcmd $node] 
+                    if { $cmd != "/bin/sh" && $cmd != "" } { spawnShell $node $cmd }
+        }
+        return ;# open shell, don't post a menu
+    }
 
-#
-# Configure node
-#
-if { [nodeType $node] != "pseudo" } {
-    .button3menu add command -label "Configure" \
-    -command "popupConfigDialog $c"
-} else {
-    .button3menu add command -label "Configure" \
-    -command "popupConfigDialog $c" -state disabled
-}
+    #
+    # below here we build and post a menu
+    #
+    .button3menu delete 0 end
 
-#
-# Create a new link - can be between different canvases
-#
-.button3menu.connect delete 0 end
-if { $oper_mode == "exec" || [nodeType $node] == "pseudo" } {
-    .button3menu add cascade -label "Create link to" \
-    -menu .button3menu.connect -state disabled
-} else {
-    .button3menu add cascade -label "Create link to" \
-    -menu .button3menu.connect
-}
-destroy .button3menu.connect.selected
-menu .button3menu.connect.selected -tearoff 0
-.button3menu.connect add cascade -label "Selected" \
--menu .button3menu.connect.selected
-.button3menu.connect.selected add command \
--label "Chain" -command "P \[selectedRealNodes\]"
-.button3menu.connect.selected add command \
--label "Star" \
--command "Kb \[lindex \[selectedRealNodes\] 0\] \
-\[lrange \[selectedNodes\] 1 end\]"
-.button3menu.connect.selected add command \
--label "Cycle" -command "C \[selectedRealNodes\]"
-.button3menu.connect.selected add command \
--label "Clique" -command "K \[selectedRealNodes\]"
-.button3menu.connect add separator
-foreach canvas $canvas_list {
-    destroy .button3menu.connect.$canvas
-    menu .button3menu.connect.$canvas -tearoff 0
-    .button3menu.connect add cascade -label [getCanvasName $canvas] \
-    -menu .button3menu.connect.$canvas
-}
-foreach peer_node $node_list {
-    set canvas [getNodeCanvas $peer_node]
-    if { $node != $peer_node && [nodeType $node] != "rj45" &&
-        [lsearch {pseudo rj45} [nodeType $peer_node]] < 0 &&
-        [ifcByLogicalPeer $node $peer_node] == "" } {
+    #
+    # Select adjacent
+    #
+    if { [nodeType $node] != "pseudo" } {
+        .button3menu add command -label "Select adjacent" \
+            -command "selectAdjacent"
+    } else {
+        .button3menu add command -label "Select adjacent" \
+            -command "selectAdjacent" -state disabled
+    }
+
+    #
+    # Configure node
+    #
+    if { [nodeType $node] != "pseudo" } {
+        .button3menu add command -label "Configure" \
+            -command "popupConfigDialog $c"
+    } else {
+        .button3menu add command -label "Configure" \
+            -command "popupConfigDialog $c" -state disabled
+    }
+
+    #
+    # Create a new link - can be between different canvases
+    #
+    .button3menu.connect delete 0 end
+    if { $oper_mode == "exec" || [nodeType $node] == "pseudo" } {
+        .button3menu add cascade -label "Create link to" \
+            -menu .button3menu.connect -state disabled
+    } else {
+        .button3menu add cascade -label "Create link to" \
+            -menu .button3menu.connect
+    }
+    destroy .button3menu.connect.selected
+    menu .button3menu.connect.selected -tearoff 0
+    .button3menu.connect add cascade -label "Selected" \
+        -menu .button3menu.connect.selected
+    .button3menu.connect.selected add command \
+        -label "Chain" -command "P \[selectedRealNodes\]"
+    .button3menu.connect.selected add command \
+        -label "Star" \
+        -command "Kb \[lindex \[selectedRealNodes\] 0\] \
+        \[lrange \[selectedNodes\] 1 end\]"
+    .button3menu.connect.selected add command \
+        -label "Cycle" -command "C \[selectedRealNodes\]"
+    .button3menu.connect.selected add command \
+        -label "Clique" -command "K \[selectedRealNodes\]"
+    .button3menu.connect add separator
+    foreach canvas $canvas_list {
+        destroy .button3menu.connect.$canvas
+        menu .button3menu.connect.$canvas -tearoff 0
+        .button3menu.connect add cascade -label [getCanvasName $canvas] \
+            -menu .button3menu.connect.$canvas
+    }
+    foreach peer_node $node_list {
+        set canvas [getNodeCanvas $peer_node]
+        if { $node != $peer_node && [nodeType $node] != "rj45" &&
+             [lsearch {pseudo rj45} [nodeType $peer_node]] < 0 &&
+             [ifcByLogicalPeer $node $peer_node] == "" } {
             .button3menu.connect.$canvas add command \
-            -label [getNodeName $peer_node] \
-            -command "newGUILink $node $peer_node"
-} elseif { [nodeType $peer_node] != "pseudo" } {
-    .button3menu.connect.$canvas add command \
-    -label [getNodeName $peer_node] \
-    -state disabled
-}
-}
-#
-# assign to emulation server
-#
-global exec_servers node_location
-.button3menu.assign delete 0 end
-.button3menu add cascade -label "Assign to" -menu .button3menu.assign
-.button3menu.assign add command -label "(none)" \
--command "assignSelection \"\""
-foreach server [lsort -dictionary [array names exec_servers]] {
-    .button3menu.assign add command -label "$server" \
-    -command "assignSelection $server"
-}
+                -label [getNodeName $peer_node] \
+                -command "newGUILink $node $peer_node"
+        } elseif { [nodeType $peer_node] != "pseudo" } {
+            .button3menu.connect.$canvas add command \
+                -label [getNodeName $peer_node] \
+                -state disabled
+        }
+    }
+    #
+    # assign to emulation server
+    #
+    global exec_servers node_location
+    .button3menu.assign delete 0 end
+    .button3menu add cascade -label "Assign to" -menu .button3menu.assign
+    .button3menu.assign add command -label "(none)" \
+        -command "assignSelection \"\""
+    foreach server [lsort -dictionary [array names exec_servers]] {
+        .button3menu.assign add command -label "$server" \
+            -command "assignSelection $server"
+    }
 
-#
-# wlan link to all nodes, recalculate
-#
-if { [nodeType $node] == "wlan" } {
-    .button3menu add command -label "Link to all routers" \
-    -command "linkAllNodes $node"
-    set msg "Select new WLAN $node members:"
-    set cmd "linkSelectedNodes $node"
-    .button3menu add command -label "Select WLAN members..." \
-    -command "popupSelectNodes \"$msg\" \"\" {$cmd}"
-    .button3menu add command -label "Recalculate all links" \
-    -command "recalculateAllRanges $node"
-}
+    #
+    # wlan link to all nodes, recalculate
+    #
+    if { [nodeType $node] == "wlan" } {
+        .button3menu add command -label "Link to all routers" \
+            -command "linkAllNodes $node"
+        set msg "Select new WLAN $node members:"
+        set cmd "linkSelectedNodes $node"
+        .button3menu add command -label "Select WLAN members..." \
+            -command "popupSelectNodes \"$msg\" \"\" {$cmd}"
+        .button3menu add command -label "Recalculate all links" \
+            -command "recalculateAllRanges $node"
+    }
 
 
-# make any calls defined by addons to 3 button3nodeHook
-global addon_hook_fns
-foreach addon [array names addon_hook_fns] {
-    [lindex $addon_hook_fns($addon) 3] .button3menu $node
-}
+    # make any calls defined by addons to 3 button3nodeHook
+    global addon_hook_fns
+    foreach addon [array names addon_hook_fns] {
+        [lindex $addon_hook_fns($addon) 3] .button3menu $node
+    }
 
-#
-# Move to another canvas
-#
-.button3menu.moveto delete 0 end
-if { $oper_mode == "exec" || [nodeType $node] == "pseudo" } {
-    .button3menu add cascade -label "Move to" \
-    -menu .button3menu.moveto -state disabled
-} else {
-    .button3menu add cascade -label "Move to" \
-    -menu .button3menu.moveto
-}
-.button3menu.moveto add command -label "Canvas:" -state disabled
-foreach canvas $canvas_list {
-    if { $canvas != $curcanvas } {
-        .button3menu.moveto add command \
-        -label [getCanvasName $canvas] \
-        -command "movetoCanvas $canvas"
-} else {
-    .button3menu.moveto add command \
-    -label [getCanvasName $canvas] -state disabled
-}
-}
+    #
+    # Move to another canvas
+    #
+    .button3menu.moveto delete 0 end
+    if { $oper_mode == "exec" || [nodeType $node] == "pseudo" } {
+        .button3menu add cascade -label "Move to" \
+            -menu .button3menu.moveto -state disabled
+    } else {
+        .button3menu add cascade -label "Move to" \
+            -menu .button3menu.moveto
+    }
+    .button3menu.moveto add command -label "Canvas:" -state disabled
+    foreach canvas $canvas_list {
+        if { $canvas != $curcanvas } {
+            .button3menu.moveto add command \
+                -label [getCanvasName $canvas] \
+                -command "movetoCanvas $canvas"
+        } else {
+            .button3menu.moveto add command \
+                -label [getCanvasName $canvas] -state disabled
+        }
+    }
 
-#
-# Merge two pseudo nodes / links
-#
-if { $oper_mode != "exec" && [nodeType $node] == "pseudo" && \
-    [getNodeCanvas $mirror_node] == $curcanvas } {
+    #
+    # Merge two pseudo nodes / links
+    #
+    if { $oper_mode != "exec" && [nodeType $node] == "pseudo" && \
+         [getNodeCanvas $mirror_node] == $curcanvas } {
         .button3menu add command -label "Merge" \
-        -command "mergeGUINode $node"
-} else {
-    .button3menu add command -label "Merge" -state disabled
-}
+            -command "mergeGUINode $node"
+    } else {
+        .button3menu add command -label "Merge" -state disabled
+    }
 
-#
-# Delete selection
-#
-if { $oper_mode != "exec" } {
-    .button3menu add command -label "Delete" -command deleteSelection
-} else {
-    .button3menu add command -label "Delete" -state disabled
-}
+    #
+    # Delete selection
+    #
+    if { $oper_mode != "exec" } {
+        .button3menu add command -label "Delete" -command deleteSelection
+    } else {
+        .button3menu add command -label "Delete" -state disabled
+    }
 
-.button3menu add command -label "Hide" -command "hideSelected"
+    .button3menu add command -label "Hide" -command "hideSelected"
 
-# Boeing: flag used below
-set execstate disabled
-if { $oper_mode == "exec" } { set execstate normal }
+    # Boeing: flag used below
+    set execstate disabled
+    if { $oper_mode == "exec" } { set execstate normal }
 
-#
-# Shell selection
-#
-.button3menu.shell delete 0 end
-if { $oper_mode == "exec" && [[typemodel $node].layer] == "NETWORK" } {
-    .button3menu add cascade -label "Shell window" \
-    -menu .button3menu.shell
-    set cmd [[typemodel $node].shellcmd $node]
-    if { $cmd != "/bin/sh" && $cmd != "" } { ;# typically adds vtysh
-        .button3menu.shell add command -label "$cmd" \
-        -command "spawnShell $node $cmd"
-}
-.button3menu.shell add command -label "/bin/sh" \
--command "spawnShell $node sh"
-.button3menu.shell add command -label "$shell" \
--command "spawnShell $node $shell"
-} else {
-    .button3menu add cascade -label "Shell window" \
-    -menu .button3menu.shell -state disabled
-}
+    #
+    # Shell selection
+    #
+    .button3menu.shell delete 0 end
+    if { $oper_mode == "exec" && [[typemodel $node].layer] == "NETWORK" } {
+        .button3menu add cascade -label "Shell window" \
+            -menu .button3menu.shell
+        set cmd [[typemodel $node].shellcmd $node]
+        if { $cmd != "/bin/sh" && $cmd != "" } { ;# typically adds vtysh
+                                                 .button3menu.shell add command -label "$cmd" \
+                                                     -command "spawnShell $node $cmd"
+        }
+        .button3menu.shell add command -label "/bin/sh" \
+            -command "spawnShell $node sh"
+        .button3menu.shell add command -label "$shell" \
+            -command "spawnShell $node $shell"
+    } else {
+        .button3menu add cascade -label "Shell window" \
+            -menu .button3menu.shell -state disabled
+    }
 
-#
-# Tcpdump, gpsd
-#
-.button3menu.tcpdump delete 0 end
-if { [[typemodel $node].layer] == "NETWORK" } {
-    .button3menu add cascade -label "Tcpdump" \
-    -menu .button3menu.tcpdump -state $execstate
-    foreach ifc [ifcList $node] {
-        .button3menu.tcpdump add command -label "$ifc" \
-        -command "spawnShell $node \"tcpdump -n -l -i $ifc\"" \
-        -state $execstate
-}
-if { [lindex $systype 0] != "Linux" } {
-    .button3menu add command -label "gpsd" -state $execstate -command \
-    "spawnShell $node \"gpsd -b -N -n -D 4 /tmp/$eid\_$node/gpsdev0\""
-} else {
-    set name [getNodeName $node]
-    .button3menu add command -label "View log..." -state $execstate \
-    -command "spawnShell $node \"less ../$name.log\""
-}
-}
+    #
+    # Tcpdump, gpsd
+    #
+    .button3menu.tcpdump delete 0 end
+    if { [[typemodel $node].layer] == "NETWORK" } {
+        .button3menu add cascade -label "Tcpdump" \
+            -menu .button3menu.tcpdump -state $execstate
+        foreach ifc [ifcList $node] {
+            .button3menu.tcpdump add command -label "$ifc" \
+                -command "spawnShell $node \"tcpdump -n -l -i $ifc\"" \
+                -state $execstate
+        }
+        if { [lindex $systype 0] != "Linux" } {
+            .button3menu add command -label "gpsd" -state $execstate -command \
+                "spawnShell $node \"gpsd -b -N -n -D 4 /tmp/$eid\_$node/gpsdev0\""
+        } else {
+            set name [getNodeName $node]
+            .button3menu add command -label "View log..." -state $execstate \
+                -command "spawnShell $node \"less ../$name.log\""
+        }
+    }
 
-#
-# Finally post the popup menu on current pointer position
-#
-set x [winfo pointerx .]
-set y [winfo pointery .]
+    #
+    # Finally post the popup menu on current pointer position
+    #
+    set x [winfo pointerx .]
+    set y [winfo pointery .]
 
-tk_popup .button3menu $x $y
+    tk_popup .button3menu $x $y
 }
 
 
@@ -1442,7 +1442,7 @@ tk_popup .button3menu $x $y
 #   * cmd -- the path to the shell.
 #****
 proc spawnShell { node cmd } {
-    # request an interactive terminal
+# request an interactive terminal
     set sock [lindex [getEmulPlugin $node] 2]
     set flags 0x44 ;# set TTY, critical flags
     set exec_num [newExecCallbackRequest shell]
@@ -1508,151 +1508,151 @@ proc button1 { c x y button } {
     set curobj [$c find withtag current]
     set curtype [lindex [$c gettags current] 0]
     if { $curtype == "node" || \
-        $curtype == "oval" || $curtype == "rectangle" || $curtype == "text" \
-        || ( $curtype == "nodelabel" && \
-        [nodeType [lindex [$c gettags $curobj] 1]] == "pseudo") } {
-            set node [lindex [$c gettags current] 1]
-            set wasselected \
+             $curtype == "oval" || $curtype == "rectangle" || $curtype == "text" \
+             || ( $curtype == "nodelabel" && \
+         [nodeType [lindex [$c gettags $curobj] 1]] == "pseudo") } {
+        set node [lindex [$c gettags current] 1]
+        set wasselected \
             [expr {[lsearch [$c find withtag "selected"] \
-                [$c find withtag "node && $node"]] > -1}]
-                if { $button == "ctrl" } {
-                    if { $wasselected } {
-                        $c dtag $node selected
-                        $c delete -withtags "selectmark && $node"
+            [$c find withtag "node && $node"]] > -1}]
+        if { $button == "ctrl" } {
+            if { $wasselected } {
+                $c dtag $node selected
+                $c delete -withtags "selectmark && $node"
+            }
+        } elseif { !$wasselected } {
+            $c dtag node selected
+            $c delete -withtags selectmark
+        }
+        if { $activetool == "select" && !$wasselected} {
+            selectNode $c $curobj
+        }
+    } elseif { $curtype == "selectmark" } {
+
+        set t1 [$c gettags current]
+        set o1 [lindex $t1 1]
+        set type1 [nodeType $o1]
+
+        if {$type1== "oval" || $type1== "rectangle"} { 
+            set resizeobj $o1
+            set bbox1 [$c bbox $o1]
+            set x1 [lindex $bbox1 0]
+            set y1 [lindex $bbox1 1]
+            set x2 [lindex $bbox1 2]
+            set y2 [lindex $bbox1 3]
+            set l 0 ;# left
+            set r 0 ;# right
+            set u 0 ;# up
+            set d 0 ;# down
+
+            if { $x < [expr $x1+($x2-$x1)/8.0]} { set l 1 }
+            if { $x > [expr $x2-($x2-$x1)/8.0]} { set r 1 }
+            if { $y < [expr $y1+($y2-$y1)/8.0]} { set u 1 }
+            if { $y > [expr $y2-($y2-$y1)/8.0]} { set d 1 }
+
+            if {$l==1} {
+                if {$u==1} { 
+                    set resizemode lu
+                } elseif {$d==1} { 
+                    set resizemode ld
+                } else { 
+                    set resizemode l
+                } 
+            } elseif {$r==1} {
+                if {$u==1} { 
+                    set resizemode ru
+                } elseif {$d==1} { 
+                    set resizemode rd
+                } else { 
+                    set resizemode r
+                } 
+            } elseif {$u==1} { 
+                set resizemode u
+            } elseif {$d==1} {
+                set resizemode d
+            } else {
+                set resizemode false
+            }
+        }
+    } elseif { $button != "ctrl" || $activetool != "select" } {
+        $c dtag node selected
+        $c delete -withtags selectmark
     }
-} elseif { !$wasselected } {
-    $c dtag node selected
-    $c delete -withtags selectmark
-}
-if { $activetool == "select" && !$wasselected} {
-    selectNode $c $curobj
-}
-} elseif { $curtype == "selectmark" } {
-
-    set t1 [$c gettags current]
-    set o1 [lindex $t1 1]
-    set type1 [nodeType $o1]
-
-    if {$type1== "oval" || $type1== "rectangle"} { 
-        set resizeobj $o1
-        set bbox1 [$c bbox $o1]
-        set x1 [lindex $bbox1 0]
-        set y1 [lindex $bbox1 1]
-        set x2 [lindex $bbox1 2]
-        set y2 [lindex $bbox1 3]
-        set l 0 ;# left
-        set r 0 ;# right
-        set u 0 ;# up
-        set d 0 ;# down
-
-        if { $x < [expr $x1+($x2-$x1)/8.0]} { set l 1 }
-        if { $x > [expr $x2-($x2-$x1)/8.0]} { set r 1 }
-        if { $y < [expr $y1+($y2-$y1)/8.0]} { set u 1 }
-        if { $y > [expr $y2-($y2-$y1)/8.0]} { set d 1 }
-
-        if {$l==1} {
-            if {$u==1} { 
-                set resizemode lu
-    } elseif {$d==1} { 
-        set resizemode ld
-    } else { 
-        set resizemode l
-    } 
-    } elseif {$r==1} {
-        if {$u==1} { 
-            set resizemode ru
-    } elseif {$d==1} { 
-        set resizemode rd
-    } else { 
-        set resizemode r
-    } 
-    } elseif {$u==1} { 
-        set resizemode u
-    } elseif {$d==1} {
-        set resizemode d
-    } else {
-        set resizemode false
-    }
-}
-} elseif { $button != "ctrl" || $activetool != "select" } {
-    $c dtag node selected
-    $c delete -withtags selectmark
-}
-# user has clicked on a blank area or background item
-if { [lsearch [.c gettags $curobj] background] != -1 ||
-    [lsearch [.c gettags $curobj] grid] != -1 ||
-    [lsearch [.c gettags $curobj] annotation] != -1 } {
-        # left mouse button pressed to create a new node
+    # user has clicked on a blank area or background item
+    if { [lsearch [.c gettags $curobj] background] != -1 ||
+         [lsearch [.c gettags $curobj] grid] != -1 ||
+         [lsearch [.c gettags $curobj] annotation] != -1 } {
+         # left mouse button pressed to create a new node
         if { [lsearch {select marker link mobility twonode run stop oval \
-                rectangle text} $activetool] < 0 } {
-                    if { $activetoolp == "routers" } {
-                        set node [newNode router]
-                        setNodeModel $node $activetool
-    } else {
-        set node [newNode $activetool]
-    }
-    setNodeCanvas $node $curcanvas
-    setNodeCoords $node "[expr {$x / $zoom}] [expr {$y / $zoom}]"
-    set dy 32
-    if { [lsearch {router rj45} $activetool] >= 0 } {
-        set dy 28
-    } elseif { [lsearch {hub lanswitch} $activetool] >= 0 } {
-        set dy 24
-    }
-    setNodeLabelCoords $node "[expr {$x / $zoom}] \
-    [expr {$y / $zoom + $dy}]"
-    drawNode $c $node
-    selectNode $c [$c find withtag "node && $node"]
-    set changed 1
-    # remove any existing select box
-} elseif { $activetool == "select" \
-    && $curtype != "node" && $curtype != "nodelabel"} {
-        $c config -cursor cross
-        set lastX $x
-        set lastY $y
-        if {$selectbox != ""} {
+                       rectangle text} $activetool] < 0 } {
+            if { $activetoolp == "routers" } {
+                set node [newNode router]
+                setNodeModel $node $activetool
+            } else {
+                set node [newNode $activetool]
+            }
+            setNodeCanvas $node $curcanvas
+            setNodeCoords $node "[expr {$x / $zoom}] [expr {$y / $zoom}]"
+            set dy 32
+            if { [lsearch {router rj45} $activetool] >= 0 } {
+                set dy 28
+            } elseif { [lsearch {hub lanswitch} $activetool] >= 0 } {
+                set dy 24
+            }
+            setNodeLabelCoords $node "[expr {$x / $zoom}] \
+                [expr {$y / $zoom + $dy}]"
+            drawNode $c $node
+            selectNode $c [$c find withtag "node && $node"]
+            set changed 1
+            # remove any existing select box
+        } elseif { $activetool == "select" \
+        && $curtype != "node" && $curtype != "nodelabel"} {
+            $c config -cursor cross
+            set lastX $x
+            set lastY $y
+            if {$selectbox != ""} {
             # We actually shouldn't get here!
-            $c delete $selectbox
-            set selectbox ""
+                $c delete $selectbox
+                set selectbox ""
+            }
+            # begin drawing an annotation
+        } elseif { $activetoolp == "bgobjs" } {
+            set newcursor cross
+            if { $activetool == "text" } { set newcursor xterm }
+            $c config -cursor $newcursor
+            set lastX $x
+            set lastY $y
+            # draw with the marker
+        } elseif { $activetool == "marker" } {
+            global markersize markercolor
+            set newline [$c create oval $lastX $lastY $x $y \
+                -width $markersize -outline $markercolor -tags "marker"]
+            $c raise $newline "background || link || linklabel || interface"
+            set lastX $x
+            set lastY $y
+        }
+    } else {
+        if {$curtype == "node" || $curtype == "nodelabel"} {
+            $c config -cursor fleur
+        }
+        if {$activetool == "link" && $curtype == "node"} {
+            $c config -cursor cross
+            set lastX [lindex [$c coords $curobj] 0]
+            set lastY [lindex [$c coords $curobj] 1]
+            set newlink [$c create line $lastX $lastY $x $y \
+                -fill $defLinkColor -width $defLinkWidth \
+                -tags "link"]
+                # twonode tool support		
+        } elseif {$g_twoNodeSelect != "" && $curtype == "node"} {
+            set curnode [lindex [$c gettags $curobj] 1]
+            selectTwoNode $curnode
+        } elseif { $curtype == "node" } {
+            selectNode $c $curobj
+        }
+        # end Boeing
     }
-    # begin drawing an annotation
-} elseif { $activetoolp == "bgobjs" } {
-    set newcursor cross
-    if { $activetool == "text" } { set newcursor xterm }
-    $c config -cursor $newcursor
-    set lastX $x
-    set lastY $y
-    # draw with the marker
-} elseif { $activetool == "marker" } {
-    global markersize markercolor
-    set newline [$c create oval $lastX $lastY $x $y \
-    -width $markersize -outline $markercolor -tags "marker"]
-    $c raise $newline "background || link || linklabel || interface"
-    set lastX $x
-    set lastY $y
-}
-} else {
-    if {$curtype == "node" || $curtype == "nodelabel"} {
-        $c config -cursor fleur
-}
-if {$activetool == "link" && $curtype == "node"} {
-    $c config -cursor cross
-    set lastX [lindex [$c coords $curobj] 0]
-    set lastY [lindex [$c coords $curobj] 1]
-    set newlink [$c create line $lastX $lastY $x $y \
-    -fill $defLinkColor -width $defLinkWidth \
-    -tags "link"]
-    # twonode tool support		
-} elseif {$g_twoNodeSelect != "" && $curtype == "node"} {
-    set curnode [lindex [$c gettags $curobj] 1]
-    selectTwoNode $curnode
-} elseif { $curtype == "node" } {
-    selectNode $c $curobj
-}
-# end Boeing
-}
 
-raiseAll $c
+    raiseAll $c
 }
 
 
@@ -1696,34 +1696,34 @@ proc button1-motion { c x y } {
         set calcx [expr {[lindex $coords 0] / $zoom}]
         set calcy [expr {[lindex $coords 1] / $zoom}]
         selectNode $c $curobj
-} else {
-    set calcx $x
-    set calcy $y
-}
-# end Boeing
-if {$activetool == "link" && $newlink != ""} {
-    $c coords $newlink $lastX $lastY $x $y
-    # draw a selection box
-} elseif { $activetool == "select" && \
+    } else {
+        set calcx $x
+        set calcy $y
+    }
+    # end Boeing
+    if {$activetool == "link" && $newlink != ""} {
+        $c coords $newlink $lastX $lastY $x $y
+        # draw a selection box
+    } elseif { $activetool == "select" && \
     ( $curobj == $selectbox || $curtype == "background" || $curtype == "grid")} {
         if {$selectbox == ""} {
             set selectbox [$c create line \
-            $lastX $lastY $x $lastY $x $y $lastX $y $lastX $lastY \
-            -dash {10 4} -fill black -width 1 -tags "selectbox"]
+                $lastX $lastY $x $lastY $x $y $lastX $y $lastX $lastY \
+                -dash {10 4} -fill black -width 1 -tags "selectbox"]
             $c raise $selectbox "background || link || linklabel || interface"
-} else {
-    $c coords $selectbox \
-    $lastX $lastY $x $lastY $x $y $lastX $y $lastX $lastY
-}
-# move a text annotation
-} elseif { $activetool == "select" && $curtype == "text" } {
-    $c move $curobj [expr {$x - $lastX}] [expr {$y - $lastY}]
-    set changed 1
-    set lastX $x
-    set lastY $y
-    $c delete [$c find withtag "selectmark"]
-    # move a nodelabel apart from a node (edit mode only)
-} elseif { $activetool == "select" && $curtype == "nodelabel" \
+        } else {
+            $c coords $selectbox \
+                $lastX $lastY $x $lastY $x $y $lastX $y $lastX $lastY
+        }
+        # move a text annotation
+    } elseif { $activetool == "select" && $curtype == "text" } {
+        $c move $curobj [expr {$x - $lastX}] [expr {$y - $lastY}]
+        set changed 1
+        set lastX $x
+        set lastY $y
+        $c delete [$c find withtag "selectmark"]
+        # move a nodelabel apart from a node (edit mode only)
+    } elseif { $activetool == "select" && $curtype == "nodelabel" \
     && [nodeType [lindex [$c gettags $curobj] 1]] != "pseudo" } {
         $c move $curobj [expr {$x - $lastX}] [expr {$y - $lastY}]
         set changed 1
@@ -1731,152 +1731,152 @@ if {$activetool == "link" && $newlink != ""} {
         set lastY $y
         # actually we should check if curobj==bkgImage
         # annotations
-} elseif { $activetool == "oval" && \
+    } elseif { $activetool == "oval" && \
     ( $curobj == $newoval || $curobj == $background || $curtype == "background" || $curtype == "grid")} {
-        # Draw a new oval
+    # Draw a new oval
         if {$newoval == ""} {
             set newoval [$c create oval $lastX $lastY $x $y \
-            -dash {10 4} -width 1 -tags "newoval"]
+                -dash {10 4} -width 1 -tags "newoval"]
             $c raise $newoval "background || link || linklabel || interface"
-} else {
-    $c coords $newoval \
-    $lastX $lastY $x $y
-}
-# actually we should check if curobj==bkgImage
-} elseif { $activetool == "rectangle" && \
+        } else {
+            $c coords $newoval \
+                $lastX $lastY $x $y
+        }
+        # actually we should check if curobj==bkgImage
+    } elseif { $activetool == "rectangle" && \
     ( $curobj == $newrect || $curobj == $background || $curtype == "background" || $curtype == "grid")} {
-        # Draw a new rectangle
+    # Draw a new rectangle
         if {$newrect == ""} {
             set newrect [$c create rectangle $lastX $lastY $x $y \
-            -outline blue \
-            -dash {10 4} -width 1 -tags "newrect"]
+                -outline blue \
+                -dash {10 4} -width 1 -tags "newrect"]
             $c raise $newrect "oval || background || link || linklabel || interface"
-} else {
-    $c coords $newrect $lastX $lastY $x $y
-}
-# Boeing: added marker tool
-} elseif { $activetool == "marker" } {
-    global markersize markercolor
-    set dx [expr {$x-$lastX} ]
-    set dy [expr {$y-$lastY} ]
-    # this provides smoother drawing
-    if { $dx > $markersize || $dy > $markersize } { 
-        set mark [$c create line $lastX $lastY $x $y \
-        -width $markersize -fill $markercolor -tags "marker"]
-        $c raise $mark \
-        "marker || background || link || linklabel || interface"
-}
-set mark [$c create oval $x $y $x $y \
--width $markersize -fill $markercolor \
--outline $markercolor -tags "marker"]
-$c raise $mark "marker || background || link || linklabel || interface"
-set lastX $x
-set lastY $y
-# end Boeing
-# resizing an annotation
-} elseif { $curtype == "selectmark" } {
-    foreach o [$c find withtag "selected"] { 
-        set node [lindex [$c gettags $o] 1]
-        set tagovi [$c gettags $o]
-        set koord [getNodeCoords $node]
-
-        set oldX1 [lindex $koord 0]
-        set oldY1 [lindex $koord 1]
-        set oldX2 [lindex $koord 2]
-        set oldY2 [lindex $koord 3]
-        switch -exact -- $resizemode {
-            lu {
-                set oldX1 $x
-                set oldY1 $y
-    }
-    ld {
-        set oldX1 $x
-        set oldY2 $y
-    }
-    l {
-        set oldX1 $x
-    }
-    ru {
-        set oldX2 $x
-        set oldY1 $y
-    }
-    rd {
-        set oldX2 $x
-        set oldY2 $y
-    }
-    r {
-        set oldX2 $x
-    }
-    u {
-        set oldY1 $y
-    }
-    d {
-        set oldY2 $y
-    }
-    }
-    if {$selectbox == ""} {
-        # Boeing: fix "bad screen distance" error
-        if { $oldX1 == "" || $oldX2 == "" || $oldY1 == "" || \
-            $oldY2 == "" } { return }
+        } else {
+            $c coords $newrect $lastX $lastY $x $y
+        }
+        # Boeing: added marker tool
+    } elseif { $activetool == "marker" } {
+        global markersize markercolor
+        set dx [expr {$x-$lastX} ]
+        set dy [expr {$y-$lastY} ]
+        # this provides smoother drawing
+        if { $dx > $markersize || $dy > $markersize } { 
+            set mark [$c create line $lastX $lastY $x $y \
+                -width $markersize -fill $markercolor -tags "marker"]
+            $c raise $mark \
+                "marker || background || link || linklabel || interface"
+        }
+        set mark [$c create oval $x $y $x $y \
+            -width $markersize -fill $markercolor \
+            -outline $markercolor -tags "marker"]
+        $c raise $mark "marker || background || link || linklabel || interface"
+        set lastX $x
+        set lastY $y
         # end Boeing
-        set selectbox [$c create line \
-        $oldX1 $oldY1 $oldX2 $oldY1 $oldX2 $oldY2 $oldX1 \
-        $oldY2 $oldX1 $oldY1 \
-        -dash {10 4} -fill black -width 1 -tags "selectbox"]
-        $c raise $selectbox \
-        "background || link || linklabel || interface"
+        # resizing an annotation
+    } elseif { $curtype == "selectmark" } {
+        foreach o [$c find withtag "selected"] { 
+            set node [lindex [$c gettags $o] 1]
+            set tagovi [$c gettags $o]
+            set koord [getNodeCoords $node]
+
+            set oldX1 [lindex $koord 0]
+            set oldY1 [lindex $koord 1]
+            set oldX2 [lindex $koord 2]
+            set oldY2 [lindex $koord 3]
+            switch -exact -- $resizemode {
+                lu {
+                    set oldX1 $x
+                    set oldY1 $y
+                }
+                ld {
+                    set oldX1 $x
+                    set oldY2 $y
+                }
+                l {
+                    set oldX1 $x
+                }
+                ru {
+                    set oldX2 $x
+                    set oldY1 $y
+                }
+                rd {
+                    set oldX2 $x
+                    set oldY2 $y
+                }
+                r {
+                    set oldX2 $x
+                }
+                u {
+                    set oldY1 $y
+                }
+                d {
+                    set oldY2 $y
+                }
+            }
+            if {$selectbox == ""} {
+            # Boeing: fix "bad screen distance" error
+                if { $oldX1 == "" || $oldX2 == "" || $oldY1 == "" || \
+                     $oldY2 == "" } { return }
+                     # end Boeing
+                set selectbox [$c create line \
+                    $oldX1 $oldY1 $oldX2 $oldY1 $oldX2 $oldY2 $oldX1 \
+                    $oldY2 $oldX1 $oldY1 \
+                    -dash {10 4} -fill black -width 1 -tags "selectbox"]
+                $c raise $selectbox \
+                    "background || link || linklabel || interface"
+            } else {
+                $c coords $selectbox \
+                    $oldX1 $oldY1 $oldX2 $oldY1 $oldX2 $oldY2 $oldX1 \
+                    $oldY2 $oldX1 $oldY1
+            }
+        }
+        # selected node(s) are being moved
     } else {
-        $c coords $selectbox \
-        $oldX1 $oldY1 $oldX2 $oldY1 $oldX2 $oldY2 $oldX1 \
-        $oldY2 $oldX1 $oldY1
-    }
-}
-# selected node(s) are being moved
-} else {
-    foreach img [$c find withtag "selected"] {
-        set node [lindex [$c gettags $img] 1]
-        set img [$c find withtag "selectmark && $node"]
-        if {$curtype == "oval" || $curtype == "rectangle"} {
-            $c move $img [expr {($x - $lastX) / 2}] \
-            [expr {($y - $lastY) / 2}]
-    } else {
-        $c move $img [expr {$x - $lastX}] [expr {$y - $lastY}]
-        set img [$c find withtag "node && $node"]
-        $c move $img [expr {$x - $lastX}] [expr {$y - $lastY}]
-        set img [$c find withtag "nodelabel && $node"]
-        $c move $img [expr {$x - $lastX}] [expr {$y - $lastY}]
+        foreach img [$c find withtag "selected"] {
+            set node [lindex [$c gettags $img] 1]
+            set img [$c find withtag "selectmark && $node"]
+            if {$curtype == "oval" || $curtype == "rectangle"} {
+                $c move $img [expr {($x - $lastX) / 2}] \
+                    [expr {($y - $lastY) / 2}]
+            } else {
+                $c move $img [expr {$x - $lastX}] [expr {$y - $lastY}]
+                set img [$c find withtag "node && $node"]
+                $c move $img [expr {$x - $lastX}] [expr {$y - $lastY}]
+                set img [$c find withtag "nodelabel && $node"]
+                $c move $img [expr {$x - $lastX}] [expr {$y - $lastY}]
+                # Boeing
+                set img [$c find withtag "twonode && $node"]
+                if {$img != "" } {; # move Two Node Tool circles around node
+                                  $c move $img [expr {$x - $lastX}] [expr {$y - $lastY}]
+                }; # end Boeing
+                $c addtag need_redraw withtag "link && $node"
+            }
+            # Boeing
+            if { $oper_mode == "exec" } {
+            # update wlan links; calcx,y differs from x,y
+                foreach wlan [findWlanNodes $node] {
+                    wlanCalcRange $wlan $node $calcx $calcy 0
+                }
+            }
+            $c addtag need_redraw withtag "wlanlink && $node"
+            widgets_move_node $c $node 0
+            # end Boeing
+        }
+        foreach link [$c find withtag "link && need_redraw"] {
+            redrawLink [lindex [$c gettags $link] 1]
+        }
         # Boeing
-        set img [$c find withtag "twonode && $node"]
-        if {$img != "" } {; # move Two Node Tool circles around node
-            $c move $img [expr {$x - $lastX}] [expr {$y - $lastY}]
-    }; # end Boeing
-    $c addtag need_redraw withtag "link && $node"
+        foreach wlanlink [$c find withtag "wlanlink && need_redraw"] {
+            redrawWlanLink $wlanlink
+        }
+        $c dtag wlanlink need_redraw
+        # end Boeing
+        $c dtag link need_redraw
+        set changed 1
+        set lastX $x
+        set lastY $y
     }
-    # Boeing
-    if { $oper_mode == "exec" } {
-        # update wlan links; calcx,y differs from x,y
-        foreach wlan [findWlanNodes $node] {
-            wlanCalcRange $wlan $node $calcx $calcy 0
-    }
-    }
-    $c addtag need_redraw withtag "wlanlink && $node"
-    widgets_move_node $c $node 0
-    # end Boeing
-}
-foreach link [$c find withtag "link && need_redraw"] {
-    redrawLink [lindex [$c gettags $link] 1]
-}
-# Boeing
-foreach wlanlink [$c find withtag "wlanlink && need_redraw"] {
-    redrawWlanLink $wlanlink
-}
-$c dtag wlanlink need_redraw
-# end Boeing
-$c dtag link need_redraw
-set changed 1
-set lastX $x
-set lastY $y
-}
 }
 
 
@@ -1915,26 +1915,26 @@ proc newGUILink { lnode1 lnode2 } {
     set link [newLink $lnode1 $lnode2]
     if { $link == "" } {
         return
-}
-if { [getNodeCanvas $lnode1] != [getNodeCanvas $lnode2] } {
-    set new_nodes [splitLink $link pseudo]
-    set orig_nodes [linkPeers $link]
-    set new_node1 [lindex $new_nodes 0]
-    set new_node2 [lindex $new_nodes 1]
-    set orig_node1 [lindex $orig_nodes 0]
-    set orig_node2 [lindex $orig_nodes 1]
-    set new_link1 [linkByPeers $orig_node1 $new_node1]
-    set new_link2 [linkByPeers $orig_node2 $new_node2]
-    setNodeMirror $new_node1 $new_node2
-    setNodeMirror $new_node2 $new_node1
-    setNodeName $new_node1 $orig_node2
-    setNodeName $new_node2 $orig_node1
-    setLinkMirror $new_link1 $new_link2
-    setLinkMirror $new_link2 $new_link1
-}
-redrawAll
-set changed 1
-updateUndoLog
+    }
+    if { [getNodeCanvas $lnode1] != [getNodeCanvas $lnode2] } {
+        set new_nodes [splitLink $link pseudo]
+        set orig_nodes [linkPeers $link]
+        set new_node1 [lindex $new_nodes 0]
+        set new_node2 [lindex $new_nodes 1]
+        set orig_node1 [lindex $orig_nodes 0]
+        set orig_node2 [lindex $orig_nodes 1]
+        set new_link1 [linkByPeers $orig_node1 $new_node1]
+        set new_link2 [linkByPeers $orig_node2 $new_node2]
+        setNodeMirror $new_node1 $new_node2
+        setNodeMirror $new_node2 $new_node1
+        setNodeName $new_node1 $orig_node2
+        setNodeName $new_node2 $orig_node1
+        setLinkMirror $new_link1 $new_link2
+        setLinkMirror $new_link2 $new_link1
+    }
+    redrawAll
+    set changed 1
+    updateUndoLog
 }
 
 
@@ -1978,167 +1978,167 @@ proc button1-release { c x y } {
             if {[lindex [$c gettags $obj] 0] == "node"} {
                 set destobj $obj
                 break
+            }
+        }
+        if {$destobj != "" && $curobj != "" && $destobj != $curobj} {
+            set lnode1 [lindex [$c gettags $curobj] 1]
+            set lnode2 [lindex [$c gettags $destobj] 1]
+            if { [ifcByLogicalPeer $lnode1 $lnode2] == "" } {
+                set link [newLink $lnode1 $lnode2]
+                if { $link != "" } {
+                    drawLink $link
+                    redrawLink $link
+                    updateLinkLabel $link
+                    set changed 1
+                }
+            }
+        }
+        # annotations
+    } elseif {$activetool == "rectangle" || $activetool == "oval" } {
+        popupAnnotationDialog $c 0 "false"
+        # edit text annotation
+    } elseif {$activetool == "text" } {
+        textEnter $c $x $y
     }
-}
-if {$destobj != "" && $curobj != "" && $destobj != $curobj} {
-    set lnode1 [lindex [$c gettags $curobj] 1]
-    set lnode2 [lindex [$c gettags $destobj] 1]
-    if { [ifcByLogicalPeer $lnode1 $lnode2] == "" } {
-        set link [newLink $lnode1 $lnode2]
-        if { $link != "" } {
-            drawLink $link
-            redrawLink $link
-            updateLinkLabel $link
+
+    if { $changed == 1 } {
+        set regular true
+        if { [lindex [$c gettags $curobj] 0] == "nodelabel" } {
+            set node [lindex [$c gettags $curobj] 1]
+            selectNode $c [$c find withtag "node && $node"]
+        }
+        set selected {}
+        foreach img [$c find withtag "selected"] {
+            set node [lindex [$c gettags $img] 1]
+            lappend selected $node
+            set coords [$c coords $img]
+            set x [expr {[lindex $coords 0] / $zoom}]
+            set y [expr {[lindex $coords 1] / $zoom}]
+            if { $autorearrange_enabled == 0 && $g_prefs(gui_snap_grid)} {
+                set dx [expr {(int($x / $grid + 0.5) * $grid - $x) * $zoom}]
+                set dy [expr {(int($y / $grid + 0.5) * $grid - $y) * $zoom}]
+                $c move $img $dx $dy
+                set coords [$c coords $img]
+                set x [expr {[lindex $coords 0] / $zoom}]
+                set y [expr {[lindex $coords 1] / $zoom}]
+            } else {
+                set dx 0
+                set dy 0
+            }
+            if {$x < 0 || $y < 0 || $x > $sizex || $y > $sizey} {
+                set regular false
+            }
+            # nodes with four coordinates
+            if { [lindex [$c gettags $node] 0] == "oval" ||
+                 [lindex [$c gettags $node] 0] == "rectangle" } {
+                set bbox [$c bbox "selectmark && $node"]
+                # Boeing: bbox causes annotations to grow, subtract 5
+                if { [llength $bbox] > 3 } {
+                    set x1 [lindex $bbox 0]
+                    set y1 [lindex $bbox 1]
+                    set x2 [expr {[lindex $bbox 2] - 5}]
+                    set y2 [expr {[lindex $bbox 3] - 5}]
+                    setNodeCoords $node "$x1 $y1 $x2 $y2"
+                    set redrawNeeded 1
+                }
+                # nodes with two coordinates
+            } else {
+                setNodeCoords $node "$x $y"
+            }
+            if {[$c find withtag "nodelabel && $node"] != "" } {
+                $c move "nodelabel && $node" $dx $dy
+                set coords [$c coords "nodelabel && $node"]
+                set x [expr {[lindex $coords 0] / $zoom}]
+                set y [expr {[lindex $coords 1] / $zoom}]
+                setNodeLabelCoords $node "$x $y"
+                if {$x < 0 || $y < 0 || $x > $sizex || $y > $sizey} {
+                    set regular false
+                }
+            }
+            $c move "selectmark && $node" $dx $dy
+            $c addtag need_redraw withtag "link && $node"
             set changed 1
-    }
-    }
-}
-# annotations
-} elseif {$activetool == "rectangle" || $activetool == "oval" } {
-    popupAnnotationDialog $c 0 "false"
-    # edit text annotation
-} elseif {$activetool == "text" } {
-    textEnter $c $x $y
-}
+            # Boeing
+            if { $oper_mode == "exec" } {
+            # update wlan links - use x,y stored in node
+                foreach wlan [findWlanNodes $node] {
+                    set newc [getNodeCoords $node] ;# read new coordinates
+                    wlanCalcRange $wlan $node [lindex $newc 0] \
+                        [lindex $newc 1] 0
+                }
+                widgets_move_node $c $node 1
+            }
+            $c addtag need_redraw withtag "wlanlink && $node"
+            # end Boeing
+        } ;# end of: foreach img selected
+        if {$regular == "true"} {
+            foreach link [$c find withtag "link && need_redraw"] {
+                redrawLink [lindex [$c gettags $link] 1]
+            }
+        } else {
+            .c config -cursor watch
+            loadCfg $undolog($undolevel)
+            redrawAll
+            if {$activetool == "select" } {
+                selectNodes $selected
+            }
+            set changed 0
+        }
+        $c dtag link need_redraw
 
-if { $changed == 1 } {
-    set regular true
-    if { [lindex [$c gettags $curobj] 0] == "nodelabel" } {
-        set node [lindex [$c gettags $curobj] 1]
-        selectNode $c [$c find withtag "node && $node"]
-}
-set selected {}
-foreach img [$c find withtag "selected"] {
-    set node [lindex [$c gettags $img] 1]
-    lappend selected $node
-    set coords [$c coords $img]
-    set x [expr {[lindex $coords 0] / $zoom}]
-    set y [expr {[lindex $coords 1] / $zoom}]
-    if { $autorearrange_enabled == 0 && $g_prefs(gui_snap_grid)} {
-        set dx [expr {(int($x / $grid + 0.5) * $grid - $x) * $zoom}]
-        set dy [expr {(int($y / $grid + 0.5) * $grid - $y) * $zoom}]
-        $c move $img $dx $dy
-        set coords [$c coords $img]
-        set x [expr {[lindex $coords 0] / $zoom}]
-        set y [expr {[lindex $coords 1] / $zoom}]
+        # $changed!=1
+    } elseif {$activetool == "select" } { 
+        if {$selectbox == ""} {
+            set x1 $x
+            set y1 $y
+            rearrange_off
+        } else {
+            set coords [$c coords $selectbox]
+            set x [lindex $coords 0]
+            set y [lindex $coords 1]
+            set x1 [lindex $coords 4]
+            set y1 [lindex $coords 5]
+            $c delete $selectbox
+            set selectbox ""
+        }
+
+        if { $resizemode == "false" } {
+            set enclosed {}
+            # Boeing: fix occasional error
+            if { $x == "" || $y == "" || $x1 == "" || $y1 == "" } { return }
+            foreach obj [$c find enclosed $x $y $x1 $y1] {
+                set tags [$c gettags $obj]
+                if {[lindex $tags 0] == "node" && [lsearch $tags selected] == -1} {
+                    lappend enclosed $obj
+                }
+                if {[lindex $tags 0] == "oval" && [lsearch $tags selected] == -1} {
+                    lappend enclosed $obj
+                }
+                if {[lindex $tags 0] == "rectangle" && [lsearch $tags selected] == -1} {
+                    lappend enclosed $obj
+                }
+                if {[lindex $tags 0] == "text" && [lsearch $tags selected] == -1} {
+                    lappend enclosed $obj
+                }
+            }
+            foreach obj $enclosed {
+                selectNode $c $obj
+            }
+        } else {
+            setNodeCoords $resizeobj "$x $y $x1 $y1"
+            set redrawNeeded 1
+            set resizemode false
+        }
+    }
+
+    if { $redrawNeeded } {
+        set redrawNeeded 0
+        redrawAll
     } else {
-        set dx 0
-        set dy 0
+        raiseAll $c
     }
-    if {$x < 0 || $y < 0 || $x > $sizex || $y > $sizey} {
-        set regular false
-    }
-    # nodes with four coordinates
-    if { [lindex [$c gettags $node] 0] == "oval" ||
-        [lindex [$c gettags $node] 0] == "rectangle" } {
-            set bbox [$c bbox "selectmark && $node"]
-            # Boeing: bbox causes annotations to grow, subtract 5
-            if { [llength $bbox] > 3 } {
-                set x1 [lindex $bbox 0]
-                set y1 [lindex $bbox 1]
-                set x2 [expr {[lindex $bbox 2] - 5}]
-                set y2 [expr {[lindex $bbox 3] - 5}]
-                setNodeCoords $node "$x1 $y1 $x2 $y2"
-                set redrawNeeded 1
-    }
-    # nodes with two coordinates
-    } else {
-        setNodeCoords $node "$x $y"
-    }
-    if {[$c find withtag "nodelabel && $node"] != "" } {
-        $c move "nodelabel && $node" $dx $dy
-        set coords [$c coords "nodelabel && $node"]
-        set x [expr {[lindex $coords 0] / $zoom}]
-        set y [expr {[lindex $coords 1] / $zoom}]
-        setNodeLabelCoords $node "$x $y"
-        if {$x < 0 || $y < 0 || $x > $sizex || $y > $sizey} {
-            set regular false
-    }
-    }
-    $c move "selectmark && $node" $dx $dy
-    $c addtag need_redraw withtag "link && $node"
-    set changed 1
-    # Boeing
-    if { $oper_mode == "exec" } {
-        # update wlan links - use x,y stored in node
-        foreach wlan [findWlanNodes $node] {
-            set newc [getNodeCoords $node] ;# read new coordinates
-            wlanCalcRange $wlan $node [lindex $newc 0] \
-            [lindex $newc 1] 0
-    }
-    widgets_move_node $c $node 1
-    }
-    $c addtag need_redraw withtag "wlanlink && $node"
-    # end Boeing
-} ;# end of: foreach img selected
-if {$regular == "true"} {
-    foreach link [$c find withtag "link && need_redraw"] {
-        redrawLink [lindex [$c gettags $link] 1]
-    }
-} else {
-    .c config -cursor watch
-    loadCfg $undolog($undolevel)
-    redrawAll
-    if {$activetool == "select" } {
-        selectNodes $selected
-    }
-    set changed 0
-}
-$c dtag link need_redraw
-
-# $changed!=1
-} elseif {$activetool == "select" } { 
-    if {$selectbox == ""} {
-        set x1 $x
-        set y1 $y
-        rearrange_off
-} else {
-    set coords [$c coords $selectbox]
-    set x [lindex $coords 0]
-    set y [lindex $coords 1]
-    set x1 [lindex $coords 4]
-    set y1 [lindex $coords 5]
-    $c delete $selectbox
-    set selectbox ""
-}
-
-if { $resizemode == "false" } {
-    set enclosed {}
-    # Boeing: fix occasional error
-    if { $x == "" || $y == "" || $x1 == "" || $y1 == "" } { return }
-    foreach obj [$c find enclosed $x $y $x1 $y1] {
-        set tags [$c gettags $obj]
-        if {[lindex $tags 0] == "node" && [lsearch $tags selected] == -1} {
-            lappend enclosed $obj
-    }
-    if {[lindex $tags 0] == "oval" && [lsearch $tags selected] == -1} {
-        lappend enclosed $obj
-    }
-    if {[lindex $tags 0] == "rectangle" && [lsearch $tags selected] == -1} {
-        lappend enclosed $obj
-    }
-    if {[lindex $tags 0] == "text" && [lsearch $tags selected] == -1} {
-        lappend enclosed $obj
-    }
-    }
-    foreach obj $enclosed {
-        selectNode $c $obj
-    }
-} else {
-    setNodeCoords $resizeobj "$x $y $x1 $y1"
-    set redrawNeeded 1
-    set resizemode false
-}
-}
-
-if { $redrawNeeded } {
-    set redrawNeeded 0
-    redrawAll
-} else {
-    raiseAll $c
-}
-update
-updateUndoLog
+    update
+    updateUndoLog
 }
 
 
@@ -2165,20 +2165,20 @@ proc nodeEnter { c } {
     set model [getNodeModel $node]
     if { $model != "" } {
         set line "{$node} $name ($model):"
-} else {
-    set line "{$node} $name:"
-}
-# Boeing: added tunnel
-if { $type != "rj45" && $type != "tunnel" } {
-    foreach ifc [ifcList $node] {
-        set line "$line $ifc:[getIfcIPv4addr $node $ifc]"
-}
-}
-.bottom.textbox config -text "$line"
-# Boeing: floating info box
-#   nodeHighlights $c $node single red
-widgetObserveNode $c $node
-# end Boeing
+    } else {
+        set line "{$node} $name:"
+    }
+    # Boeing: added tunnel
+    if { $type != "rj45" && $type != "tunnel" } {
+        foreach ifc [ifcList $node] {
+            set line "$line $ifc:[getIfcIPv4addr $node $ifc]"
+        }
+    }
+    .bottom.textbox config -text "$line"
+    # Boeing: floating info box
+    #   nodeHighlights $c $node single red
+    widgetObserveNode $c $node
+    # end Boeing
 }
 
 
@@ -2201,9 +2201,9 @@ proc linkEnter {c} {
     set link [lindex [$c gettags current] 1]
     if { [lsearch $link_list $link] == -1 } {
         return
-}
-set line "$link: [getLinkBandwidthString $link] [getLinkDelayString $link]"
-.bottom.textbox config -text "$line"
+    }
+    set line "$link: [getLinkBandwidthString $link] [getLinkDelayString $link]"
+    .bottom.textbox config -text "$line"
 }
 
 
@@ -2247,24 +2247,24 @@ proc anyLeave {c} {
 proc checkIntRange { str low high } {
     if { $str == "" } {
         return 1
-}
-set str [string trimleft $str 0]
-if { $str == "" } {
-    set str 0
-}
-if { ![string is integer $str] } {
-    return 0
-}
-if { $str < $low || $str > $high } {
-    return 0
-}
-return 1
+    }
+    set str [string trimleft $str 0]
+    if { $str == "" } {
+        set str 0
+    }
+    if { ![string is integer $str] } {
+        return 0
+    }
+    if { $str < $low || $str > $high } {
+        return 0
+    }
+    return 1
 }
 
 
 proc checkHostname { str } {
-    # any Unicode word character. That is any alphanumeric character, 
-    # and any Unicode connector punctuation characters (e.g. underscore)
+# any Unicode word character. That is any alphanumeric character, 
+# and any Unicode connector punctuation characters (e.g. underscore)
     return [string is wordchar $str]
 }
 
@@ -2291,22 +2291,22 @@ proc focusAndFlash {W {count 9}} {
 
     if { $badentry == -1 } {
         return
-} else {
-    set badentry 1
-}
+    } else {
+        set badentry 1
+    }
 
-focus -force $W
-if {$count<1} {
-    $W configure -foreground $fg -background $bg
-    set badentry 0
-} else {
-    if {$count%2} {
-        $W configure -foreground $bg -background $fg
-} else {
-    $W configure -foreground $fg -background $bg
-}
-after 200 [list focusAndFlash $W [expr {$count - 1}]]
-}
+    focus -force $W
+    if {$count<1} {
+        $W configure -foreground $fg -background $bg
+        set badentry 0
+    } else {
+        if {$count%2} {
+            $W configure -foreground $bg -background $fg
+        } else {
+            $W configure -foreground $fg -background $bg
+        }
+        after 200 [list focusAndFlash $W [expr {$count - 1}]]
+    }
 }
 
 
@@ -2331,427 +2331,471 @@ proc popupConfigDialog { c } {
     set wi .popup
     if { [winfo exists $wi ] } {
         return
-}
-catch {destroy $wi}
-toplevel $wi
+    }
+    catch {destroy $wi}
+    toplevel $wi
 
-wm transient $wi .
-wm resizable $wi 0 0
+    wm transient $wi .
+    wm resizable $wi 0 0
 
-set object_type ""
-set tk_type [lindex [$c gettags current] 0]
-set target [lindex [$c gettags current] 1]
-if { [lsearch {node nodelabel interface} $tk_type] > -1 } {
-    set object_type node
-}
-if { [lsearch {link linklabel} $tk_type] > -1 } {
-    set object_type link
-}
-if { [lsearch {oval} $tk_type] > -1 } {
-    set object_type oval
-}
-if { [lsearch {rectangle} $tk_type] > -1 } {
-    set object_type rectangle
-}
-if { [lsearch {text} $tk_type] > -1 } {
-    set object_type text
-}
-if { "$object_type" == ""} {
-    destroy $wi
-    return
-}
-if { $object_type == "link" } {
-    set n0 [lindex [linkPeers $target] 0]
-    set n1 [lindex [linkPeers $target] 1]
-    # Boeing: added tunnel check
-    #if { [nodeType $n0] == "rj45" || [nodeType $n1] == "rj45" ||  \
-    #     [nodeType $n0] == "tunnel" || [nodeType $n1] == "tunnel"  } {
-    #    destroy $wi
-    #    return
-    #}
-}
-$c dtag node selected
-$c delete -withtags selectmark
+    set object_type ""
+    set tk_type [lindex [$c gettags current] 0]
+    set target [lindex [$c gettags current] 1]
+    if { [lsearch {node nodelabel interface} $tk_type] > -1 } {
+        set object_type node
+    }
+    if { [lsearch {link linklabel} $tk_type] > -1 } {
+        set object_type link
+    }
+    if { [lsearch {oval} $tk_type] > -1 } {
+        set object_type oval
+    }
+    if { [lsearch {rectangle} $tk_type] > -1 } {
+        set object_type rectangle
+    }
+    if { [lsearch {text} $tk_type] > -1 } {
+        set object_type text
+    }
+    if { "$object_type" == ""} {
+        destroy $wi
+        return
+    }
+    if { $object_type == "link" } {
+        set n0 [lindex [linkPeers $target] 0]
+        set n1 [lindex [linkPeers $target] 1]
+        # Boeing: added tunnel check
+        #if { [nodeType $n0] == "rj45" || [nodeType $n1] == "rj45" ||  \
+        #     [nodeType $n0] == "tunnel" || [nodeType $n1] == "tunnel"  } {
+        #    destroy $wi
+        #    return
+        #}
+    }
+    $c dtag node selected
+    $c delete -withtags selectmark
 
-switch -exact -- $object_type {
-    node {
-        set type [nodeType $target]
-        if { $type == "pseudo" } {
+    switch -exact -- $object_type {
+        node {
+            set type [nodeType $target]
+            if { $type == "pseudo" } {
             #
             # Hyperlink to another canvas
             #
+                destroy $wi
+                set curcanvas [getNodeCanvas [getNodeMirror $target]]
+                switchCanvas none
+                return
+            }
+            set model [getNodeModel $target]
+            set router_model $model
+
+            set role [getNodeRole $target]
+            set ::router_role $role
+            global router_role
+
+            set traceflag  [getNodeTraceFlag $target]
+            set ::router_traceflag $traceflag
+            global router_traceflag
+
+            wm title $wi "$type configuration"
+            ttk::frame $wi.ftop -borderwidth 4
+            ttk::entry $wi.ftop.name -width 16 \
+                -validate focus -invalidcommand "focusAndFlash %W"
+            if { $type == "rj45" } {
+                ttk::label $wi.ftop.name_label -text "Physical interface:"
+            } elseif { $type == "tunnel" } {
+                ttk::label $wi.ftop.name_label -text "IP address of tunnel peer:"
+            } else {
+                ttk::label $wi.ftop.name_label -text "Node name:"
+                $wi.ftop.name configure -validatecommand {checkHostname %P}
+            }
+            $wi.ftop.name insert 0 [getNodeName $target]
+            set img [getNodeImage $target]
+            ttk::button $wi.ftop.img -image $img -command "popupCustomImage $target"
+
+            if { $type == "rj45" } {
+                rj45ifclist $wi $target 0
+            } 
+            # execution server
+            global exec_servers node_location
+            set node_location [getNodeLocation $target]
+            set servers [lsort -dictionary [array names exec_servers]]
+            set servers "(none) $servers"
+            if { $node_location == "" } { set node_location "(none)" }
+            eval tk_optionMenu $wi.ftop.menu node_location $servers
+            pack $wi.ftop.img $wi.ftop.menu $wi.ftop.name $wi.ftop.name_label \
+                -side right -padx 4 -pady 4
+                # end Boeing
+            pack $wi.ftop -side top
+
+            if { $type == "router" } {
+                ttk::frame $wi.model -borderwidth 4
+                ttk::label $wi.model.label -text "Type:"
+
+                ttk::frame $wi.imalse -borderwidth 4
+                set runstate "disabled"
+                if { $oper_mode == "edit" } {
+                    eval tk_optionMenu $wi.model.menu router_model \
+                        [getNodeTypeNames]
+
+                    # Add for Imalse
+                    eval tk_optionMenu $wi.imalse.role router_role \
+                        [getNodeRoleName]
+
+                    eval tk_optionMenu $wi.imalse.traceflag router_traceflag \
+                        "yes no"
+                    # End Add for Imalse
+
+                    set runstate "normal"
+                } else {
+                    tk_optionMenu $wi.model.menu router_model $model
+
+                    tk_optionMenu $wi.imalse.role router_role $role
+                    tk_optionMenu $wi.imalse.traceflag router_traceflag $traceflag
+                }
+
+                #
+                # would be nice to update the image upon selection; binding to
+                # <ButtonRelease> will not work
+                #tkwait variable router_model "customImageApply $wi $target"
+                set sock [lindex [getEmulPlugin $target] 2]
+                ttk::button $wi.model.services -text "Services..." -state $runstate \
+                    -command \
+                    "sendConfRequestMessage $sock $target services 0x1 -1 \"\""
+
+                pack $wi.model.services $wi.model.menu $wi.model.label \
+                -side right -padx 0 -pady 0
+
+                # start Imalse
+                # pack $wi.model.traceflag $wi.model.role $wi.model.services $wi.model.menu $wi.model.label \
+                -side right -padx 0 -pady 0
+                ttk::label $wi.imalse.rolelabel -text "role: "
+                ttk::label $wi.imalse.traceflaglabel -text "traceflag: "
+                pack $wi.imalse.traceflag $wi.imalse.traceflaglabel $wi.imalse.role $wi.imalse.rolelabel\
+                    -side right -padx 0 -pady 0
+                pack $wi.imalse -side top
+                # end Imalse
+                pack $wi.model -side top
+            }
+
+            if { $type == "wlan" } {
+                wlanConfigDialogHelper $wi $target 0
+            } elseif { $type == "tunnel" } {
+            #
+            # tunnel controls
+            #
+                ttk::frame $wi.con2
+                global conntap
+                set conntap [netconfFetchSection $target "tunnel-tap"]
+                if { $conntap == "" } { set conntap off }
+                ttk::radiobutton $wi.con2.dotap0 \
+                    -variable conntap -value off \
+                    -text "tunnel to another CORE emulation"
+                ttk::frame $wi.con2.key
+                ttk::label $wi.con2.key.lab -text "GRE key:"
+                ttk::entry $wi.con2.key.key -width 6
+                ttk::radiobutton $wi.con2.dotap1 -state disabled \
+                    -variable conntap -value on \
+                    -text "tunnel to the virtual TAP interface of another system"
+                pack $wi.con2.key.lab $wi.con2.key.key -side left
+                pack $wi.con2.dotap0 -side top -anchor w
+                pack $wi.con2.key -side top
+                pack $wi.con2.dotap1 -side top -anchor w
+                pack $wi.con2 -side top
+                set key [netconfFetchSection $target "tunnel-key"]
+                if { $key == "" } { set key 1 }
+                $wi.con2.key.key insert 0 $key
+
+                ttk::frame $wi.conn
+                ttk::label $wi.conn.label -text "Transport type:"
+                tk_optionMenu $wi.conn.conntype conntype "UDP" "TCP"
+                $wi.conn.conntype configure -state disabled
+                pack $wi.conn.label $wi.conn.conntype -side left -anchor w
+                pack $wi.conn -side top
+                global conntype
+                set conntype [netconfFetchSection $target "tunnel-type"]
+                if { $conntype == "" } { set conntype "UDP" }
+
+
+                ttk::frame  $wi.linfo
+                ttk::label $wi.linfo.label -text "Local hook:"
+                ttk::entry $wi.linfo.local -state disabled
+                set localhook [netconfFetchSection $target "local-hook"]
+                if { $localhook == "" || $localhook == "(none)" } {
+                # automatically generate local hook name
+                    set ifc [lindex [ifcList $target] 0]
+                    if { $ifc != "" } {
+                        set hname [info hostname]
+                        set peer [peerByIfc $target $ifc]
+                        set localhook "$hname$peer"
+                    } else {
+                        set localhook "(none)"
+                    }
+                }
+                $wi.linfo.local insert 0 $localhook
+                pack $wi.linfo.label $wi.linfo.local -side left -anchor w
+                pack $wi.linfo -side top
+
+                ttk::frame  $wi.pinfo
+                ttk::label $wi.pinfo.label -text "Peer hook:"
+                ttk::entry $wi.pinfo.peer -state disabled
+                $wi.pinfo.peer insert 0 \
+                    [netconfFetchSection $target "peer-hook"]
+                pack $wi.pinfo.label $wi.pinfo.peer -side left -anchor w
+                pack $wi.pinfo -side top
+            }
+
+            # Boeing: hide interfaces queue info for wlan, remote, tunnel, ktunnel
+            if { $type != "rj45" && $type != "wlan" && $type != "tunnel" } {
+                foreach ifc [lsort -ascii [ifcList $target]] {
+                    ttk::labelframe $wi.if$ifc
+                    ttk::frame $wi.if$ifc.label
+                    ttk::label $wi.if$ifc.label.txt -text "Interface $ifc:"
+                    pack $wi.if$ifc.label.txt -side left -anchor w
+                    # per-interface config option button
+                    set caps [getCapabilities [peerByIfc $target $ifc] "mobmodel"]
+                    if { $caps == ""} {
+                        ttk::button $wi.if$ifc.label.cfg -text "config..." \
+                            -state disabled
+                        pack $wi.if$ifc.label.cfg -side left
+                    }
+                    set capn 0
+                    foreach cap $caps {
+                        set plch [lindex [pluginChannelByCap $cap] 1]
+                        ttk::button $wi.if$ifc.label.cfg$capn -text "config $cap..." \
+                            -command \
+                            "sendConfRequestMessage $plch $target $cap 0x1 -1 \"\""
+                        pack $wi.if$ifc.label.cfg$capn -side left
+                        incr capn
+                    }
+                    #
+                    #
+                    pack $wi.if$ifc.label -side top -anchor w
+                    # Boeing
+                    # make any calls defined by addons to 1 configDialogIfcHook
+                    global addon_hook_fns
+                    foreach addon [array names addon_hook_fns] {
+                        [lindex $addon_hook_fns($addon) 1] $wi $target $ifc
+                    }
+                    # end Boeing
+
+                    ttk::frame $wi.if$ifc.cfg
+
+
+                    if { [[typemodel $target].layer] == "NETWORK" } {
+                    #
+                    # MAC address
+                    #
+                    ttk::frame $wi.if$ifc.cfg.mac
+                    ttk::label $wi.if$ifc.cfg.mac.addrl -text "MAC address" \
+                        -anchor w
+                    set macaddr [getIfcMacaddr $target $ifc]
+                    global if${ifc}_auto_mac
+                    if { $macaddr == "" } {
+                        set if${ifc}_auto_mac 1 
+                        set state disabled
+                    } else {
+                        set if${ifc}_auto_mac 0
+                        set state normal
+                    }
+                    ttk::checkbutton $wi.if$ifc.cfg.mac.auto -text "auto-assign" \
+                        -variable if${ifc}_auto_mac \
+                        -command "macEntryHelper $wi $ifc"
+                    ttk::entry $wi.if$ifc.cfg.mac.addrv -width 15 \
+                        -state $state
+                    $wi.if$ifc.cfg.mac.addrv insert 0 $macaddr
+                    pack $wi.if$ifc.cfg.mac.addrl $wi.if$ifc.cfg.mac.auto \
+                        $wi.if$ifc.cfg.mac.addrv -side left -padx 4
+                    pack $wi.if$ifc.cfg.mac -side top -anchor w
+
+                    #
+                    # IPv4 address
+                    #
+                    ttk::frame $wi.if$ifc.cfg.ipv4
+                    ttk::label $wi.if$ifc.cfg.ipv4.addrl -text "IPv4 address" \
+                        -anchor w
+                    ttk::entry $wi.if$ifc.cfg.ipv4.addrv -width 30 \
+                        -validate focus -invalidcommand "focusAndFlash %W"
+                    $wi.if$ifc.cfg.ipv4.addrv insert 0 \
+                        [getIfcIPv4addr $target $ifc]
+                    $wi.if$ifc.cfg.ipv4.addrv configure \
+                        -validatecommand {checkIPv4Net %P}
+                    ttk::button $wi.if$ifc.cfg.ipv4.clear -image $plugin_img_del \
+                        -command "$wi.if$ifc.cfg.ipv4.addrv delete 0 end"
+                    pack $wi.if$ifc.cfg.ipv4.addrl $wi.if$ifc.cfg.ipv4.addrv \
+                        $wi.if$ifc.cfg.ipv4.clear -side left
+                    pack $wi.if$ifc.cfg.ipv4 -side top -anchor w
+
+                    #
+                    # IPv6 address
+                    #
+                    ttk::frame $wi.if$ifc.cfg.ipv6
+                    ttk::label $wi.if$ifc.cfg.ipv6.addrl -text "IPv6 address" \
+                        -anchor w
+                    ttk::entry $wi.if$ifc.cfg.ipv6.addrv -width 30 \
+                        -validate focus -invalidcommand "focusAndFlash %W"
+                    $wi.if$ifc.cfg.ipv6.addrv insert 0 \
+                        [getIfcIPv6addr $target $ifc]
+                    $wi.if$ifc.cfg.ipv6.addrv configure -validatecommand {checkIPv6Net %P}
+                    ttk::button $wi.if$ifc.cfg.ipv6.clear -image $plugin_img_del \
+                        -command "$wi.if$ifc.cfg.ipv6.addrv delete 0 end"
+                    pack $wi.if$ifc.cfg.ipv6.addrl $wi.if$ifc.cfg.ipv6.addrv \
+                        $wi.if$ifc.cfg.ipv6.clear -side left
+                    pack $wi.if$ifc.cfg.ipv6 -side top -anchor w
+                    }
+                    #		pack $wi.if$ifc.tab $wi.if$ifc.cfg -side left
+                    pack $wi.if$ifc.cfg -side left
+                    pack $wi.if$ifc -side top -anchor w -fill both
+                }
+            }
+        }
+        oval {
             destroy $wi
-            set curcanvas [getNodeCanvas [getNodeMirror $target]]
-            switchCanvas none
+            annotationConfig $c $target
             return
-}
-set model [getNodeModel $target]
-set router_model $model
-wm title $wi "$type configuration"
-ttk::frame $wi.ftop -borderwidth 4
-ttk::entry $wi.ftop.name -width 16 \
--validate focus -invalidcommand "focusAndFlash %W"
-if { $type == "rj45" } {
-    ttk::label $wi.ftop.name_label -text "Physical interface:"
-} elseif { $type == "tunnel" } {
-    ttk::label $wi.ftop.name_label -text "IP address of tunnel peer:"
-} else {
-    ttk::label $wi.ftop.name_label -text "Node name:"
-    $wi.ftop.name configure -validatecommand {checkHostname %P}
-}
-$wi.ftop.name insert 0 [getNodeName $target]
-set img [getNodeImage $target]
-ttk::button $wi.ftop.img -image $img -command "popupCustomImage $target"
+        }
+        rectangle {
+            destroy $wi
+            annotationConfig $c $target
+            return
+        }
+        text {
+            destroy $wi
+            annotationConfig $c $target
+            return
+        }
+        link {
+            wm title $wi "link configuration"
+            ttk::frame $wi.ftop -borderwidth 6
+            set nam0 [getNodeName $n0]
+            set nam1 [getNodeName $n1]
+            ttk::label $wi.ftop.name_label -justify left -text \
+                "Link from $nam0 to $nam1"
+            pack $wi.ftop.name_label -side right
+            pack $wi.ftop -side top
 
-if { $type == "rj45" } {
-    rj45ifclist $wi $target 0
-} 
-# execution server
-global exec_servers node_location
-set node_location [getNodeLocation $target]
-set servers [lsort -dictionary [array names exec_servers]]
-set servers "(none) $servers"
-if { $node_location == "" } { set node_location "(none)" }
-eval tk_optionMenu $wi.ftop.menu node_location $servers
-pack $wi.ftop.img $wi.ftop.menu $wi.ftop.name $wi.ftop.name_label \
--side right -padx 4 -pady 4
-# end Boeing
-pack $wi.ftop -side top
+            ttk::frame $wi.bandwidth -borderwidth 4
+            # start Imalse
+            set linktraceflag  [getLinkTraceFlag $target]
+            set ::link_traceflag $linktraceflag
+            global link_traceflag
+            eval tk_optionMenu $wi.traceflag link_traceflag "yes no"
+            pack $wi.traceflag -side top
 
-if { $type == "router" } {
-    ttk::frame $wi.model -borderwidth 4
-    ttk::label $wi.model.label -text "Type:"
-    set runstate "disabled"
-    if { $oper_mode == "edit" } {
-        eval tk_optionMenu $wi.model.menu router_model \
-        [getNodeTypeNames]
-        set runstate "normal"
+            # end Imalse
+            # Boeing
+            global link_preset_val
+            set link_preset_val unlimited
+            set linkpreMenu [tk_optionMenu $wi.bandwidth.linkpre link_preset_val a]
+            pack $wi.bandwidth.linkpre -side top
+            linkPresets $wi $linkpreMenu init
+            # end Boeing
+            ttk::label $wi.bandwidth.label -anchor e \
+                -text "Bandwidth (bps):"
+            ttk::spinbox $wi.bandwidth.value -justify right -width 10 \
+                -validate focus -invalidcommand "focusAndFlash %W"
+            $wi.bandwidth.value insert 0 [getLinkBandwidth $target]
+            $wi.bandwidth.value configure \
+                -validatecommand {checkIntRange %P 0 1000000000} \
+                -from 0 -to 1000000000 -increment 1000
+            pack $wi.bandwidth.value $wi.bandwidth.label \
+                -side right
+            pack $wi.bandwidth -side top -anchor e
+
+            ttk::frame $wi.delay -borderwidth 4
+            ttk::label $wi.delay.label -anchor e -text "Delay (us):"
+            ttk::spinbox $wi.delay.value -justify right -width 10 \
+                -validate focus -invalidcommand "focusAndFlash %W"
+            $wi.delay.value insert 0 [getLinkDelay $target]
+            $wi.delay.value configure \
+                -validatecommand {checkIntRange %P 0 10000000} \
+                -from 0 -to 10000000 -increment 5
+            pack $wi.delay.value $wi.delay.label -side right
+            pack $wi.delay -side top -anchor e
+
+            ttk::frame $wi.ber -borderwidth 4
+            if { [lindex $systype 0] == "Linux" } {
+                set bertext "PER (%):"
+                set berinc 1
+                set bermax 100
+            } else { ;# netgraph uses BER
+                     set bertext "BER (1/N):"
+                     set berinc 1000
+                     set bermax 10000000000000
+            }
+            ttk::label $wi.ber.label -anchor e -text $bertext
+            ttk::spinbox $wi.ber.value -justify right -width 10 \
+                -validate focus -invalidcommand "focusAndFlash %W"
+            $wi.ber.value insert 0 [getLinkBER $target]
+            $wi.ber.value configure \
+                -validatecommand "checkIntRange %P 0 $bermax" \
+                -from 0 -to $bermax -increment $berinc
+            pack $wi.ber.value $wi.ber.label -side right
+            pack $wi.ber -side top -anchor e
+
+            ttk::frame $wi.dup -borderwidth 4
+            ttk::label $wi.dup.label -anchor e -text "Duplicate (%):"
+            ttk::spinbox $wi.dup.value -justify right -width 10 \
+                -validate focus -invalidcommand "focusAndFlash %W"
+            $wi.dup.value insert 0 [getLinkDup $target]
+            $wi.dup.value configure \
+                -validatecommand {checkIntRange %P 0 50} \
+                -from 0 -to 50 -increment 1
+            pack $wi.dup.value $wi.dup.label -side right
+            pack $wi.dup -side top -anchor e
+
+            # Boeing: jitter
+            #	frame $wi.jitter -borderwidth 4
+            #	label $wi.jitter.label -anchor e -text "Jitter (us):"
+            #	spinbox $wi.jitter.value -bg white -justify right -width 10 \
+            #	    -validate focus -invalidcommand "focusAndFlash %W"
+            #	$wi.jitter.value insert 0 [getLinkJitter $target]
+            #	$wi.jitter.value configure \
+            #	    -validatecommand {checkIntRange %P 0 10000000} \
+            #	    -from 0 -to 10000000 -increment 5
+            #	pack $wi.jitter.value $wi.jitter.label -side right
+            #	pack $wi.jitter -side top -anchor e
+            # end Boeing
+
+            ttk::frame $wi.color -borderwidth 4
+            ttk::label $wi.color.label -anchor e -text "Color:"
+            set link_color [getLinkColor $target]
+            tk_optionMenu $wi.color.value link_color \
+                Red Green Blue Yellow Magenta Cyan Black
+            pack $wi.color.value $wi.color.label -side right
+            pack $wi.color -side top -anchor e
+
+            ttk::frame $wi.width -borderwidth 4
+            ttk::label $wi.width.label -anchor e -text "Width:"
+            ttk::spinbox $wi.width.value -justify right -width 10 \
+                -validate focus -invalidcommand "focusAndFlash %W"
+            $wi.width.value insert 0 [getLinkWidth $target]
+            $wi.width.value configure \
+                -validatecommand {checkIntRange %P 1 8} \
+                -from 1 -to 8 -increment 1
+            pack $wi.width.value $wi.width.label -side right
+            pack $wi.width -side top -anchor e
+        }
+    } ;# end switch
+
+    ttk::frame $wi.butt -borderwidth 6
+    ttk::button $wi.butt.apply -text "Apply" -command \
+        "popupConfigApply $wi $object_type $target 0"
+    focus $wi.butt.apply
+    # Boeing: remove range circles upon cancel
+    if {$type == "wlan"} { 
+        set cancelcmd "set badentry -1 ; destroy $wi; updateRange $target 0" 
     } else {
-        tk_optionMenu $wi.model.menu router_model $model
+        set cancelcmd "set badentry -1 ; destroy $wi" 
     }
-    # would be nice to update the image upon selection; binding to
-    # <ButtonRelease> will not work
-    #tkwait variable router_model "customImageApply $wi $target"
-    set sock [lindex [getEmulPlugin $target] 2]
-    ttk::button $wi.model.services -text "Services..." -state $runstate \
-    -command \
-    "sendConfRequestMessage $sock $target services 0x1 -1 \"\""
-    pack $wi.model.services $wi.model.menu $wi.model.label \
-    -side right -padx 0 -pady 0
-    pack $wi.model -side top
-}
-
-if { $type == "wlan" } {
-    wlanConfigDialogHelper $wi $target 0
-    } elseif { $type == "tunnel" } {
-        #
-        # tunnel controls
-        #
-        ttk::frame $wi.con2
-        global conntap
-        set conntap [netconfFetchSection $target "tunnel-tap"]
-        if { $conntap == "" } { set conntap off }
-        ttk::radiobutton $wi.con2.dotap0 \
-        -variable conntap -value off \
-        -text "tunnel to another CORE emulation"
-        ttk::frame $wi.con2.key
-        ttk::label $wi.con2.key.lab -text "GRE key:"
-        ttk::entry $wi.con2.key.key -width 6
-        ttk::radiobutton $wi.con2.dotap1 -state disabled \
-        -variable conntap -value on \
-        -text "tunnel to the virtual TAP interface of another system"
-        pack $wi.con2.key.lab $wi.con2.key.key -side left
-        pack $wi.con2.dotap0 -side top -anchor w
-        pack $wi.con2.key -side top
-        pack $wi.con2.dotap1 -side top -anchor w
-        pack $wi.con2 -side top
-        set key [netconfFetchSection $target "tunnel-key"]
-        if { $key == "" } { set key 1 }
-        $wi.con2.key.key insert 0 $key
-
-        ttk::frame $wi.conn
-        ttk::label $wi.conn.label -text "Transport type:"
-        tk_optionMenu $wi.conn.conntype conntype "UDP" "TCP"
-        $wi.conn.conntype configure -state disabled
-        pack $wi.conn.label $wi.conn.conntype -side left -anchor w
-        pack $wi.conn -side top
-        global conntype
-        set conntype [netconfFetchSection $target "tunnel-type"]
-        if { $conntype == "" } { set conntype "UDP" }
-
-
-        ttk::frame  $wi.linfo
-        ttk::label $wi.linfo.label -text "Local hook:"
-        ttk::entry $wi.linfo.local -state disabled
-        set localhook [netconfFetchSection $target "local-hook"]
-        if { $localhook == "" || $localhook == "(none)" } {
-            # automatically generate local hook name
-            set ifc [lindex [ifcList $target] 0]
-            if { $ifc != "" } {
-                set hname [info hostname]
-                set peer [peerByIfc $target $ifc]
-                set localhook "$hname$peer"
-        } else {
-            set localhook "(none)"
-        }
-    }
-    $wi.linfo.local insert 0 $localhook
-    pack $wi.linfo.label $wi.linfo.local -side left -anchor w
-    pack $wi.linfo -side top
-
-    ttk::frame  $wi.pinfo
-    ttk::label $wi.pinfo.label -text "Peer hook:"
-    ttk::entry $wi.pinfo.peer -state disabled
-    $wi.pinfo.peer insert 0 \
-    [netconfFetchSection $target "peer-hook"]
-    pack $wi.pinfo.label $wi.pinfo.peer -side left -anchor w
-    pack $wi.pinfo -side top
-    }
-
-    # Boeing: hide interfaces queue info for wlan, remote, tunnel, ktunnel
-    if { $type != "rj45" && $type != "wlan" && $type != "tunnel" } {
-        foreach ifc [lsort -ascii [ifcList $target]] {
-            ttk::labelframe $wi.if$ifc
-            ttk::frame $wi.if$ifc.label
-            ttk::label $wi.if$ifc.label.txt -text "Interface $ifc:"
-            pack $wi.if$ifc.label.txt -side left -anchor w
-            # per-interface config option button
-            set caps [getCapabilities [peerByIfc $target $ifc] "mobmodel"]
-            if { $caps == ""} {
-                ttk::button $wi.if$ifc.label.cfg -text "config..." \
-                -state disabled
-                pack $wi.if$ifc.label.cfg -side left
-    }
-    set capn 0
-    foreach cap $caps {
-        set plch [lindex [pluginChannelByCap $cap] 1]
-        ttk::button $wi.if$ifc.label.cfg$capn -text "config $cap..." \
-        -command \
-        "sendConfRequestMessage $plch $target $cap 0x1 -1 \"\""
-        pack $wi.if$ifc.label.cfg$capn -side left
-        incr capn
-    }
-    #
-    #
-    pack $wi.if$ifc.label -side top -anchor w
-    # Boeing
-    # make any calls defined by addons to 1 configDialogIfcHook
-    global addon_hook_fns
-    foreach addon [array names addon_hook_fns] {
-        [lindex $addon_hook_fns($addon) 1] $wi $target $ifc
-    }
-    # end Boeing
-
-    ttk::frame $wi.if$ifc.cfg
-
-
-    if { [[typemodel $target].layer] == "NETWORK" } {
-        #
-        # MAC address
-        #
-        ttk::frame $wi.if$ifc.cfg.mac
-        ttk::label $wi.if$ifc.cfg.mac.addrl -text "MAC address" \
-        -anchor w
-        set macaddr [getIfcMacaddr $target $ifc]
-        global if${ifc}_auto_mac
-        if { $macaddr == "" } {
-            set if${ifc}_auto_mac 1 
-            set state disabled
-        } else {
-            set if${ifc}_auto_mac 0
-            set state normal
-        }
-        ttk::checkbutton $wi.if$ifc.cfg.mac.auto -text "auto-assign" \
-        -variable if${ifc}_auto_mac \
-        -command "macEntryHelper $wi $ifc"
-        ttk::entry $wi.if$ifc.cfg.mac.addrv -width 15 \
-        -state $state
-        $wi.if$ifc.cfg.mac.addrv insert 0 $macaddr
-        pack $wi.if$ifc.cfg.mac.addrl $wi.if$ifc.cfg.mac.auto \
-        $wi.if$ifc.cfg.mac.addrv -side left -padx 4
-        pack $wi.if$ifc.cfg.mac -side top -anchor w
-
-        #
-        # IPv4 address
-        #
-        ttk::frame $wi.if$ifc.cfg.ipv4
-        ttk::label $wi.if$ifc.cfg.ipv4.addrl -text "IPv4 address" \
-        -anchor w
-        ttk::entry $wi.if$ifc.cfg.ipv4.addrv -width 30 \
-        -validate focus -invalidcommand "focusAndFlash %W"
-        $wi.if$ifc.cfg.ipv4.addrv insert 0 \
-        [getIfcIPv4addr $target $ifc]
-        $wi.if$ifc.cfg.ipv4.addrv configure \
-        -validatecommand {checkIPv4Net %P}
-        ttk::button $wi.if$ifc.cfg.ipv4.clear -image $plugin_img_del \
-        -command "$wi.if$ifc.cfg.ipv4.addrv delete 0 end"
-        pack $wi.if$ifc.cfg.ipv4.addrl $wi.if$ifc.cfg.ipv4.addrv \
-        $wi.if$ifc.cfg.ipv4.clear -side left
-        pack $wi.if$ifc.cfg.ipv4 -side top -anchor w
-
-        #
-        # IPv6 address
-        #
-        ttk::frame $wi.if$ifc.cfg.ipv6
-        ttk::label $wi.if$ifc.cfg.ipv6.addrl -text "IPv6 address" \
-        -anchor w
-        ttk::entry $wi.if$ifc.cfg.ipv6.addrv -width 30 \
-        -validate focus -invalidcommand "focusAndFlash %W"
-        $wi.if$ifc.cfg.ipv6.addrv insert 0 \
-        [getIfcIPv6addr $target $ifc]
-        $wi.if$ifc.cfg.ipv6.addrv configure -validatecommand {checkIPv6Net %P}
-        ttk::button $wi.if$ifc.cfg.ipv6.clear -image $plugin_img_del \
-        -command "$wi.if$ifc.cfg.ipv6.addrv delete 0 end"
-        pack $wi.if$ifc.cfg.ipv6.addrl $wi.if$ifc.cfg.ipv6.addrv \
-        $wi.if$ifc.cfg.ipv6.clear -side left
-        pack $wi.if$ifc.cfg.ipv6 -side top -anchor w
-    }
-    #		pack $wi.if$ifc.tab $wi.if$ifc.cfg -side left
-    pack $wi.if$ifc.cfg -side left
-    pack $wi.if$ifc -side top -anchor w -fill both
-    }
-    }
-}
-oval {
-    destroy $wi
-    annotationConfig $c $target
-    return
-}
-rectangle {
-    destroy $wi
-    annotationConfig $c $target
-    return
-}
-text {
-    destroy $wi
-    annotationConfig $c $target
-    return
-}
-link {
-    wm title $wi "link configuration"
-    ttk::frame $wi.ftop -borderwidth 6
-    set nam0 [getNodeName $n0]
-    set nam1 [getNodeName $n1]
-    ttk::label $wi.ftop.name_label -justify left -text \
-    "Link from $nam0 to $nam1"
-    pack $wi.ftop.name_label -side right
-    pack $wi.ftop -side top
-
-    ttk::frame $wi.bandwidth -borderwidth 4
-    # Boeing
-    global link_preset_val
-    set link_preset_val unlimited
-    set linkpreMenu [tk_optionMenu $wi.bandwidth.linkpre link_preset_val a]
-    pack $wi.bandwidth.linkpre -side top
-    linkPresets $wi $linkpreMenu init
-    # end Boeing
-    ttk::label $wi.bandwidth.label -anchor e \
-    -text "Bandwidth (bps):"
-    ttk::spinbox $wi.bandwidth.value -justify right -width 10 \
-    -validate focus -invalidcommand "focusAndFlash %W"
-    $wi.bandwidth.value insert 0 [getLinkBandwidth $target]
-    $wi.bandwidth.value configure \
-    -validatecommand {checkIntRange %P 0 1000000000} \
-    -from 0 -to 1000000000 -increment 1000
-    pack $wi.bandwidth.value $wi.bandwidth.label \
-    -side right
-    pack $wi.bandwidth -side top -anchor e
-
-    ttk::frame $wi.delay -borderwidth 4
-    ttk::label $wi.delay.label -anchor e -text "Delay (us):"
-    ttk::spinbox $wi.delay.value -justify right -width 10 \
-    -validate focus -invalidcommand "focusAndFlash %W"
-    $wi.delay.value insert 0 [getLinkDelay $target]
-    $wi.delay.value configure \
-    -validatecommand {checkIntRange %P 0 10000000} \
-    -from 0 -to 10000000 -increment 5
-    pack $wi.delay.value $wi.delay.label -side right
-    pack $wi.delay -side top -anchor e
-
-    ttk::frame $wi.ber -borderwidth 4
-    if { [lindex $systype 0] == "Linux" } {
-        set bertext "PER (%):"
-        set berinc 1
-        set bermax 100
-} else { ;# netgraph uses BER
-    set bertext "BER (1/N):"
-    set berinc 1000
-    set bermax 10000000000000
-}
-ttk::label $wi.ber.label -anchor e -text $bertext
-ttk::spinbox $wi.ber.value -justify right -width 10 \
--validate focus -invalidcommand "focusAndFlash %W"
-$wi.ber.value insert 0 [getLinkBER $target]
-$wi.ber.value configure \
--validatecommand "checkIntRange %P 0 $bermax" \
--from 0 -to $bermax -increment $berinc
-pack $wi.ber.value $wi.ber.label -side right
-pack $wi.ber -side top -anchor e
-
-ttk::frame $wi.dup -borderwidth 4
-ttk::label $wi.dup.label -anchor e -text "Duplicate (%):"
-ttk::spinbox $wi.dup.value -justify right -width 10 \
--validate focus -invalidcommand "focusAndFlash %W"
-$wi.dup.value insert 0 [getLinkDup $target]
-$wi.dup.value configure \
--validatecommand {checkIntRange %P 0 50} \
--from 0 -to 50 -increment 1
-pack $wi.dup.value $wi.dup.label -side right
-pack $wi.dup -side top -anchor e
-
-# Boeing: jitter
-#	frame $wi.jitter -borderwidth 4
-#	label $wi.jitter.label -anchor e -text "Jitter (us):"
-#	spinbox $wi.jitter.value -bg white -justify right -width 10 \
-#	    -validate focus -invalidcommand "focusAndFlash %W"
-#	$wi.jitter.value insert 0 [getLinkJitter $target]
-#	$wi.jitter.value configure \
-#	    -validatecommand {checkIntRange %P 0 10000000} \
-#	    -from 0 -to 10000000 -increment 5
-#	pack $wi.jitter.value $wi.jitter.label -side right
-#	pack $wi.jitter -side top -anchor e
-# end Boeing
-
-ttk::frame $wi.color -borderwidth 4
-ttk::label $wi.color.label -anchor e -text "Color:"
-set link_color [getLinkColor $target]
-tk_optionMenu $wi.color.value link_color \
-Red Green Blue Yellow Magenta Cyan Black
-pack $wi.color.value $wi.color.label -side right
-pack $wi.color -side top -anchor e
-
-ttk::frame $wi.width -borderwidth 4
-ttk::label $wi.width.label -anchor e -text "Width:"
-ttk::spinbox $wi.width.value -justify right -width 10 \
--validate focus -invalidcommand "focusAndFlash %W"
-$wi.width.value insert 0 [getLinkWidth $target]
-$wi.width.value configure \
--validatecommand {checkIntRange %P 1 8} \
--from 1 -to 8 -increment 1
-pack $wi.width.value $wi.width.label -side right
-pack $wi.width -side top -anchor e
-}
-} ;# end switch
-
-ttk::frame $wi.butt -borderwidth 6
-ttk::button $wi.butt.apply -text "Apply" -command \
-"popupConfigApply $wi $object_type $target 0"
-focus $wi.butt.apply
-# Boeing: remove range circles upon cancel
-if {$type == "wlan"} { 
-    set cancelcmd "set badentry -1 ; destroy $wi; updateRange $target 0" 
-} else {
-    set cancelcmd "set badentry -1 ; destroy $wi" 
-}
-ttk::button $wi.butt.cancel -text "Cancel" -command $cancelcmd
-#end Boeing
-pack $wi.butt.cancel $wi.butt.apply -side right
-pack $wi.butt -side bottom
-bind $wi <Key-Escape> $cancelcmd
-#    bind $wi <Key-Return> "popupConfigApply $wi $object_type $target 0"
-#after 100 {
-#catch { grab .popup } ;# Boeing: prevent occassional error
-#}
+    ttk::button $wi.butt.cancel -text "Cancel" -command $cancelcmd
+    #end Boeing
+    pack $wi.butt.cancel $wi.butt.apply -side right
+    pack $wi.butt -side bottom
+    bind $wi <Key-Escape> $cancelcmd
+    #    bind $wi <Key-Return> "popupConfigApply $wi $object_type $target 0"
+    #after 100 {
+    #catch { grab .popup } ;# Boeing: prevent occassional error
+    #}
 }
 
 # toggle the state of the mac address entry, and insert MAC address template
@@ -2762,7 +2806,7 @@ proc macEntryHelper { wi ifc } {
 
     if { [$wi.if$ifc.cfg.mac.addrv get] == "" } {
         $wi.if$ifc.cfg.mac.addrv insert 0 "00:00:00:00:00:00"
-}
+    }
 }
 
 
@@ -2791,217 +2835,244 @@ proc popupConfigApply { wi object_type target phase } {
     global customEnabled ipsecEnabled
     global eid
     global showIPsecConfig
+    # start Imalse
+    global router_role router_traceflag
+    global link_traceflag
+    # end Imalse
 
     $wi config -cursor watch
+    puts "before update"
     update
     if { $phase == 0 } {
         set badentry 0
         focus .
         after 100 "popupConfigApply $wi $object_type $target 1"
         return
-} elseif { $badentry } {
-    $wi config -cursor left_ptr
-    return
-}
-switch -exact -- $object_type {
+    } elseif { $badentry } {
+        $wi config -cursor left_ptr
+        return
+    }
+    puts "before switch"
+    switch -exact -- $object_type {
     #
     # Node
     #
-    node {
-        set type [nodeType $target]
-        set model [getNodeModel $target]
-        set name [string trim [$wi.ftop.name get]]
-        set changed_to_remote 0
-        global node_location
-        if { $node_location != [getNodeLocation $target] } {
-            if { $node_location == "(none)" } { set node_location "" }
-            setNodeLocation $target $node_location
-            set changed 1
-}
-set node_location ""
-if { $name != [getNodeName $target] } {
-    setNodeName $target $name
-    set changed 1
-}
-if { $oper_mode == "edit" && $type == "router" && \
-    $router_model != $model } {
-        setNodeModel $target $router_model
-        set changed 1
-        if { $router_model == "remote" } { set changed_to_remote 1 };#Boeing
-}
-
-# Boeing - added wlan, remote, tunnel, ktunnel items
-if { $type == "wlan" } {
-    wlanConfigDialogHelper $wi $target 1	
-} elseif { $type == "tunnel" } {
-    #
-    # apply tunnel items
-    #
-    set ipaddr "$name/24" ;# tunnel name == IP address of peer 
-    set oldipaddr [getIfcIPv4addr $target e0]
-    if { $ipaddr != $oldipaddr } {
-        setIfcIPv4addr $target e0 $ipaddr
-    }
-    global conntype conntap
-    set oldconntype [netconfFetchSection $target "tunnel-type"]
-    if { $oldconntype != $conntype } {
-        netconfInsertSection $target [list "tunnel-type" $conntype]
-    }
-    set oldconntap [netconfFetchSection $target "tunnel-tap"]
-    if { $oldconntap != $conntap } {
-        netconfInsertSection $target [list "tunnel-tap" $conntap]
-    }
-    set oldkey [netconfFetchSection $target "tunnel-key"]
-    set key [$wi.con2.key.key get]
-    if { $oldkey != $key } {
-        netconfInsertSection $target [list "tunnel-key" $key]
-    }
-
-    set oldlocal [netconfFetchSection $target "local-hook"]
-    set local [$wi.linfo.local get]
-    if { $oldlocal != $local } {
-        netconfInsertSection $target [list "local-hook" $local]
-    }
-
-    set oldpeer [netconfFetchSection $target "peer-hook"]
-    set peer [$wi.pinfo.peer get]
-    if { $oldpeer != $peer } {
-        netconfInsertSection $target [list "peer-hook" $peer]
-    }
-} elseif { $type == "ktunnel" } {
-    #
-    # apply ktunnel items
-    #
-    set oldlocal [netconfFetchSection $target "local-hook"]
-    set local [$wi.linfo.local get]
-    if { $oldlocal != $local } {
-        netconfInsertSection $target [list "local-hook" $local]
-    }
-    # Boeing changing to interface name for RJ45 
-    #	    } elseif { $type == "rj45" } {
-    #		#
-    #		# apply rj45 items
-    #		#
-    #		set ifcName [string trim [$wi.interface.name get]]
-    #		puts "$ifcName\n"
-    #
-    } elseif { $type == "router" && [getNodeModel $target] == "remote" } {
-        if { $changed_to_remote == 0 } {
-            set i 1
-            set remoteIP [string trim [$wi.remoteinfo.ip.text get $i.0 $i.end]]
-            if { $remoteIP != [router.remote.getRemoteIP $target] } {
-                router.remote.setRemoteIP $target $remoteIP
+        node {
+            puts "enter node"
+            set type [nodeType $target]
+            set model [getNodeModel $target]
+            set name [string trim [$wi.ftop.name get]]
+            set changed_to_remote 0
+            global node_location
+            if { $node_location != [getNodeLocation $target] } {
+                if { $node_location == "(none)" } { set node_location "" }
+                setNodeLocation $target $node_location
                 set changed 1
-        }
-        set ifc [string trim [$wi.remoteinfo.ifc.text get $i.0 $i.end]]
-        if { $ifc != [router.remote.getCInterface $target] } {
-            router.remote.setCInterface $target $ifc
-            set changed 1
-        }
-        set startcmd [string trim [$wi.remotecommands.start.text get $i.0 $i.end]]
-        if { $startcmd != [router.remote.getStartCmd $target] } {
-            router.remote.setStartCmd $target $startcmd
-            set changed 1
-        }
-        set stopcmd [string trim [$wi.remotecommands.stop.text get $i.0 $i.end]]
-        if { $stopcmd != [router.remote.getStopCmd $target] } {
-            router.remote.setStopCmd $target $stopcmd
-            set changed 1
-        }
-    }
-}
-#
-# make any calls defined by addons to 2 configDialogApplyHook
-global addon_hook_fns
-foreach addon [array names addon_hook_fns] {
-    [lindex $addon_hook_fns($addon) 2] $wi $target
-}
-# end Boeing
+            }
+            set node_location ""
+            if { $name != [getNodeName $target] } {
+                setNodeName $target $name
+                set changed 1
+            }
+            if { $oper_mode == "edit" && $type == "router" && \
+                 $router_model != $model } {
+                setNodeModel $target $router_model
+                set changed 1
+                if { $router_model == "remote" } { set changed_to_remote 1 };#Boeing
+            }
 
-if {[[typemodel $target].layer] == "NETWORK"} {
-    foreach ifc [ifcList $target] {
-        set macaddr [$wi.if$ifc.cfg.mac.addrv get]
-        global if${ifc}_auto_mac
-        if { [set if${ifc}_auto_mac] == 1 } { set macaddr "" }
-        set oldmacaddr [getIfcMacaddr $target $ifc]
-        if { $macaddr != $oldmacaddr } {
-            setIfcMacaddr $target $ifc $macaddr
-            set changed 1
-    }
-    set ipaddr [$wi.if$ifc.cfg.ipv4.addrv get]
-    set oldipaddr [getIfcIPv4addr $target $ifc]
-    if { $ipaddr != $oldipaddr } {
-        setIfcIPv4addr $target $ifc $ipaddr
-        set changed 1
-    }
-    set ipaddr [$wi.if$ifc.cfg.ipv6.addrv get]
-    set oldipaddr [getIfcIPv6addr $target $ifc]
-    if { $ipaddr != $oldipaddr } {
-        setIfcIPv6addr $target $ifc $ipaddr
-        set changed 1
-    }
-    }
-    # end foreach ifc
-}
-}
+            puts "before imalse"
+            if { $oper_mode == "edit" && $type == "router"} {
+                setNodeRole $target $router_role
+            }
+            puts "after imalse"
 
-link {
-    set mirror [getLinkMirror $target]
-    set bw [$wi.bandwidth.value get]
-    if { $bw != [getLinkBandwidth $target] } {
-        setLinkBandwidth $target [$wi.bandwidth.value get]
-        if { $mirror != "" } {
-            setLinkBandwidth $mirror [$wi.bandwidth.value get]
-    }
-    set changed 1
-}
-set dly [$wi.delay.value get]
-if { $dly != [getLinkDelay $target] } {
-    setLinkDelay $target [$wi.delay.value get]
-    if { $mirror != "" } {
-        setLinkDelay $mirror [$wi.delay.value get]
-    }
-    set changed 1
-}
-set ber [$wi.ber.value get]
-if { $ber != [getLinkBER $target] } {
-    setLinkBER $target [$wi.ber.value get]
-    if { $mirror != "" } {
-        setLinkBER $mirror [$wi.ber.value get]
-    }
-    set changed 1
-}
-set dup [$wi.dup.value get]
-if { $dup != [getLinkDup $target] } {
-    setLinkDup $target [$wi.dup.value get]
-    if { $mirror != "" } {
-        setLinkDup $mirror [$wi.dup.value get]
-    }
-    set changed 1
-}
-if { $link_color != [getLinkColor $target] } {
-    setLinkColor $target $link_color
-    if { $mirror != "" } {
-        setLinkColor $mirror $link_color
-    }
-    set changed 1
-}
-set width [$wi.width.value get]
-if { $width != [getLinkWidth $target] } {
-    setLinkWidth $target [$wi.width.value get]
-    if { $mirror != "" } {
-        setLinkWidth $mirror [$wi.width.value get]
-    }
-    set changed 1
-}
-if { $changed == 1 && $oper_mode == "exec" } {
-    execSetLinkParams $eid $target
-}
-}
+            if { $oper_mode == "edit" && $type == "router"} {
+                setNodeTraceFlag $target $router_traceflag
+            }
 
-}
+            # Boeing - added wlan, remote, tunnel, ktunnel items
+            if { $type == "wlan" } {
+                wlanConfigDialogHelper $wi $target 1	
+            } elseif { $type == "tunnel" } {
+            #
+            # apply tunnel items
+            #
+                set ipaddr "$name/24" ;# tunnel name == IP address of peer 
+                set oldipaddr [getIfcIPv4addr $target e0]
+                if { $ipaddr != $oldipaddr } {
+                    setIfcIPv4addr $target e0 $ipaddr
+                }
+                global conntype conntap
+                set oldconntype [netconfFetchSection $target "tunnel-type"]
+                if { $oldconntype != $conntype } {
+                    netconfInsertSection $target [list "tunnel-type" $conntype]
+                }
+                set oldconntap [netconfFetchSection $target "tunnel-tap"]
+                if { $oldconntap != $conntap } {
+                    netconfInsertSection $target [list "tunnel-tap" $conntap]
+                }
+                set oldkey [netconfFetchSection $target "tunnel-key"]
+                set key [$wi.con2.key.key get]
+                if { $oldkey != $key } {
+                    netconfInsertSection $target [list "tunnel-key" $key]
+                }
 
-popdownConfig $wi
+                set oldlocal [netconfFetchSection $target "local-hook"]
+                set local [$wi.linfo.local get]
+                if { $oldlocal != $local } {
+                    netconfInsertSection $target [list "local-hook" $local]
+                }
+
+                set oldpeer [netconfFetchSection $target "peer-hook"]
+                set peer [$wi.pinfo.peer get]
+                if { $oldpeer != $peer } {
+                    netconfInsertSection $target [list "peer-hook" $peer]
+                }
+            } elseif { $type == "ktunnel" } {
+            #
+            # apply ktunnel items
+            #
+                set oldlocal [netconfFetchSection $target "local-hook"]
+                set local [$wi.linfo.local get]
+                if { $oldlocal != $local } {
+                    netconfInsertSection $target [list "local-hook" $local]
+                }
+                # Boeing changing to interface name for RJ45 
+                #	    } elseif { $type == "rj45" } {
+                #		#
+                #		# apply rj45 items
+                #		#
+                #		set ifcName [string trim [$wi.interface.name get]]
+                #		puts "$ifcName\n"
+                #
+            } elseif { $type == "router" && [getNodeModel $target] == "remote" } {
+                if { $changed_to_remote == 0 } {
+                    set i 1
+                    set remoteIP [string trim [$wi.remoteinfo.ip.text get $i.0 $i.end]]
+                    if { $remoteIP != [router.remote.getRemoteIP $target] } {
+                        router.remote.setRemoteIP $target $remoteIP
+                        set changed 1
+                    }
+                    set ifc [string trim [$wi.remoteinfo.ifc.text get $i.0 $i.end]]
+                    if { $ifc != [router.remote.getCInterface $target] } {
+                        router.remote.setCInterface $target $ifc
+                        set changed 1
+                    }
+                    set startcmd [string trim [$wi.remotecommands.start.text get $i.0 $i.end]]
+                    if { $startcmd != [router.remote.getStartCmd $target] } {
+                        router.remote.setStartCmd $target $startcmd
+                        set changed 1
+                    }
+                    set stopcmd [string trim [$wi.remotecommands.stop.text get $i.0 $i.end]]
+                    if { $stopcmd != [router.remote.getStopCmd $target] } {
+                        router.remote.setStopCmd $target $stopcmd
+                        set changed 1
+                    }
+                }
+            }
+            #
+            # make any calls defined by addons to 2 configDialogApplyHook
+            global addon_hook_fns
+            foreach addon [array names addon_hook_fns] {
+                [lindex $addon_hook_fns($addon) 2] $wi $target
+            }
+            # end Boeing
+
+            if {[[typemodel $target].layer] == "NETWORK"} {
+                foreach ifc [ifcList $target] {
+                    set macaddr [$wi.if$ifc.cfg.mac.addrv get]
+                    global if${ifc}_auto_mac
+                    if { [set if${ifc}_auto_mac] == 1 } { set macaddr "" }
+                    set oldmacaddr [getIfcMacaddr $target $ifc]
+                    if { $macaddr != $oldmacaddr } {
+                        setIfcMacaddr $target $ifc $macaddr
+                        set changed 1
+                    }
+                    set ipaddr [$wi.if$ifc.cfg.ipv4.addrv get]
+                    set oldipaddr [getIfcIPv4addr $target $ifc]
+                    if { $ipaddr != $oldipaddr } {
+                        setIfcIPv4addr $target $ifc $ipaddr
+                        set changed 1
+                    }
+                    set ipaddr [$wi.if$ifc.cfg.ipv6.addrv get]
+                    set oldipaddr [getIfcIPv6addr $target $ifc]
+                    if { $ipaddr != $oldipaddr } {
+                        setIfcIPv6addr $target $ifc $ipaddr
+                        set changed 1
+                    }
+                }
+                # end foreach ifc
+            }
+        }
+
+        link {
+            set mirror [getLinkMirror $target]
+            set bw [$wi.bandwidth.value get]
+            if { $bw != [getLinkBandwidth $target] } {
+                setLinkBandwidth $target [$wi.bandwidth.value get]
+                if { $mirror != "" } {
+                    setLinkBandwidth $mirror [$wi.bandwidth.value get]
+                }
+                set changed 1
+            }
+            set dly [$wi.delay.value get]
+            if { $dly != [getLinkDelay $target] } {
+                setLinkDelay $target [$wi.delay.value get]
+                if { $mirror != "" } {
+                    setLinkDelay $mirror [$wi.delay.value get]
+                }
+                set changed 1
+            }
+            set ber [$wi.ber.value get]
+            if { $ber != [getLinkBER $target] } {
+                setLinkBER $target [$wi.ber.value get]
+                if { $mirror != "" } {
+                    setLinkBER $mirror [$wi.ber.value get]
+                }
+                set changed 1
+            }
+            set dup [$wi.dup.value get]
+            if { $dup != [getLinkDup $target] } {
+                setLinkDup $target [$wi.dup.value get]
+                if { $mirror != "" } {
+                    setLinkDup $mirror [$wi.dup.value get]
+                }
+                set changed 1
+            }
+            if { $link_color != [getLinkColor $target] } {
+                setLinkColor $target $link_color
+                if { $mirror != "" } {
+                    setLinkColor $mirror $link_color
+                }
+                set changed 1
+            }
+            set width [$wi.width.value get]
+            if { $width != [getLinkWidth $target] } {
+                setLinkWidth $target [$wi.width.value get]
+                if { $mirror != "" } {
+                    setLinkWidth $mirror [$wi.width.value get]
+                }
+                set changed 1
+            }
+            if { $changed == 1 && $oper_mode == "exec" } {
+                execSetLinkParams $eid $target
+            }
+
+            if { $oper_mode == "edit"} {
+                setLinkTraceFlag $target $link_traceflag
+                # set the link to be blue when traceflag is set
+                if { $link_traceflag == "yes" } {
+                    setLinkColor $target Blue
+                    set changed 1
+                }
+                
+            }
+        }
+
+    }
+
+    popdownConfig $wi
 }
 
 
@@ -3046,14 +3117,14 @@ proc deleteSelection { } {
     foreach lnode [selectedNodes] {
         if { $lnode != "" } {
             removeGUINode $lnode
-}
-set changed 1
-}
+        }
+        set changed 1
+    }
 
-raiseAll .c
-updateUndoLog
-.c config -cursor left_ptr
-.bottom.textbox config -text ""
+    raiseAll .c
+    updateUndoLog
+    .c config -cursor left_ptr
+    .bottom.textbox config -text ""
 }
 
 
@@ -3064,14 +3135,14 @@ proc assignSelection { server } {
     foreach node [selectedNodes] {
         if { $node != "" } {
             setNodeLocation $node $server
-}
-set changed 1
-}
+        }
+        set changed 1
+    }
 
-redrawAll
-updateUndoLog
-.c config -cursor left_ptr
-.bottom.textbox config -text ""
+    redrawAll
+    updateUndoLog
+    .c config -cursor left_ptr
+    .bottom.textbox config -text ""
 }
 
 
@@ -3081,29 +3152,29 @@ proc align2grid {} {
     set node_objects [.c find withtag node]
     if { [llength $node_objects] == 0 } {
         return
-}
-
-set step [expr {$grid * 4}]
-
-for { set x $step } { $x <= [expr {$sizex - $step}] } { incr x $step } {
-    for { set y $step } { $y <= [expr {$sizey - $step}] } { incr y $step } {
-        if { [llength $node_objects] == 0 } {
-            set changed 1
-            updateUndoLog
-            redrawAll
-            return
     }
-    set node [lindex [.c gettags [lindex $node_objects 0]] 1]
-    set node_objects [lreplace $node_objects 0 0]
-    setNodeCoords $node "$x $y"
-    set dy 32
-    if { [lsearch {router hub lanswitch rj45} \
-        [nodeType $node]] >= 0 } {
-            set dy 24
+
+    set step [expr {$grid * 4}]
+
+    for { set x $step } { $x <= [expr {$sizex - $step}] } { incr x $step } {
+        for { set y $step } { $y <= [expr {$sizey - $step}] } { incr y $step } {
+            if { [llength $node_objects] == 0 } {
+                set changed 1
+                updateUndoLog
+                redrawAll
+                return
+            }
+            set node [lindex [.c gettags [lindex $node_objects 0]] 1]
+            set node_objects [lreplace $node_objects 0 0]
+            setNodeCoords $node "$x $y"
+            set dy 32
+            if { [lsearch {router hub lanswitch rj45} \
+                 [nodeType $node]] >= 0 } {
+                set dy 24
+            }
+            setNodeLabelCoords $node "$x [expr {$y + $dy}]"
+        }
     }
-    setNodeLabelCoords $node "$x [expr {$y + $dy}]"
-}
-}
 }
 
 
@@ -3128,163 +3199,163 @@ proc rearrange { mode } {
     if { $autorearrange_enabled } {
         rearrange_off
         return
-}
-set autorearrange_enabled 1
-.bottom.mbuf config -text "autorearrange"
-if { $mode == "selected" } {
-    .menubar.tools entryconfigure "Auto rearrange all" -state disabled
-    .menubar.tools entryconfigure "Auto rearrange all" -indicatoron off
-    .menubar.tools entryconfigure "Auto rearrange selected" -indicatoron on
-    set tagmatch "node && selected"
-} else {
-    .menubar.tools entryconfigure "Auto rearrange all" -indicatoron on
-    .menubar.tools entryconfigure "Auto rearrange selected" -state disabled
-    .menubar.tools entryconfigure "Auto rearrange selected" -indicatoron off
-    set tagmatch "node"
-}
-set otime [clock clicks -milliseconds]
-while { $autorearrange_enabled } {
-    set ntime [clock clicks -milliseconds]
-    if { $otime == $ntime } {
-        set dt 0.001
-} else {
-    set dt [expr {($ntime - $otime) * 0.001}]
-    if { $dt > 0.2 } {
-        set dt 0.2
     }
-    set otime $ntime
-}
-
-set objects [.c find withtag $tagmatch]
-set peer_objects [.c find withtag node]
-foreach obj $peer_objects {
-    set node [lindex [.c gettags $obj] 1]
-    set coords [.c coords $obj]
-    set x [expr {[lindex $coords 0] / $zoom}]
-    set y [expr {[lindex $coords 1] / $zoom}]
-    set x_t($node) $x
-    set y_t($node) $y
-
-    if { $x > 0 } {
-        set fx [expr {1000 / ($x * $x + 100)}]
+    set autorearrange_enabled 1
+    .bottom.mbuf config -text "autorearrange"
+    if { $mode == "selected" } {
+        .menubar.tools entryconfigure "Auto rearrange all" -state disabled
+        .menubar.tools entryconfigure "Auto rearrange all" -indicatoron off
+        .menubar.tools entryconfigure "Auto rearrange selected" -indicatoron on
+        set tagmatch "node && selected"
     } else {
-        set fx 10
+        .menubar.tools entryconfigure "Auto rearrange all" -indicatoron on
+        .menubar.tools entryconfigure "Auto rearrange selected" -state disabled
+        .menubar.tools entryconfigure "Auto rearrange selected" -indicatoron off
+        set tagmatch "node"
     }
-    set dx [expr {$sizex - $x}]
-    if { $dx > 0 } {
-        set fx [expr {$fx - 1000 / ($dx * $dx + 100)}]
-    } else {
-        set fx [expr {$fx - 10}]
+    set otime [clock clicks -milliseconds]
+    while { $autorearrange_enabled } {
+        set ntime [clock clicks -milliseconds]
+        if { $otime == $ntime } {
+            set dt 0.001
+        } else {
+            set dt [expr {($ntime - $otime) * 0.001}]
+            if { $dt > 0.2 } {
+                set dt 0.2
+            }
+            set otime $ntime
+        }
+
+        set objects [.c find withtag $tagmatch]
+        set peer_objects [.c find withtag node]
+        foreach obj $peer_objects {
+            set node [lindex [.c gettags $obj] 1]
+            set coords [.c coords $obj]
+            set x [expr {[lindex $coords 0] / $zoom}]
+            set y [expr {[lindex $coords 1] / $zoom}]
+            set x_t($node) $x
+            set y_t($node) $y
+
+            if { $x > 0 } {
+                set fx [expr {1000 / ($x * $x + 100)}]
+            } else {
+                set fx 10
+            }
+            set dx [expr {$sizex - $x}]
+            if { $dx > 0 } {
+                set fx [expr {$fx - 1000 / ($dx * $dx + 100)}]
+            } else {
+                set fx [expr {$fx - 10}]
+            }
+
+            if { $y > 0 } {
+                set fy [expr {1000 / ($y * $y + 100)}]
+            } else {
+                set fy 10
+            }
+            set dy [expr {$sizey - $y}]
+            if { $dy > 0 } {
+                set fy [expr {$fy - 1000 / ($dy * $dy + 100)}]
+            } else {
+                set fy [expr {$fy - 10}]
+            }
+            set fx_t($node) $fx
+            set fy_t($node) $fy
+        }
+
+        foreach obj $objects {
+            set node [lindex [.c gettags $obj] 1]
+            set i [lsearch -exact $peer_objects $obj]
+            set peer_objects [lreplace $peer_objects $i $i]
+            set x $x_t($node)
+            set y $y_t($node)
+            foreach other_obj $peer_objects {
+                set other [lindex [.c gettags $other_obj] 1]
+                set o_x $x_t($other)
+                set o_y $y_t($other)
+                set dx [expr {$x - $o_x}]
+                set dy [expr {$y - $o_y}]
+                set d [expr {hypot($dx, $dy)}]
+                set d2 [expr {$d * $d}]
+                set p_fx [expr {1000.0 * $dx / ($d2 * $d + 100)}]
+                set p_fy [expr {1000.0 * $dy / ($d2 * $d + 100)}]
+                if {[linkByPeers $node $other] != ""} {
+                    set p_fx [expr {$p_fx - $dx * $d2 * .0000000005}]
+                    set p_fy [expr {$p_fy - $dy * $d2 * .0000000005}]
+                }
+                set fx_t($node) [expr {$fx_t($node) + $p_fx}]
+                set fy_t($node) [expr {$fy_t($node) + $p_fy}]
+                set fx_t($other) [expr {$fx_t($other) - $p_fx}]
+                set fy_t($other) [expr {$fy_t($other) - $p_fy}]
+            }
+
+            foreach link $link_list {
+                set nodes [linkPeers $link]
+                if { [getNodeCanvas [lindex $nodes 0]] != $curcanvas ||
+                     [getNodeCanvas [lindex $nodes 1]] != $curcanvas ||
+                     [getLinkMirror $link] != "" } {
+                    continue
+                }
+                set peers [linkPeers $link]
+                set coords0 [getNodeCoords [lindex $peers 0]]
+                set coords1 [getNodeCoords [lindex $peers 1]]
+                set o_x \
+                    [expr {([lindex $coords0 0] + [lindex $coords1 0]) * .5}]
+                set o_y \
+                    [expr {([lindex $coords0 1] + [lindex $coords1 1]) * .5}]
+                set dx [expr {$x - $o_x}]
+                set dy [expr {$y - $o_y}]
+                set d [expr {hypot($dx, $dy)}]
+                set d2 [expr {$d * $d}]
+                set fx_t($node) \
+                    [expr {$fx_t($node) + 500.0 * $dx / ($d2 * $d + 100)}]
+                set fy_t($node) \
+                    [expr {$fy_t($node) + 500.0 * $dy / ($d2 * $d + 100)}]
+            }
+        }
+
+        foreach obj $objects {
+            set node [lindex [.c gettags $obj] 1]
+            if { [catch "set v_t($node)" v] } {
+                set vx 0.0
+                set vy 0.0
+            } else {
+                set vx [lindex $v_t($node) 0]
+                set vy [lindex $v_t($node) 1]
+            }
+            set vx [expr {$vx + 1000.0 * $fx_t($node) * $dt}]
+            set vy [expr {$vy + 1000.0 * $fy_t($node) * $dt}]
+            set dampk [expr {0.5 + ($vx * $vx + $vy * $vy) * 0.00001}]
+            set vx [expr {$vx * exp( - $dampk * $dt)}]
+            set vy [expr {$vy * exp( - $dampk * $dt)}]
+            set dx [expr {$vx * $dt}]
+            set dy [expr {$vy * $dt}]
+            set x [expr {$x_t($node) + $dx}]
+            set y [expr {$y_t($node) + $dy}]
+            set v_t($node) "$vx $vy"
+
+            setNodeCoords $node "$x $y"
+            set e_dx [expr {$dx * $zoom}]
+            set e_dy [expr {$dy * $zoom}]
+            .c move $obj $e_dx $e_dy
+            set img [.c find withtag "selectmark && $node"]
+            .c move $img $e_dx $e_dy
+            set img [.c find withtag "nodelabel && $node"]
+            .c move $img $e_dx $e_dy
+            set x [expr {[lindex [.c coords $img] 0] / $zoom}]
+            set y [expr {[lindex [.c coords $img] 1] / $zoom}]
+            setNodeLabelCoords $node "$x $y"
+            .c addtag need_redraw withtag "link && $node"
+        }
+        foreach link [.c find withtag "link && need_redraw"] {
+            redrawLink [lindex [.c gettags $link] 1]
+        }
+        .c dtag link need_redraw
+        update
     }
 
-    if { $y > 0 } {
-        set fy [expr {1000 / ($y * $y + 100)}]
-    } else {
-        set fy 10
-    }
-    set dy [expr {$sizey - $y}]
-    if { $dy > 0 } {
-        set fy [expr {$fy - 1000 / ($dy * $dy + 100)}]
-    } else {
-        set fy [expr {$fy - 10}]
-    }
-    set fx_t($node) $fx
-    set fy_t($node) $fy
-}
-
-foreach obj $objects {
-    set node [lindex [.c gettags $obj] 1]
-    set i [lsearch -exact $peer_objects $obj]
-    set peer_objects [lreplace $peer_objects $i $i]
-    set x $x_t($node)
-    set y $y_t($node)
-    foreach other_obj $peer_objects {
-        set other [lindex [.c gettags $other_obj] 1]
-        set o_x $x_t($other)
-        set o_y $y_t($other)
-        set dx [expr {$x - $o_x}]
-        set dy [expr {$y - $o_y}]
-        set d [expr {hypot($dx, $dy)}]
-        set d2 [expr {$d * $d}]
-        set p_fx [expr {1000.0 * $dx / ($d2 * $d + 100)}]
-        set p_fy [expr {1000.0 * $dy / ($d2 * $d + 100)}]
-        if {[linkByPeers $node $other] != ""} {
-            set p_fx [expr {$p_fx - $dx * $d2 * .0000000005}]
-            set p_fy [expr {$p_fy - $dy * $d2 * .0000000005}]
-    }
-    set fx_t($node) [expr {$fx_t($node) + $p_fx}]
-    set fy_t($node) [expr {$fy_t($node) + $p_fy}]
-    set fx_t($other) [expr {$fx_t($other) - $p_fx}]
-    set fy_t($other) [expr {$fy_t($other) - $p_fy}]
-    }
-
-    foreach link $link_list {
-        set nodes [linkPeers $link]
-        if { [getNodeCanvas [lindex $nodes 0]] != $curcanvas ||
-            [getNodeCanvas [lindex $nodes 1]] != $curcanvas ||
-            [getLinkMirror $link] != "" } {
-                continue
-    }
-    set peers [linkPeers $link]
-    set coords0 [getNodeCoords [lindex $peers 0]]
-    set coords1 [getNodeCoords [lindex $peers 1]]
-    set o_x \
-    [expr {([lindex $coords0 0] + [lindex $coords1 0]) * .5}]
-    set o_y \
-    [expr {([lindex $coords0 1] + [lindex $coords1 1]) * .5}]
-    set dx [expr {$x - $o_x}]
-    set dy [expr {$y - $o_y}]
-    set d [expr {hypot($dx, $dy)}]
-    set d2 [expr {$d * $d}]
-    set fx_t($node) \
-    [expr {$fx_t($node) + 500.0 * $dx / ($d2 * $d + 100)}]
-    set fy_t($node) \
-    [expr {$fy_t($node) + 500.0 * $dy / ($d2 * $d + 100)}]
-    }
-}
-
-foreach obj $objects {
-    set node [lindex [.c gettags $obj] 1]
-    if { [catch "set v_t($node)" v] } {
-        set vx 0.0
-        set vy 0.0
-    } else {
-        set vx [lindex $v_t($node) 0]
-        set vy [lindex $v_t($node) 1]
-    }
-    set vx [expr {$vx + 1000.0 * $fx_t($node) * $dt}]
-    set vy [expr {$vy + 1000.0 * $fy_t($node) * $dt}]
-    set dampk [expr {0.5 + ($vx * $vx + $vy * $vy) * 0.00001}]
-    set vx [expr {$vx * exp( - $dampk * $dt)}]
-    set vy [expr {$vy * exp( - $dampk * $dt)}]
-    set dx [expr {$vx * $dt}]
-    set dy [expr {$vy * $dt}]
-    set x [expr {$x_t($node) + $dx}]
-    set y [expr {$y_t($node) + $dy}]
-    set v_t($node) "$vx $vy"
-
-    setNodeCoords $node "$x $y"
-    set e_dx [expr {$dx * $zoom}]
-    set e_dy [expr {$dy * $zoom}]
-    .c move $obj $e_dx $e_dy
-    set img [.c find withtag "selectmark && $node"]
-    .c move $img $e_dx $e_dy
-    set img [.c find withtag "nodelabel && $node"]
-    .c move $img $e_dx $e_dy
-    set x [expr {[lindex [.c coords $img] 0] / $zoom}]
-    set y [expr {[lindex [.c coords $img] 1] / $zoom}]
-    setNodeLabelCoords $node "$x $y"
-    .c addtag need_redraw withtag "link && $node"
-}
-foreach link [.c find withtag "link && need_redraw"] {
-    redrawLink [lindex [.c gettags $link] 1]
-}
-.c dtag link need_redraw
-update
-}
-
-rearrange_off
-.bottom.mbuf config -text ""
+    rearrange_off
+    .bottom.mbuf config -text ""
 }
 
 proc rearrange_off { } {
@@ -3319,64 +3390,64 @@ proc switchCanvas { direction } {
             incr i -1
             if { $i < 0 } {
                 set curcanvas [lindex $canvas_list end]
-} else {
-    set curcanvas [lindex $canvas_list $i]
-}
-}
-next {
-    incr i
-    if { $i >= [llength $canvas_list] } {
-        set curcanvas [lindex $canvas_list 0]
-} else {
-    set curcanvas [lindex $canvas_list $i]
-}
-}
-first {
-    set curcanvas [lindex $canvas_list 0]
-}
-last {
-    set curcanvas [lindex $canvas_list end]
-}
-}
+            } else {
+                set curcanvas [lindex $canvas_list $i]
+            }
+        }
+        next {
+            incr i
+            if { $i >= [llength $canvas_list] } {
+                set curcanvas [lindex $canvas_list 0]
+            } else {
+                set curcanvas [lindex $canvas_list $i]
+            }
+        }
+        first {
+            set curcanvas [lindex $canvas_list 0]
+        }
+        last {
+            set curcanvas [lindex $canvas_list end]
+        }
+    }
 
-.hframe.t delete all
-set x 0
-foreach canvas $canvas_list {
-    set text [.hframe.t create text 0 0 \
-    -text "[getCanvasName $canvas]" -tags "text $canvas"]
-    set ox [lindex [.hframe.t bbox $text] 2]
-    set oy [lindex [.hframe.t bbox $text] 3]
-    set tab [.hframe.t create polygon $x 0 [expr {$x + 7}] 18 \
-    [expr {$x + 2 * $ox + 17}] 18 [expr {$x + 2 * $ox + 24}] 0 $x 0 \
-    -fill gray -tags "tab $canvas"]
-    set line [.hframe.t create line 0 0 $x 0 [expr {$x + 7}] 18 \
-    [expr {$x + 2 * $ox + 17}] 18 [expr {$x + 2 * $ox + 24}] 0 999 0 \
-    -fill #808080 -width 2 -tags "line $canvas"]
-    .hframe.t coords $text [expr {$x + $ox + 12}] [expr {$oy + 2}]
-    .hframe.t raise $text
-    incr x [expr {2 * $ox + 17}]
-}
-incr x 7
-.hframe.t raise "$curcanvas"
-.hframe.t itemconfigure "tab && $curcanvas" -fill #e0e0e0
-.hframe.t configure -scrollregion "0 0 $x 18"
-update
-set width [lindex [.hframe.t configure -width] 4]
-set lborder [lindex [.hframe.t bbox "tab && $curcanvas"] 0]
-set rborder [lindex [.hframe.t bbox "tab && $curcanvas"] 2]
-set lmargin [expr {[lindex [.hframe.t xview] 0] * $x - 1}]
-set rmargin [expr {[lindex [.hframe.t xview] 1] * $x + 1}]
-if { $lborder < $lmargin } {
-    .hframe.t xview moveto [expr {1.0 * ($lborder - 10) / $x}]
-}
-if { $rborder > $rmargin } {
-    .hframe.t xview moveto [expr {1.0 * ($rborder - $width + 10) / $x}]
-}
+    .hframe.t delete all
+    set x 0
+    foreach canvas $canvas_list {
+        set text [.hframe.t create text 0 0 \
+            -text "[getCanvasName $canvas]" -tags "text $canvas"]
+        set ox [lindex [.hframe.t bbox $text] 2]
+        set oy [lindex [.hframe.t bbox $text] 3]
+        set tab [.hframe.t create polygon $x 0 [expr {$x + 7}] 18 \
+            [expr {$x + 2 * $ox + 17}] 18 [expr {$x + 2 * $ox + 24}] 0 $x 0 \
+            -fill gray -tags "tab $canvas"]
+        set line [.hframe.t create line 0 0 $x 0 [expr {$x + 7}] 18 \
+            [expr {$x + 2 * $ox + 17}] 18 [expr {$x + 2 * $ox + 24}] 0 999 0 \
+            -fill #808080 -width 2 -tags "line $canvas"]
+        .hframe.t coords $text [expr {$x + $ox + 12}] [expr {$oy + 2}]
+        .hframe.t raise $text
+        incr x [expr {2 * $ox + 17}]
+    }
+    incr x 7
+    .hframe.t raise "$curcanvas"
+    .hframe.t itemconfigure "tab && $curcanvas" -fill #e0e0e0
+    .hframe.t configure -scrollregion "0 0 $x 18"
+    update
+    set width [lindex [.hframe.t configure -width] 4]
+    set lborder [lindex [.hframe.t bbox "tab && $curcanvas"] 0]
+    set rborder [lindex [.hframe.t bbox "tab && $curcanvas"] 2]
+    set lmargin [expr {[lindex [.hframe.t xview] 0] * $x - 1}]
+    set rmargin [expr {[lindex [.hframe.t xview] 1] * $x + 1}]
+    if { $lborder < $lmargin } {
+        .hframe.t xview moveto [expr {1.0 * ($lborder - 10) / $x}]
+    }
+    if { $rborder > $rmargin } {
+        .hframe.t xview moveto [expr {1.0 * ($rborder - $width + 10) / $x}]
+    }
 
-set sizex [lindex [getCanvasSize $curcanvas] 0]
-set sizey [lindex [getCanvasSize $curcanvas] 1]
+    set sizex [lindex [getCanvasSize $curcanvas] 0]
+    set sizey [lindex [getCanvasSize $curcanvas] 1]
 
-redrawAll
+    redrawAll
 }
 
 
@@ -3399,31 +3470,31 @@ proc renameCanvasPopup { x y } {
         set screen [wm maxsize .]
         set x [expr {[lindex $screen 0] / 2}]
         set y [expr {[lindex $screen 1] / 2}]
-} else {
-    set x [expr {$x + 10}]
-    set y [expr {$y - 90}]
-}
-wm geometry $w +$x+$y
-wm title $w "Canvas rename"
-wm iconname $w "Canvas rename"
+    } else {
+        set x [expr {$x + 10}]
+        set y [expr {$y - 90}]
+    }
+    wm geometry $w +$x+$y
+    wm title $w "Canvas rename"
+    wm iconname $w "Canvas rename"
 
-update
-grab $w
-label $w.msg -wraplength 5i -justify left -text "Canvas name:"
-pack $w.msg -side top
+    update
+    grab $w
+    label $w.msg -wraplength 5i -justify left -text "Canvas name:"
+    pack $w.msg -side top
 
-frame $w.buttons
-pack $w.buttons -side bottom -fill x -pady 2m
-button $w.buttons.print -text "Apply" -command "renameCanvasApply $w"
-button $w.buttons.cancel -text "Cancel" -command "destroy $w"
-pack $w.buttons.print $w.buttons.cancel -side left -expand 1
+    frame $w.buttons
+    pack $w.buttons -side bottom -fill x -pady 2m
+    button $w.buttons.print -text "Apply" -command "renameCanvasApply $w"
+    button $w.buttons.cancel -text "Cancel" -command "destroy $w"
+    pack $w.buttons.print $w.buttons.cancel -side left -expand 1
 
-bind $w <Key-Escape> "destroy $w"
-bind $w <Key-Return> "renameCanvasApply $w"
+    bind $w <Key-Escape> "destroy $w"
+    bind $w <Key-Return> "renameCanvasApply $w"
 
-entry $w.e1 -bg white
-$w.e1 insert 0 [getCanvasName $curcanvas]
-pack $w.e1 -side top -pady 5 -padx 10 -fill x
+    entry $w.e1 -bg white
+    $w.e1 insert 0 [getCanvasName $curcanvas]
+    pack $w.e1 -side top -pady 5 -padx 10 -fill x
 }
 
 proc resizeCanvasPopup {} {
@@ -3466,7 +3537,7 @@ proc resizeCanvasPopup {} {
     $w.size.pixels.y configure -from 300 -to 5000 -increment 2
     label $w.size.pixels.label2 -text "H pixels"
     pack $w.size.pixels.x $w.size.pixels.label $w.size.pixels.y \
-    $w.size.pixels.label2 -side left -pady 2 -padx 2 -fill x
+        $w.size.pixels.label2 -side left -pady 2 -padx 2 -fill x
 
     frame $w.size.meters
     pack $w.size.meters -side top -padx 4 -pady 4 -fill x 
@@ -3477,7 +3548,7 @@ proc resizeCanvasPopup {} {
     $w.size.meters.y configure -from 300 -to 10000 -increment 100
     label $w.size.meters.label2 -text "meters"
     pack $w.size.meters.x $w.size.meters.label $w.size.meters.y \
-    $w.size.meters.label2 -side left -pady 2 -padx 2 -fill x
+        $w.size.meters.label2 -side left -pady 2 -padx 2 -fill x
 
     labelframe $w.scale -text "Scale"
     frame $w.scale.ppm
@@ -3487,7 +3558,7 @@ proc resizeCanvasPopup {} {
     $w.scale.ppm.metersper100 insert 0 $scale
     label $w.scale.ppm.label2 -text "meters"
     pack $w.scale.ppm.label $w.scale.ppm.metersper100 \
-    $w.scale.ppm.label2 -side left -pady 2 -padx 2 -fill x
+        $w.scale.ppm.label2 -side left -pady 2 -padx 2 -fill x
 
     bind $w.size.pixels.x <Button> "syncSizeScale $w xp"
     bind $w.size.pixels.y <Button> "syncSizeScale $w yp"
@@ -3516,8 +3587,8 @@ proc resizeCanvasPopup {} {
     $w.ref.pt.lat insert 0 $latitude
     $w.ref.pt.long insert 0 $longitude
     pack $w.ref.pt.x $w.ref.pt.label $w.ref.pt.y $w.ref.pt.label2 \
-    $w.ref.pt.lat $w.ref.pt.label3 $w.ref.pt.long $w.ref.pt.label4 \
-    -side left -pady 2 -padx 2 -fill x
+        $w.ref.pt.lat $w.ref.pt.label3 $w.ref.pt.long $w.ref.pt.label4 \
+        -side left -pady 2 -padx 2 -fill x
 
     frame $w.ref.alt
     pack $w.ref.alt -side top -padx 6 -pady 6 -fill x
@@ -3526,14 +3597,14 @@ proc resizeCanvasPopup {} {
     label $w.ref.alt.label2 -text "meters"
     $w.ref.alt.altitude insert 0 $altitude
     pack $w.ref.alt.label $w.ref.alt.altitude $w.ref.alt.label2 -side left \
-    -pady 2 -padx 2 -fill x
+        -pady 2 -padx 2 -fill x
 
 
     global resize_canvas_save_default
     set resize_canvas_save_default 0
     frame $w.default
     checkbutton $w.default.save -text "Save as default" \
-    -variable resize_canvas_save_default
+        -variable resize_canvas_save_default
     pack $w.default.save -side left -pady 2 -padx 2 -fill x
     pack $w.default -side bottom -fill x 
 
@@ -3561,33 +3632,33 @@ proc syncSizeScale { w type } {
         scale -
         xp -
         yp {
-            # changing the scale or size in pixels updates the size in meters
+        # changing the scale or size in pixels updates the size in meters
             set newxm [expr { $xp * $scale / 100.0 }]
             set newym [expr { $yp * $scale / 100.0 }]
-    }
-    xm -
-    ym {
+        }
+        xm -
+        ym {
         # changing the size in meters updates the size in pixels
-        set newxp [expr { round(100.0 * $xm / $scale) } ]
-        set newyp [expr { round(100.0 * $ym / $scale) } ]
-}
-}
-if {$xm != $newxm} {
-    $w.size.meters.x delete 0 end
-    $w.size.meters.x insert 0 $newxm
-}
-if {$ym != $newym} {
-    $w.size.meters.y delete 0 end
-    $w.size.meters.y insert 0 $newym
-}
-if {$xp != $newxp} {
-    $w.size.pixels.x delete 0 end
-    $w.size.pixels.x insert 0 $newxp
-}
-if {$yp != $newyp} {
-    $w.size.pixels.y delete 0 end
-    $w.size.pixels.y insert 0 $newyp
-}
+            set newxp [expr { round(100.0 * $xm / $scale) } ]
+            set newyp [expr { round(100.0 * $ym / $scale) } ]
+        }
+    }
+    if {$xm != $newxm} {
+        $w.size.meters.x delete 0 end
+        $w.size.meters.x insert 0 $newxm
+    }
+    if {$ym != $newym} {
+        $w.size.meters.y delete 0 end
+        $w.size.meters.y insert 0 $newym
+    }
+    if {$xp != $newxp} {
+        $w.size.pixels.x delete 0 end
+        $w.size.pixels.x insert 0 $newxp
+    }
+    if {$yp != $newyp} {
+        $w.size.pixels.y delete 0 end
+        $w.size.pixels.y insert 0 $newyp
+    }
 }
 
 #****f* editor.tcl/renameCanvasApply
@@ -3608,10 +3679,10 @@ proc renameCanvasApply { w } {
     destroy $w
     if { $newname != [getCanvasName $curcanvas] } {
         set changed 1
-}
-setCanvasName $curcanvas $newname
-switchCanvas none
-updateUndoLog
+    }
+    setCanvasName $curcanvas $newname
+    switchCanvas none
+    updateUndoLog
 }
 
 proc resizeCanvasApply { w } {
@@ -3634,18 +3705,18 @@ proc resizeCanvasApply { w } {
         array set g_prefs "gui_canvas_x $x gui_canvas_y $y"
         array set g_prefs "gui_canvas_scale $scale"
         array set g_prefs [list "gui_canvas_refpt" $refpt]
-}
-destroy $w
-if { "$x $y" != [getCanvasSize $curcanvas] || \
-    $scale != [getCanvasScale $curcanvas] || \
-    $refpt != [getCanvasRefPoint $curcanvas] } {
+    }
+    destroy $w
+    if { "$x $y" != [getCanvasSize $curcanvas] || \
+             $scale != [getCanvasScale $curcanvas] || \
+         $refpt != [getCanvasRefPoint $curcanvas] } {
         set changed 1
-}
-setCanvasSize $curcanvas $x $y
-setCanvasScale $curcanvas $scale
-setCanvasRefPoint $curcanvas $refpt
-switchCanvas none
-updateUndoLog
+    }
+    setCanvasSize $curcanvas $x $y
+    setCanvasScale $curcanvas $scale
+    setCanvasRefPoint $curcanvas $refpt
+    switchCanvas none
+    updateUndoLog
 }
 
 #****f* editor.tcl/animate
@@ -3658,10 +3729,10 @@ updateUndoLog
 #   different for edit and exec mode.
 #****
 proc animate {} {
-    global animatephase oper_mode
+global animatephase oper_mode
 
-    if { [catch { if { ![winfo exists .c] } { return } }] } {
-        return ;# user has exited using the window manager
+if { [catch { if { ![winfo exists .c] } { return } }] } {
+    return ;# user has exited using the window manager
 }
 .c itemconfigure "selectmark || selectbox" -dashoffset $animatephase
 incr animatephase 2
@@ -3674,1230 +3745,1230 @@ if { $oper_mode == "edit" } {
 } else {
     after 1500 animate
 }
-}
+    }
 
 
-proc zoom { dir } {
-    global zoom
+    proc zoom { dir } {
+        global zoom
 
-    set stops ".25 .5 .75 1.0 1.5 2.0 4.0"
-    # set i [lsearch $stops $zoom]
-    set minzoom [lindex $stops 0]
-    set maxzoom [lindex $stops [expr [llength $stops] - 1]]
-    switch -exact -- $dir {
-        "down" {
-            if {$zoom > $maxzoom} {
-                set zoom $maxzoom
-    } elseif {$zoom < $minzoom} {
-        ; # leave it unchanged
-    } else {
-        set newzoom $minzoom
-        foreach z $stops {
-            if {$zoom <= $z} {
-                break
-        } else {
-            set newzoom $z
+        set stops ".25 .5 .75 1.0 1.5 2.0 4.0"
+        # set i [lsearch $stops $zoom]
+        set minzoom [lindex $stops 0]
+        set maxzoom [lindex $stops [expr [llength $stops] - 1]]
+        switch -exact -- $dir {
+            "down" {
+                if {$zoom > $maxzoom} {
+                    set zoom $maxzoom
+                } elseif {$zoom < $minzoom} {
+                    ; # leave it unchanged
+                } else {
+                    set newzoom $minzoom
+                    foreach z $stops {
+                        if {$zoom <= $z} {
+                            break
+                        } else {
+                            set newzoom $z
+                        }
+                    }
+                    set zoom $newzoom 
+                }
+                redrawAll
+            }
+            "up" {
+                if {$zoom < $minzoom} {
+                    set zoom $minzoom
+                } elseif {$zoom > $maxzoom} {
+                    ; # leave it unchanged
+                } else {
+                    foreach z [lrange $stops 1 end] {
+                        set newzoom $z
+                        if {$zoom < $z} {
+                            break
+                        }
+                    }
+                    set zoom $newzoom 
+                }
+                redrawAll
+            }
+            default {
+                if { $i < [expr [llength $stops] - 1] } {
+                    set zoom [lindex $stops [expr $i + 1]]
+                    redrawAll
+                }
+            }
         }
     }
-    set zoom $newzoom 
-    }
-    redrawAll
-}
-"up" {
-    if {$zoom < $minzoom} {
-        set zoom $minzoom
-    } elseif {$zoom > $maxzoom} {
-        ; # leave it unchanged
-    } else {
-        foreach z [lrange $stops 1 end] {
-            set newzoom $z
-            if {$zoom < $z} {
-                break
-        }
-    }
-    set zoom $newzoom 
-    }
-    redrawAll
-}
-default {
-    if { $i < [expr [llength $stops] - 1] } {
-        set zoom [lindex $stops [expr $i + 1]]
-        redrawAll
-    }
-}
-}
-}
 
 
-#****h* editor.tcl/double1onGrid
-# NAME
-#  double1onGrid.tcl -- called on Double-1 click on grid (bind command)
-# SYNOPSIS
-#  double1onGrid $c %x %y
-# FUNCTION
-#  As grid is layered above annotations this procedure is used to find 
-#  annotation object closest to cursor
-#****
+    #****h* editor.tcl/double1onGrid
+    # NAME
+    #  double1onGrid.tcl -- called on Double-1 click on grid (bind command)
+    # SYNOPSIS
+    #  double1onGrid $c %x %y
+    # FUNCTION
+    #  As grid is layered above annotations this procedure is used to find 
+    #  annotation object closest to cursor
+    #****
 
-proc double1onGrid { c x y } {
-    set obj [$c find closest $x $y]
-    set tags [$c gettags $obj]
-    set node [lindex $tags 1]
-    if {[lsearch $tags grid] != -1 || [lsearch $tags background] != -1} {
-        return
-}
-# Is this really necessary?
-set coords [getNodeCoords $node] 
-set x1 [lindex $coords 0]
-set y1 [lindex $coords 1]
-set x2 [lindex $coords 2]
-set y2 [lindex $coords 3]
-if {$x < $x1 || $x > $x2 || $y < $y1 || $y > $y2} {
-    # cursor is not ON the closest object
-    return
-} else {
-    annotationConfig $c $node
-}
-}
-
-
-proc setZoomApply { w } {
-    global zoom changed
-
-    set newzoom [expr [$w.e1 get] / 100.0]
-    if { $newzoom != $zoom } {
-        set zoom $newzoom
-        redrawAll
-}
-destroy $w
-}
-
-proc selectZoom { x y } {
-    global curcanvas
-    global zoom
-
-    set stops ".25 .5 .75 1.0 1.5 2.0 4.0"
-
-    set w .entry1
-    catch {destroy $w}
-    toplevel $w -takefocus 1
-
-    if { $x == 0 && $y == 0 } {
-        set screen [wm maxsize .]
-        set x [expr {[lindex $screen 0] / 2}]
-        set y [expr {[lindex $screen 1] / 2}]
-} else {
-    set x [expr {$x + 10}]
-    set y [expr {$y - 90}]
-}
-wm geometry $w +$x+$y
-wm title $w "Select zoom %"
-wm iconname $w "Select zoom %"
-
-frame $w.buttons
-pack $w.buttons -side bottom -fill x -pady 2m
-button $w.buttons.print -text "Apply" -command "setZoomApply $w"
-button $w.buttons.cancel -text "Cancel" -command "destroy $w"
-pack $w.buttons.print $w.buttons.cancel -side left -expand 1
-
-bind $w <Key-Escape> "destroy $w"
-bind $w <Key-Return> "setZoomApply $w"
-
-entry $w.e1 -bg white
-$w.e1 insert 0 [expr {int($zoom * 100)}]
-pack $w.e1 -side top -pady 5 -padx 10 -fill x
-
-update
-focus $w.e1
-grab $w
-}
-
-
-# configure remote servers
-# popup a dialog box for editing the remote server list
-# results are stored in servers.conf file
-proc configRemoteServers {} {
-    global exec_servers last_server_selected
-    global plugin_img_add plugin_img_save plugin_img_del
-    global DEFAULT_API_PORT
-
-    set wi .remoteConfig
-    catch {destroy $wi}
-    toplevel $wi
-
-    wm transient $wi .
-    wm resizable $wi 0 0
-    wm title $wi "CORE emulation servers"
-
-    set last_server_selected -1
-
-    # list of servers
-    frame $wi.s -borderwidth 4
-    listbox $wi.s.servers -selectmode single -width 60 \
-    -yscrollcommand "$wi.s.servers_scroll set" -exportselection 0
-    scrollbar $wi.s.servers_scroll -command "$wi.s.servers yview" 
-    pack $wi.s.servers $wi.s.servers_scroll -fill both -side left
-    pack $wi.s -fill both -side top
-    # add scrollbar
-
-    bind $wi.s.servers <<ListboxSelect>> "selectRemoteServer $wi"
-
-    # populate the list
-    foreach server [lsort -dictionary [array names exec_servers]] {
-        $wi.s.servers insert end $server
-}
-
-# controls for editing entries
-labelframe $wi.c -text "Server configuration"
-frame $wi.c.c -borderwidth 4
-label $wi.c.c.namelab -text "Name"
-entry $wi.c.c.name -bg white -width 15
-bind $wi.c.c.name <KeyPress> "$wi.c.c.add configure -state normal"
-label $wi.c.c.iplab -text "IP"
-entry $wi.c.c.ip -bg white -width 10
-label $wi.c.c.portlab -text "port"
-entry $wi.c.c.port -bg white -width 5
-pack $wi.c.c.namelab $wi.c.c.name $wi.c.c.iplab $wi.c.c.ip -side left
-pack $wi.c.c.portlab $wi.c.c.port -side left
-pack $wi.c.c -fill x -side top
-$wi.c.c.port insert 0 $DEFAULT_API_PORT
-
-button $wi.c.c.add -image $plugin_img_add \
--command "configRemoteServersHelper $wi 1"
-button $wi.c.c.mod -image $plugin_img_save \
--command "configRemoteServersHelper $wi 2" 
-button $wi.c.c.del -image $plugin_img_del \
--command "configRemoteServersHelper $wi 3" 
-pack $wi.c.c.add $wi.c.c.mod $wi.c.c.del -side left
-pack $wi.c -fill x -side top
-# assignment buttons
-labelframe $wi.a -borderwidth 4 -text "Assign selected server to:"
-button $wi.a.applyall -text "all nodes" -command {
-    global node_list last_server_selected
-    set wi .remoteConfig
-    if { $last_server_selected < 0 } { return }
-    set server [$wi.s.servers get $last_server_selected]
-    foreach node $node_list { setNodeLocation $node $server }
-    $wi.b.cancel configure -text "Close"
-    highlightAssignedServers $wi
-    redrawAll
-}
-button $wi.a.applysel -text "selected nodes" -command {
-    global last_server_selected
-    set wi .remoteConfig
-    if { $last_server_selected < 0 } { return }
-    set server [$wi.s.servers get $last_server_selected]
-    set items [.c find withtag "node && selected"]
-    foreach item $items {
-        set node [lindex [.c gettags $item] 1]
-        setNodeLocation $node $server
-}
-$wi.b.cancel configure -text "Close"
-highlightAssignedServers $wi
-redrawAll
-}
-label $wi.a.lab -text "Assigned servers are shown in blue."
-pack $wi.a.applyall $wi.a.applysel $wi.a.lab -side left
-pack $wi.a -fill x -side top
-highlightAssignedServers $wi
-
-# apply/cancel buttons
-frame $wi.b -borderwidth 4
-button $wi.b.apply -text "Apply" -command \
-"writeServersConf; redrawAll; destroy $wi" 
-button $wi.b.cancel -text "Cancel" -command "loadServersConf;  destroy $wi"
-pack $wi.b.cancel $wi.b.apply -side right
-pack $wi.b -side bottom
-focus $wi.b.apply
-
-after 100 {	catch { grab .remoteConfig } }
-}
-
-# add/modify/remove server in list
-proc configRemoteServersHelper { wi action } {
-    global exec_servers last_server_selected
-    set index end
-    set sock -1
-
-    # delete from list, array
-    if { $action > 1 } { ;# delete/modify
-        if { $last_server_selected < 0 } { return }
-        set server [$wi.s.servers get $last_server_selected]
-        $wi.s.servers delete $last_server_selected
-        set sock [lindex $exec_servers($server) 2]
-        array unset exec_servers $server
-        if { $action == 3 } {
-            $wi.c.c.add configure -state normal
-            $wi.s.servers selection set $index
-            set last_server_selected $index
+    proc double1onGrid { c x y } {
+        set obj [$c find closest $x $y]
+        set tags [$c gettags $obj]
+        set node [lindex $tags 1]
+        if {[lsearch $tags grid] != -1 || [lsearch $tags background] != -1} {
             return
-}
-set index $last_server_selected
-}
-
-# update the list
-set newserver [$wi.c.c.name get]
-$wi.s.servers insert $index $newserver
-# update the array
-set conf [list [$wi.c.c.ip get] [$wi.c.c.port get]] 
-array set exec_servers [list $newserver $conf]
-$wi.s.servers selection set $index
-set last_server_selected $index
-$wi.c.c.add configure -state disabled
-}
-
-# connects the servers listbox with entry elements
-proc selectRemoteServer { wi } {
-    global exec_servers last_server_selected
-    set selected [$wi.s.servers curselection]
-
-    # clear entries
-    $wi.c.c.name delete 0 end; $wi.c.c.ip delete 0 end;
-    $wi.c.c.port delete 0 end 
-
-    set server [$wi.s.servers get $selected]
-    if { ![info exists exec_servers($server)] } { return }
-    $wi.c.c.add configure -state disabled
-    set last_server_selected $selected
-
-    # insert entries from array
-    $wi.c.c.name insert 0 $server
-    $wi.c.c.ip   insert 0 [lindex $exec_servers($server) 0]
-    $wi.c.c.port insert 0 [lindex $exec_servers($server) 1]
-}
-
-# helper to highlight servers that have been assigned
-proc highlightAssignedServers { wi } {
-    set servers [getAssignedRemoteServers]
-    set n [$wi.s.servers size]
-    for { set i 0 } { $i < $n } { incr i } {
-        set s [$wi.s.servers get $i]
-        set color blue
-        if { [lsearch -exact $servers $s] < 0 } { set color black }
-        $wi.s.servers itemconfigure $i -foreground $color
-}
-}
-
-# Boeing: custom image dialog box
-proc popupCustomImage { node } {
-    global LIBDIR
-
-    set wi .customimagedialog
-    catch {destroy $wi}
-    toplevel $wi -takefocus 1
-    wm transient $wi .popup 
-    wm resizable $wi 0 0
-    wm title $wi "[getNodeName $node] ($node) image"
-    grab $wi
-
-    frame $wi.ftop -borderwidth 4
-    label $wi.ftop.filelabel -text "Image file:"
-    entry $wi.ftop.filename -bg white -width 32
-    set cimg [getCustomImage $node]
-    $wi.ftop.filename insert 0 $cimg
-
-    global configwin
-    set configwin $wi
-    button $wi.ftop.filebtn -text "..." -command { 
-        global configwin g_imageFileTypes LIBDIR
-        set f [tk_getOpenFile -filetypes $g_imageFileTypes \
-        -initialdir "$LIBDIR/icons/normal"]
-        if { $f != "" } { 
-            set node [string trim [lindex [wm title $configwin] 1] "()"]
-            $configwin.ftop.filename delete 0 end
-            $configwin.ftop.filename insert 0 $f
-            popupCustomImagePreview $configwin $node
-}
-}
-pack $wi.ftop.filebtn $wi.ftop.filename $wi.ftop.filelabel \
--side right -padx 4 -pady 4
-pack  $wi.ftop -side top
-
-frame $wi.fmid -borderwidth 4
-canvas $wi.fmid.c -width 300 -height 100
-pack $wi.fmid.c -side top -padx 4 -pady 4
-pack $wi.fmid -side top
+        }
+        # Is this really necessary?
+        set coords [getNodeCoords $node] 
+        set x1 [lindex $coords 0]
+        set y1 [lindex $coords 1]
+        set x2 [lindex $coords 2]
+        set y2 [lindex $coords 3]
+        if {$x < $x1 || $x > $x2 || $y < $y1 || $y > $y2} {
+        # cursor is not ON the closest object
+            return
+        } else {
+            annotationConfig $c $node
+        }
+    }
 
 
-frame $wi.fbot -borderwidth 4
-button $wi.fbot.apply -text "Apply" -command "customImageApply $wi $node"
-set msg "Select nodes to apply custom image to:"
-set cmd "customImageApplyMultiple $wi"
-button $wi.fbot.applym -text "Apply to multiple..." \
--command "popupSelectNodes \"$msg\" $node {$cmd}"
-button $wi.fbot.cancel -text "Cancel" -command "destroy $wi"
-pack $wi.fbot.cancel $wi.fbot.applym $wi.fbot.apply \
--side right -padx 4 -pady 4
-pack  $wi.fbot -side bottom
+    proc setZoomApply { w } {
+        global zoom changed
 
-popupCustomImagePreview $wi $node
-}
+        set newzoom [expr [$w.e1 get] / 100.0]
+        if { $newzoom != $zoom } {
+            set zoom $newzoom
+            redrawAll
+        }
+        destroy $w
+    }
 
-proc popupCustomImagePreview { wi node } {
-    set coords_save [getNodeCoords $node]
-    set labelcoords_save [getNodeLabelCoords $node]
-    set img_save [getCustomImage $node]
-    set img_new [$wi.ftop.filename get]
+    proc selectZoom { x y } {
+        global curcanvas
+        global zoom
 
-    setNodeCoords $node "150 50"
-    setNodeLabelCoords $node "150 78"
-    if { $img_save != $img_new } { setCustomImage $node $img_new } 
-    $wi.fmid.c delete all
-    drawNode $wi.fmid.c $node
+        set stops ".25 .5 .75 1.0 1.5 2.0 4.0"
 
-    setNodeCoords $node $coords_save
-    setNodeLabelCoords $node $labelcoords_save
-    if { $img_save != $img_new } { setCustomImage $node $img_save }
-}
+        set w .entry1
+        catch {destroy $w}
+        toplevel $w -takefocus 1
 
-# Boeing: helper for custom image apply button
-proc customImageApply { wi node } {
-    global changed
-    setCustomImage $node [$wi.ftop.filename get]
-    set changed 1
-    # update the custom image button in the parent dialog
-    set img [getNodeImage $node]
-    .popup.ftop.img configure -image $img
-    destroy $wi
-}
+        if { $x == 0 && $y == 0 } {
+            set screen [wm maxsize .]
+            set x [expr {[lindex $screen 0] / 2}]
+            set y [expr {[lindex $screen 1] / 2}]
+        } else {
+            set x [expr {$x + 10}]
+            set y [expr {$y - 90}]
+        }
+        wm geometry $w +$x+$y
+        wm title $w "Select zoom %"
+        wm iconname $w "Select zoom %"
 
-proc customImageApplyMultiple { wi nodes } {
-    global changed
-    set imgfile [$wi.ftop.filename get]
+        frame $w.buttons
+        pack $w.buttons -side bottom -fill x -pady 2m
+        button $w.buttons.print -text "Apply" -command "setZoomApply $w"
+        button $w.buttons.cancel -text "Cancel" -command "destroy $w"
+        pack $w.buttons.print $w.buttons.cancel -side left -expand 1
 
-    foreach node $nodes {
-        setCustomImage $node $imgfile
+        bind $w <Key-Escape> "destroy $w"
+        bind $w <Key-Return> "setZoomApply $w"
+
+        entry $w.e1 -bg white
+        $w.e1 insert 0 [expr {int($zoom * 100)}]
+        pack $w.e1 -side top -pady 5 -padx 10 -fill x
+
+        update
+        focus $w.e1
+        grab $w
+    }
+
+
+    # configure remote servers
+    # popup a dialog box for editing the remote server list
+    # results are stored in servers.conf file
+    proc configRemoteServers {} {
+        global exec_servers last_server_selected
+        global plugin_img_add plugin_img_save plugin_img_del
+        global DEFAULT_API_PORT
+
+        set wi .remoteConfig
+        catch {destroy $wi}
+        toplevel $wi
+
+        wm transient $wi .
+        wm resizable $wi 0 0
+        wm title $wi "CORE emulation servers"
+
+        set last_server_selected -1
+
+        # list of servers
+        frame $wi.s -borderwidth 4
+        listbox $wi.s.servers -selectmode single -width 60 \
+            -yscrollcommand "$wi.s.servers_scroll set" -exportselection 0
+        scrollbar $wi.s.servers_scroll -command "$wi.s.servers yview" 
+        pack $wi.s.servers $wi.s.servers_scroll -fill both -side left
+        pack $wi.s -fill both -side top
+        # add scrollbar
+
+        bind $wi.s.servers <<ListboxSelect>> "selectRemoteServer $wi"
+
+        # populate the list
+        foreach server [lsort -dictionary [array names exec_servers]] {
+            $wi.s.servers insert end $server
+        }
+
+        # controls for editing entries
+        labelframe $wi.c -text "Server configuration"
+        frame $wi.c.c -borderwidth 4
+        label $wi.c.c.namelab -text "Name"
+        entry $wi.c.c.name -bg white -width 15
+        bind $wi.c.c.name <KeyPress> "$wi.c.c.add configure -state normal"
+        label $wi.c.c.iplab -text "IP"
+        entry $wi.c.c.ip -bg white -width 10
+        label $wi.c.c.portlab -text "port"
+        entry $wi.c.c.port -bg white -width 5
+        pack $wi.c.c.namelab $wi.c.c.name $wi.c.c.iplab $wi.c.c.ip -side left
+        pack $wi.c.c.portlab $wi.c.c.port -side left
+        pack $wi.c.c -fill x -side top
+        $wi.c.c.port insert 0 $DEFAULT_API_PORT
+
+        button $wi.c.c.add -image $plugin_img_add \
+            -command "configRemoteServersHelper $wi 1"
+        button $wi.c.c.mod -image $plugin_img_save \
+            -command "configRemoteServersHelper $wi 2" 
+        button $wi.c.c.del -image $plugin_img_del \
+            -command "configRemoteServersHelper $wi 3" 
+        pack $wi.c.c.add $wi.c.c.mod $wi.c.c.del -side left
+        pack $wi.c -fill x -side top
+        # assignment buttons
+        labelframe $wi.a -borderwidth 4 -text "Assign selected server to:"
+        button $wi.a.applyall -text "all nodes" -command {
+            global node_list last_server_selected
+            set wi .remoteConfig
+            if { $last_server_selected < 0 } { return }
+            set server [$wi.s.servers get $last_server_selected]
+            foreach node $node_list { setNodeLocation $node $server }
+            $wi.b.cancel configure -text "Close"
+            highlightAssignedServers $wi
+            redrawAll
+        }
+        button $wi.a.applysel -text "selected nodes" -command {
+            global last_server_selected
+            set wi .remoteConfig
+            if { $last_server_selected < 0 } { return }
+            set server [$wi.s.servers get $last_server_selected]
+            set items [.c find withtag "node && selected"]
+            foreach item $items {
+                set node [lindex [.c gettags $item] 1]
+                setNodeLocation $node $server
+            }
+            $wi.b.cancel configure -text "Close"
+            highlightAssignedServers $wi
+            redrawAll
+        }
+        label $wi.a.lab -text "Assigned servers are shown in blue."
+        pack $wi.a.applyall $wi.a.applysel $wi.a.lab -side left
+        pack $wi.a -fill x -side top
+        highlightAssignedServers $wi
+
+        # apply/cancel buttons
+        frame $wi.b -borderwidth 4
+        button $wi.b.apply -text "Apply" -command \
+            "writeServersConf; redrawAll; destroy $wi" 
+        button $wi.b.cancel -text "Cancel" -command "loadServersConf;  destroy $wi"
+        pack $wi.b.cancel $wi.b.apply -side right
+        pack $wi.b -side bottom
+        focus $wi.b.apply
+
+        after 100 {	catch { grab .remoteConfig } }
+    }
+
+    # add/modify/remove server in list
+    proc configRemoteServersHelper { wi action } {
+        global exec_servers last_server_selected
+        set index end
+        set sock -1
+
+        # delete from list, array
+        if { $action > 1 } { ;# delete/modify
+                             if { $last_server_selected < 0 } { return }
+                             set server [$wi.s.servers get $last_server_selected]
+                             $wi.s.servers delete $last_server_selected
+                             set sock [lindex $exec_servers($server) 2]
+                             array unset exec_servers $server
+                             if { $action == 3 } {
+                                 $wi.c.c.add configure -state normal
+                                 $wi.s.servers selection set $index
+                                 set last_server_selected $index
+                                 return
+                             }
+                             set index $last_server_selected
+        }
+
+        # update the list
+        set newserver [$wi.c.c.name get]
+        $wi.s.servers insert $index $newserver
+        # update the array
+        set conf [list [$wi.c.c.ip get] [$wi.c.c.port get]] 
+        array set exec_servers [list $newserver $conf]
+        $wi.s.servers selection set $index
+        set last_server_selected $index
+        $wi.c.c.add configure -state disabled
+    }
+
+    # connects the servers listbox with entry elements
+    proc selectRemoteServer { wi } {
+        global exec_servers last_server_selected
+        set selected [$wi.s.servers curselection]
+
+        # clear entries
+        $wi.c.c.name delete 0 end; $wi.c.c.ip delete 0 end;
+        $wi.c.c.port delete 0 end 
+
+        set server [$wi.s.servers get $selected]
+        if { ![info exists exec_servers($server)] } { return }
+        $wi.c.c.add configure -state disabled
+        set last_server_selected $selected
+
+        # insert entries from array
+        $wi.c.c.name insert 0 $server
+        $wi.c.c.ip   insert 0 [lindex $exec_servers($server) 0]
+        $wi.c.c.port insert 0 [lindex $exec_servers($server) 1]
+    }
+
+    # helper to highlight servers that have been assigned
+    proc highlightAssignedServers { wi } {
+        set servers [getAssignedRemoteServers]
+        set n [$wi.s.servers size]
+        for { set i 0 } { $i < $n } { incr i } {
+            set s [$wi.s.servers get $i]
+            set color blue
+            if { [lsearch -exact $servers $s] < 0 } { set color black }
+            $wi.s.servers itemconfigure $i -foreground $color
+        }
+    }
+
+    # Boeing: custom image dialog box
+    proc popupCustomImage { node } {
+        global LIBDIR
+
+        set wi .customimagedialog
+        catch {destroy $wi}
+        toplevel $wi -takefocus 1
+        wm transient $wi .popup 
+        wm resizable $wi 0 0
+        wm title $wi "[getNodeName $node] ($node) image"
+        grab $wi
+
+        frame $wi.ftop -borderwidth 4
+        label $wi.ftop.filelabel -text "Image file:"
+        entry $wi.ftop.filename -bg white -width 32
+        set cimg [getCustomImage $node]
+        $wi.ftop.filename insert 0 $cimg
+
+        global configwin
+        set configwin $wi
+        button $wi.ftop.filebtn -text "..." -command { 
+            global configwin g_imageFileTypes LIBDIR
+            set f [tk_getOpenFile -filetypes $g_imageFileTypes \
+                -initialdir "$LIBDIR/icons/normal"]
+            if { $f != "" } { 
+                set node [string trim [lindex [wm title $configwin] 1] "()"]
+                $configwin.ftop.filename delete 0 end
+                $configwin.ftop.filename insert 0 $f
+                popupCustomImagePreview $configwin $node
+            }
+        }
+        pack $wi.ftop.filebtn $wi.ftop.filename $wi.ftop.filelabel \
+            -side right -padx 4 -pady 4
+        pack  $wi.ftop -side top
+
+        frame $wi.fmid -borderwidth 4
+        canvas $wi.fmid.c -width 300 -height 100
+        pack $wi.fmid.c -side top -padx 4 -pady 4
+        pack $wi.fmid -side top
+
+
+        frame $wi.fbot -borderwidth 4
+        button $wi.fbot.apply -text "Apply" -command "customImageApply $wi $node"
+        set msg "Select nodes to apply custom image to:"
+        set cmd "customImageApplyMultiple $wi"
+        button $wi.fbot.applym -text "Apply to multiple..." \
+            -command "popupSelectNodes \"$msg\" $node {$cmd}"
+        button $wi.fbot.cancel -text "Cancel" -command "destroy $wi"
+        pack $wi.fbot.cancel $wi.fbot.applym $wi.fbot.apply \
+            -side right -padx 4 -pady 4
+        pack  $wi.fbot -side bottom
+
+        popupCustomImagePreview $wi $node
+    }
+
+    proc popupCustomImagePreview { wi node } {
+        set coords_save [getNodeCoords $node]
+        set labelcoords_save [getNodeLabelCoords $node]
+        set img_save [getCustomImage $node]
+        set img_new [$wi.ftop.filename get]
+
+        setNodeCoords $node "150 50"
+        setNodeLabelCoords $node "150 78"
+        if { $img_save != $img_new } { setCustomImage $node $img_new } 
+        $wi.fmid.c delete all
+        drawNode $wi.fmid.c $node
+
+        setNodeCoords $node $coords_save
+        setNodeLabelCoords $node $labelcoords_save
+        if { $img_save != $img_new } { setCustomImage $node $img_save }
+    }
+
+    # Boeing: helper for custom image apply button
+    proc customImageApply { wi node } {
+        global changed
+        setCustomImage $node [$wi.ftop.filename get]
         set changed 1
-}
-destroy $wi
-}
+        # update the custom image button in the parent dialog
+        set img [getNodeImage $node]
+        .popup.ftop.img configure -image $img
+        destroy $wi
+    }
+
+    proc customImageApplyMultiple { wi nodes } {
+        global changed
+        set imgfile [$wi.ftop.filename get]
+
+        foreach node $nodes {
+            setCustomImage $node $imgfile
+            set changed 1
+        }
+        destroy $wi
+    }
 
 
-# Boeing: create several scaled copies of an image for use with each zoomlevel
-proc createScaledImages { img } {
-    global $img
-    set w [image width [set $img]]
-    set h [image height [set $img]]
-    # we skip 75% and 150% since resulting images are the same (due to int())
-    foreach size {.25 .5 1.0 2.0 4.0} {
+    # Boeing: create several scaled copies of an image for use with each zoomlevel
+    proc createScaledImages { img } {
+        global $img
+        set w [image width [set $img]]
+        set h [image height [set $img]]
+        # we skip 75% and 150% since resulting images are the same (due to int())
+        foreach size {.25 .5 1.0 2.0 4.0} {
         # image will be globally accessible
-        global $img$size
-        # create empty photo object
-        set $img$size [image create photo]
-        # copy a scaled version
-        if { $size > 1.0 } {
-            [set $img$size] copy [set $img] -zoom [expr { int($size) } ]
-} else {
-    [set $img$size] copy [set $img] -subsample \
-    [expr { int($w / ($w * $size)) }] \
-    [expr { int($h / ($h * $size)) }]
-}
-}
-}
+            global $img$size
+            # create empty photo object
+            set $img$size [image create photo]
+            # copy a scaled version
+            if { $size > 1.0 } {
+                [set $img$size] copy [set $img] -zoom [expr { int($size) } ]
+            } else {
+                [set $img$size] copy [set $img] -subsample \
+                    [expr { int($w / ($w * $size)) }] \
+                    [expr { int($h / ($h * $size)) }]
+            }
+        }
+    }
 
-# Boeing: clear marker drawing
-proc clearMarker { } {
-    .c delete -withtags marker
-}
+    # Boeing: clear marker drawing
+    proc clearMarker { } {
+        .c delete -withtags marker
+    }
 
-# Boeing: show or hide the marker options palette
-proc markerOptions { show } {
-    global LIBDIR markersize markercolor
+    # Boeing: show or hide the marker options palette
+    proc markerOptions { show } {
+        global LIBDIR markersize markercolor
 
-    catch { destroy .left.markeropt }
-    if { $show == "off" } { return }
+        catch { destroy .left.markeropt }
+        if { $show == "off" } { return }
 
-    frame .left.markeropt
-    # eraser
-    set img [image create photo -file $LIBDIR/icons/tiny/eraser.gif]
-    button .left.markeropt.eraser -image $img \
-    -relief flat -command clearMarker
-    pack .left.markeropt.eraser -side top -pady 8
-    # marker sizes
-    canvas .left.markeropt.sizes -height 40 -width 32
-    pack .left.markeropt.sizes -side top
-    bind .left.markeropt.sizes <1> "markerSize %x %y"
-    drawMarkerSizes .left.markeropt.sizes [expr $markersize / 5]
-    # color selection buttons
-    set img [image create photo -file $LIBDIR/icons/tiny/blank.gif]
-    foreach clr { black red yellow blue green } {
-        radiobutton .left.markeropt.$clr -indicatoron 0 -image $img \
-        -variable markercolor -value $clr -width 16 -height 16 \
-        -selectcolor $clr -highlightbackground $clr -background $clr \
-        -highlightcolor $clr -activebackground $clr
-        pack .left.markeropt.$clr -side top
-}
-pack .left.markeropt -side bottom
-}
+        frame .left.markeropt
+        # eraser
+        set img [image create photo -file $LIBDIR/icons/tiny/eraser.gif]
+        button .left.markeropt.eraser -image $img \
+            -relief flat -command clearMarker
+        pack .left.markeropt.eraser -side top -pady 8
+        # marker sizes
+        canvas .left.markeropt.sizes -height 40 -width 32
+        pack .left.markeropt.sizes -side top
+        bind .left.markeropt.sizes <1> "markerSize %x %y"
+        drawMarkerSizes .left.markeropt.sizes [expr $markersize / 5]
+        # color selection buttons
+        set img [image create photo -file $LIBDIR/icons/tiny/blank.gif]
+        foreach clr { black red yellow blue green } {
+            radiobutton .left.markeropt.$clr -indicatoron 0 -image $img \
+                -variable markercolor -value $clr -width 16 -height 16 \
+                -selectcolor $clr -highlightbackground $clr -background $clr \
+                -highlightcolor $clr -activebackground $clr
+            pack .left.markeropt.$clr -side top
+        }
+        pack .left.markeropt -side bottom
+    }
 
-# Boeing: draw the marker sizes tool on a small canvas
-proc drawMarkerSizes { c sel } {
+    # Boeing: draw the marker sizes tool on a small canvas
+    proc drawMarkerSizes { c sel } {
     # determine the coordinates of the selection box based on value of sel
-    if       { $sel == 1 } { set coords {0 0 16 16}   
-} elseif { $sel == 2 } { set coords {16 0 32 16}  
-} elseif { $sel == 3 } { set coords {0 16 16 32}  
-} else { set coords {16 16 32 32} }
-# draw the selection box
-$c create rectangle $coords -fill gray -tag square -width 0
-# draw each circle
-$c create oval 8 8 8 8 -width 2 -fill blue -tag circle
-$c create oval 24 8 24 8 -width 5 -fill black -tag circle
-$c create oval 8 24 8 24 -width 10 -fill black -tag circl
-$c create oval 24 24 24 24 -width 15 -fill black -tag circle
-}
-
-# Boeing: receive click from the marker sizes tool
-proc markerSize { x y } {
-    global markersize
-    # determine which circle was selected, 1-4
-    if { $x > 16 } {
-        if { $y > 16 } { set sel 4
-} else { set sel 2 }
-} else {
-    if { $y > 16 } { set sel 3
-} else { set sel 1 }
-}
-set markersize [expr {$sel * 5}]
-# redraw selection tool
-.left.markeropt.sizes delete -withtag "square || circle"
-drawMarkerSizes .left.markeropt.sizes $sel
-}
-
-# Boeing: set canvas wallpaper 
-proc wallpaperPopup {} {
-    global curcanvas
-
-    set w .wallpaperDlg
-    catch {destroy $w}
-    toplevel $w
-
-    wm transient $w .
-    wm title $w "Set Canvas Wallpaper"
-    grab $w
-
-    # preview
-    canvas $w.preview -background white -relief sunken -width 200 -height 100 \
-    -borderwidth 1
-    pack $w.preview -side top -padx 10 -pady 10
-    $w.preview create text 100 50 -fill gray -text "(image preview)" \
-    -justify center -tag "wallpaper"
-
-
-    # file
-    frame $w.f
-    label $w.f.lab -text "Image filename:" -justify left
-    entry $w.f.file
-
-    # file browse button
-    global configwin
-    set configwin $w
-    button $w.f.filebtn -text "..." -command { 
-        global configwin showGrid adjustCanvas fileDialogBox_initial
-        global g_imageFileTypes
-        # use default conf file path upon first run
-        if { $fileDialogBox_initial == 0} {
-            set fileDialogBox_initial 1
-            set dir $g_prefs(default_conf_path)
-            set f [tk_getOpenFile -filetypes $g_imageFileTypes -initialdir $dir]
-} else {
-    set f [tk_getOpenFile -filetypes $g_imageFileTypes]
-}
-if { $f != "" } {
-    $configwin.f.file delete 0 end
-    $configwin.f.file insert 0 $f
-    set showGrid 0
-    set adjustCanvas 1
-}
-wallpaperPopupPreview $configwin
-raise $configwin
-}
-
-# clear wallpaper button
-button $w.f.clear -text "clear" -command { 
-    global configwin wallpaperStyle
-    $configwin.f.file delete 0 end
-    $configwin.preview delete "wallpaper"
-    $configwin.preview create text 100 50 -fill gray \
-    -text "(image preview)" -justify center -tag "wallpaper"
-    set wallpaperStyle upperleft
-    raise $configwin
-}
-
-set currfile [lindex [getCanvasWallpaper $curcanvas] 0]
-set currstyle [lindex [getCanvasWallpaper $curcanvas] 1]
-pack $w.f.lab -side top -anchor w
-pack $w.f.file $w.f.filebtn $w.f.clear -side left -fill x
-pack $w.f -side top
-$w.f.file insert 0 $currfile
-
-# wallpaper style
-frame $w.style
-global wallpaperStyle
-if {$currstyle == "" } {
-    set wallpaperStyle upperleft
-} else {
-    set wallpaperStyle $currstyle
-}
-radiobutton $w.style.lft -text "upper-left" -variable wallpaperStyle \
--value upperleft -command "wallpaperPopupPreview $w"
-radiobutton $w.style.ctr -text "centered" -variable wallpaperStyle \
--value centered -command "wallpaperPopupPreview $w"
-radiobutton $w.style.scl -text "scaled" -variable wallpaperStyle \
--value scaled -command "wallpaperPopupPreview $w"
-radiobutton $w.style.til -text "tiled" -variable wallpaperStyle \
--value tiled -command "wallpaperPopupPreview $w"
-
-pack $w.style.lft $w.style.ctr -side left
-pack $w.style.scl $w.style.til -side left
-pack $w.style -side top
-
-# options
-frame $w.opts
-checkbutton $w.opts.showgrid -text "Show grid" -variable showGrid
-checkbutton $w.opts.adjcanvas \
--text "Adjust canvas size to image dimensions" \
--variable adjustCanvas
-pack $w.opts.showgrid $w.opts.adjcanvas -side top -anchor w
-pack $w.opts -side top
-
-
-# buttons
-frame $w.btns
-button $w.btns.apply -text "Apply" -command { 
-    global configwin wallpaperStyle curcanvas adjustCanvas
-    set f [$configwin.f.file get]
-    if {$adjustCanvas} { 
-        wallpaperAdjustCanvas $curcanvas $f $wallpaperStyle 
+        if       { $sel == 1 } { set coords {0 0 16 16}   
+        } elseif { $sel == 2 } { set coords {16 0 32 16}  
+        } elseif { $sel == 3 } { set coords {0 16 16 32}  
+        } else { set coords {16 16 32 32} }
+        # draw the selection box
+        $c create rectangle $coords -fill gray -tag square -width 0
+        # draw each circle
+        $c create oval 8 8 8 8 -width 2 -fill blue -tag circle
+        $c create oval 24 8 24 8 -width 5 -fill black -tag circle
+        $c create oval 8 24 8 24 -width 10 -fill black -tag circl
+        $c create oval 24 24 24 24 -width 15 -fill black -tag circle
     }
-    setCanvasWallpaper $curcanvas $f $wallpaperStyle
-    redrawAll
-    destroy $configwin
-}
-button $w.btns.cancel -text "Cancel" -command "destroy $w"
-pack $w.btns.apply $w.btns.cancel -side left -fill x
-pack $w.btns -side top
 
-if {$currfile != ""} {
-    wallpaperPopupPreview $w
-}
-raise $w
-}
-
-# adjust wallpaper dialog preview canvas
-proc wallpaperPopupPreview { w } {
-    global wallpaperStyle
-
-    set f [$w.f.file get]
-    if { $f == "" } {
-        return
-}
-drawWallpaper $w.preview $f $wallpaperStyle
-}
-
-# auto-adjust the canvas in an intelligent fashion
-proc wallpaperAdjustCanvas { c f style } {
-    set cx [lindex [getCanvasSize $c] 0]
-    set cy [lindex [getCanvasSize $c] 1]
-
-    if {$f==""} { return }
-    set img [image create photo -file $f]
-    set imgx [image width $img]
-    set imgy [image height $img]
-
-    #puts -nonewline  "wallpaperAdjustCanvas img($imgx, $imgy) $cx, $cy -> "
-
-    # For scaled and tiled styles, expand canvas x and y to a multiple of 
-    # imgx, imgy for better stretching. If the image is larger than the canvas,
-    # just increase the canvas size to accomodate it.
-    if {$style == "scaled" || $style == "tiled"} {
-        if {$cx > $imgx} {
-            if { [expr { $cx % $imgx }] > 0} {
-                set cx [expr { (1+int($cx/$imgx)) * $imgx }]
+    # Boeing: receive click from the marker sizes tool
+    proc markerSize { x y } {
+        global markersize
+        # determine which circle was selected, 1-4
+        if { $x > 16 } {
+            if { $y > 16 } { set sel 4
+            } else { set sel 2 }
+        } else {
+            if { $y > 16 } { set sel 3
+            } else { set sel 1 }
+        }
+        set markersize [expr {$sel * 5}]
+        # redraw selection tool
+        .left.markeropt.sizes delete -withtag "square || circle"
+        drawMarkerSizes .left.markeropt.sizes $sel
     }
-} elseif { $cx < $imgx } {
-    set cx $imgx
-}
-if {$cy > $imgy} {
-    if { [expr { $cy % $imgy }] > 0} {
-        # there is a fractional part, round up
-        set cy [expr { (1+int($cy/$imgy)) * $imgy }]
+
+    # Boeing: set canvas wallpaper 
+    proc wallpaperPopup {} {
+        global curcanvas
+
+        set w .wallpaperDlg
+        catch {destroy $w}
+        toplevel $w
+
+        wm transient $w .
+        wm title $w "Set Canvas Wallpaper"
+        grab $w
+
+        # preview
+        canvas $w.preview -background white -relief sunken -width 200 -height 100 \
+            -borderwidth 1
+        pack $w.preview -side top -padx 10 -pady 10
+        $w.preview create text 100 50 -fill gray -text "(image preview)" \
+            -justify center -tag "wallpaper"
+
+
+            # file
+        frame $w.f
+        label $w.f.lab -text "Image filename:" -justify left
+        entry $w.f.file
+
+        # file browse button
+        global configwin
+        set configwin $w
+        button $w.f.filebtn -text "..." -command { 
+            global configwin showGrid adjustCanvas fileDialogBox_initial
+            global g_imageFileTypes
+            # use default conf file path upon first run
+            if { $fileDialogBox_initial == 0} {
+                set fileDialogBox_initial 1
+                set dir $g_prefs(default_conf_path)
+                set f [tk_getOpenFile -filetypes $g_imageFileTypes -initialdir $dir]
+            } else {
+                set f [tk_getOpenFile -filetypes $g_imageFileTypes]
+            }
+            if { $f != "" } {
+                $configwin.f.file delete 0 end
+                $configwin.f.file insert 0 $f
+                set showGrid 0
+                set adjustCanvas 1
+            }
+            wallpaperPopupPreview $configwin
+            raise $configwin
+        }
+
+        # clear wallpaper button
+        button $w.f.clear -text "clear" -command { 
+            global configwin wallpaperStyle
+            $configwin.f.file delete 0 end
+            $configwin.preview delete "wallpaper"
+            $configwin.preview create text 100 50 -fill gray \
+                -text "(image preview)" -justify center -tag "wallpaper"
+            set wallpaperStyle upperleft
+            raise $configwin
+        }
+
+        set currfile [lindex [getCanvasWallpaper $curcanvas] 0]
+        set currstyle [lindex [getCanvasWallpaper $curcanvas] 1]
+        pack $w.f.lab -side top -anchor w
+        pack $w.f.file $w.f.filebtn $w.f.clear -side left -fill x
+        pack $w.f -side top
+        $w.f.file insert 0 $currfile
+
+        # wallpaper style
+        frame $w.style
+        global wallpaperStyle
+        if {$currstyle == "" } {
+            set wallpaperStyle upperleft
+        } else {
+            set wallpaperStyle $currstyle
+        }
+        radiobutton $w.style.lft -text "upper-left" -variable wallpaperStyle \
+            -value upperleft -command "wallpaperPopupPreview $w"
+        radiobutton $w.style.ctr -text "centered" -variable wallpaperStyle \
+            -value centered -command "wallpaperPopupPreview $w"
+        radiobutton $w.style.scl -text "scaled" -variable wallpaperStyle \
+            -value scaled -command "wallpaperPopupPreview $w"
+        radiobutton $w.style.til -text "tiled" -variable wallpaperStyle \
+            -value tiled -command "wallpaperPopupPreview $w"
+
+        pack $w.style.lft $w.style.ctr -side left
+        pack $w.style.scl $w.style.til -side left
+        pack $w.style -side top
+
+        # options
+        frame $w.opts
+        checkbutton $w.opts.showgrid -text "Show grid" -variable showGrid
+        checkbutton $w.opts.adjcanvas \
+            -text "Adjust canvas size to image dimensions" \
+            -variable adjustCanvas
+        pack $w.opts.showgrid $w.opts.adjcanvas -side top -anchor w
+        pack $w.opts -side top
+
+
+        # buttons
+        frame $w.btns
+        button $w.btns.apply -text "Apply" -command { 
+            global configwin wallpaperStyle curcanvas adjustCanvas
+            set f [$configwin.f.file get]
+            if {$adjustCanvas} { 
+                wallpaperAdjustCanvas $curcanvas $f $wallpaperStyle 
+            }
+            setCanvasWallpaper $curcanvas $f $wallpaperStyle
+            redrawAll
+            destroy $configwin
+        }
+        button $w.btns.cancel -text "Cancel" -command "destroy $w"
+        pack $w.btns.apply $w.btns.cancel -side left -fill x
+        pack $w.btns -side top
+
+        if {$currfile != ""} {
+            wallpaperPopupPreview $w
+        }
+        raise $w
     }
-} elseif { $cy < $imgy } {
-    set cy $imgy
-}
-# For topleft and centered, resize the canvas to fit the image
-# if the size difference isn't too large
-} elseif { $style == "topleft" || $style == "centered" } {
-    if { [expr {abs($cx - $imgx)} ] < 300 } {
-        set cx $imgx
-}
-if { [expr {abs($cy - $imgy)} ] < 300 } {
-    set cy $imgy
-}
-}
 
-#puts "$cx, $cy"
-setCanvasSize $c $cx $cy
-switchCanvas none
-updateUndoLog
-}
+    # adjust wallpaper dialog preview canvas
+    proc wallpaperPopupPreview { w } {
+        global wallpaperStyle
 
-# draw the image from filename f onto the wallpaper c in the specified style
-proc drawWallpaper { c f style } {
-    global $c
-
-    # clear the canvas
-    $c delete "wallpaper"
-    if { $f == "" } {
-        return
-}
-
-if { $c == ".wallpaperDlg.preview" } {
-    set cx [expr [$c cget -width]-2]
-    set cy [expr [$c cget -height]-2]
-} else {
-    global curcanvas
-    # subtract 2 for canvas border
-    set cx [expr [lindex [getCanvasSize $curcanvas] 0]-2]
-    set cy [expr [lindex [getCanvasSize $curcanvas] 1]-2]
-}
-set f [absPathname $f]
-if { [ catch { set img [image create photo -file $f] } ] } {
-    puts "Error: couldn't open wallpaper file $f"
-    return
-}
-set imgx [image width $img]
-set imgy [image height $img]
-
-# scaled: grow/shrink the image to fit the canvas size
-if { $style == "scaled" } {
-    set img2 [image create photo -width $cx -height $cy]
-    # grow image
-    if { $cx >= $imgx || $cy > $imgy } {
-        set x [expr 1+($cx / $imgx)]
-        set y [expr 1+($cy / $imgy)] 
-        $img2 copy $img -zoom $x $y
-        # shrink image
-} else {
-    $img2 copy $img -subsample \
-    [expr { int($imgx / $cx) }] \
-    [expr { int($imgy / $cy) }] 
-}
-$c create image [expr 1+$cx/2] [expr 1+$cy/2] -image $img2 \
--tags "background wallpaper"
-# centered: center of image at center of canvas
-} elseif { $style == "centered" } {
-    $c create image [expr $cx/2] [expr $cy/2] -image $img \
-    -tags "background wallpaper"
-    # tiled: repeat image several times
-} elseif { $style == "tiled" } {
-    for {set y [expr $imgy/2]} {$y < $cy} {incr y $imgy} {
-        for {set x [expr $imgx/2]} {$x < $cx} {incr x $imgx} {
-            $c create image $x $y -image $img -tags "background wallpaper"
+        set f [$w.f.file get]
+        if { $f == "" } {
+            return
+        }
+        drawWallpaper $w.preview $f $wallpaperStyle
     }
-}
-# upper-left: top left corner of image at 0,0
-} else {
-    set img2 [image create photo -width $cx -height $cy]
-    $img2 copy $img -shrink
-    $c create image [expr 1+$cx/2] [expr 1+$cy/2] -image $img2 \
-    -tags "background wallpaper"
-}
 
-raiseAll $c
+    # auto-adjust the canvas in an intelligent fashion
+    proc wallpaperAdjustCanvas { c f style } {
+        set cx [lindex [getCanvasSize $c] 0]
+        set cy [lindex [getCanvasSize $c] 1]
 
-}
+        if {$f==""} { return }
+        set img [image create photo -file $f]
+        set imgx [image width $img]
+        set imgy [image height $img]
 
-# helper for close/cancel buttons
-proc popdownConfig { w } {
-    global changed
-    if { $changed == 1 } {
-        redrawAll
+        #puts -nonewline  "wallpaperAdjustCanvas img($imgx, $imgy) $cx, $cy -> "
+
+        # For scaled and tiled styles, expand canvas x and y to a multiple of 
+        # imgx, imgy for better stretching. If the image is larger than the canvas,
+        # just increase the canvas size to accomodate it.
+        if {$style == "scaled" || $style == "tiled"} {
+            if {$cx > $imgx} {
+                if { [expr { $cx % $imgx }] > 0} {
+                    set cx [expr { (1+int($cx/$imgx)) * $imgx }]
+                }
+            } elseif { $cx < $imgx } {
+                set cx $imgx
+            }
+            if {$cy > $imgy} {
+                if { [expr { $cy % $imgy }] > 0} {
+                # there is a fractional part, round up
+                    set cy [expr { (1+int($cy/$imgy)) * $imgy }]
+                }
+            } elseif { $cy < $imgy } {
+                set cy $imgy
+            }
+            # For topleft and centered, resize the canvas to fit the image
+            # if the size difference isn't too large
+        } elseif { $style == "topleft" || $style == "centered" } {
+            if { [expr {abs($cx - $imgx)} ] < 300 } {
+                set cx $imgx
+            }
+            if { [expr {abs($cy - $imgy)} ] < 300 } {
+                set cy $imgy
+            }
+        }
+
+        #puts "$cx, $cy"
+        setCanvasSize $c $cx $cy
+        switchCanvas none
         updateUndoLog
-}
-destroy $w
-}
+    }
 
-# helper for rj45 config dialog
-proc rj45ifclist { wi node wasclicked } {
+    # draw the image from filename f onto the wallpaper c in the specified style
+    proc drawWallpaper { c f style } {
+        global $c
+
+        # clear the canvas
+        $c delete "wallpaper"
+        if { $f == "" } {
+            return
+        }
+
+        if { $c == ".wallpaperDlg.preview" } {
+            set cx [expr [$c cget -width]-2]
+            set cy [expr [$c cget -height]-2]
+        } else {
+            global curcanvas
+            # subtract 2 for canvas border
+            set cx [expr [lindex [getCanvasSize $curcanvas] 0]-2]
+            set cy [expr [lindex [getCanvasSize $curcanvas] 1]-2]
+        }
+        set f [absPathname $f]
+        if { [ catch { set img [image create photo -file $f] } ] } {
+            puts "Error: couldn't open wallpaper file $f"
+            return
+        }
+        set imgx [image width $img]
+        set imgy [image height $img]
+
+        # scaled: grow/shrink the image to fit the canvas size
+        if { $style == "scaled" } {
+            set img2 [image create photo -width $cx -height $cy]
+            # grow image
+            if { $cx >= $imgx || $cy > $imgy } {
+                set x [expr 1+($cx / $imgx)]
+                set y [expr 1+($cy / $imgy)] 
+                $img2 copy $img -zoom $x $y
+                # shrink image
+            } else {
+                $img2 copy $img -subsample \
+                    [expr { int($imgx / $cx) }] \
+                    [expr { int($imgy / $cy) }] 
+            }
+            $c create image [expr 1+$cx/2] [expr 1+$cy/2] -image $img2 \
+                -tags "background wallpaper"
+                # centered: center of image at center of canvas
+        } elseif { $style == "centered" } {
+            $c create image [expr $cx/2] [expr $cy/2] -image $img \
+                -tags "background wallpaper"
+                # tiled: repeat image several times
+        } elseif { $style == "tiled" } {
+            for {set y [expr $imgy/2]} {$y < $cy} {incr y $imgy} {
+                for {set x [expr $imgx/2]} {$x < $cx} {incr x $imgx} {
+                    $c create image $x $y -image $img -tags "background wallpaper"
+                }
+            }
+            # upper-left: top left corner of image at 0,0
+        } else {
+            set img2 [image create photo -width $cx -height $cy]
+            $img2 copy $img -shrink
+            $c create image [expr 1+$cx/2] [expr 1+$cy/2] -image $img2 \
+                -tags "background wallpaper"
+        }
+
+        raiseAll $c
+
+    }
+
+    # helper for close/cancel buttons
+    proc popdownConfig { w } {
+        global changed
+        if { $changed == 1 } {
+            redrawAll
+            updateUndoLog
+        }
+        destroy $w
+    }
+
+    # helper for rj45 config dialog
+    proc rj45ifclist { wi node wasclicked } {
     # user has double-clicked an entry
-    if { $wasclicked } {
-        set selected [$wi.ftop.ifc.ifc_list curselection]
-        set chosen [$wi.ftop.ifc.ifc_list get $selected]
-        set ifname [lindex [split $chosen] 0]
-        $wi.ftop.name delete 0 end
-        $wi.ftop.name insert 0 $ifname
-        return
-}
+        if { $wasclicked } {
+            set selected [$wi.ftop.ifc.ifc_list curselection]
+            set chosen [$wi.ftop.ifc.ifc_list get $selected]
+            set ifname [lindex [split $chosen] 0]
+            $wi.ftop.name delete 0 end
+            $wi.ftop.name insert 0 $ifname
+            return
+        }
 
-# build a list of interfaces
-frame $wi.ftop.ifc
-listbox $wi.ftop.ifc.ifc_list -height 4 -width 30 \
--selectmode browse -yscrollcommand "$wi.ftop.ifc.ifc_scroll set"
-scrollbar $wi.ftop.ifc.ifc_scroll \
--command "$wi.ftop.ifc.ifc_list yview" 
+        # build a list of interfaces
+        frame $wi.ftop.ifc
+        listbox $wi.ftop.ifc.ifc_list -height 4 -width 30 \
+            -selectmode browse -yscrollcommand "$wi.ftop.ifc.ifc_scroll set"
+        scrollbar $wi.ftop.ifc.ifc_scroll \
+            -command "$wi.ftop.ifc.ifc_list yview" 
 
-set ifname ""
-set ifip ""
-# this handles differences between Linux and FreeBSD ifconfig
-foreach line [split [nexec localnode ifconfig -a] "\n"] {
-    set char [string index $line 0]
-    if { $char != " " && $char != "	" } {
+        set ifname ""
+        set ifip ""
+        # this handles differences between Linux and FreeBSD ifconfig
+        foreach line [split [nexec localnode ifconfig -a] "\n"] {
+            set char [string index $line 0]
+            if { $char != " " && $char != "	" } {
+                if { $ifname != "" } {
+                    $wi.ftop.ifc.ifc_list insert end "$ifname ($ifip)"
+                    set ifname ""
+                    set ifip ""
+                }
+                if { [string match "*Link encap:*" $line] } {
+                    set ifname [string trim [string range $line 0 9]]
+                } else {
+                    set ifname [lindex [split $line :] 0]
+                }
+            } elseif { [string match "*inet addr:*" $line] } {
+                set inetidx [string first i $line]
+                set t [lindex [split [string range $line $inetidx end]] 1]
+                set ifip [lindex [split $t ":"] 1]
+            } elseif { [string match "	inet *" $line] } {
+                set ifip [lindex [split $line] 2]
+            }
+        }
         if { $ifname != "" } {
             $wi.ftop.ifc.ifc_list insert end "$ifname ($ifip)"
-            set ifname ""
-            set ifip ""
+        }
+
+        bind $wi.ftop.ifc.ifc_list <Double-1> "rj45ifclist $wi $node 1"
+        bind $wi.ftop.ifc.ifc_list <<ListboxSelect>> "rj45ifclist $wi $node 1"
+        pack $wi.ftop.ifc.ifc_list $wi.ftop.ifc.ifc_scroll -side left -fill y
+        pack $wi.ftop.ifc -side bottom -padx 4 -pady 4
     }
-    if { [string match "*Link encap:*" $line] } {
-        set ifname [string trim [string range $line 0 9]]
-    } else {
-        set ifname [lindex [split $line :] 0]
+
+    # link preset values - bandwidth delay ber duplicate
+    array set link_presets {
+        "unlimited" { 0 0 0 0 }
+        "1000M" { 1000000000 100 0 0}
+        "100M"  { 100000000 110 0 0}
+        "10M"   { 10000000 160 0 0}
+        "512kbps" { 512000 50000 0 0}
+        "256kbps" { 256000 75000 0 0}
+        "64kbps"  { 64000 80000 0 0}
     }
-} elseif { [string match "*inet addr:*" $line] } {
-    set inetidx [string first i $line]
-    set t [lindex [split [string range $line $inetidx end]] 1]
-    set ifip [lindex [split $t ":"] 1]
-} elseif { [string match "	inet *" $line] } {
-    set ifip [lindex [split $line] 2]
-}
-}
-if { $ifname != "" } {
-    $wi.ftop.ifc.ifc_list insert end "$ifname ($ifip)"
-}
 
-bind $wi.ftop.ifc.ifc_list <Double-1> "rj45ifclist $wi $node 1"
-bind $wi.ftop.ifc.ifc_list <<ListboxSelect>> "rj45ifclist $wi $node 1"
-pack $wi.ftop.ifc.ifc_list $wi.ftop.ifc.ifc_scroll -side left -fill y
-pack $wi.ftop.ifc -side bottom -padx 4 -pady 4
-}
+    # link presets
+    proc linkPresets { wi linkpreMenu cmd } {
+        global link_presets link_preset_val
 
-# link preset values - bandwidth delay ber duplicate
-array set link_presets {
-    "unlimited" { 0 0 0 0 }
-    "1000M" { 1000000000 100 0 0}
-    "100M"  { 100000000 110 0 0}
-    "10M"   { 10000000 160 0 0}
-    "512kbps" { 512000 50000 0 0}
-    "256kbps" { 256000 75000 0 0}
-    "64kbps"  { 64000 80000 0 0}
-}
+        if { $cmd == "init" } { ;# populate the list with presets and exit
+                                $linkpreMenu delete 0
+                                foreach p [lsort [array names link_presets]] {
+                                    $linkpreMenu add radiobutton -label $p -value $p \
+                                        -variable link_preset_val \
+                                        -command "linkPresets $wi $linkpreMenu set"
+                                }
+                                return
+        }
 
-# link presets
-proc linkPresets { wi linkpreMenu cmd } {
-    global link_presets link_preset_val
+        # set the selected link presets
+        set params $link_presets($link_preset_val)
+        $wi.bandwidth.value delete 0 end
+        $wi.delay.value delete 0 end
+        $wi.ber.value delete 0 end
+        $wi.dup.value delete 0 end
+        $wi.bandwidth.value insert 0 [lindex $params 0]
+        $wi.delay.value insert 0 [lindex $params 1]
+        $wi.ber.value insert 0 [lindex $params 2]
+        $wi.dup.value insert 0 [lindex $params 3]
+    }
 
-    if { $cmd == "init" } { ;# populate the list with presets and exit
-        $linkpreMenu delete 0
-        foreach p [lsort [array names link_presets]] {
-            $linkpreMenu add radiobutton -label $p -value $p \
-            -variable link_preset_val \
-            -command "linkPresets $wi $linkpreMenu set"
-}
-return
-}
+    set last_nodeHighlights [clock clicks -milliseconds]
+    proc nodeHighlights { c node onoff color } {
+        global execMode
+        if { $execMode != "interactive"} { return } ; # batch mode
+        #puts "nodeHighlights $c $node $onoff $color"
+        $c delete -withtags "highlight && $node"
+        if { $onoff == "off" } {
+            if { $node == "" } { ;# remove all highlights
+                                 $c delete -withtags highlight
+            }
+            return
+        } elseif { $onoff == "single" } {
+        # this was called from nodeEnter binding, perform rate limiting
+            set now [clock clicks -milliseconds]
+            global last_nodeHighlights
+            if { [expr $now - $last_nodeHighlights] < 100 } { return }
+            set last_nodeHighlights $now
+        }
 
-# set the selected link presets
-set params $link_presets($link_preset_val)
-$wi.bandwidth.value delete 0 end
-$wi.delay.value delete 0 end
-$wi.ber.value delete 0 end
-$wi.dup.value delete 0 end
-$wi.bandwidth.value insert 0 [lindex $params 0]
-$wi.delay.value insert 0 [lindex $params 1]
-$wi.ber.value insert 0 [lindex $params 2]
-$wi.dup.value insert 0 [lindex $params 3]
-}
+        set coords [getNodeCoords $node]
+        set x [lindex $coords 0]
+        set y [lindex $coords 1]
 
-set last_nodeHighlights [clock clicks -milliseconds]
-proc nodeHighlights { c node onoff color } {
-    global execMode
-    if { $execMode != "interactive"} { return } ; # batch mode
-    #puts "nodeHighlights $c $node $onoff $color"
-    $c delete -withtags "highlight && $node"
-    if { $onoff == "off" } {
-        if { $node == "" } { ;# remove all highlights
-            $c delete -withtags highlight
-}
-return
-} elseif { $onoff == "single" } {
-    # this was called from nodeEnter binding, perform rate limiting
-    set now [clock clicks -milliseconds]
-    global last_nodeHighlights
-    if { [expr $now - $last_nodeHighlights] < 100 } { return }
-    set last_nodeHighlights $now
-}
+        set wd 4; # line width
+        set d 35; # box size
+        set w 50; # corner size
+        set x0 [expr {$x - $d}]
+        set y0 [expr {$y - $d}]
+        set x1 [expr {$x + $d}]
+        set y1 [expr {$y + $d}]
+        # upper left
+        $c create line $x0 $y0 [expr {$x1-$w}] $y0 \
+            -tags "marker highlight $node" -width $wd -fill $color
+        $c create line $x0 $y0 $x0 [expr {$y1-$w}] \
+            -tags "marker highlight $node" -width $wd -fill $color
+            # upper right
+        $c create line $x1 $y0 [expr {$x0+$w}] $y0 \
+            -tags "marker highlight $node" -width $wd -fill $color
+        $c create line $x1 $y0 $x1 [expr {$y1-$w}] \
+            -tags "marker highlight $node" -width $wd -fill $color
+            # lower left
+        $c create line $x0 $y1 [expr {$x1-$w}] $y1 \
+            -tags "marker highlight $node" -width $wd -fill $color
+        $c create line $x0 $y1 $x0 [expr {$y0+$w}] \
+            -tags "marker highlight $node" -width $wd -fill $color
+            # lower right
+        $c create line $x1 $y1 [expr {$x0+$w}] $y1 \
+            -tags "marker highlight $node" -width $wd -fill $color
+        $c create line $x1 $y1 $x1 [expr {$y0+$w}] \
+            -tags "marker highlight $node" -width $wd -fill $color
+    }
 
-set coords [getNodeCoords $node]
-set x [lindex $coords 0]
-set y [lindex $coords 1]
+    # show the hook scripts dialog for editing experiment hooks
+    proc popupHooksConfig {} {
+        global plugin_img_add plugin_img_edit plugin_img_del
+        global oper_mode
 
-set wd 4; # line width
-set d 35; # box size
-set w 50; # corner size
-set x0 [expr {$x - $d}]
-set y0 [expr {$y - $d}]
-set x1 [expr {$x + $d}]
-set y1 [expr {$y + $d}]
-# upper left
-$c create line $x0 $y0 [expr {$x1-$w}] $y0 \
--tags "marker highlight $node" -width $wd -fill $color
-$c create line $x0 $y0 $x0 [expr {$y1-$w}] \
--tags "marker highlight $node" -width $wd -fill $color
-# upper right
-$c create line $x1 $y0 [expr {$x0+$w}] $y0 \
--tags "marker highlight $node" -width $wd -fill $color
-$c create line $x1 $y0 $x1 [expr {$y1-$w}] \
--tags "marker highlight $node" -width $wd -fill $color
-# lower left
-$c create line $x0 $y1 [expr {$x1-$w}] $y1 \
--tags "marker highlight $node" -width $wd -fill $color
-$c create line $x0 $y1 $x0 [expr {$y0+$w}] \
--tags "marker highlight $node" -width $wd -fill $color
-# lower right
-$c create line $x1 $y1 [expr {$x0+$w}] $y1 \
--tags "marker highlight $node" -width $wd -fill $color
-$c create line $x1 $y1 $x1 [expr {$y0+$w}] \
--tags "marker highlight $node" -width $wd -fill $color
-}
+        set wi .hooks
+        catch {destroy $wi}
+        toplevel $wi
 
-# show the hook scripts dialog for editing experiment hooks
-proc popupHooksConfig {} {
-    global plugin_img_add plugin_img_edit plugin_img_del
-    global oper_mode
+        wm transient $wi .
+        wm resizable $wi 0 0
+        wm title $wi "CORE Experiment Hooks"
 
-    set wi .hooks
-    catch {destroy $wi}
-    toplevel $wi
+        labelframe $wi.f -text "Hooks"
+        listbox $wi.f.hooks -selectmode extended -width 50 -exportselection 0 \
+            -yscrollcommand "$wi.f.hooks_scroll set" -height 5
+        scrollbar $wi.f.hooks_scroll -command "$wi.f.hooks yview"
+        pack $wi.f.hooks $wi.f.hooks_scroll -pady 4 -fill both -side left
+        pack $wi.f -padx 4 -pady 4 -fill both -side top
+        bind $wi.f.hooks <Double-Button-1> "hooksHelper $wi edit"
 
-    wm transient $wi .
-    wm resizable $wi 0 0
-    wm title $wi "CORE Experiment Hooks"
+        frame $wi.bbar
+        button $wi.bbar.new -image $plugin_img_add -command "hooksHelper $wi new"
+        button $wi.bbar.save -image $plugin_img_edit \
+            -command "hooksHelper $wi edit"
+        button $wi.bbar.del -image $plugin_img_del -command "hooksHelper $wi del"
+        label $wi.bbar.help -text "Press the new button to create a hook script."
 
-    labelframe $wi.f -text "Hooks"
-    listbox $wi.f.hooks -selectmode extended -width 50 -exportselection 0 \
-    -yscrollcommand "$wi.f.hooks_scroll set" -height 5
-    scrollbar $wi.f.hooks_scroll -command "$wi.f.hooks yview"
-    pack $wi.f.hooks $wi.f.hooks_scroll -pady 4 -fill both -side left
-    pack $wi.f -padx 4 -pady 4 -fill both -side top
-    bind $wi.f.hooks <Double-Button-1> "hooksHelper $wi edit"
+        pack $wi.bbar.new $wi.bbar.save $wi.bbar.del -side left
+        pack $wi.bbar.help -padx 8 -side left
+        pack $wi.bbar -padx 4 -pady 4 -fill both -side top
 
-    frame $wi.bbar
-    button $wi.bbar.new -image $plugin_img_add -command "hooksHelper $wi new"
-    button $wi.bbar.save -image $plugin_img_edit \
-    -command "hooksHelper $wi edit"
-    button $wi.bbar.del -image $plugin_img_del -command "hooksHelper $wi del"
-    label $wi.bbar.help -text "Press the new button to create a hook script."
+        frame $wi.b -borderwidth 4
+        button $wi.b.close -text "Close" -command "destroy $wi"
+        pack $wi.b.close -side bottom
+        pack $wi.b -side bottom
 
-    pack $wi.bbar.new $wi.bbar.save $wi.bbar.del -side left
-    pack $wi.bbar.help -padx 8 -side left
-    pack $wi.bbar -padx 4 -pady 4 -fill both -side top
-
-    frame $wi.b -borderwidth 4
-    button $wi.b.close -text "Close" -command "destroy $wi"
-    pack $wi.b.close -side bottom
-    pack $wi.b -side bottom
-
-    refreshHooksList $wi
-}
-
-proc hooksHelper { wi cmd } {
-    global g_hook_scripts
-    set selected [lindex [$wi.f.hooks curselection] 0]
-    set name ""
-    if { $selected != "" } { set name [$wi.f.hooks get $selected] }
-    # start/stop/delete selected
-    if { $cmd == "del" } {
-        removeHook $name
         refreshHooksList $wi
-        return
-}
-
-if { $cmd == "edit" && $name == "" } { return }
-if { $cmd == "new" } {
-    set name ""
-}
-popupHookScript $name
-}
-
-proc refreshHooksList { wi } {
-    global g_hook_scripts
-
-    $wi.f.hooks delete 0 end
-    if { ![info exists g_hook_scripts] } { set g_hook_scripts "" }
-
-    foreach hook $g_hook_scripts {
-        set name [lindex $hook 0]
-        $wi.f.hooks insert end $name
-}
-}
-
-proc removeHook { name } {
-    global g_hook_scripts
-    for { set i 0 } { $i < [llength $g_hook_scripts] } { incr i } {
-        set flow [lindex $g_hook_scripts $i]
-        if { [lindex $flow 0] == $name } {
-            set g_hook_scripts [lreplace $g_hook_scripts $i $i]
-            return $i
-}
-}
-return end
-}
-
-# show the script config dialog, for specifying an optional global experiment
-# startup script that is run on the host after the emulation has been started
-proc popupHookScript { name } {
-    global g_hook_scripts CORE_STATES plugin_img_open plugin_img_save
-    set wi .scriptConfig
-
-    catch {destroy $wi}
-
-    if { ![info exists g_hook_scripts] } { set g_hook_scripts "" }
-    toplevel $wi
-    wm transient $wi .hooks
-    wm resizable $wi 1 1
-    wm title $wi "CORE Hook Script"
-
-    # help text at top
-    ttk::frame $wi.top
-    set helptext "This is an optional script that is run"
-    set helptext "$helptext on the host when the\n emulation reaches the"
-    set helptext "$helptext specified state. It is saved with the config file."
-    ttk::label $wi.top.help -text $helptext
-    pack $wi.top.help -side top -fill both -expand true
-    pack $wi.top -padx 4 -pady 4 -side top
-
-    ttk::frame $wi.n
-    ttk::label $wi.n.lab -text "Hook script name:"
-    ttk::entry $wi.n.name -width 35
-    foreach c [list open save] {
-        ttk::button $wi.n.$c -image [set plugin_img_$c] -command \
-        "genericOpenSaveButtonPress $c $wi.mid.script $wi.n.name"
-}
-ttk::combobox $wi.n.state -width 15 -state readonly -exportselection 0 \
--values $CORE_STATES 
-pack $wi.n.lab $wi.n.name -padx 4 -pady 4 -side left
-pack $wi.n.open $wi.n.save -pady 4 -side left
-pack $wi.n.state -padx 4 -pady 4 -side left
-pack $wi.n -padx 4 -pady 4 -side top -anchor w
-
-bind $wi.n.state <<ComboboxSelected>> "setHookName $wi"
-
-set hook ""
-if { $name == "" } {
-    $wi.n.state current 4
-    setHookName $wi
-} else {
-    $wi.n.name insert 0 $name
-    foreach hook $g_hook_scripts {
-        if { [lindex $hook 0] == $name } {
-            $wi.n.state current [lindex $hook 1]
-            break
     }
-}
-}
 
-# text box for script entry with scroll bar
-ttk::frame $wi.mid
-text $wi.mid.script -relief sunken -bd 2 \
--yscrollcommand "$wi.mid.scroll set" -setgrid 1 -height 30 -undo 1 \
--autosep 1 -background white
-ttk::scrollbar $wi.mid.scroll -command "$wi.mid.script yview"
-pack $wi.mid.script -side left -fill both -expand true
-pack $wi.mid.scroll -side right -fill y
-pack $wi.mid -side top -fill both -expand true
+    proc hooksHelper { wi cmd } {
+        global g_hook_scripts
+        set selected [lindex [$wi.f.hooks curselection] 0]
+        set name ""
+        if { $selected != "" } { set name [$wi.f.hooks get $selected] }
+        # start/stop/delete selected
+        if { $cmd == "del" } {
+            removeHook $name
+            refreshHooksList $wi
+            return
+        }
 
-# load any existing script text
-if { $hook == "" } { ;# some default text
-    $wi.mid.script insert end "#!/bin/sh\n"
-    $wi.mid.script insert end "# experiment hook script; write commands here to execute on the host at the\n# specified state\n"
-} else {
-    $wi.mid.script insert end [lindex $hook 2]
-}
+        if { $cmd == "edit" && $name == "" } { return }
+        if { $cmd == "new" } {
+            set name ""
+        }
+        popupHookScript $name
+    }
 
-# buttons on the bottom
-ttk::frame $wi.btm
-ttk::button $wi.btm.apply -text "Apply" -command \
-"popupHookScriptApply $wi \"$name\""
-ttk::button $wi.btm.cancel -text "Cancel" -command "destroy $wi"
-pack $wi.btm.apply $wi.btm.cancel -side left
-pack $wi.btm
+    proc refreshHooksList { wi } {
+        global g_hook_scripts
 
-focus $wi.mid.script
-}
+        $wi.f.hooks delete 0 end
+        if { ![info exists g_hook_scripts] } { set g_hook_scripts "" }
 
-proc popupHookScriptApply { wi oldname } {
-    global g_hook_scripts CORE_STATES
+        foreach hook $g_hook_scripts {
+            set name [lindex $hook 0]
+            $wi.f.hooks insert end $name
+        }
+    }
 
-    set name [$wi.n.name get]
-    set state [$wi.n.state get]
-    # convert state to a number
-    for { set i 0 } { $i < [llength $CORE_STATES] } { incr i } {
-        if {[lindex $CORE_STATES $i] == $state } {
-            set state $i
-            break
-}
-}
-set script [string trim [$wi.mid.script get 0.0 end-1c]]
+    proc removeHook { name } {
+        global g_hook_scripts
+        for { set i 0 } { $i < [llength $g_hook_scripts] } { incr i } {
+            set flow [lindex $g_hook_scripts $i]
+            if { [lindex $flow 0] == $name } {
+                set g_hook_scripts [lreplace $g_hook_scripts $i $i]
+                return $i
+            }
+        }
+        return end
+    }
 
-set hook [list $name $state $script]
+    # show the script config dialog, for specifying an optional global experiment
+    # startup script that is run on the host after the emulation has been started
+    proc popupHookScript { name } {
+        global g_hook_scripts CORE_STATES plugin_img_open plugin_img_save
+        set wi .scriptConfig
 
-set i end
-if { $oldname != "" } { set i [removeHook $oldname] }
-set g_hook_scripts [linsert $g_hook_scripts $i $hook]
+        catch {destroy $wi}
 
-refreshHooksList .hooks
-destroy $wi
-}
+        if { ![info exists g_hook_scripts] } { set g_hook_scripts "" }
+        toplevel $wi
+        wm transient $wi .hooks
+        wm resizable $wi 1 1
+        wm title $wi "CORE Hook Script"
 
-proc setHookName { wi } {
-    global g_hook_scripts
-    set state [string tolower [$wi.n.state get]]
-    set name "${state}_hook.sh"
-    set n 1
-    set names ""
-    foreach hook $g_hook_scripts {
-        lappend names [lindex $hook 0]
-}
-while { [lsearch $names $name] >= 0 } {
-    incr n
-    set name "${state}${n}_hook.sh"
-}
-$wi.n.name delete 0 end
-$wi.n.name insert 0 $name
-}
+        # help text at top
+        ttk::frame $wi.top
+        set helptext "This is an optional script that is run"
+        set helptext "$helptext on the host when the\n emulation reaches the"
+        set helptext "$helptext specified state. It is saved with the config file."
+        ttk::label $wi.top.help -text $helptext
+        pack $wi.top.help -side top -fill both -expand true
+        pack $wi.top -padx 4 -pady 4 -side top
 
-# show the comments dialog for adding comments to a scenario
-proc popupCommentsConfig {} {
-    global g_comments
-    set wi .commentsConfig
+        ttk::frame $wi.n
+        ttk::label $wi.n.lab -text "Hook script name:"
+        ttk::entry $wi.n.name -width 35
+        foreach c [list open save] {
+            ttk::button $wi.n.$c -image [set plugin_img_$c] -command \
+                "genericOpenSaveButtonPress $c $wi.mid.script $wi.n.name"
+        }
+        ttk::combobox $wi.n.state -width 15 -state readonly -exportselection 0 \
+            -values $CORE_STATES 
+        pack $wi.n.lab $wi.n.name -padx 4 -pady 4 -side left
+        pack $wi.n.open $wi.n.save -pady 4 -side left
+        pack $wi.n.state -padx 4 -pady 4 -side left
+        pack $wi.n -padx 4 -pady 4 -side top -anchor w
 
-    catch {destroy $wi}
+        bind $wi.n.state <<ComboboxSelected>> "setHookName $wi"
 
-    if { ![info exists g_comments] } { set g_comments "" }
-    toplevel $wi
-    wm transient $wi .
-    wm resizable $wi 1 1
-    wm title $wi "CORE Experiment Comments"
+        set hook ""
+        if { $name == "" } {
+            $wi.n.state current 4
+            setHookName $wi
+        } else {
+            $wi.n.name insert 0 $name
+            foreach hook $g_hook_scripts {
+                if { [lindex $hook 0] == $name } {
+                    $wi.n.state current [lindex $hook 1]
+                    break
+                }
+            }
+        }
 
-    # help text at top
-    frame $wi.top
-    set helptext "Optional text comments associated with this scenario may"
-    set helptext "$helptext be entered below and saved with the config file."
-    label $wi.top.help -text $helptext
-    pack $wi.top.help -side top -fill both -expand true
-    pack $wi.top -padx 4 -pady 4 -side top
+        # text box for script entry with scroll bar
+        ttk::frame $wi.mid
+        text $wi.mid.script -relief sunken -bd 2 \
+            -yscrollcommand "$wi.mid.scroll set" -setgrid 1 -height 30 -undo 1 \
+            -autosep 1 -background white
+        ttk::scrollbar $wi.mid.scroll -command "$wi.mid.script yview"
+        pack $wi.mid.script -side left -fill both -expand true
+        pack $wi.mid.scroll -side right -fill y
+        pack $wi.mid -side top -fill both -expand true
 
-    # text box for comment entry with scroll bar
-    frame $wi.mid
-    text $wi.mid.comments -relief sunken -bd 2 \
-    -yscrollcommand "$wi.mid.scroll set" -setgrid 1 -height 30 -undo 1 \
-    -autosep 1 -background white
-    scrollbar $wi.mid.scroll -command "$wi.mid.comments yview"
-    pack $wi.mid.comments -side left -fill both -expand true
-    pack $wi.mid.scroll -side right -fill y
-    pack $wi.mid -side top -fill both -expand true
+        # load any existing script text
+        if { $hook == "" } { ;# some default text
+                             $wi.mid.script insert end "#!/bin/sh\n"
+                             $wi.mid.script insert end "# experiment hook script; write commands here to execute on the host at the\n# specified state\n"
+        } else {
+            $wi.mid.script insert end [lindex $hook 2]
+        }
 
-    # load any existing comment text
-    if { $g_comments != "" } {
-        $wi.mid.comments insert end $g_comments
-}
+        # buttons on the bottom
+        ttk::frame $wi.btm
+        ttk::button $wi.btm.apply -text "Apply" -command \
+            "popupHookScriptApply $wi \"$name\""
+        ttk::button $wi.btm.cancel -text "Cancel" -command "destroy $wi"
+        pack $wi.btm.apply $wi.btm.cancel -side left
+        pack $wi.btm
 
-# buttons on the bottom
-frame $wi.btm
-button $wi.btm.apply -text "Apply" -command {
-    set wi .commentsConfig
-    global g_comments
-    set g_comments [string trim [$wi.mid.comments get 0.0 end-1c]]
-    destroy $wi
-}
-button $wi.btm.cancel -text "Cancel" -command "destroy $wi"
-pack $wi.btm.apply $wi.btm.cancel -side left
-pack $wi.btm
+        focus $wi.mid.script
+    }
 
-focus $wi.mid.comments
-}
+    proc popupHookScriptApply { wi oldname } {
+        global g_hook_scripts CORE_STATES
 
-# show the contents of a file
-proc popupFileView { pathname } {
-    set wi .fileview
-    catch {destroy $wi}
+        set name [$wi.n.name get]
+        set state [$wi.n.state get]
+        # convert state to a number
+        for { set i 0 } { $i < [llength $CORE_STATES] } { incr i } {
+            if {[lindex $CORE_STATES $i] == $state } {
+                set state $i
+                break
+            }
+        }
+        set script [string trim [$wi.mid.script get 0.0 end-1c]]
 
-    toplevel $wi
-    wm transient $wi .
-    wm resizable $wi 1 1
-    wm title $wi "File: $pathname"
+        set hook [list $name $state $script]
 
-    ttk::frame $wi.top
-    ttk::label $wi.top.fnl -text "File:"
-    ttk::entry $wi.top.fn
-    #ttk::entry $wi.top.fn -state readonly
-    pack $wi.top.fnl -padx 4 -side left 
-    pack $wi.top.fn  -padx 4 -side left -fill both -expand true
-    pack $wi.top -padx 4 -pady 4 -side top -fill both -expand true
-    $wi.top.fn insert 0 $pathname
-    $wi.top.fn state readonly
+        set i end
+        if { $oldname != "" } { set i [removeHook $oldname] }
+        set g_hook_scripts [linsert $g_hook_scripts $i $hook]
 
-    ttk::frame $wi.mid
-    text $wi.mid.contents -relief sunken -bd 2 \
-    -yscrollcommand "$wi.mid.scroll set" -setgrid 1 -height 30 -undo 1 \
-    -autosep 1 -background white
-    ttk::scrollbar $wi.mid.scroll -command "$wi.mid.contents yview"
-    pack $wi.mid.contents -side left -fill both -expand true
-    pack $wi.mid.scroll -side right -fill y
-    pack $wi.mid -side top -fill both -expand true
+        refreshHooksList .hooks
+        destroy $wi
+    }
 
-    if { [catch { set f [open $pathname r] } e] } {
-        $wi.mid.contents insert end "error: $e"
-} else {
-    while { [ gets $f line] >= 0 } {
-        $wi.mid.contents insert end "$line\n"
-}
-close $f
-}
+    proc setHookName { wi } {
+        global g_hook_scripts
+        set state [string tolower [$wi.n.state get]]
+        set name "${state}_hook.sh"
+        set n 1
+        set names ""
+        foreach hook $g_hook_scripts {
+            lappend names [lindex $hook 0]
+        }
+        while { [lsearch $names $name] >= 0 } {
+            incr n
+            set name "${state}${n}_hook.sh"
+        }
+        $wi.n.name delete 0 end
+        $wi.n.name insert 0 $name
+    }
 
-# buttons on the bottom
-ttk::frame $wi.btm
-ttk::button $wi.btm.close -text "Close" -command "destroy $wi"
-pack $wi.btm.close -side left
-pack $wi.btm
+    # show the comments dialog for adding comments to a scenario
+    proc popupCommentsConfig {} {
+        global g_comments
+        set wi .commentsConfig
 
-$wi.mid.contents see end
-focus $wi.mid.contents
-}
+        catch {destroy $wi}
 
-# helper to get the name of the image representing a node; first, use any
-# custom image defined, then customizable node type image, then finally the
-# node's type name
-proc getNodeImage { node } {
-    set type [nodeType $node]
-    set model [getNodeModel $node]
+        if { ![info exists g_comments] } { set g_comments "" }
+        toplevel $wi
+        wm transient $wi .
+        wm resizable $wi 1 1
+        wm title $wi "CORE Experiment Comments"
 
-    set imgname [getNodeTypeImage $model normal]
-    set cimg [absPathname [getCustomImage $node]]
-    if { $cimg != "" } { set imgname $cimg }
+        # help text at top
+        frame $wi.top
+        set helptext "Optional text comments associated with this scenario may"
+        set helptext "$helptext be entered below and saved with the config file."
+        label $wi.top.help -text $helptext
+        pack $wi.top.help -side top -fill both -expand true
+        pack $wi.top -padx 4 -pady 4 -side top
 
-    set imgname [file tail $imgname]
-    if { $imgname == "" } { set imgname $type}
-    global $imgname
-    return [set $imgname]
-}
+        # text box for comment entry with scroll bar
+        frame $wi.mid
+        text $wi.mid.comments -relief sunken -bd 2 \
+            -yscrollcommand "$wi.mid.scroll set" -setgrid 1 -height 30 -undo 1 \
+            -autosep 1 -background white
+        scrollbar $wi.mid.scroll -command "$wi.mid.comments yview"
+        pack $wi.mid.comments -side left -fill both -expand true
+        pack $wi.mid.scroll -side right -fill y
+        pack $wi.mid -side top -fill both -expand true
 
-proc hideSelected { } {
-    foreach node [selectedNodes] { hideNode $node }
-    .c delete -withtags selectmark
-}
+        # load any existing comment text
+        if { $g_comments != "" } {
+            $wi.mid.comments insert end $g_comments
+        }
 
-proc hideNode { node } {
-    set c .c
-    setNodeHidden $node 1
-    $c itemconfigure "node && $node" -state hidden
-    $c itemconfigure "nodelabel && $node" -state hidden
-    $c itemconfigure "highlight && $node" -state hidden
-    $c itemconfigure "$node && antenna" -state hidden
-    $c itemconfigure "$node && link" -state hidden
-    $c itemconfigure "$node && interface" -state hidden
-    foreach l [$c find withtag "$node && link"] {
-        set link [lindex [$c gettags $l] 1]
-        $c itemconfigure "linklabel && $link" -state hidden
-}
-}
+        # buttons on the bottom
+        frame $wi.btm
+        button $wi.btm.apply -text "Apply" -command {
+            set wi .commentsConfig
+            global g_comments
+            set g_comments [string trim [$wi.mid.comments get 0.0 end-1c]]
+            destroy $wi
+        }
+        button $wi.btm.cancel -text "Cancel" -command "destroy $wi"
+        pack $wi.btm.apply $wi.btm.cancel -side left
+        pack $wi.btm
+
+        focus $wi.mid.comments
+    }
+
+    # show the contents of a file
+    proc popupFileView { pathname } {
+        set wi .fileview
+        catch {destroy $wi}
+
+        toplevel $wi
+        wm transient $wi .
+        wm resizable $wi 1 1
+        wm title $wi "File: $pathname"
+
+        ttk::frame $wi.top
+        ttk::label $wi.top.fnl -text "File:"
+        ttk::entry $wi.top.fn
+        #ttk::entry $wi.top.fn -state readonly
+        pack $wi.top.fnl -padx 4 -side left 
+        pack $wi.top.fn  -padx 4 -side left -fill both -expand true
+        pack $wi.top -padx 4 -pady 4 -side top -fill both -expand true
+        $wi.top.fn insert 0 $pathname
+        $wi.top.fn state readonly
+
+        ttk::frame $wi.mid
+        text $wi.mid.contents -relief sunken -bd 2 \
+            -yscrollcommand "$wi.mid.scroll set" -setgrid 1 -height 30 -undo 1 \
+            -autosep 1 -background white
+        ttk::scrollbar $wi.mid.scroll -command "$wi.mid.contents yview"
+        pack $wi.mid.contents -side left -fill both -expand true
+        pack $wi.mid.scroll -side right -fill y
+        pack $wi.mid -side top -fill both -expand true
+
+        if { [catch { set f [open $pathname r] } e] } {
+            $wi.mid.contents insert end "error: $e"
+        } else {
+            while { [ gets $f line] >= 0 } {
+                $wi.mid.contents insert end "$line\n"
+            }
+            close $f
+        }
+
+        # buttons on the bottom
+        ttk::frame $wi.btm
+        ttk::button $wi.btm.close -text "Close" -command "destroy $wi"
+        pack $wi.btm.close -side left
+        pack $wi.btm
+
+        $wi.mid.contents see end
+        focus $wi.mid.contents
+    }
+
+    # helper to get the name of the image representing a node; first, use any
+    # custom image defined, then customizable node type image, then finally the
+    # node's type name
+    proc getNodeImage { node } {
+        set type [nodeType $node]
+        set model [getNodeModel $node]
+
+        set imgname [getNodeTypeImage $model normal]
+        set cimg [absPathname [getCustomImage $node]]
+        if { $cimg != "" } { set imgname $cimg }
+
+        set imgname [file tail $imgname]
+        if { $imgname == "" } { set imgname $type}
+        global $imgname
+        return [set $imgname]
+    }
+
+    proc hideSelected { } {
+        foreach node [selectedNodes] { hideNode $node }
+        .c delete -withtags selectmark
+    }
+
+    proc hideNode { node } {
+        set c .c
+        setNodeHidden $node 1
+        $c itemconfigure "node && $node" -state hidden
+        $c itemconfigure "nodelabel && $node" -state hidden
+        $c itemconfigure "highlight && $node" -state hidden
+        $c itemconfigure "$node && antenna" -state hidden
+        $c itemconfigure "$node && link" -state hidden
+        $c itemconfigure "$node && interface" -state hidden
+        foreach l [$c find withtag "$node && link"] {
+            set link [lindex [$c gettags $l] 1]
+            $c itemconfigure "linklabel && $link" -state hidden
+        }
+    }

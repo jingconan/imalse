@@ -233,32 +233,11 @@ class TopologyNet():
         return ndc, ipic
 
 
-def get_net(ipaddress, netmask):
-    ip = ipaddress.split(".")
-    netm = netmask.split(".")
-    network = str(int(ip[0])&int(netm[0]))+"."+str(int(ip[1])&int(netm[1]))+"."+str(int(ip[2])&int(netm[2]))+"."+str(int(ip[3])&int(netm[3]))
-    return network
-
-def get_net_addr(ipaddress, netmask):
-    ip = ipaddress.split(".")
-    netm = netmask.split(".")
-    addr = str(int(ip[0])&(~int(netm[0])))+"."+str(int(ip[1])&(~int(netm[1])))+"."+str(int(ip[2])& (~int(netm[2])))+"."+str(int(ip[3])&(~int(netm[3])))
-    return addr
-
-
-from util import len2mask
+from util import len2mask, get_net, get_net_addr, CIDR_to_subnet_mask
 import settings
 # import ns3
 class ManualTopologyNet(TopologyNet):
     """Topology network with manual ip settings"""
-    @staticmethod
-    def CIDR_to_subnet_mask(s_addr):
-        """change CIDR format to address, net address and mask address"""
-        addr, prefix_len = s_addr.rsplit('/')
-        mask = len2mask(int(prefix_len))
-        net = get_net(addr, mask)
-        return addr, net, mask
-
     def get_link_name(self, i):
         link = self.inFile.m_linksList[i]
         link_name = (int(link.GetFromNodeName()), int(link.GetToNodeName()) )
@@ -295,7 +274,7 @@ class ManualTopologyNet(TopologyNet):
 
         # Create little subnets, one for each couple of nodes
         defaultAddressHelper = ns3.Ipv4AddressHelper()
-        defaultAddr, defaultNetBase, defaultMask = self.CIDR_to_subnet_mask(net_settings.ipv4_net_addr_base)
+        defaultAddr, defaultNetBase, defaultMask = CIDR_to_subnet_mask(net_settings.ipv4_net_addr_base)
         netAddr = get_net_addr(defaultAddr, defaultMask)
         defaultAddressHelper.SetBase(
                 network=ns3.Ipv4Address(defaultNetBase),
@@ -313,7 +292,7 @@ class ManualTopologyNet(TopologyNet):
                 addressHelper.NewNetwork()
                 continue
 
-            addr, netBase, mask = self.CIDR_to_subnet_mask(ips[0])
+            addr, netBase, mask = CIDR_to_subnet_mask(ips[0])
             net_addr = get_net_addr(addr, mask)
             addressHelper.SetBase(
                     network=ns3.Ipv4Address(netBase),
@@ -323,7 +302,7 @@ class ManualTopologyNet(TopologyNet):
             # ip1 = addressHelper.Assign(ns3.NetDeviceContainer(ndc[i].Get(0)))
             ip1 = addressHelper.Assign(ns3.NetDeviceContainer(self.get_link_ndc(i).Get(0)))
 
-            addr, netBase, mask = self.CIDR_to_subnet_mask(ips[1])
+            addr, netBase, mask = CIDR_to_subnet_mask(ips[1])
             net_addr = get_net_addr(addr, mask)
             addressHelper.SetBase(
                     network=ns3.Ipv4Address(netBase),

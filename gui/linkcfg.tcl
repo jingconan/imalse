@@ -260,6 +260,28 @@ proc setLinkColor { link value } {
     set $link [lreplace [set $link] $i $i "color $value"]
 }
 
+
+# start Imalse
+proc getLinkTraceFlag { link } {
+    global $link defLinkTraceFlag
+
+    set entry [lsearch -inline [set $link] "traceflag *"]
+    if { $entry == "" } {
+	return $defLinkTraceFlag
+    } else {
+	return [lindex $entry 1]
+    }
+
+}
+
+proc setLinkTraceFlag { link value } {
+    global $link
+
+    set i [lsearch [set $link] "traceflag *"]
+    set $link [lreplace [set $link] $i $i "traceflag $value"]
+}
+# end Imalse
+
 proc getLinkWidth { link } {
     global $link defLinkWidth
 

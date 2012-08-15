@@ -1,0 +1,696 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+::balloon::autoclear	tooltips.tcl	/^ proc ::balloon::autoclear {old new op} {$/;"	p
+::balloon::balloon	tooltips.tcl	/^proc ::balloon::balloon {args} {$/;"	p
+::balloon::delay	tooltips.tcl	/^ proc ::balloon::delay {} {$/;"	p
+::balloon::show	tooltips.tcl	/^ proc ::balloon::show {w} {$/;"	p
+::balloon::show2	tooltips.tcl	/^ proc ::balloon::show2 {w x y caption} {$/;"	p
+C	topogen.tcl	/^proc C { v } {$/;"	p
+Call_Trace	util.tcl	/^proc Call_Trace {{file stdout}} {$/;"	p
+FMRefinement	graph_partitioning.tcl	/^proc FMRefinement {nvertices node_neighbour node_weight edge_array edge_weight tpart_wgt npasses} {$/;"	p
+G	topogen.tcl	/^proc G { v } {$/;"	p
+Gc	topogen.tcl	/^proc Gc { v n m } {$/;"	p
+Gchelper	topogen.tcl	/^proc Gchelper { n m } {$/;"	p
+K	topogen.tcl	/^proc K { v } {$/;"	p
+Kb	topogen.tcl	/^proc Kb { v1 v2 } {$/;"	p
+Kbhelper	topogen.tcl	/^proc Kbhelper { n m } {$/;"	p
+P	topogen.tcl	/^proc P { v } {$/;"	p
+Q	topogen.tcl	/^proc Q { v } {$/;"	p
+R	topogen.tcl	/^proc R { v } {$/;"	p
+W	topogen.tcl	/^proc W { v } {$/;"	p
+_launchBrowser	util.tcl	/^proc _launchBrowser url {$/;"	p
+absPathname	filemgmt.tcl	/^proc absPathname { f } {$/;"	p
+acquireOperModeLock	exec.tcl	/^proc acquireOperModeLock { mode } {$/;"	p
+addAddressesToConfig	util.tcl	/^proc addAddressesToConfig { node cfg_ref } {$/;"	p
+addFileToMrulist	filemgmt.tcl	/^proc addFileToMrulist { f } {$/;"	p
+addPluginCapToListbox	plugins.tcl	/^proc addPluginCapToListbox { listb cap idx } {$/;"	p
+addStaticRoutesToConfig	util.tcl	/^proc addStaticRoutesToConfig { node cfg_ref } {$/;"	p
+addressConfigHelper	util.tcl	/^proc addressConfigHelper { wi fam cmd } {$/;"	p
+align2grid	editor.tcl	/^proc align2grid {} {$/;"	p
+animate	editor.tcl	/^    proc animate {} {$/;"	p
+animateCursor	editor.tcl	/^proc animateCursor {} {$/;"	p
+annotationConfig	annotations.tcl	/^proc annotationConfig { c target } {$/;"	p
+anyLeave	editor.tcl	/^proc anyLeave {c} {$/;"	p
+apiLinkAddModify	api.tcl	/^proc apiLinkAddModify { node1 node2 vals_ref add } {$/;"	p
+apiLinkDelete	api.tcl	/^proc apiLinkDelete { node1 node2 vals_ref } {$/;"	p
+apiNodeCreate	api.tcl	/^proc apiNodeCreate { node vals_ref } {$/;"	p
+apiNodeDelete	api.tcl	/^proc apiNodeDelete { node } {$/;"	p
+apiNodeModify	api.tcl	/^proc apiNodeModify { node vals_ref } {$/;"	p
+applyLinkWeights	gpgui.tcl	/^proc applyLinkWeights {lw} {$/;"	p
+applyNodeWeights	gpgui.tcl	/^proc applyNodeWeights {nw} {$/;"	p
+argAbsPathname	filemgmt.tcl	/^proc argAbsPathname { f } {$/;"	p
+arrangeNodes	ns2imunes.tcl	/^proc arrangeNodes {} {$/;"	p
+assignSelection	editor.tcl	/^proc assignSelection { server } {$/;"	p
+autoConnectPlugins	plugins.tcl	/^proc autoConnectPlugins { } {$/;"	p
+autoIPv4addr	ipv4.tcl	/^proc autoIPv4addr { node iface } {$/;"	p
+autoIPv4defaultroute	ipv4.tcl	/^proc autoIPv4defaultroute { node iface } {$/;"	p
+autoIPv6addr	ipv6.tcl	/^proc autoIPv6addr { node iface } {$/;"	p
+autoIPv6defaultroute	ipv6.tcl	/^proc autoIPv6defaultroute { node iface } {$/;"	p
+autoIPv6wlanaddr	ipv6.tcl	/^proc autoIPv6wlanaddr { node } {$/;"	p
+balance	graph_partitioning.tcl	/^proc balance {nvertices node_neighbour node_weight edge_array edge_weight tpart_wgts npasses} {$/;"	p
+blinkCEL	exceptions.tcl	/^proc blinkCEL { cmd } {$/;"	p
+buildStringTLV	api.tcl	/^proc buildStringTLV { type data len_ref } {$/;"	p
+button1	editor.tcl	/^proc button1 { c x y button } {$/;"	p
+button1-motion	editor.tcl	/^proc button1-motion { c x y } {$/;"	p
+button1-release	editor.tcl	/^proc button1-release { c x y } {$/;"	p
+button3annotation	annotations.tcl	/^proc button3annotation { type c x y } {$/;"	p
+button3link	editor.tcl	/^proc button3link { c x y } {$/;"	p
+button3node	editor.tcl	/^proc button3node { c x y button } {$/;"	p
+calcDxDy	editor.tcl	/^proc calcDxDy { lnode } {$/;"	p
+capTitle	plugins.tcl	/^proc capTitle { cap } {$/;"	p
+captureWindow	util.tcl	/^proc captureWindow { win } {$/;"	p
+captureWindowSub	util.tcl	/^proc captureWindowSub { win image px py } {$/;"	p
+changeDefaultWeights	gpgui.tcl	/^proc changeDefaultWeights {wi} {$/;"	p
+changeNodeType	ns2imunes.tcl	/^proc changeNodeType {} {$/;"	p
+checkHostname	editor.tcl	/^proc checkHostname { str } {$/;"	p
+checkIPv4Addr	ipv4.tcl	/^proc checkIPv4Addr { str } {$/;"	p
+checkIPv4Net	ipv4.tcl	/^proc checkIPv4Net { str } {$/;"	p
+checkIPv6Addr	ipv6.tcl	/^proc checkIPv6Addr { str } {$/;"	p
+checkIPv6Net	ipv6.tcl	/^proc checkIPv6Net { str } {$/;"	p
+checkIntRange	editor.tcl	/^proc checkIntRange { str low high } {$/;"	p
+checkMaxCoords	cfgparse.tcl	/^proc checkMaxCoords { str maxXp maxYp } {$/;"	p
+checkNodeDest	wlanscript.tcl	/^proc checkNodeDest { c wlan node dx_ref dy_ref } {$/;"	p
+checkOS	util.tcl	/^proc checkOS {} {$/;"	p
+checkRJ45s	exec.tcl	/^proc checkRJ45s {} {$/;"	p
+chooseIfName	editor.tcl	/^proc chooseIfName { lnode1 lnode2 } {$/;"	p
+clearExceptions	exceptions.tcl	/^proc clearExceptions { tree txt } {$/;"	p
+clearLinkHighlights	mobility.tcl	/^proc clearLinkHighlights { } {$/;"	p
+clearMarker	editor.tcl	/^    proc clearMarker { } {$/;"	p
+clearTwoNodeDialog	mobility.tcl	/^proc clearTwoNodeDialog { wi done} {$/;"	p
+clearWlanLinks	wlan.tcl	/^proc clearWlanLinks { wlan } {$/;"	p
+coarseGraph	graph_partitioning.tcl	/^proc coarseGraph {nvertices node_weight node_neighbour edge_array edge_weight tpwgts2} {$/;"	p
+configCap	plugins.tcl	/^proc configCap { node models } {$/;"	p
+configObsWidgets	widget.tcl	/^proc configObsWidgets {} {$/;"	p
+configObsWidgetsHelper	widget.tcl	/^proc configObsWidgetsHelper { wi action } {$/;"	p
+configRemoteServers	editor.tcl	/^    proc configRemoteServers {} {$/;"	p
+configRemoteServersHelper	editor.tcl	/^    proc configRemoteServersHelper { wi action } {$/;"	p
+createImageButton	exec.tcl	/^proc createImageButton { imgf style } {$/;"	p
+createScaledImages	editor.tcl	/^    proc createScaledImages { img } {$/;"	p
+customImageApply	editor.tcl	/^    proc customImageApply { wi node } {$/;"	p
+customImageApplyMultiple	editor.tcl	/^    proc customImageApplyMultiple { wi nodes } {$/;"	p
+customizeService	nodes.tcl	/^proc customizeService { wi node service btn } {$/;"	p
+customizeServiceApply	nodes.tcl	/^proc customizeServiceApply { w node service } {$/;"	p
+customizeServiceDirectoryHelper	nodes.tcl	/^proc customizeServiceDirectoryHelper { w cmd } {$/;"	p
+customizeServiceFile	nodes.tcl	/^proc customizeServiceFile { node name data } {$/;"	p
+customizeServiceFileHelper	nodes.tcl	/^proc customizeServiceFileHelper { w clear } {$/;"	p
+customizeServiceRefresh	nodes.tcl	/^proc customizeServiceRefresh { var args } {$/;"	p
+customizeServiceReset	nodes.tcl	/^proc customizeServiceReset { w node service services } {$/;"	p
+customizeServiceValues	nodes.tcl	/^proc customizeServiceValues { node values services } {$/;"	p
+debug	graph_partitioning.tcl	/^proc debug { message } {$/;"	p
+deleteAnnotation	annotations.tcl	/^proc deleteAnnotation { c type target } {$/;"	p
+deleteNodeCoords	nodecfg.tcl	/^proc deleteNodeCoords { node } {$/;"	p
+deleteSelection	editor.tcl	/^proc deleteSelection { } {$/;"	p
+deployCfgAPI	api.tcl	/^proc deployCfgAPI { sock } {$/;"	p
+destroyNewRect	annotations.tcl	/^proc destroyNewRect { c } {$/;"	p
+destroyNewoval	annotations.tcl	/^proc destroyNewoval { c } {$/;"	p
+dialog	gpgui.tcl	/^proc dialog { } {$/;"	p
+displayAllLinkWeights	gpgui.tcl	/^proc displayAllLinkWeights {wi} {$/;"	p
+displayAllNodeWeights	gpgui.tcl	/^proc displayAllNodeWeights {wi} {$/;"	p
+displayErrorMessage	gpgui.tcl	/^proc displayErrorMessage { message } {$/;"	p
+doTwoNode	mobility.tcl	/^proc doTwoNode { tool node cmd } {$/;"	p
+double1onGrid	editor.tcl	/^    proc double1onGrid { c x y } {$/;"	p
+drawAnnotation	annotations.tcl	/^proc drawAnnotation { obj } {$/;"	p
+drawLink	editor.tcl	/^proc drawLink { link } {$/;"	p
+drawMarkerSizes	editor.tcl	/^    proc drawMarkerSizes { c sel } {$/;"	p
+drawNode	editor.tcl	/^proc drawNode { c node } {$/;"	p
+drawNodeCircle	mobility.tcl	/^proc drawNodeCircle { node radius color tags deltags } {$/;"	p
+drawOval	annotations.tcl	/^proc drawOval {oval} {$/;"	p
+drawRect	annotations.tcl	/^proc drawRect {rectangle} {$/;"	p
+drawText	annotations.tcl	/^proc drawText {text} {$/;"	p
+drawToolbar	exec.tcl	/^proc drawToolbar { mode } {$/;"	p
+drawToolbarSubmenu	exec.tcl	/^proc drawToolbarSubmenu { b menubuttons } {$/;"	p
+drawTwoNodeLine	mobility.tcl	/^proc drawTwoNodeLine { node line type } {$/;"	p
+drawWallpaper	editor.tcl	/^    proc drawWallpaper { c f style } {$/;"	p
+drawWlanLink	editor.tcl	/^proc drawWlanLink { node1 node2 wlan } {$/;"	p
+dumpCfg	cfgparse.tcl	/^proc dumpCfg {method dest} {$/;"	p
+dumpputs	cfgparse.tcl	/^proc dumpputs {method dest string} {$/;"	p
+duplex-link	ns2imunes.tcl	/^proc duplex-link { linkdata } {$/;"	p
+exceptionLevelText	exceptions.tcl	/^proc exceptionLevelText { level } {$/;"	p
+exceptionSelect	exceptions.tcl	/^proc exceptionSelect { tree txt } {$/;"	p
+exceptionsPopulateTree	exceptions.tcl	/^proc exceptionsPopulateTree { tree txt } {$/;"	p
+execSetLinkParams	exec.tcl	/^proc execSetLinkParams { eid link } {$/;"	p
+exec_adjacency_callback	widget.tcl	/^proc exec_adjacency_callback { node execnum cmd result status } {$/;"	p
+exec_adjacencyrouterid_callback	widget.tcl	/^proc exec_adjacencyrouterid_callback { node execnum cmd result status } {$/;"	p
+exec_observer_callback	widget.tcl	/^proc exec_observer_callback { node execnum cmd result status } {$/;"	p
+exec_runtool_callback	mobility.tcl	/^proc exec_runtool_callback { node execnum cmd result status } {$/;"	p
+exec_shell_callback	api.tcl	/^proc exec_shell_callback { node execnum execcmd execres execstatus } {$/;"	p
+exec_twonode_callback	mobility.tcl	/^proc exec_twonode_callback { node execnum execcmd execres execstatus } {$/;"	p
+exit	filemgmt.tcl	/^proc exit {} {$/;"	p
+expandIPv6	ipv6.tcl	/^proc expandIPv6 { ip } {$/;"	p
+exportImalse	util.tcl	/^proc exportImalse { } {$/;"	p
+exportPython	util.tcl	/^proc exportPython { } {$/;"	p
+fileNewDialogBox	filemgmt.tcl	/^proc fileNewDialogBox {} {$/;"	p
+fileOpenDialogBox	filemgmt.tcl	/^proc fileOpenDialogBox {} {$/;"	p
+fileOpenStartUp	filemgmt.tcl	/^proc fileOpenStartUp {} {$/;"	p
+fileSaveDialogBox	filemgmt.tcl	/^proc fileSaveDialogBox { prompt } {$/;"	p
+findFreeIPv4Net	ipv4.tcl	/^proc findFreeIPv4Net { mask } {$/;"	p
+findFreeIPv6Net	ipv6.tcl	/^proc findFreeIPv6Net { mask } {$/;"	p
+findNextHops	mobility.tcl	/^proc findNextHops { node nexthop lastnode } {$/;"	p
+findWlanNodes	wlan.tcl	/^proc findWlanNodes { peer } {$/;"	p
+floatingInfo	tooltips.tcl	/^proc floatingInfo { c node caption } {$/;"	p
+floatingInfo3	tooltips.tcl	/^proc floatingInfo3 { c node } {$/;"	p
+floatingInfoSlide	tooltips.tcl	/^proc floatingInfoSlide { c node float dx dy delay } {$/;"	p
+flushChannel	api.tcl	/^proc flushChannel { channel_ptr msg } {$/;"	p
+focusAndFlash	editor.tcl	/^proc focusAndFlash {W {count 9}} {$/;"	p
+fontupdate	annotations.tcl	/^proc fontupdate { label type args} {$/;"	p
+genericOpenSaveButtonPress	nodes.tcl	/^proc genericOpenSaveButtonPress { cmd ctldata ctlinitfn } {$/;"	p
+getAssignedRemoteServers	exec.tcl	/^proc getAssignedRemoteServers {} {$/;"	p
+getBandwidth	ns2imunes.tcl	/^proc getBandwidth { bw } {$/;"	p
+getCPUUsage	util.tcl	/^proc getCPUUsage { } {$/;"	p
+getCPUcoords	widget.tcl	/^proc getCPUcoords { node } {$/;"	p
+getCanvasName	canvas.tcl	/^proc getCanvasName { canvas } {$/;"	p
+getCanvasRefPoint	canvas.tcl	/^proc getCanvasRefPoint { canvas } {$/;"	p
+getCanvasScale	canvas.tcl	/^proc getCanvasScale { canvas } {$/;"	p
+getCanvasSize	canvas.tcl	/^proc getCanvasSize { canvas } {$/;"	p
+getCanvasWallpaper	canvas.tcl	/^proc getCanvasWallpaper { canvas } {$/;"	p
+getCapabilities	plugins.tcl	/^proc getCapabilities { node section } {$/;"	p
+getCapabilityConfig	plugins.tcl	/^proc getCapabilityConfig { node model } {$/;"	p
+getConfig	nodecfg.tcl	/^proc getConfig { strlist str } {$/;"	p
+getCustomCmd	nodecfg.tcl	/^proc getCustomCmd { node } {$/;"	p
+getCustomConfig	nodecfg.tcl	/^proc getCustomConfig { node } {$/;"	p
+getCustomConfigByID	nodecfg.tcl	/^proc getCustomConfigByID { node id } {$/;"	p
+getCustomEnabled	nodecfg.tcl	/^proc getCustomEnabled { node } {$/;"	p
+getCustomImage	nodecfg.tcl	/^proc getCustomImage { node } {$/;"	p
+getCustomPostConfigCommands	nodecfg.tcl	/^proc getCustomPostConfigCommands { node } {$/;"	p
+getCustomPreConfigCommands	nodecfg.tcl	/^proc getCustomPreConfigCommands { node } {$/;"	p
+getCustomService	nodes.tcl	/^proc getCustomService { node s } {$/;"	p
+getDefaultIPv4Addrs	ipv4.tcl	/^proc getDefaultIPv4Addrs { } {$/;"	p
+getDefaultIPv6Addrs	ipv6.tcl	/^proc getDefaultIPv6Addrs { } {$/;"	p
+getDelay	ns2imunes.tcl	/^proc getDelay { dly } {$/;"	p
+getDestinationAddress	mobility.tcl	/^proc getDestinationAddress { node1 node2 } {$/;"	p
+getEdgeBetween	graph_partitioning.tcl	/^proc getEdgeBetween {node1 node2 edge_array} {$/;"	p
+getEmulPlugin	plugins.tcl	/^proc getEmulPlugin { node } {$/;"	p
+getIfcAddrs	api.tcl	/^proc getIfcAddrs { node ifc ipv4p ipv6p macp ipv4maskp ipv6maskp lenp } {$/;"	p
+getIfcDumpState	nodecfg.tcl	/^proc getIfcDumpState { node ifc } {$/;"	p
+getIfcIPv4addr	nodecfg.tcl	/^proc getIfcIPv4addr { node ifc } {$/;"	p
+getIfcIPv6addr	nodecfg.tcl	/^proc getIfcIPv6addr { node ifc } {$/;"	p
+getIfcMTU	nodecfg.tcl	/^proc getIfcMTU { node ifc } {$/;"	p
+getIfcMacaddr	nodecfg.tcl	/^proc getIfcMacaddr { node ifc } {$/;"	p
+getIfcOperState	nodecfg.tcl	/^proc getIfcOperState { node ifc } {$/;"	p
+getIfcQDisc	nodecfg.tcl	/^proc getIfcQDisc { node ifc } {$/;"	p
+getIfcQDrop	nodecfg.tcl	/^proc getIfcQDrop { node ifc } {$/;"	p
+getIfcQLen	nodecfg.tcl	/^proc getIfcQLen { node ifc } {$/;"	p
+getLinkBER	linkcfg.tcl	/^proc getLinkBER { link } {$/;"	p
+getLinkBandwidth	linkcfg.tcl	/^proc getLinkBandwidth { link } {$/;"	p
+getLinkBandwidthString	linkcfg.tcl	/^proc getLinkBandwidthString { link } {$/;"	p
+getLinkColor	linkcfg.tcl	/^proc getLinkColor { link } {$/;"	p
+getLinkDelay	linkcfg.tcl	/^proc getLinkDelay { link } {$/;"	p
+getLinkDelayString	linkcfg.tcl	/^proc getLinkDelayString { link } {$/;"	p
+getLinkDup	linkcfg.tcl	/^proc getLinkDup { link } {$/;"	p
+getLinkJitter	linkcfg.tcl	/^proc getLinkJitter { link } {$/;"	p
+getLinkMirror	linkcfg.tcl	/^proc getLinkMirror { link } {$/;"	p
+getLinkOpaque	linkcfg.tcl	/^proc getLinkOpaque { link key } {$/;"	p
+getLinkWeight	gpgui.tcl	/^proc getLinkWeight {link} {$/;"	p
+getLinkWidth	linkcfg.tcl	/^proc getLinkWidth { link } {$/;"	p
+getMyIP	exec.tcl	/^proc getMyIP { } {$/;"	p
+getNextMac	exec.tcl	/^proc getNextMac {} {$/;"	p
+getNodeCanvas	nodecfg.tcl	/^proc getNodeCanvas { node } {$/;"	p
+getNodeCoords	nodecfg.tcl	/^proc getNodeCoords { node } {$/;"	p
+getNodeHidden	nodecfg.tcl	/^proc getNodeHidden { node } {$/;"	p
+getNodeImage	editor.tcl	/^    proc getNodeImage { node } {$/;"	p
+getNodeLabelCoords	nodecfg.tcl	/^proc getNodeLabelCoords { node } {$/;"	p
+getNodeLocation	nodecfg.tcl	/^proc getNodeLocation { node } {$/;"	p
+getNodeMirror	nodecfg.tcl	/^proc getNodeMirror { node } {$/;"	p
+getNodeModel	nodecfg.tcl	/^proc getNodeModel { node } {$/;"	p
+getNodeName	nodecfg.tcl	/^proc getNodeName { node } {$/;"	p
+getNodePartition	graph_partitioning.tcl	/^proc getNodePartition { node } {$/;"	p
+getNodeRange	nodecfg.tcl	/^proc getNodeRange { node } {$/;"	p
+getNodeRoleName	nodes.tcl	/^proc getNodeRoleName {} {$/;"	p
+getNodeServices	nodecfg.tcl	/^proc getNodeServices { node want_defaults } {$/;"	p
+getNodeTypeAPI	api.tcl	/^proc getNodeTypeAPI { node } {$/;"	p
+getNodeTypeImage	nodes.tcl	/^proc getNodeTypeImage { type size } {$/;"	p
+getNodeTypeIndex	nodes.tcl	/^proc getNodeTypeIndex { type } {$/;"	p
+getNodeTypeMachineType	nodes.tcl	/^proc getNodeTypeMachineType { type } {$/;"	p
+getNodeTypeNames	nodes.tcl	/^proc getNodeTypeNames {} {$/;"	p
+getNodeTypeProfile	nodes.tcl	/^proc getNodeTypeProfile { type } {$/;"	p
+getNodeTypeServices	nodes.tcl	/^proc getNodeTypeServices { type } {$/;"	p
+getNodeWeight	gpgui.tcl	/^proc getNodeWeight {node} {$/;"	p
+getPluginsCapList	plugins.tcl	/^proc getPluginsCapList { } {$/;"	p
+getQueingDiscipline	ns2imunes.tcl	/^proc getQueingDiscipline { type } {$/;"	p
+getRegularPeers	ns2imunes.tcl	/^proc getRegularPeers { node } {$/;"	p
+getSelectedServices	nodes.tcl	/^proc getSelectedServices { } {$/;"	p
+getServiceStartString	util.tcl	/^proc getServiceStartString { } {$/;"	p
+getStatIPv4routes	nodecfg.tcl	/^proc getStatIPv4routes { node } {$/;"	p
+getStatIPv6routes	nodecfg.tcl	/^proc getStatIPv6routes { node } {$/;"	p
+getTrafficFlow	traffic.tcl	/^proc getTrafficFlow { name } {$/;"	p
+getTrafficScripts	traffic.tcl	/^proc getTrafficScripts { flow } {$/;"	p
+getWlanColor	wlan.tcl	/^proc getWlanColor { wlan } {$/;"	p
+get_router_id	widget.tcl	/^proc get_router_id {node} {$/;"	p
+get_text_editor	util.tcl	/^proc get_text_editor { want_default } {$/;"	p
+getadj_from_neighbors	widget.tcl	/^proc getadj_from_neighbors { raw_input proto } {$/;"	p
+getid	util.tcl	/^proc getid { n } {$/;"	p
+getstats_bytes_netgraph	widget.tcl	/^proc getstats_bytes_netgraph { raw_input } {$/;"	p
+getstats_bytes_proc	widget.tcl	/^proc getstats_bytes_proc { raw_input ifname } {$/;"	p
+getstats_cpu_vestat	widget.tcl	/^proc getstats_cpu_vestat { } {$/;"	p
+getstats_cpu_vimage	widget.tcl	/^proc getstats_cpu_vimage { raw_input} {$/;"	p
+getstats_link_ifname	widget.tcl	/^proc getstats_link_ifname { link } {$/;"	p
+graphPartition	graph_partitioning.tcl	/^proc graphPartition {partNum} {$/;"	p
+hasCoords	ns2imunes.tcl	/^proc hasCoords {node} {$/;"	p
+hasIPv4Addr	nodecfg.tcl	/^proc hasIPv4Addr { node } {$/;"	p
+hasIPv6Addr	nodecfg.tcl	/^proc hasIPv6Addr { node } {$/;"	p
+hexdump	api.tcl	/^proc hexdump { data } {$/;"	p
+hideNode	editor.tcl	/^    proc hideNode { node } {$/;"	p
+hideSelected	editor.tcl	/^    proc hideSelected { } {$/;"	p
+highlightAssignedServers	editor.tcl	/^    proc highlightAssignedServers { wi } {$/;"	p
+highlightLink	mobility.tcl	/^proc highlightLink { node1 node2 } {$/;"	p
+hooksHelper	editor.tcl	/^    proc hooksHelper { wi cmd } {$/;"	p
+hub.layer	nodes.tcl	/^proc hub.layer {}       { return LINK }$/;"	p
+ifcByLogicalPeer	nodecfg.tcl	/^proc ifcByLogicalPeer { node peer } {$/;"	p
+ifcByPeer	nodecfg.tcl	/^proc ifcByPeer { node peer } {$/;"	p
+ifcList	nodecfg.tcl	/^proc ifcList { node } {$/;"	p
+ifcNameToNum	api.tcl	/^proc ifcNameToNum { ifc } {$/;"	p
+initDefaultPrefs	cfgparse.tcl	/^proc initDefaultPrefs {} {$/;"	p
+initMobilityScriptVars	wlanscript.tcl	/^proc initMobilityScriptVars { wlan } {$/;"	p
+initNeighbours	graph_partitioning.tcl	/^proc initNeighbours {node_neighbour edge_array edge_weight} {$/;"	p
+initNodes	graph_partitioning.tcl	/^proc initNodes {node_weight} {$/;"	p
+init_conf_dir	core	/^init_conf_dir() {$/;"	f
+init_conf_dir	core.in	/^init_conf_dir() {$/;"	f
+init_default_widgets_obs	widget.tcl	/^proc init_default_widgets_obs {} {$/;"	p
+init_widget_menu	widget.tcl	/^proc init_widget_menu {} {$/;"	p
+init_widget_obs_menu	widget.tcl	/^proc init_widget_obs_menu {} {$/;"	p
+ipv4ToNet	ipv4.tcl	/^proc ipv4ToNet { ip mask } {$/;"	p
+ipv4ToString	ipv4.tcl	/^proc ipv4ToString { ip } {$/;"	p
+ipv4_net_addr_base	net_settings.py	/^ipv4_net_addr_base = '10.7.0.1\/24'$/;"	v
+ipv6ToNet	ipv6.tcl	/^proc ipv6ToNet { ip mask } {$/;"	p
+ipv6ToString	ipv6.tcl	/^proc ipv6ToString { ip } {$/;"	p
+isIfcWireless	wlan.tcl	/^proc isIfcWireless { node ifc } {$/;"	p
+isMulticast	ipv4.tcl	/^proc isMulticast { str } {$/;"	p
+lanswitch.layer	nodes.tcl	/^proc lanswitch.layer {} { return LINK }$/;"	p
+leftToolTip	tooltips.tcl	/^proc leftToolTip { w parent } {$/;"	p
+leftToolTipSubMenu	tooltips.tcl	/^proc leftToolTipSubMenu { w } {$/;"	p
+linkAllNodes	wlan.tcl	/^proc linkAllNodes { wlan } {$/;"	p
+linkByIfc	linkcfg.tcl	/^proc linkByIfc { node ifc } {$/;"	p
+linkByPeers	linkcfg.tcl	/^proc linkByPeers { node1 node2 } {$/;"	p
+linkEnter	editor.tcl	/^proc linkEnter {c} {$/;"	p
+linkPeers	linkcfg.tcl	/^proc linkPeers { link } {$/;"	p
+linkPresets	editor.tcl	/^    proc linkPresets { wi linkpreMenu cmd } {$/;"	p
+linkSelectedNodes	wlan.tcl	/^proc linkSelectedNodes { wlan nodes } {$/;"	p
+link_attr	net_settings.py	/^link_attr = {$/;"	v
+link_attr_default	net_settings.py	/^link_attr_default = ['2ms','5Mbps']$/;"	v
+link_to_ip_map	net_settings.py	/^link_to_ip_map = {$/;"	v
+listLANnodes	editor.tcl	/^proc listLANnodes { l2node l2peers } {$/;"	p
+listToTupleString	util.tcl	/^proc listToTupleString { l } {$/;"	p
+listboxAddDelHelper	nodes.tcl	/^proc listboxAddDelHelper { cmd from to combo } {$/;"	p
+listboxSelect	nodes.tcl	/^proc listboxSelect { lb ent } {$/;"	p
+loadCfg	cfgparse.tcl	/^proc loadCfg { cfg } {$/;"	p
+loadDotFile	filemgmt.tcl	/^proc loadDotFile {} {$/;"	p
+loadMobilityScript	wlanscript.tcl	/^proc loadMobilityScript { wlan scriptfile } {$/;"	p
+loadNodesConf	nodes.tcl	/^proc loadNodesConf { } {$/;"	p
+loadPluginsConf	plugins.tcl	/^proc loadPluginsConf { } {$/;"	p
+loadServersConf	cfgparse.tcl	/^proc loadServersConf { } {$/;"	p
+loadWidgetsConf	widget.tcl	/^proc loadWidgetsConf { } {$/;"	p
+logicalPeerByIfc	nodecfg.tcl	/^proc logicalPeerByIfc { node ifc } {$/;"	p
+macEntryHelper	editor.tcl	/^proc macEntryHelper { wi ifc } {$/;"	p
+macToString	api.tcl	/^proc macToString { mac_num } {$/;"	p
+makePartitions	graph_partitioning.tcl	/^proc makePartitions {nvertices node_weight node_neighbour edge_array edge_weight tpwgts2} {$/;"	p
+makePermArray	graph_partitioning.tcl	/^proc makePermArray {arr} {$/;"	p
+makePermList	graph_partitioning.tcl	/^proc makePermList {num} {$/;"	p
+manageCPUwindow	exec.tcl	/^proc manageCPUwindow {xpos ypos start} {$/;"	p
+manageCanvasApply	canvas.tcl	/^proc manageCanvasApply { w } {$/;"	p
+manageCanvasPopup	canvas.tcl	/^proc manageCanvasPopup { x y } {$/;"	p
+manageCanvasSwitch	canvas.tcl	/^proc manageCanvasSwitch { w } {$/;"	p
+manageCanvasUpDown	canvas.tcl	/^proc manageCanvasUpDown { w dir } {$/;"	p
+manageCanvasUpDown	widget.tcl	/^proc manageCanvasUpDown { w dir } {$/;"	p
+mapScriptIndexToNode	wlanscript.tcl	/^proc mapScriptIndexToNode { index } {$/;"	p
+markerOptions	editor.tcl	/^    proc markerOptions { show } {$/;"	p
+markerSize	editor.tcl	/^    proc markerSize { x y } {$/;"	p
+mergeGUINode	editor.tcl	/^proc mergeGUINode { node } {$/;"	p
+mergeLink	linkcfg.tcl	/^proc mergeLink { link } {$/;"	p
+mergePseudoLink	graph_partitioning.tcl	/^proc mergePseudoLink { pnode } {$/;"	p
+mobility_script_loop	wlanscript.tcl	/^proc mobility_script_loop {} {$/;"	p
+monitor_loop	exec.tcl	/^proc monitor_loop {} {$/;"	p
+moveNode	wlan.tcl	/^proc moveNode { c node img xpos ypos dx dy } {$/;"	p
+moveNodeAbs	wlan.tcl	/^proc moveNodeAbs { c node xpos ypos } {$/;"	p
+moveNodeIncr	wlan.tcl	/^proc moveNodeIncr { c node dx dy } {$/;"	p
+moveNodes	wlanscript.tcl	/^proc moveNodes { c wlan dt } {$/;"	p
+moveNodesInitial	wlanscript.tcl	/^proc moveNodesInitial { c wlan } {$/;"	p
+movetoCanvas	editor.tcl	/^proc movetoCanvas { canvas } {$/;"	p
+mrufile	filemgmt.tcl	/^proc mrufile { f } {$/;"	p
+mult_array	graph_partitioning.tcl	/^proc mult_array {start end arr prod} {$/;"	p
+netconfClearSection	nodecfg.tcl	/^proc netconfClearSection { node sectionhead } {$/;"	p
+netconfFetchSection	nodecfg.tcl	/^proc netconfFetchSection { node sectionhead } {$/;"	p
+netconfInsertSection	nodecfg.tcl	/^proc netconfInsertSection { node section } {$/;"	p
+new	ns2imunes.tcl	/^proc new {object} {$/;"	p
+newCanvas	canvas.tcl	/^proc newCanvas { name } {$/;"	p
+newExecCallbackRequest	api.tcl	/^proc newExecCallbackRequest { type } {$/;"	p
+newFile	filemgmt.tcl	/^proc newFile {} {$/;"	p
+newGUILink	editor.tcl	/^proc newGUILink { lnode1 lnode2 } {$/;"	p
+newIfc	nodecfg.tcl	/^proc newIfc { type node } {$/;"	p
+newLink	linkcfg.tcl	/^proc newLink { lnode1 lnode2 } {$/;"	p
+newNode	nodecfg.tcl	/^proc newNode { type } {$/;"	p
+newNodes	topogen.tcl	/^proc newNodes { n } {$/;"	p
+newObjectId	cfgparse.tcl	/^proc newObjectId { type } {$/;"	p
+newRouterId	cfgparse.tcl	/^proc newRouterId { type node } {$/;"	p
+newlinkId	cfgparse.tcl	/^proc newlinkId { } {$/;"	p
+nexec	exec.tcl	/^proc nexec { node args } {$/;"	p
+nextTrafficFlowNumber	traffic.tcl	/^proc nextTrafficFlowNumber { } {$/;"	p
+ngctl_output_to_ifname	widget.tcl	/^proc ngctl_output_to_ifname { line } {$/;"	p
+node	ns2imunes.tcl	/^proc node {} {$/;"	p
+nodeEnter	editor.tcl	/^proc nodeEnter { c } {$/;"	p
+nodeHasAddr	mobility.tcl	/^proc nodeHasAddr { node addr } {$/;"	p
+nodeHighlights	editor.tcl	/^    proc nodeHighlights { c node onoff color } {$/;"	p
+nodePeerHasLocation	nodecfg.tcl	/^proc nodePeerHasLocation { node location } {$/;"	p
+nodeType	nodecfg.tcl	/^proc nodeType { node } {$/;"	p
+nodesConfigClose	nodes.tcl	/^proc nodesConfigClose { wi } {$/;"	p
+nodesConfigHelper	nodes.tcl	/^proc nodesConfigHelper { wi cmd } {$/;"	p
+nodesConfigImg	nodes.tcl	/^proc nodesConfigImg { wi } {$/;"	p
+nodesConfigImgDialog	nodes.tcl	/^proc nodesConfigImgDialog { wi ctl size } {$/;"	p
+nodesConfigMachineHelper	nodes.tcl	/^proc nodesConfigMachineHelper { wi } {$/;"	p
+nodesConfigRefreshList	nodes.tcl	/^proc nodesConfigRefreshList { wi } {$/;"	p
+nodesConfigSelect	nodes.tcl	/^proc nodesConfigSelect { wi cmd } {$/;"	p
+nodesConfigServices	nodes.tcl	/^proc nodesConfigServices { wi services_or_profile } {$/;"	p
+ns2im	ns2imunes.tcl	/^proc ns2im { srcfile } {$/;"	p
+nullfunc	ns2imunes.tcl	/^proc nullfunc {args} {$/;"	p
+obsBtn	widget.tcl	/^proc obsBtn { color } {$/;"	p
+openAPIChannel	api.tcl	/^proc openAPIChannel { server port retry } {$/;"	p
+openFile	filemgmt.tcl	/^proc openFile {} {$/;"	p
+openWeightFile	gpgui.tcl	/^proc openWeightFile { op } {$/;"	p
+pad_32bit	api.tcl	/^proc pad_32bit { len } {$/;"	p
+parseConfMessage	api.tcl	/^proc parseConfMessage { data len flags channel } {$/;"	p
+parseEventMessage	api.tcl	/^proc parseEventMessage { data len flags channel } {$/;"	p
+parseExceptionMessage	api.tcl	/^proc parseExceptionMessage { data len flags channel } {$/;"	p
+parseExecMessage	api.tcl	/^proc parseExecMessage { data len flags channel } {$/;"	p
+parseFileMessage	api.tcl	/^proc parseFileMessage { data len flags channel } {$/;"	p
+parseLinkMessage	api.tcl	/^proc parseLinkMessage { data len flags } {$/;"	p
+parseMessage	api.tcl	/^proc parseMessage { data len flags tlvnamesl tlvsizesl defaultvalsl } {$/;"	p
+parseMessageHeader	api.tcl	/^proc parseMessageHeader { bytes type flags len } {$/;"	p
+parseNodeMessage	api.tcl	/^proc parseNodeMessage { data len flags } {$/;"	p
+parseRegMessage	api.tcl	/^proc parseRegMessage { data len flags channel } {$/;"	p
+parseSessionMessage	api.tcl	/^proc parseSessionMessage { data len flags channel } {$/;"	p
+parseTLVHeader	api.tcl	/^proc parseTLVHeader { data current_ref } {$/;"	p
+pcap_links	net_settings.py	/^pcap_links = []$/;"	v
+pcap_nodes	net_settings.py	/^pcap_nodes = []$/;"	v
+peerByIfc	nodecfg.tcl	/^proc peerByIfc { node ifc } {$/;"	p
+plotCPUusage	exec.tcl	/^proc plotCPUusage { } {$/;"	p
+pluginByChannel	plugins.tcl	/^proc pluginByChannel { sock } {$/;"	p
+pluginCapsDeinitialize	plugins.tcl	/^proc pluginCapsDeinitialize { node config_name } {$/;"	p
+pluginCapsInitialize	plugins.tcl	/^proc pluginCapsInitialize { node config_name } {$/;"	p
+pluginChannelByCap	plugins.tcl	/^proc pluginChannelByCap { cap } {$/;"	p
+pluginChannelClosed	plugins.tcl	/^proc pluginChannelClosed { sock } {$/;"	p
+pluginConnect	plugins.tcl	/^proc pluginConnect { name cmd retry } {$/;"	p
+pluginRefresh	plugins.tcl	/^proc pluginRefresh { plugin } {$/;"	p
+pluginsCapConfigRefreshList	plugins.tcl	/^proc pluginsCapConfigRefreshList { wi } {$/;"	p
+pluginsConfigConnect	plugins.tcl	/^proc pluginsConfigConnect { wi } {$/;"	p
+pluginsConfigDelete	plugins.tcl	/^proc pluginsConfigDelete { wi } {$/;"	p
+pluginsConfigRefresh	plugins.tcl	/^proc pluginsConfigRefresh { wi } {$/;"	p
+pluginsConfigRefreshCallback	plugins.tcl	/^proc pluginsConfigRefreshCallback { } {$/;"	p
+pluginsConfigRefreshInfo	plugins.tcl	/^proc pluginsConfigRefreshInfo { wi plugin_data } {$/;"	p
+pluginsConfigRefreshList	plugins.tcl	/^proc pluginsConfigRefreshList { wi } {$/;"	p
+pluginsConfigSelect	plugins.tcl	/^proc pluginsConfigSelect { wi } {$/;"	p
+pop	graph_partitioning.tcl	/^proc pop {queue_name} {$/;"	p
+popdownAddressPicker	traffic.tcl	/^proc popdownAddressPicker { wi dstentry } {$/;"	p
+popdownConfig	editor.tcl	/^    proc popdownConfig { w } {$/;"	p
+popdownConnectMessage	exec.tcl	/^proc popdownConnectMessage { } {$/;"	p
+popdownTrafficDialog	traffic.tcl	/^proc popdownTrafficDialog { wi cmd oldname } {$/;"	p
+popupAbout	help.tcl	/^proc popupAbout {} {$/;"	p
+popupAddressConfig	util.tcl	/^proc popupAddressConfig { } {$/;"	p
+popupAddressPicker	traffic.tcl	/^proc popupAddressPicker { ctl dstentry } {$/;"	p
+popupAnnotationApply	annotations.tcl	/^proc popupAnnotationApply { c wi target type } {$/;"	p
+popupAnnotationDialog	annotations.tcl	/^proc popupAnnotationDialog { c target modify } {$/;"	p
+popupApply	gpgui.tcl	/^proc popupApply { wi } {$/;"	p
+popupBuildHostsFile	util.tcl	/^proc popupBuildHostsFile { } {$/;"	p
+popupCapabilityConfig	plugins.tcl	/^proc popupCapabilityConfig { channel wlan model types values captions bmp possible_values groups } {$/;"	p
+popupCapabilityConfigApply	plugins.tcl	/^proc popupCapabilityConfigApply { wi channel wlan model types groups } {$/;"	p
+popupCapabilityConfigGroup	plugins.tcl	/^proc popupCapabilityConfigGroup { groups n } {$/;"	p
+popupColor	annotations.tcl	/^proc popupColor { type l settext } {$/;"	p
+popupCommentsConfig	editor.tcl	/^    proc popupCommentsConfig {} {$/;"	p
+popupConfigApply	editor.tcl	/^proc popupConfigApply { wi object_type target phase } {$/;"	p
+popupConfigDialog	editor.tcl	/^proc popupConfigDialog { c } {$/;"	p
+popupConnectMessage	exec.tcl	/^proc popupConnectMessage { dst } {$/;"	p
+popupCustomImage	editor.tcl	/^    proc popupCustomImage { node } {$/;"	p
+popupCustomImagePreview	editor.tcl	/^    proc popupCustomImagePreview { wi node } {$/;"	p
+popupDebugger	debug.tcl	/^proc popupDebugger {} {$/;"	p
+popupExceptions	exceptions.tcl	/^proc popupExceptions {} {$/;"	p
+popupFileView	editor.tcl	/^    proc popupFileView { pathname } {$/;"	p
+popupHookScript	editor.tcl	/^    proc popupHookScript { name } {$/;"	p
+popupHookScriptApply	editor.tcl	/^    proc popupHookScriptApply { wi oldname } {$/;"	p
+popupHooksConfig	editor.tcl	/^    proc popupHooksConfig {} {$/;"	p
+popupMacAddressConfig	util.tcl	/^proc popupMacAddressConfig { } {$/;"	p
+popupMenuChoose	exec.tcl	/^proc popupMenuChoose { parent b imgf } {$/;"	p
+popupNodeProfileConfig	nodes.tcl	/^proc popupNodeProfileConfig { channel node model types values captions bitmap possible_values groups session opaque } {$/;"	p
+popupNodeProfileConfigApply	nodes.tcl	/^proc popupNodeProfileConfigApply { vals } {$/;"	p
+popupNodesConfig	nodes.tcl	/^proc popupNodesConfig {} {$/;"	p
+popupObserverWidgets	widget.tcl	/^proc popupObserverWidgets {} {$/;"	p
+popupPluginConfigEditApply	plugins.tcl	/^proc popupPluginConfigEditApply { wi selected_idx selected_name } {$/;"	p
+popupPluginsCapConfig	plugins.tcl	/^proc popupPluginsCapConfig { wlan parent } {$/;"	p
+popupPluginsCapConfigHelper	plugins.tcl	/^proc popupPluginsCapConfigHelper { wi cmd wlan} {$/;"	p
+popupPluginsConfig	plugins.tcl	/^proc popupPluginsConfig {} {$/;"	p
+popupPluginsConfigEdit	plugins.tcl	/^proc popupPluginsConfigEdit { parent action } {$/;"	p
+popupPrefs	cfgparse.tcl	/^proc popupPrefs {} {$/;"	p
+popupRenumberNodes	util.tcl	/^proc popupRenumberNodes { } {$/;"	p
+popupRunDialog	mobility.tcl	/^proc popupRunDialog { } {$/;"	p
+popupSelectNodes	util.tcl	/^proc popupSelectNodes { msg initsel callback } {$/;"	p
+popupServicesConfig	nodes.tcl	/^proc popupServicesConfig { channel node types values captions possible_values groups session } {$/;"	p
+popupServicesConfigApply	nodes.tcl	/^proc popupServicesConfigApply { wi channel node session } {$/;"	p
+popupServicesConfigDefaults	nodes.tcl	/^proc popupServicesConfigDefaults { wi node types captions groups } {$/;"	p
+popupSessionConfig	plugins.tcl	/^proc popupSessionConfig { channel sessionids sessionnames sessionfiles nodecounts sessiondates thumbs opaque } {$/;"	p
+popupStopExperimentPrompt	filemgmt.tcl	/^proc popupStopExperimentPrompt { } {$/;"	p
+popupTraffic2Dialog	traffic.tcl	/^proc popupTraffic2Dialog { name } {$/;"	p
+popupTrafficDialog	traffic.tcl	/^proc popupTrafficDialog {} {$/;"	p
+popupTwoNodeDialog	mobility.tcl	/^proc popupTwoNodeDialog { } {$/;"	p
+printCanvas	editor.tcl	/^proc printCanvas { w } {$/;"	p
+project2waypartition	graph_partitioning.tcl	/^proc project2waypartition {nvertices edge_array edge_weight node_neighbour node_map node_weight cnv cnvw} {$/;"	p
+promptForSave	filemgmt.tcl	/^proc promptForSave {} {$/;"	p
+pseudo.layer	editor.tcl	/^proc pseudo.layer {} {$/;"	p
+raiseAll	editor.tcl	/^proc raiseAll {c} {$/;"	p
+readNodeWeights	gpgui.tcl	/^proc readNodeWeights {} {$/;"	p
+readTwoNodeStream	mobility.tcl	/^proc readTwoNodeStream { node fileId tool } {$/;"	p
+rearrange	editor.tcl	/^proc rearrange { mode } {$/;"	p
+rearrange_off	editor.tcl	/^proc rearrange_off { } {$/;"	p
+recalculateAllRanges	wlan.tcl	/^proc recalculateAllRanges { wlan } {$/;"	p
+receiveException	exceptions.tcl	/^proc receiveException { valuelist } {$/;"	p
+receiveMessage	api.tcl	/^proc receiveMessage { channel } {$/;"	p
+recursiveBisection	graph_partitioning.tcl	/^proc recursiveBisection {nvertices node_weight node_neighbour edge_array edge_weight tpart_wgts new_parts part_nr up_map} {$/;"	p
+redo	editor.tcl	/^proc redo {} {$/;"	p
+redrawAll	editor.tcl	/^proc redrawAll {} {$/;"	p
+redrawAllLinks	editor.tcl	/^proc redrawAllLinks {} {$/;"	p
+redrawLink	editor.tcl	/^proc redrawLink { link } {$/;"	p
+redrawWlanLink	editor.tcl	/^proc redrawWlanLink { link } {$/;"	p
+refreshHooksList	editor.tcl	/^    proc refreshHooksList { wi } {$/;"	p
+refreshTrafficList	traffic.tcl	/^proc refreshTrafficList { wi } {$/;"	p
+releaseOperModeLock	exec.tcl	/^proc releaseOperModeLock { } {$/;"	p
+relpath	filemgmt.tcl	/^proc relpath {target} {$/;"	p
+removeCanvas	canvas.tcl	/^proc removeCanvas { canvas } {$/;"	p
+removeFromQueue	graph_partitioning.tcl	/^proc removeFromQueue {queue_name node } {$/;"	p
+removeGUILink	editor.tcl	/^proc removeGUILink { link atomic } {$/;"	p
+removeGUINode	editor.tcl	/^proc removeGUINode { node } {$/;"	p
+removeHook	editor.tcl	/^    proc removeHook { name } {$/;"	p
+removeLink	linkcfg.tcl	/^proc removeLink { link } {$/;"	p
+removeNode	nodecfg.tcl	/^proc removeNode { node } {$/;"	p
+removeTrafficFlow	traffic.tcl	/^proc removeTrafficFlow { name } {$/;"	p
+renameCanvasApply	editor.tcl	/^proc renameCanvasApply { w } {$/;"	p
+renameCanvasPopup	editor.tcl	/^proc renameCanvasPopup { x y } {$/;"	p
+renumberNodes	util.tcl	/^proc renumberNodes { wi } {$/;"	p
+renumberNodesIfcs	util.tcl	/^proc renumberNodesIfcs { from to } {$/;"	p
+requestSessions	plugins.tcl	/^proc requestSessions {} {$/;"	p
+resetAllNodeCoords	nodecfg.tcl	/^proc resetAllNodeCoords { cmd } {$/;"	p
+resetChannel	api.tcl	/^proc resetChannel { channel_ptr close } {$/;"	p
+resetGlobalVars	filemgmt.tcl	/^proc resetGlobalVars { reason } {$/;"	p
+resetMobilityScript	wlanscript.tcl	/^proc resetMobilityScript { wlan } {$/;"	p
+resetObsWidgets	widget.tcl	/^proc resetObsWidgets {} {$/;"	p
+resizeCanvasApply	editor.tcl	/^    proc resizeCanvasApply { w } {$/;"	p
+resizeCanvasPopup	editor.tcl	/^proc resizeCanvasPopup {} {$/;"	p
+rj45.layer	nodes.tcl	/^proc rj45.layer {}      { return LINK }$/;"	p
+rj45ifclist	editor.tcl	/^    proc rj45ifclist { wi node wasclicked } {$/;"	p
+root-func	ns2imunes.tcl	/^proc root-func {ns_command args} {$/;"	p
+roundRect	annotations.tcl	/^proc roundRect { w x0 y0 x3 y3 radius args } {$/;"	p
+roundRect	tooltips.tcl	/^ proc roundRect { w x0 y0 x3 y3 radius args } {$/;"	p
+router.layer	nodes.tcl	/^proc router.layer {}    { return NETWORK }$/;"	p
+router.shellcmd	nodes.tcl	/^proc router.shellcmd { n } { return "vtysh" }$/;"	p
+runToolCommand	mobility.tcl	/^proc runToolCommand { wi node } {$/;"	p
+runTwoNodeCommand	mobility.tcl	/^proc runTwoNodeCommand { wi } {$/;"	p
+saveFile	filemgmt.tcl	/^proc saveFile { selectedFile } {$/;"	p
+savePrefsFile	filemgmt.tcl	/^proc savePrefsFile { } {$/;"	p
+scaleresolution	nodes.tcl	/^proc scaleresolution { res var val } {$/;"	p
+selectAdjacent	editor.tcl	/^proc selectAdjacent {} {$/;"	p
+selectNode	editor.tcl	/^proc selectNode { c obj } {$/;"	p
+selectNodes	editor.tcl	/^proc selectNodes { nodelist } {$/;"	p
+selectNodesHelper	util.tcl	/^proc selectNodesHelper { wi callback } {$/;"	p
+selectObsWidgetConf	widget.tcl	/^proc selectObsWidgetConf { wi } {$/;"	p
+selectRemoteServer	editor.tcl	/^    proc selectRemoteServer { wi } {$/;"	p
+selectRenumberNodes	util.tcl	/^proc selectRenumberNodes { wi l } {$/;"	p
+selectTwoNode	mobility.tcl	/^proc selectTwoNode { node } {$/;"	p
+selectTwoNodeTrafficCallback	traffic.tcl	/^proc selectTwoNodeTrafficCallback { } {$/;"	p
+selectTwoNode_twonodetool	mobility.tcl	/^proc selectTwoNode_twonodetool { } {$/;"	p
+selectZoom	editor.tcl	/^    proc selectZoom { x y } {$/;"	p
+selectedNodes	editor.tcl	/^proc selectedNodes {} {$/;"	p
+selectedRealNodes	editor.tcl	/^proc selectedRealNodes {} {$/;"	p
+selectmarkEnter	annotations.tcl	/^proc selectmarkEnter {c x y} {$/;"	p
+selectmarkLeave	annotations.tcl	/^proc selectmarkLeave {c x y} {$/;"	p
+sendCanvasInfo	api.tcl	/^proc sendCanvasInfo { sock } {$/;"	p
+sendConfReplyMessage	api.tcl	/^proc sendConfReplyMessage { channel node model types values opaque } {$/;"	p
+sendConfRequestMessage	api.tcl	/^proc sendConfRequestMessage { channel node model flags netid opaque } {$/;"	p
+sendEmulationServerInfo	api.tcl	/^proc sendEmulationServerInfo { sock reset } {$/;"	p
+sendEventMessage	api.tcl	/^proc sendEventMessage { channel type nodenum name data flags } {$/;"	p
+sendExecMessage	api.tcl	/^proc sendExecMessage { channel node cmd exec_num flags } {$/;"	p
+sendFileMessage	api.tcl	/^proc sendFileMessage { channel node type f sf data data_len } {$/;"	p
+sendHooks	api.tcl	/^proc sendHooks { sock } {$/;"	p
+sendLinkMessage	api.tcl	/^proc sendLinkMessage { channel link type } {$/;"	p
+sendNodeAddMessage	api.tcl	/^proc sendNodeAddMessage { channel node } {$/;"	p
+sendNodeCustomServices	api.tcl	/^proc sendNodeCustomServices { sock } {$/;"	p
+sendNodeDelMessage	api.tcl	/^proc sendNodeDelMessage { channel node } {$/;"	p
+sendNodeLinkDefinitions	api.tcl	/^proc sendNodeLinkDefinitions { sock } {$/;"	p
+sendNodePosMessage	api.tcl	/^proc sendNodePosMessage { channel node nodeid x y wlanid force } {$/;"	p
+sendNodeTypeInfo	api.tcl	/^proc sendNodeTypeInfo { sock reset } {$/;"	p
+sendRegMessage	api.tcl	/^proc sendRegMessage { channel types_list } {$/;"	p
+sendSessionMessage	api.tcl	/^proc sendSessionMessage { channel flags num name sfile nodecount tf user } {$/;"	p
+sendTrafficScript	traffic.tcl	/^proc sendTrafficScript { flow sock } {$/;"	p
+sendTrafficScripts	traffic.tcl	/^proc sendTrafficScripts { sock } {$/;"	p
+sessionConfig	plugins.tcl	/^proc sessionConfig { cmd wi channel } {$/;"	p
+setCanvasName	canvas.tcl	/^proc setCanvasName { canvas name } {$/;"	p
+setCanvasRefPoint	canvas.tcl	/^proc setCanvasRefPoint { canvas refpt } {$/;"	p
+setCanvasScale	canvas.tcl	/^proc setCanvasScale { canvas scale } {$/;"	p
+setCanvasSize	canvas.tcl	/^proc setCanvasSize { canvas x y } {$/;"	p
+setCanvasWallpaper	canvas.tcl	/^proc setCanvasWallpaper { canvas file style} {$/;"	p
+setConfig	nodecfg.tcl	/^proc setConfig { strlist cfg str } {$/;"	p
+setCustomButtonColor	nodes.tcl	/^proc setCustomButtonColor { btn node service needcustom } {$/;"	p
+setCustomCmd	nodecfg.tcl	/^proc setCustomCmd { node cmd } {$/;"	p
+setCustomConfig	nodecfg.tcl	/^proc setCustomConfig { node id cmd cfg delete } {$/;"	p
+setCustomEnabled	nodecfg.tcl	/^proc setCustomEnabled { node enabled } {$/;"	p
+setCustomImage	nodecfg.tcl	/^proc setCustomImage { node image } {$/;"	p
+setCustomPostConfigCommands	nodecfg.tcl	/^proc setCustomPostConfigCommands { node cfg } {$/;"	p
+setDefaultAddrs	util.tcl	/^proc setDefaultAddrs { fam } {$/;"	p
+setDefaultRoutes	ns2imunes.tcl	/^proc setDefaultRoutes {} {$/;"	p
+setExperimentStartStopMenu	exec.tcl	/^proc setExperimentStartStopMenu { mode } {$/;"	p
+setGuiTitle	filemgmt.tcl	/^proc setGuiTitle { txt } {$/;"	p
+setHookName	editor.tcl	/^    proc setHookName { wi } {$/;"	p
+setIfcDumpState	nodecfg.tcl	/^proc setIfcDumpState { node ifc state } {$/;"	p
+setIfcIPv4addr	nodecfg.tcl	/^proc setIfcIPv4addr { node ifc addr } {$/;"	p
+setIfcIPv6addr	nodecfg.tcl	/^proc setIfcIPv6addr { node ifc addr } {$/;"	p
+setIfcMTU	nodecfg.tcl	/^proc setIfcMTU { node ifc mtu } {$/;"	p
+setIfcMacaddr	nodecfg.tcl	/^proc setIfcMacaddr { node ifc macaddr} {$/;"	p
+setIfcOperState	nodecfg.tcl	/^proc setIfcOperState { node ifc state } {$/;"	p
+setIfcQDisc	nodecfg.tcl	/^proc setIfcQDisc { node ifc qdisc } {$/;"	p
+setIfcQDrop	nodecfg.tcl	/^proc setIfcQDrop { node ifc qdrop } {$/;"	p
+setIfcQLen	nodecfg.tcl	/^proc setIfcQLen { node ifc len } {$/;"	p
+setLinkBER	linkcfg.tcl	/^proc setLinkBER { link value } {$/;"	p
+setLinkBandwidth	linkcfg.tcl	/^proc setLinkBandwidth { link value } {$/;"	p
+setLinkColor	linkcfg.tcl	/^proc setLinkColor { link value } {$/;"	p
+setLinkDelay	linkcfg.tcl	/^proc setLinkDelay { link value } {$/;"	p
+setLinkDup	linkcfg.tcl	/^proc setLinkDup { link value } {$/;"	p
+setLinkJitter	linkcfg.tcl	/^proc setLinkJitter { link value } {$/;"	p
+setLinkMirror	linkcfg.tcl	/^proc setLinkMirror { link value } {$/;"	p
+setLinkOpaque	linkcfg.tcl	/^proc setLinkOpaque { link key value } {$/;"	p
+setLinkWidth	linkcfg.tcl	/^proc setLinkWidth { link value } {$/;"	p
+setNodeCanvas	nodecfg.tcl	/^proc setNodeCanvas { node canvas } {$/;"	p
+setNodeCoords	nodecfg.tcl	/^proc setNodeCoords { node coords } {$/;"	p
+setNodeHidden	nodecfg.tcl	/^proc setNodeHidden { node value } {$/;"	p
+setNodeLabelCoords	nodecfg.tcl	/^proc setNodeLabelCoords { node coords } {$/;"	p
+setNodeLocation	nodecfg.tcl	/^proc setNodeLocation { node location } {$/;"	p
+setNodeMirror	nodecfg.tcl	/^proc setNodeMirror { node value } {$/;"	p
+setNodeModel	nodecfg.tcl	/^proc setNodeModel { node model } {$/;"	p
+setNodeName	nodecfg.tcl	/^proc setNodeName { node name } {$/;"	p
+setNodeRange	nodecfg.tcl	/^proc setNodeRange { node value } {$/;"	p
+setNodeRole	nodecfg.tcl	/^proc setNodeRole { node role } {$/;"	p
+setNodeServices	nodecfg.tcl	/^proc setNodeServices { node services } {$/;"	p
+setOperMode	exec.tcl	/^proc setOperMode { mode } {$/;"	p
+setPartition	graph_partitioning.tcl	/^proc setPartition { node partition } {$/;"	p
+setPluginCapList	plugins.tcl	/^proc setPluginCapList { plugin caps } {$/;"	p
+setStatIPv4routes	nodecfg.tcl	/^proc setStatIPv4routes { node routes } {$/;"	p
+setStatIPv6routes	nodecfg.tcl	/^proc setStatIPv6routes { node routes } {$/;"	p
+setSystype	util.tcl	/^proc setSystype { } {$/;"	p
+setType	nodecfg.tcl	/^proc setType { node type } {$/;"	p
+setZoomApply	editor.tcl	/^    proc setZoomApply { w } {$/;"	p
+showScriptPopup	wlanscript.tcl	/^proc showScriptPopup { wlan } {$/;"	p
+simplex-link	ns2imunes.tcl	/^proc simplex-link { linkdata } {$/;"	p
+spawnShell	editor.tcl	/^proc spawnShell { node cmd } {$/;"	p
+splitGUILink	editor.tcl	/^proc splitGUILink { link } {$/;"	p
+splitGraph	graph_partitioning.tcl	/^proc splitGraph {nvertices node_neighbour node_weight edge_array edge_weight snode_neighbour snode_weight sedge_array sedge_weight snode_map sn_vtxs sn_edges snode_map_help} {$/;"	p
+splitLink	linkcfg.tcl	/^proc splitLink { link nodetype } {$/;"	p
+startTrafficScripts	traffic.tcl	/^proc startTrafficScripts { } {$/;"	p
+startstopTrafficScript	traffic.tcl	/^proc startstopTrafficScript { flow startstop } {$/;"	p
+statgraph	exec.tcl	/^proc statgraph { cmd n } {$/;"	p
+statline	exec.tcl	/^proc statline {line} {$/;"	p
+stopTrafficScripts	traffic.tcl	/^proc stopTrafficScripts { } {$/;"	p
+stringToIPv4	ipv4.tcl	/^proc stringToIPv4 { ip } {$/;"	p
+stringToIPv6	ipv6.tcl	/^proc stringToIPv6 { ip } {$/;"	p
+sum_array	graph_partitioning.tcl	/^proc sum_array {end arr} {$/;"	p
+swap	graph_partitioning.tcl	/^proc swap {permArray idx1 idx2} {$/;"	p
+switchCanvas	editor.tcl	/^proc switchCanvas { direction } {$/;"	p
+syncSizeScale	editor.tcl	/^proc syncSizeScale { w type } {$/;"	p
+test_partitioning	gpgui.tcl	/^proc test_partitioning {partNum} {$/;"	p
+textCharSize	tooltips.tcl	/^proc textCharSize { txt } {$/;"	p
+textEnter	annotations.tcl	/^proc textEnter { c x y } {$/;"	p
+throwCEL	exceptions.tcl	/^proc throwCEL { clear } {$/;"	p
+tkOptionMenuCallback	util.tcl	/^proc tkOptionMenuCallback { ctl var cb args } {$/;"	p
+toggle	util.tcl	/^proc toggle { v } {$/;"	p
+topoGenDone	topogen.tcl	/^proc topoGenDone { v } {$/;"	p
+trafficHelper	traffic.tcl	/^proc trafficHelper { wi cmd } {$/;"	p
+trafficPresets	traffic.tcl	/^proc trafficPresets { wi preset } {$/;"	p
+treeviewInsert	nodes.tcl	/^proc treeviewInsert { tree parent items } {$/;"	p
+treeviewLeaves	nodes.tcl	/^proc treeviewLeaves { tree parent } {$/;"	p
+tunnel.layer	nodes.tcl	/^proc tunnel.layer {}    { return LINK }$/;"	p
+tupleStringToList	util.tcl	/^proc tupleStringToList { str } {$/;"	p
+typemodel	nodecfg.tcl	/^proc typemodel { node } {$/;"	p
+undo	editor.tcl	/^proc undo {} {$/;"	p
+unpauseMobilityScript	wlanscript.tcl	/^proc unpauseMobilityScript { wlan } {$/;"	p
+updateAllRanges	wlan.tcl	/^proc updateAllRanges { wlan force } {$/;"	p
+updateConnectMessage	exec.tcl	/^proc updateConnectMessage { dst } {$/;"	p
+updateIfcLabel	editor.tcl	/^proc updateIfcLabel { lnode1 lnode2 } {$/;"	p
+updateLinkLabel	editor.tcl	/^proc updateLinkLabel { link } {$/;"	p
+updateMenus	exec.tcl	/^proc updateMenus { mode } {$/;"	p
+updateNodePosBeforeDisconnect	api.tcl	/^proc updateNodePosBeforeDisconnect { } {$/;"	p
+updateNodeSpeed	wlanscript.tcl	/^proc updateNodeSpeed { c wlan dest } {$/;"	p
+updateOptBtn	wlan.tcl	/^proc updateOptBtn { wi txt } {$/;"	p
+updateRange	wlan.tcl	/^proc updateRange { wlan range } {$/;"	p
+updateUndoLog	editor.tcl	/^proc updateUndoLog {} {$/;"	p
+updateUndoRedoMenu	editor.tcl	/^proc updateUndoRedoMenu { forced } {$/;"	p
+upgradeConfigRemoveNode0	util.tcl	/^proc upgradeConfigRemoveNode0 { } {$/;"	p
+upgradeConfigServices	nodes.tcl	/^proc upgradeConfigServices {} {$/;"	p
+upgradeCustomPostConfigCommands	nodes.tcl	/^proc upgradeCustomPostConfigCommands { node } {$/;"	p
+upgradeNetworkConfigToServices	util.tcl	/^proc upgradeNetworkConfigToServices { } {$/;"	p
+upgradeNodeConfigService	nodes.tcl	/^proc upgradeNodeConfigService { node } {$/;"	p
+upgradeOldConfig	util.tcl	/^proc upgradeOldConfig { cfg_ref } {$/;"	p
+upgradeWlanConfigs	wlan.tcl	/^proc upgradeWlanConfigs {} {$/;"	p
+upgradeWlanRangeConfig	wlan.tcl	/^proc upgradeWlanRangeConfig { wlan } {$/;"	p
+vimageCleanupAPI	api.tcl	/^proc vimageCleanupAPI {} {$/;"	p
+wallpaperAdjustCanvas	editor.tcl	/^    proc wallpaperAdjustCanvas { c f style } {$/;"	p
+wallpaperPopup	editor.tcl	/^    proc wallpaperPopup {} {$/;"	p
+wallpaperPopupPreview	editor.tcl	/^    proc wallpaperPopupPreview { w } {$/;"	p
+widgetObserveNode	widget.tcl	/^proc widgetObserveNode {c node} {$/;"	p
+widget_adjacency_config	widget.tcl	/^proc widget_adjacency_config {} {$/;"	p
+widget_adjacency_config_apply	widget.tcl	/^proc widget_adjacency_config_apply { wi } {$/;"	p
+widget_adjacency_init	widget.tcl	/^proc widget_adjacency_init {command} {$/;"	p
+widget_adjacency_init_submenu	widget.tcl	/^proc widget_adjacency_init_submenu { m } {$/;"	p
+widget_adjacency_move	widget.tcl	/^proc widget_adjacency_move { c node done } {$/;"	p
+widget_adjacency_periodic	widget.tcl	/^proc widget_adjacency_periodic { now } {$/;"	p
+widget_config_none	widget.tcl	/^proc widget_config_none {} {$/;"	p
+widget_cpu_config	widget.tcl	/^proc widget_cpu_config {} {$/;"	p
+widget_cpu_config_apply	widget.tcl	/^proc widget_cpu_config_apply { wi } {$/;"	p
+widget_cpu_init	widget.tcl	/^proc widget_cpu_init {command} {$/;"	p
+widget_cpu_move	widget.tcl	/^proc widget_cpu_move { c node done } {$/;"	p
+widget_cpu_periodic	widget.tcl	/^proc widget_cpu_periodic { now } {$/;"	p
+widget_cpu_periodic_openvz	widget.tcl	/^proc widget_cpu_periodic_openvz { now } {$/;"	p
+widget_cpu_periodic_vimage	widget.tcl	/^proc widget_cpu_periodic_vimage { now } {$/;"	p
+widget_init_none	widget.tcl	/^proc widget_init_none {command} {$/;"	p
+widget_loop	widget.tcl	/^proc widget_loop { } {$/;"	p
+widget_move_none	widget.tcl	/^proc widget_move_none {c node done} {$/;"	p
+widget_periodic_none	widget.tcl	/^proc widget_periodic_none {now} {$/;"	p
+widget_thru_config	widget.tcl	/^proc widget_thru_config {} {$/;"	p
+widget_thru_config_apply	widget.tcl	/^proc widget_thru_config_apply { wi } {$/;"	p
+widget_thru_init	widget.tcl	/^proc widget_thru_init {command} {$/;"	p
+widget_thru_init_cache	widget.tcl	/^proc widget_thru_init_cache { } {$/;"	p
+widget_thru_move	widget.tcl	/^proc widget_thru_move { c node done } {$/;"	p
+widget_thru_periodic	widget.tcl	/^proc widget_thru_periodic { now } {$/;"	p
+widgets_move_node	widget.tcl	/^proc widgets_move_node { c node done } {$/;"	p
+widgets_stop	widget.tcl	/^proc widgets_stop { } {$/;"	p
+wlan.layer	nodes.tcl	/^proc wlan.layer {}      { return LINK }$/;"	p
+wlanAPIRangeUpdate	api.tcl	/^proc wlanAPIRangeUpdate { wlan node x y force } {$/;"	p
+wlanCalcRange	wlan.tcl	/^proc wlanCalcRange { wlan node x y force } {$/;"	p
+wlanConfigDialogHelper	wlan.tcl	/^proc wlanConfigDialogHelper { wi target apply } {$/;"	p
+wlanRunMobilityRound	wlanscript.tcl	/^proc wlanRunMobilityRound { c wlan now } {$/;"	p
+wlanRunMobilityScript	wlanscript.tcl	/^proc wlanRunMobilityScript { wlan } {$/;"	p
+writeCanvasThumbnail	util.tcl	/^proc writeCanvasThumbnail { c fn } {$/;"	p
+writeNodeCoords	nodecfg.tcl	/^proc writeNodeCoords { node coords } {$/;"	p
+writeNodesConf	nodes.tcl	/^proc writeNodesConf { } {$/;"	p
+writePartitions	graph_partitioning.tcl	/^proc writePartitions {node_weight} {$/;"	p
+writePluginsConf	plugins.tcl	/^proc writePluginsConf { } {$/;"	p
+writeServersConf	cfgparse.tcl	/^proc writeServersConf { } {$/;"	p
+writeWeightToNode	gpgui.tcl	/^proc writeWeightToNode {node weight} {$/;"	p
+writeWidgetsConf	widget.tcl	/^proc writeWidgetsConf { } {$/;"	p
+xmlFileLoadSave	api.tcl	/^proc xmlFileLoadSave { cmd name } {$/;"	p
+zoom	editor.tcl	/^    proc zoom { dir } {$/;"	p

@@ -931,6 +931,90 @@ proc exportPython { } {
     }
 }
 
+proc getid { n } {
+    return [expr [string trimleft $n "n"] - 1 ]
+}
+
+proc exportImalse { } {
+    global node_list link_list
+
+    ##### export the topology file #######
+    set topo_fp [open "topology.inet" "w"]
+    puts $topo_fp "[llength $node_list] [llength link_list]"
+    puts "[llength $node_list] [llength link_list]"
+    # add node position
+    foreach n $node_list {
+        set name [getNodeName $n]
+        set xy [getNodeCoords $n]
+        puts $topo_fp "[getid $n] [lindex $xy 0] [lindex $xy 1]"
+        puts "[getid $n] [lindex $xy 0] [lindex $xy 1]"
+    }
+    # add link
+    foreach l $link_list {
+        set lnode1 [lindex [linkPeers $l] 0]
+        set lnode2 [lindex [linkPeers $l] 1]
+        puts $topo_fp "[getid $lnode1] [getid $lnode2] 1"
+        puts "[getid $lnode1] [getid $lnode2] 1"
+    }
+    close $topo_fp
+
+    #### export the net_settings.py file #####
+    set ns_fp [open "net_settings.py" "w"]
+
+    # export default value
+    puts $ns_fp "ipv4_net_addr_base = '10.7.0.1/24'"
+    puts "ipv4_net_addr_base = '10.7.0.1/24'"
+    puts $ns_fp "link_attr_default = \['2ms','5Mbps'\]"
+    puts "link_attr_default = \['2ms','5Mbps'\]"
+
+    # export link_to_ip_map
+    puts $ns_fp "link_to_ip_map = {"
+    puts "link_to_ip_map = {"
+
+    foreach l $link_list {
+        set lnode1 [lindex [linkPeers $l] 0]
+        set lnode2 [lindex [linkPeers $l] 1]
+        set id1 [getid $lnode1]
+        set id2 [getid $lnode2]
+        set ifc1 [ifcByPeer $lnode1 $lnode2]
+        set ifc2 [ifcByPeer $lnode2 $lnode1]
+        set ipv4_1 [getIfcIPv4addr $lnode1 $ifc1]
+        set ipv4_2 [getIfcIPv4addr $lnode2 $ifc2]
+
+        puts $ns_fp "\t($id1, $id2):\['$ipv4_1', '$ipv4_2'\],"
+        puts "\t($id1, $id2):\['$ipv4_1', '$ipv4_2'\],"
+    }
+    puts $ns_fp "}"
+    puts "}"
+
+
+    puts $ns_fp "link_attr = {"
+    puts "link_attr = {"
+    # export link_attr
+    foreach l $link_list {
+        set lnode1 [lindex [linkPeers $l] 0]
+        set lnode2 [lindex [linkPeers $l] 1]
+        set id1 [getid $lnode1]
+        set id2 [getid $lnode2]
+        set delay [getLinkDelayString $l]
+        set bandwidth [getLinkBandwidthString $l]
+        if { [expr [string bytelength $delay] + [string bytelength $bandwidth]] != 0 } {
+            puts $ns_fp "\t($id1, $id2):\['$delay', '$bandwidth'\],"
+            puts "\t($id1, $id2):\['$delay', '$bandwidth'\],"
+        }
+        # puts "bandwidth: [getLinkBandwidth $l]"
+    }
+    puts $ns_fp "}"
+    puts "}"
+
+    puts $ns_fp "pcap_links = \[\]"
+    puts "pcap_links = \[\]"
+    puts $ns_fp "pcap_nodes = \[\]"
+    puts "pcap_nodes = \[\]"
+
+    close $ns_fp
+}
+
 # from Practical Programming in Tcl and Tk, page 190
 proc Call_Trace {{file stdout}} {
     puts $file "*** Tcl Call Trace:"

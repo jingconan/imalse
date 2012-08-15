@@ -3,20 +3,19 @@ It demos the process of loading a predefined topology file.
 """
 import settings
 from core.ns3.Topology import TopologyNet
-import os
-
-NETWORK_BASE = "10.0.0.0"
-SERVER_ADDR = "10.0.0.1"
-# SERVER_ADDR = "127.0.0.1"
-IP_MASK = "255.255.255.0"
 
 class TopoExperiment(BaseClass):
+    NETWORK_BASE = "10.0.0.0"
+    SERVER_ADDR = "10.0.0.1"
+    # SERVER_ADDR = "127.0.0.1"
+    IP_MASK = "255.255.255.0"
+
     """This is pure ns-3 topology Experiment without emulated node"""
     def initparser(self, parser):
         # import pdb;pdb.set_trace()
         super(TopoExperiment, self).initparser(parser)
 
-        parser.set_defaults(topology_file=settings.ROOT+"/net_config/Inet_small_toposample.txt",
+        parser.set_defaults(topology_file="net_config/Inet_small_toposample.txt",
                 topology_type = 'Inet',
                 )
         parser.add_option("-f", "--topology_file", dest = "topology_file",
@@ -35,15 +34,16 @@ class TopoExperiment(BaseClass):
     def setup(self):
         super(TopoExperiment, self).setup()
         self.net = TopologyNet(
-                os.path.abspath(self.options.topology_file),
+                # os.path.abspath(self.options.topology_file),
+                settings.ROOT + '/' + self.options.topology_file,
                 self.options.topology_type,
                 self.NodeCreator,
-                ipv4Mask = IP_MASK,
-                ipv4NetworkBase=NETWORK_BASE,
-                ipv4AddrBase = SERVER_ADDR
+                ipv4Mask = self.IP_MASK,
+                ipv4NetworkBase= self.NETWORK_BASE,
+                ipv4AddrBase = self.SERVER_ADDR
                 )
 
-        self._install_cmds(srv_addr = SERVER_ADDR)
+        self._install_cmds(srv_addr = self.SERVER_ADDR)
         self.print_srv_addr()
         self._set_server_info()
         self.start_nodes()

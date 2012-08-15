@@ -150,11 +150,20 @@ set showLinkLabels 1
 set showIPsecConfig 1
 set showExecErrors 1
 
+set showTraceFlag 1
+set showRole 1
+
 set showBkgImage 0
 set showAnnotations 1
 
 set defSelectionColor #FEFFBA
 set def_router_model router
+
+# start Imalse
+set def_router_role none
+set def_router_traceflag no
+set defLinkTraceFlag no
+# end Imalse
 
 set wlanLinkColors "#007000 #000070 #700000 #700070 #707070 #007070 #707000"
 set g_twoNodeSelect "" ;# flag for editor.tcl:button1 when selecting two nodes
@@ -262,6 +271,8 @@ bind . <Control-s> "fileSaveDialogBox false"
 	}
     }
 .menubar.file add command -label "Export Python script..." -command exportPython
+.menubar.file add command -label "Export Imalse config script..." -command exportImalse
+
 .menubar.file add separator
 foreach f $g_mrulist {
     .menubar.file add command -label "$f" -command "mrufile \"$f\""
@@ -493,6 +504,13 @@ menu .menubar.view.show -tearoff 1
 .menubar.view.show add checkbutton -label "API Messages" \
     -underline 5 -variable showAPI
 
+# start Imalse
+.menubar.view.show add checkbutton -label "Trace Flag" \
+    -underline 5 -variable showTraceFlag
+.menubar.view.show add checkbutton -label "Role" \
+    -underline 5 -variable showRole
+# end Imalse
+
 .menubar.view add command -label "Show hidden nodes" \
     -command {
 	global node_list
@@ -716,6 +734,10 @@ menu .button3menu.ethereal -tearoff 0
 menu .button3menu.tcpdump -tearoff 0
 menu .button3menu.tunnel -tearoff 0
 # end Boeing
+#
+
+# Imalse
+# End Imalse
 
 #
 # Restore window position
