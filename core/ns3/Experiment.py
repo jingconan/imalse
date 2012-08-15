@@ -69,8 +69,6 @@ class ImalseExperiment(object):
         botmaster_desc = scen.botmaster_desc
         server_desc = scen.server_desc
         client_desc = scen.client_desc
-        # botmaster_desc['srv_addr'] = "10.1.1.1"
-        print 'srv_addr, ', srv_addr
         if srv_addr:
             botmaster_desc['srv_addr'] = srv_addr
             server_desc['srv_addr'] = srv_addr
@@ -90,6 +88,11 @@ class ImalseExperiment(object):
     def _get_server_addr(self):
         """The all the server address"""
         addr_set = []
+        # print 'self.server_id_set', self.server_id_set
+        # for i in [0, 1, 2, 3, 4, 5]:
+            # ipv4Addr = self.get_node(i).GetObject(ns3.TypeId.LookupByName("ns3::Ipv4")).GetAddress(1, 0)
+            # print str(ipv4Addr.GetLocal())
+
         for i in self.server_id_set:
             ipv4Addr = self.get_node(i).GetObject(ns3.TypeId.LookupByName("ns3::Ipv4")).GetAddress(1, 0)
             addr_set.append(ipv4Addr)

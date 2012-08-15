@@ -2841,7 +2841,7 @@ proc popupConfigApply { wi object_type target phase } {
     # end Imalse
 
     $wi config -cursor watch
-    puts "before update"
+    # puts "before update"
     update
     if { $phase == 0 } {
         set badentry 0
@@ -2852,13 +2852,13 @@ proc popupConfigApply { wi object_type target phase } {
         $wi config -cursor left_ptr
         return
     }
-    puts "before switch"
+    # puts "before switch"
     switch -exact -- $object_type {
     #
     # Node
     #
         node {
-            puts "enter node"
+            # puts "enter node"
             set type [nodeType $target]
             set model [getNodeModel $target]
             set name [string trim [$wi.ftop.name get]]
@@ -2881,11 +2881,11 @@ proc popupConfigApply { wi object_type target phase } {
                 if { $router_model == "remote" } { set changed_to_remote 1 };#Boeing
             }
 
-            puts "before imalse"
+            # puts "before imalse"
             if { $oper_mode == "edit" && $type == "router"} {
                 setNodeRole $target $router_role
             }
-            puts "after imalse"
+            # puts "after imalse"
 
             if { $oper_mode == "edit" && $type == "router"} {
                 setNodeTraceFlag $target $router_traceflag

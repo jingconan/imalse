@@ -6,7 +6,7 @@ from core.ns3.Topology import ManualTopologyNet
 from experiments import experiment_factory
 import os
 
-SERVER_ADDR = "10.0.1.1"
+# SERVER_ADDR = "10.0.1.1"
 
 TopoExperiment = experiment_factory('TopoExperiment', BaseClass)
 from util import Namespace
@@ -49,7 +49,7 @@ class ManualTopoExperiment(TopoExperiment):
                 )
         self.net.set_trace()
 
-        self._install_cmds(srv_addr = SERVER_ADDR)
+        self._install_cmds(srv_addr = self.SERVER_ADDR)
         self.print_srv_addr()
         self._set_server_info()
         self.start_nodes()

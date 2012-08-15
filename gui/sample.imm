@@ -1,8 +1,8 @@
 node n1 {
     type router
-    role none
+    role {none}
     model router
-    traceflag yes
+    traceflag {yes}
     network-config {
 	hostname n1
 	!
@@ -60,9 +60,13 @@ node n3 {
     type router
     role {server}
     traceflag {yes}
-    model PC
+    model host
     network-config {
 	hostname n3
+	!
+	interface eth1
+	 ip address 10.0.5.10/24
+	 ipv6 address 2001:5::10/64
 	!
 	interface eth0
 	 ip address 10.0.0.20/24
@@ -73,15 +77,20 @@ node n3 {
     iconcoords {92.0 350.0}
     labelcoords {92.0 382.0}
     interface-peer {eth0 n1}
+    interface-peer {eth1 n4}
 }
 
 node n4 {
     type router
     traceflag {yes}
-    role {client}
+    role {botmaster}
     model PC
     network-config {
 	hostname n4
+	!
+	interface eth1
+	 ip address 10.0.5.20/24
+	 ipv6 address 2001:5::20/64
 	!
 	interface eth0
 	 ip address 10.0.1.20/24
@@ -92,6 +101,7 @@ node n4 {
     iconcoords {374.0 415.0}
     labelcoords {374.0 447.0}
     interface-peer {eth0 n1}
+    interface-peer {eth1 n3}
 }
 
 node n5 {
@@ -108,8 +118,8 @@ node n5 {
 	!
     }
     canvas c1
-    iconcoords {501.0 430.0}
-    labelcoords {501.0 462.0}
+    iconcoords {502.0 430.0}
+    labelcoords {502.0 462.0}
     interface-peer {eth0 n2}
 }
 
@@ -140,8 +150,10 @@ link l1 {
 }
 
 link l2 {
+    traceflag no
+    delay 80000
     nodes {n4 n1}
-    bandwidth 0
+    bandwidth 64000
 }
 
 link l3 {
@@ -156,6 +168,11 @@ link l4 {
 
 link l5 {
     nodes {n6 n2}
+    bandwidth 0
+}
+
+link l6 {
+    nodes {n3 n4}
     bandwidth 0
 }
 

@@ -43,6 +43,10 @@ class TopologyReader(object):
     def LinksSize(self):
         return len(self.m_linksList)
 
+
+def argsort(seq):
+    return sorted(range(len(seq)), key=seq.__getitem__)
+
 class InetTopologyReader(TopologyReader):
     """reader for `inet topology generator file<http://topology.eecs.umich.edu/inet/>`_
     """
@@ -51,6 +55,7 @@ class InetTopologyReader(TopologyReader):
         nodes = ns.network.NodeContainer()
         fid = open(self.m_fileName, 'r')
         i = -1
+        node_name_list = []
         while True:
             i += 1
             line = fid.readline()
@@ -68,6 +73,7 @@ class InetTopologyReader(TopologyReader):
                     node = self.m_nodeMap[name]
                 except KeyError:
                     node = self.NodeCreator()
+                    node_name_list.append(name)
                     nodes.Add(node)
                     self.m_nodeMap[name] = node
 
@@ -81,7 +87,17 @@ class InetTopologyReader(TopologyReader):
             self.AddLink(link)
 
         print 'finish scanning topology, there are [%i] nodes'%(nodes.GetN())
-        return nodes
+
+        # can only deal with case that node name is string that can be changed int, like '1', '2' ...
+        node_id_list = [int(name) for name in node_name_list]
+        assert( len(node_id_list) ==  max(node_id_list) + 1) # must be continous
+        # sort the node according to node id
+        sort_idx = argsort(node_id_list)
+        order_nodes = ns.network.NodeContainer()
+        for idx in sort_idx:
+            order_nodes.Add(nodes.Get(idx))
+
+        return order_nodes
 
 class OrbisTopologyReader(TopologyReader):
     pass

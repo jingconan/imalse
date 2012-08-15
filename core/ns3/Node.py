@@ -191,12 +191,13 @@ class ImalseNetnsSimNode(ns3.Node, BaseNode):
         server_addr = self._search_server_addr(addr_port[0])
         print 'server_addr, ', server_addr
         print 'serval local, ', self.server_addr_set[0].GetLocal()
-        print 'serval local, ', type(self.server_addr_set[0].GetLocal())
+        # import pdb;pdb.set_trace()
         assert(str(server_addr) == str(self.server_addr_set[0].GetLocal()))
         # import pdb;pdb.set_trace()
+
         inetAddr = ns3.InetSocketAddress(
-                # server_addr,
-                self.server_addr_set[0].GetLocal(), # connect to first server
+                server_addr,
+                # self.server_addr_set[0].GetLocal(), # connect to first server
                 addr_port[1]
                 )
 
