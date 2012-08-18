@@ -219,10 +219,68 @@ must be consistant.
 
 ..  The experiments folder contains several examples of experiment
 
+GUI Support
+------------------------------
+One important principle of Imalse is "not reinventing the wheels". So instead of
+implementing a GUI by myself, I take advantage of existing GUI tools,
+particually NS3 `PyViz <http://www.nsnam.org/wiki/index.php/PyViz>`_ and 
+`CORE network topology Editor <http://cs.itd.nrl.navy.mil/work/core/>`_ 
+( which is again based on
+IMUNES network topology editor)
+
+The GUI support of Imalse are two folds:
+    1. It provides a simple visualizer that can visualize the topology and
+       traffic dynamically. This is based on PyViz. 
+    2. It provides a complete Network Topology Editor in which you can "draw" the
+       network topology, config the network and export the configuration scripts
+       for command line to use. This part is based on CORE Network Topology
+       Editor
+
+Simple Visualizer
+++++++++++++++++++++++++++++++
+The first function is suitable for those who are accustomed to work under command
+lines but just need a very simple visualization to check everythings goes right.
+You have total control using this, you can implement new command line
+settings, and editing network topology and ip address.
+
+Currenly only NS3 pure simulation can be visualized using PyViz. To visualize
+the simulation, you just need run the simulation in *sim* mode and add the
+*--SimulatorImpl=Visual* in the command. The screenshot of simple visualizer is
+as follows:
+
+.. image:: ./figure/Visualizer_screenshot.png
+    :align: center 
+    :height: 400px
+
+Network Topology Editor
+++++++++++++++++++++++++++++++
+One of the most cubersome part of configuration is to 1. create a suitable network
+topology. 2. Configure the ip address. 3 and specify the role of each node. You
+can definitely do this using commandl line and actually I have tried my best to
+make the process easier. For example, in TopologyExperiment, the IP address of
+each subnetwork can be automatically assigned. The inet topology generator tool has been
+integrated to generate reasonable topology. 
+
+However, in many cases, you would prefer to configure by youself instead of
+using automated tools. In this case, you will have a lot of tedious typing work
+if you use command line tools.
+
+To make the proces easier, the Imalse provide a GUI of topology editor. This GUI
+editor is revised from GUI editor of `CORE <http://cs.itd.nrl.navy.mil/work/core/>`_ . A screenshot
+is as follows:
+
+.. image:: ./figure/ImalseGUI.png
+    :align: center 
+    :height: 400px
+
+please refer to the `CORE GUI Manual Page <http://pf.itd.nrl.navy.mil/core/core-html/Using-the-CORE-GUI.html#Using-the-CORE-GUI>`_ and `IMUNES Manual <http://imunes.tel.fer.hr/imunes/dl/imunes_ug_20110907.pdf>`_ for basic usuage of the editor. You can look at the `GUI Demo <http://www.youtube.com/watch?v=PSXyEXFRSYs&feature=plcp>`_ for the difference.
+
 Demo:
 ------------------------------
-this is the link for a demo
-`video <http://www.youtube.com/watch?v=CZ91McFlIvo&feature=plcp>`_
+Here are some demo videos
+
+    - `Command Line Usage <http://www.youtube.com/watch?v=CZ91McFlIvo&feature=plcp>`_
+    - `GUI usage <http://www.youtube.com/watch?v=PSXyEXFRSYs&feature=plcp>`_
 
 
 Extension:

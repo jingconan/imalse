@@ -1,7 +1,9 @@
 #!/usr/bin/env python
+if __name__ == "__main__":
+    import sys; sys.path.insert(0, "..")
+
 from Client import ClientCMD
 from util import abstract_method
-
 
 botmaster_desc= {
         'start_action' : 'request_connect',
@@ -11,6 +13,7 @@ botmaster_desc= {
         }
 
 class BotMaster(ClientCMD):
+    """Base Class for Bot Master"""
     name = 'bot_master_cmd'
     def recv_ack(self): abstract_method()
 
@@ -18,6 +21,7 @@ class BotMaster(ClientCMD):
         print 'recv from server: ', data
 
 class BotMasterManInput(BotMaster):
+    """After connection is constructed, enter into an interactive command line"""
     @staticmethod
     def print_help():
         docs = """
@@ -49,17 +53,25 @@ class BotMasterManInput(BotMaster):
             self.node.recv(self.sock, 512, self.echo, threaded=True)
         print 'finish recv_ack'
 
-# class BotMasterShowExistence(ClientCMD):
-#     def recv_ack(self):
-#         while True:
-#             self.node.sock_send(self.sock, self._cmd_to_json('event=verify_master;password=1234;'))
-#             self.node.sleep(2)
-#             self.node.sock_send(self.sock,
-#                     self._cmd_to_json('event=echo_bots;msg=I am the master, I have controlled you;') )
-#             self.node.sleep(2)
-
 class BotMasterOneCMD(BotMaster):
+    """
+    >>> cmd = BotMasterOneCMD(botmaster_desc, '1234', 2, -1, \
+            'event=echo_bots;msg=I am the master, I have controlled you;')
+    >>> cmd = BotMasterOneCMD(botmaster_desc, '1234', 2, -1, \
+            'event=forward_to_bots;bot_event=send_ping;hostname=www.google.com;')
+
+    """
     def __init__(self, desc, master_password, interval, num, cmd_str):
+        """
+        Bot Master that verify itself and send command. One command wil be
+        sent automatically.
+        - **desc** specify the server information
+        - **master_password**
+        - **interval** the interval between two consequent command.
+        - **num** the total number this command will be sent
+        - **cmd_str** the command string. An example of string can be
+            event=forward_to_bots;bot_event=send_ping;hostname=127.0.0.1;
+        """
         ClientCMD.__init__(self, desc)
         self.master_password = master_password
         self.cmd_str = cmd_str
@@ -92,13 +104,12 @@ class BotMasterTest(BotMasterOneCMD):
             # 'event=forward_to_bots;bot_event=send_ping;hostname=10.0.0.0')
             # 'event=forward_to_bots;bot_event=send_ping;hostname=www.google.com;')
 
+if __name__ == "__main__":
+    import doctest
+    doctest.testmod()
+
 # if __name__ == "__main__":
-    # cmd = BotMasterOneCMD(client_fsm,
-            # '1234',
-            # 2,
-            # -1,
-            # 'event=echo_bots;msg=I am the master, I have controlled you;')
-    # cmd = BotMasterManInput(client_fsm)
+   # cmd = BotMasterManInput(client_fsm)
     # cmd = BotMasterOneCMD(client_fsm,
     #         '1234',
     #         2,

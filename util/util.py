@@ -16,13 +16,11 @@ def load_module(scenario):
     return scen
 
 import os
-# def get_scenario_option(scen_dir = './scenario/'):
 def get_scenario_option(scen_dir = settings.ROOT+'/scenario/'):
     return [f_name for f_name in os.listdir(scen_dir) if not \
             ( f_name.lower().endswith('py') or f_name.lower().startswith('.') or f_name.lower().endswith('pyc'))
             ]
 
-# def get_experiment_option(scen_dir = './experiments/'):
 def get_experiment_option(scen_dir = settings.ROOT+'/experiments/'):
     return [f_name[:-3] for f_name in os.listdir(scen_dir) if f_name.endswith('Experiment.py') ]
 

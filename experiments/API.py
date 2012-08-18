@@ -1,4 +1,12 @@
-from core.ns3 import ImalseNetnsExperiment, ImalsePureSimExperiment
+try:
+    from core.ns3 import ImalseNetnsExperiment
+except:
+    print 'ImalseNetnsExperiment cannot be imported'
+    class ImalseNetnsExperiment:
+        def print_help(self):
+            print 'Netns mode is not support'
+
+from core.ns3 import ImalsePureSimExperiment
 
 class Basic(object):
     def initparser(self, parser): pass

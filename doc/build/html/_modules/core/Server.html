@@ -3,13 +3,16 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
+
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>core.Server &mdash; imalse v0.0 alpha documentation</title>
+    <title>core.Server &mdash; imalse 0.0 alpha documentation</title>
+    
     <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
@@ -22,7 +25,7 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <link rel="top" title="imalse v0.0 alpha documentation" href="../../index.html" />
+    <link rel="top" title="imalse 0.0 alpha documentation" href="../../index.html" />
     <link rel="up" title="core" href="../core.html" /> 
   </head>
   <body>
@@ -32,10 +35,7 @@
         <li class="right" style="margin-right: 10px">
           <a href="../../genindex.html" title="General Index"
              accesskey="I">index</a></li>
-        <li class="right" >
-          <a href="../../py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li><a href="../../index.html">imalse v0.0 alpha documentation</a> &raquo;</li>
+        <li><a href="../../index.html">imalse 0.0 alpha documentation</a> &raquo;</li>
           <li><a href="../index.html" >Module code</a> &raquo;</li>
           <li><a href="../core.html" accesskey="U">core</a> &raquo;</li> 
       </ul>
@@ -65,7 +65,7 @@
 
 <span class="n">BOT_MASTER_PASSWORD</span> <span class="o">=</span> <span class="s">&#39;1234&#39;</span>
 
-<div class="viewcode-block" id="ServerCMD"><a class="viewcode-back" href="../../API.html#core.Server.ServerCMD">[docs]</a><span class="k">class</span> <span class="nc">ServerCMD</span><span class="p">(</span><span class="n">CMD</span><span class="p">):</span>
+<div class="viewcode-block" id="ServerCMD"><a class="viewcode-back" href="../../api.html#core.Server.ServerCMD">[docs]</a><span class="k">class</span> <span class="nc">ServerCMD</span><span class="p">(</span><span class="n">CMD</span><span class="p">):</span>
     <span class="n">name</span> <span class="o">=</span>  <span class="s">&#39;server_cmd&#39;</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="n">server_desc</span><span class="p">):</span>
         <span class="n">CMD</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">desc</span><span class="p">)</span>
@@ -81,7 +81,7 @@
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">port</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">desc</span><span class="p">[</span><span class="s">&#39;srv_port&#39;</span><span class="p">]</span>
 
-<div class="viewcode-block" id="ServerCMD.initialize"><a class="viewcode-back" href="../../API.html#core.Server.ServerCMD.initialize">[docs]</a>    <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="ServerCMD.initialize"><a class="viewcode-back" href="../../api.html#core.Server.ServerCMD.initialize">[docs]</a>    <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; initialize the server.</span>
 <span class="sd">        If the server is real node. It will call Accept method in blocking way.</span>
 <span class="sd">        if the server is simulated. It will set the SetAcceptCallBack</span>
@@ -114,7 +114,7 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">srv_sock</span><span class="o">.</span><span class="n">SetAcceptCallback</span><span class="p">(</span><span class="n">connect_request</span><span class="p">,</span> <span class="n">connect_created</span><span class="p">)</span>
 
-<div class="viewcode-block" id="ServerCMD.recv_request_conn"><a class="viewcode-back" href="../../API.html#core.Server.ServerCMD.recv_request_conn">[docs]</a>    <span class="k">def</span> <span class="nf">recv_request_conn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">client_sock</span><span class="p">,</span> <span class="n">address</span><span class="p">):</span>
+<div class="viewcode-block" id="ServerCMD.recv_request_conn"><a class="viewcode-back" href="../../api.html#core.Server.ServerCMD.recv_request_conn">[docs]</a>    <span class="k">def</span> <span class="nf">recv_request_conn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">client_sock</span><span class="p">,</span> <span class="n">address</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;call back for receive the connection request</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;receive request from addr: </span><span class="si">%s</span><span class="s">&#39;</span><span class="o">%</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">address</span><span class="p">)))</span>
@@ -123,7 +123,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">node</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="n">client_sock</span><span class="p">,</span> <span class="mi">512</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">node</span><span class="o">.</span><span class="n">dispatcher</span><span class="p">,</span>
                 <span class="n">threaded</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="ServerCMD.dispatcher"><a class="viewcode-back" href="../../API.html#core.Server.ServerCMD.dispatcher">[docs]</a>    <span class="k">def</span> <span class="nf">dispatcher</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sock</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+<div class="viewcode-block" id="ServerCMD.dispatcher"><a class="viewcode-back" href="../../api.html#core.Server.ServerCMD.dispatcher">[docs]</a>    <span class="k">def</span> <span class="nf">dispatcher</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sock</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;just enclosure of CMD dispatcher&quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">CMD</span><span class="o">.</span><span class="n">dispatcher</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sock</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
@@ -134,7 +134,7 @@
                     <span class="s">&quot;</span><span class="se">\n</span><span class="s">----------------</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">node</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">sock</span><span class="p">,</span> <span class="s">&#39;you have sent me a unknown message&#39;</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="ServerCMD.verify_master"><a class="viewcode-back" href="../../API.html#core.Server.ServerCMD.verify_master">[docs]</a>    <span class="k">def</span> <span class="nf">verify_master</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sock</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+<div class="viewcode-block" id="ServerCMD.verify_master"><a class="viewcode-back" href="../../api.html#core.Server.ServerCMD.verify_master">[docs]</a>    <span class="k">def</span> <span class="nf">verify_master</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sock</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;verify the identity of the master&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">data</span><span class="p">[</span><span class="s">&#39;password&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">BOT_MASTER_PASSWORD</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span> <span class="s">&#39;bot master password verfied&#39;</span> <span class="p">)</span>
@@ -142,7 +142,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">node</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">sock</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cmd_to_json</span><span class="p">(</span><span class="s">&#39;event=echo;msg=verifed, hi master, what you want to do?&#39;</span><span class="p">))</span>
 
 </div>
-<div class="viewcode-block" id="ServerCMD.echo_bots"><a class="viewcode-back" href="../../API.html#core.Server.ServerCMD.echo_bots">[docs]</a>    <span class="k">def</span> <span class="nf">echo_bots</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sock</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+<div class="viewcode-block" id="ServerCMD.echo_bots"><a class="viewcode-back" href="../../api.html#core.Server.ServerCMD.echo_bots">[docs]</a>    <span class="k">def</span> <span class="nf">echo_bots</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sock</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;send echo command to all bots&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;start to echo_bots&#39;</span> <span class="p">)</span>
         <span class="n">new_data</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
@@ -163,7 +163,7 @@
 <div id="searchbox" style="display: none">
   <h3>Quick search</h3>
     <form class="search" action="../../search.html" method="get">
-      <input type="text" name="q" size="18" />
+      <input type="text" name="q" />
       <input type="submit" value="Go" />
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
@@ -183,17 +183,14 @@
         <li class="right" style="margin-right: 10px">
           <a href="../../genindex.html" title="General Index"
              >index</a></li>
-        <li class="right" >
-          <a href="../../py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li><a href="../../index.html">imalse v0.0 alpha documentation</a> &raquo;</li>
+        <li><a href="../../index.html">imalse 0.0 alpha documentation</a> &raquo;</li>
           <li><a href="../index.html" >Module code</a> &raquo;</li>
           <li><a href="../core.html" >core</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
         &copy; Copyright 2012, Jing Conan Wang.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
     </div>
   </body>
 </html>

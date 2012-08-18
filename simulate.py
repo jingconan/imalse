@@ -9,13 +9,13 @@ prou: `I'm sir`
 import sys
 import argparse
 
-try:
-    import experiments
-except ImportError as e:
-    print 'error, ', e
-    print 'You should use ns3 waf shell to run this code'
-    sys.exit()
-# import experiments
+# try:
+#     import experiments
+# except ImportError as e:
+#     print 'error, ', e
+#     print 'You should use ns3 waf shell to run this code'
+#     sys.exit()
+import experiments
 
 from util import get_experiment_option
 
@@ -55,9 +55,5 @@ if args.ehelp:
     print '+++++++++Experiment:[%s] Mode:[%s]+++++++++++++++++++++++'%(args.experiment, args.mode)
     exper.print_help()
     sys.exit(1)
-
-
-
-
 
 exper.main(exper_args)

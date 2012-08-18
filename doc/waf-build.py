@@ -32,6 +32,11 @@ parser.add_argument('-b', '--build', default='html',
 args, exper_args = parser.parse_known_args()
 
 CWD = os.path.abspath(os.getcwd())
-os.chdir(settings.NS3_PATH)
-# subprocess.check_call('./waf --pyrun "%s/sphinx-build -b html %s/source %s/build/html"'%(CWD, CWD, CWD), shell=True)
-subprocess.check_call('./waf --pyrun "%s/sphinx-build -b %s %s/source %s/build/%s"'%(CWD, args.build, CWD, CWD, args.build), shell=True)
+
+try:
+    os.chdir(settings.NS3_PATH)
+    # subprocess.check_call('./waf --pyrun "%s/sphinx-build -b html %s/source %s/build/html"'%(CWD, CWD, CWD), shell=True)
+    subprocess.check_call('./waf --pyrun "%s/sphinx-build -b %s %s/source %s/build/%s"'%(CWD, args.build, CWD, CWD, args.build), shell=True)
+except:
+    subprocess.check_call(['make', 'html'])
+

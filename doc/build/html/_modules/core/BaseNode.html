@@ -3,13 +3,16 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
+
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>core.BaseNode &mdash; imalse v0.0 alpha documentation</title>
+    <title>core.BaseNode &mdash; imalse 0.0 alpha documentation</title>
+    
     <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
@@ -22,7 +25,7 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <link rel="top" title="imalse v0.0 alpha documentation" href="../../index.html" />
+    <link rel="top" title="imalse 0.0 alpha documentation" href="../../index.html" />
     <link rel="up" title="core" href="../core.html" /> 
   </head>
   <body>
@@ -32,10 +35,7 @@
         <li class="right" style="margin-right: 10px">
           <a href="../../genindex.html" title="General Index"
              accesskey="I">index</a></li>
-        <li class="right" >
-          <a href="../../py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li><a href="../../index.html">imalse v0.0 alpha documentation</a> &raquo;</li>
+        <li><a href="../../index.html">imalse 0.0 alpha documentation</a> &raquo;</li>
           <li><a href="../index.html" >Module code</a> &raquo;</li>
           <li><a href="../core.html" accesskey="U">core</a> &raquo;</li> 
       </ul>
@@ -50,7 +50,7 @@
 <span class="kn">from</span> <span class="nn">util</span> <span class="kn">import</span> <span class="n">abstract_method</span>
 <span class="kn">import</span> <span class="nn">logging</span>
 
-<div class="viewcode-block" id="BaseNode"><a class="viewcode-back" href="../../API.html#core.BaseNode.BaseNode">[docs]</a><span class="k">class</span> <span class="nc">BaseNode</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="BaseNode"><a class="viewcode-back" href="../../api.html#core.BaseNode.BaseNode">[docs]</a><span class="k">class</span> <span class="nc">BaseNode</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Virtual Base Class For all nodes&quot;&quot;&quot;</span>
     <span class="n">name</span> <span class="o">=</span> <span class="s">&#39;base_node&#39;</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -91,7 +91,7 @@
     <span class="k">def</span> <span class="nf">connect</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sock</span><span class="p">,</span> <span class="n">addr_port</span><span class="p">):</span> <span class="n">abstract_method</span><span class="p">()</span>
     <span class="k">def</span> <span class="nf">sendto</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sock</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">addr</span><span class="p">,</span> <span class="n">port</span><span class="p">):</span> <span class="n">abstract_method</span><span class="p">()</span>
     <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sock</span><span class="p">):</span> <span class="n">abstract_method</span><span class="p">()</span>
-<div class="viewcode-block" id="BaseNode.close_socks"><a class="viewcode-back" href="../../API.html#core.BaseNode.BaseNode.close_socks">[docs]</a>    <span class="k">def</span> <span class="nf">close_socks</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">socks_seq_set</span><span class="p">,</span> <span class="n">_type</span><span class="o">=</span><span class="s">&#39;client&#39;</span><span class="p">):</span>
+<div class="viewcode-block" id="BaseNode.close_socks"><a class="viewcode-back" href="../../api.html#core.BaseNode.BaseNode.close_socks">[docs]</a>    <span class="k">def</span> <span class="nf">close_socks</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">socks_seq_set</span><span class="p">,</span> <span class="n">_type</span><span class="o">=</span><span class="s">&#39;client&#39;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;sock_seq_set is the sequence of socks in this type of sock&quot;&quot;&quot;</span>
         <span class="n">socks_set</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">client_socks</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">socks_seq_set</span><span class="p">]</span>
         <span class="k">for</span> <span class="n">sock</span> <span class="ow">in</span> <span class="n">socks_set</span><span class="p">:</span>
@@ -115,7 +115,7 @@
 <div id="searchbox" style="display: none">
   <h3>Quick search</h3>
     <form class="search" action="../../search.html" method="get">
-      <input type="text" name="q" size="18" />
+      <input type="text" name="q" />
       <input type="submit" value="Go" />
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
@@ -135,17 +135,14 @@
         <li class="right" style="margin-right: 10px">
           <a href="../../genindex.html" title="General Index"
              >index</a></li>
-        <li class="right" >
-          <a href="../../py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li><a href="../../index.html">imalse v0.0 alpha documentation</a> &raquo;</li>
+        <li><a href="../../index.html">imalse 0.0 alpha documentation</a> &raquo;</li>
           <li><a href="../index.html" >Module code</a> &raquo;</li>
           <li><a href="../core.html" >core</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
         &copy; Copyright 2012, Jing Conan Wang.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.7.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
     </div>
   </body>
 </html>

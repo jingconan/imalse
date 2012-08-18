@@ -1,14 +1,12 @@
 """
 this file describe the netns3 experiment for imalse
 """
-from core.ns3.netns3 import NetnsExperiment
-from core.ns3.Node import ImalseNetnsNode
 import ns3
 from util import load_module
 from util import get_scenario_option, abstract_method
 
-NODE_NUM = 0
-
+# for test, just select the first node as server, the second node as botmaster, all other nodes
+# are clients
 class ImalseExperiment(object):
     """ Base class for all ImalseExperiment
     """
@@ -117,106 +115,3 @@ class ImalseExperiment(object):
             ipv4Addr = self.get_node(i).GetObject(ns3.TypeId.LookupByName("ns3::Ipv4")).GetAddress(1, 0)
             print 'The server addr of server [%i ]: '%(i), ipv4Addr
 
-# for test, just select the first node as server, the second node as botmaster, all other nodes
-# are clients
-import optparse
-class ImalseNetnsExperiment(ImalseExperiment, NetnsExperiment):
-    """Base Class for Imalse Experiment in netns3 mode
-    """
-    def __init__(self, *args, **kwargs):
-        # super(ImalseNetnsExperiment, self).__init__(*args, **kwargs)
-        NetnsExperiment.__init__(self, *args, **kwargs)
-        ImalseExperiment.__init__(self)
-        self._init()
-
-    def initparser(self, parser):
-        ImalseExperiment.initparser(self, parser)
-        NetnsExperiment.initparser(self, parser)
-
-    def get_node(self, i):
-        """get ith nodes"""
-        return self.nodes[i]
-
-    @property
-    def node_num(self):
-        return len(self.nodes)
-
-    @staticmethod
-    def NodeCreator():
-        global NODE_NUM
-        NODE_NUM += 1
-        name = "n%s" %NODE_NUM
-        return ImalseNetnsNode(name, logfile = "/tmp/%s.log" % name)
-
-
-"""
-In Pure Sim experiments, all nodes are simulated. So we don't need
-the real-time schedular.
-"""
-from core.ns3.Node import ImalseNetnsSimNode
-import ns.core
-
-class ImalsePureSimExperiment(ImalseExperiment):
-    """Pure Sim Experiemtn Doesn't depend on netns3 can run in simulated time"""
-    def initparser(self, parser):
-        super(ImalsePureSimExperiment, self).initparser(parser)
-        parser.set_defaults(SimulatorImplementationType='Default')
-        parser.add_option("", "--SimulatorImpl", dest = "SimulatorImplementationType",
-                help="the simulator implementation Type, available options are['Realtime', 'Default', 'Visual']")
-
-
-        parser.set_defaults(numnodes = 2, simtime = 30)
-        parser.add_option("-n", "--numnodes", dest = "numnodes", type = int,
-                          help = "number of nodes; default = %s" %
-                          parser.defaults["numnodes"])
-        parser.add_option("-t", "--simtime", dest = "simtime", type = float,
-                          help = "simulation run time; default = %s" %
-                          parser.defaults["simtime"])
-
-    def setup(self):
-        super(ImalsePureSimExperiment, self).setup()
-        ns.core.GlobalValue.Bind("SimulatorImplementationType",
-                ns.core.StringValue("ns3::%sSimulatorImpl"%(self.options.SimulatorImplementationType)))
-
-    def run(self):
-        self.setup()
-        print "running simulator for %s sec" % self.options.simtime
-        ns.core.Simulator.Stop(ns.core.Seconds(self.options.simtime))
-        # ns.core.Simulator.Run(signal_check_frequency = -1)
-        ns.core.Simulator.Run()
-        self.cleanup()
-        ns.core.Simulator.Destroy()
-        print "simulator done"
-
-    @staticmethod
-    def event(time, func, *args, **kwds):
-        """schedule an event to simulator"""
-        def run():
-            func(*args, **kwds)
-        ns.core.Simulator.Schedule(ns.core.Time(str(time)), run)
-
-    @staticmethod
-    def NodeCreator():
-        return ImalseNetnsSimNode()
-
-    def main(self, args, run = True):
-        usage = "%prog [-h] " + self.usagestr() + " ..."
-        parser = optparse.OptionParser(usage = usage)
-        self.initparser(parser)
-        self.options, self.args = parser.parse_args(args)
-        if run:
-            self.run()
-
-    def usagestr(self):
-        return "[-n <numnodes>] [-t <simtime>]"
-
-    def print_help(self):
-        parser = optparse.OptionParser(usage = '')
-        self.initparser(parser)
-        parser.print_help()
-
-    def cleanup(self):
-        ns.core.Simulator.Destroy()
-        for i in xrange(self.node_num):
-            n = self.get_node(i)
-            n.stop()

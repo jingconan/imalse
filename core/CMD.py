@@ -11,6 +11,13 @@ def augment_bracket(string):
     return string
 
 def split_data(data):
+    """
+    split a long string which contains several commands to split a list commond, for example:
+
+    >>> docs = '{"host": "thales.bu.edu", "password": "", "user": "anonymous", "event": "set_ftp_info"}{"directory": ".", "pattern": "assword", "suffix": [".txt"], "event": "set_file_filter"}{"event": "search_and_upload"}'
+    >>> print split_data(docs)
+    ['{"host": "thales.bu.edu", "password": "", "user": "anonymous", "event": "set_ftp_info"}', '{"directory": ".", "pattern": "assword", "suffix": [".txt"], "event": "set_file_filter"}', '{"event": "search_and_upload"}']
+    """
     split = data.rsplit('}{')
     if len(split) == 1: return split
     return [augment_bracket(s) for s in split]
@@ -37,7 +44,7 @@ class CMD(object):
         getattr(self, event_name)(*argv, **kwargv)
 
     def dispatcher(self, sock, data):
-        """data may contain on or more command
+        """data may contain one or more command
         Args:
 
             - **sock**: the socket that receive the data.
@@ -64,6 +71,7 @@ class CMD(object):
         try:
             dt_data = self._load_json(data)
         except:
+            print('load error')
             import pdb;pdb.set_trace()
         if isinstance(dt_data['event'], list):
             event_name = dt_data['event'][0]
@@ -75,7 +83,6 @@ class CMD(object):
         del dt_data['event']
         self.logger.debug('event_name will be trigged: ' + event_name)
         self._trigger(event_name, sock, dt_data)
-
 
     def _cmd_to_json(self, cmd_str): return json.dumps(parse_qs(cmd_str))
     def _dump_json(self, data): return json.dumps(data)
@@ -89,15 +96,15 @@ class CMD(object):
         node.cmd_set = self
 
     def start(self):
-        """start the command set"""
-        self._trigger(self.fsm_desc['start_action'])
+        """start the command set, execuate the *start_action* specifed in **desc**
+        """
+        self._trigger(self.desc['start_action'])
 
     def get_state(self): return self.node.state
     def set_state(self, val): self.node.set_state(val)
     state = property(get_state, set_state)
 
 if __name__ == "__main__":
-    docs = '{"host": "thales.bu.edu", "password": "", "user": "anonymous", "event": "set_ftp_info"}{"directory": ".", "pattern": "assword", "suffix": [".txt"], "event": "set_file_filter"}{"event": "search_and_upload"}'
-    s_data = split_data(docs)
-    print s_data
+    import doctest
+    doctest.testmod()
 
