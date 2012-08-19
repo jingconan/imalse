@@ -135,7 +135,7 @@ class ImalseNetnsSimNode(ns3.Node, BaseNode):
             msg = self.get_msg(packet)
         except:
             self.logger.error('Probably you are not using NS3 with imalse customaization?' +
-                    'Use deprec API with suppport only very limitted msgs')
+                    ' Use deprec API will suppport only very limitted msgs')
             msg = self.get_msg_deprec(packet)
 
         self.logger.debug('Node [%s] has receive message %s from sock [%s] and node [%s]'%(self.name, msg, sock, _from) )
@@ -236,7 +236,7 @@ class ImalseNetnsSimNode(ns3.Node, BaseNode):
             p = self.add_msg(p, data)
         except:
             self.logger.error('Probably you are not using NS3 with imalse customaization?' +
-                    'Use deprec API with suppport only very limitted msgs')
+                    ' Use deprec API will suppport only very limitted msgs')
             p = self.add_msg_deprec(p, data)
 
         self.after(self.sleep_delay, sock.Send, p)

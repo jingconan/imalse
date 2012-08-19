@@ -10,6 +10,9 @@ class TopoExperiment(BaseClass):
     # SERVER_ADDR = "127.0.0.1"
     IP_MASK = "255.255.255.0"
 
+    Delay = "2ms"
+    DataRate = "5Mbps"
+
     """This is pure ns-3 topology Experiment without emulated node"""
     def initparser(self, parser):
         # import pdb;pdb.set_trace()
@@ -41,7 +44,9 @@ class TopoExperiment(BaseClass):
                 self.NodeCreator,
                 ipv4Mask = self.IP_MASK,
                 ipv4NetworkBase= self.NETWORK_BASE,
-                ipv4AddrBase = self.SERVER_ADDR
+                ipv4AddrBase = self.SERVER_ADDR,
+                Delay = self.Delay,
+                DataRate = self.DataRate,
                 )
 
         self._install_cmds(srv_addr = self.SERVER_ADDR)

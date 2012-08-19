@@ -34,6 +34,9 @@
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
         <li><a href="#">imalse 0.0 alpha documentation</a> &raquo;</li> 
       </ul>
     </div>  
@@ -47,52 +50,78 @@
 <h1>Welcome to IMALSE&#8217;s documentation!<a class="headerlink" href="#welcome-to-imalse-s-documentation" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="introduction">
 <h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
-<p>IMALSE (<strong>I</strong>ntegrated   <strong>MAL</strong>ware <strong>S</strong>imulator and <strong>E</strong>mulator)
-is a framework to help researchers to implement prototype of botnet based
-network malware. Researchers just need to implement the malware behaviour once
-and then it can run the following three modes:</p>
+<p>IMALSE (<strong>I</strong>ntegrated   <strong>MAL</strong>ware <strong>S</strong>imulator and <strong>E</strong>mulator) is
+a framework to help researchers to implement prototype of botnet based network
+malware. Researchers just need to implement the malware behaviour once and then
+it can run the following three modes:</p>
 <blockquote>
 <div><ul class="simple">
-<li><strong>emulation mode</strong>: In this mode, each copy of imalse will behave exactly like a
-real malware. You can install it in a real machine, or in a virtual machine and
-set up a testbed to test the characteristic of the malware.(Don&#8217;t use it
-to attack other people&#8217;s machines;) ) [<strong>Note</strong>: you can
-potentially work with Common Open Research Emulator to emulate a lot of nodes in
-one machine]</li>
-<li><strong>netns3 simulation mode</strong>:  You can specifiy the topology of the network and the ip addresses of
-each node in this mode. IMALSE will launch virtual machines (linux namespace) for each
-node in the network and construct  the network automatically. All virtualized nodes
-will connect to <strong>NS3</strong> through tapbridge and all traffic will consume
-there. The simulation will be in real time. It is based on <a class="reference external" href="http://www.nsnam.org/wiki/index.php/HOWTO_use_Linux_namespaces_with_ns-3">netns3</a>
+<li><strong>emulation mode</strong>: In this mode, each copy of imalse will behave exactly
+like a real malware. You can install it in a real machine, or in a virtual
+machine and set up a testbed to test the characteristic of the
+malware.(Don&#8217;t use it to attack other people&#8217;s machines;) ) [<strong>Note</strong>: you
+can potentially work with Common Open Research Emulator to emulate a lot
+of nodes in one machine]</li>
+<li><strong>netns3 simulation mode</strong>:  You can specifiy the topology of the network
+and the ip addresses of each node in this mode. IMALSE will launch virtual
+machines (linux namespace) for each node in the network and construct  the
+network automatically. All virtualized nodes will connect to <strong>NS3</strong>
+through tapbridge and all traffic will consume there. The simulation will
+be in real time. It is based on <a class="reference external" href="http://www.nsnam.org/wiki/index.php/HOWTO_use_Linux_namespaces_with_ns-3">netns3</a>
 project.</li>
 <li><strong>pure ns3 simulation mode</strong>: No virtual machince will be launched for the
-pure ns3 simulation mode, the whole simulation will be done in <a class="reference external" href="http://www.nsnam.org/">ns3</a>. ns3
-default scheduler will be used instead of the real time scheduler in
-netns3 case, which saves much time. One simulation day may only consume
-several real seconds.</li>
-<li><strong>hybrid approach</strong>: of pure ns3 mode and netns3 mode</li>
+pure ns3 simulation mode, the whole simulation will be done in <a class="reference external" href="http://www.nsnam.org/">ns3</a>. ns3 default scheduler will be used instead of
+the real time scheduler in netns3 case, which saves much time. One
+simulation day may only consume several real seconds.</li>
 </ul>
 </div></blockquote>
 <img alt="_images/imalse-abstract.png" class="align-center" src="_images/imalse-abstract.png" />
+<div class="section" id="comparison-with-other-tools">
+<h3>COMPARISON WITH OTHER TOOLS<a class="headerlink" href="#comparison-with-other-tools" title="Permalink to this headline">¶</a></h3>
+<dl class="docutils">
+<dt>NS3:</dt>
+<dd>As shown by its name, the primary goal for NS3 is to provide a network
+simulator, which means primarily there will be no real packet passing
+through the real network interface. Although the emulation support has been
+added, the development of simulation and emulation are mostly unconnected,
+which wastes a lot of development resource. However, the development goal of
+Imalse is not just simulator or emulator, it is a up layer that unifies the
+development of simulation and emulation tools( at least for botnet based
+malware simulation). Actually, the simulations in Imalse are mostly done by
+NS3 in the backend.</dd>
+<dt>CORE:</dt>
+<dd>Imalse depends on CORE for its gui editor and its capsulation of linux name
+space. CORE is a very excellent network emulator. However, what CORE intends
+to do is to create a new network and run application in real time. However,
+as noted above, Imalse try to make the switch between simulation and
+emulation (for botnet based malware simulation) effortless.</dd>
+</dl>
+<p>The utimate goal of Imalse a tool help you to run your code on both
+NS3, CORE and real nework. In the current stage, we focus on botnet based
+malware simulation.</p>
+</div>
 <div class="section" id="typical-use-case">
 <h3>Typical Use Case<a class="headerlink" href="#typical-use-case" title="Permalink to this headline">¶</a></h3>
-<p>Suppose Conan is a Ph.D student who has proposed a novel anomaly
-detection technique for Internet traffic. He wants to demostrate the usefulness of this approach. To
-do this, he designs a scenario that 100 client computers accessing a server through the internet, 10 of
-which had already been compromised and controlled by botmaster through botnet. At some point, the botmaster
-will initiate a ddos attack by asking all compromised computers to send ping
-requests to the servers. The anomaly detection technique requires all the
-incoming and outcoming traffic of the server for at least two days.</p>
+<p>The following user case will help to determine whether you should use Imalse or
+not.</p>
+<p>Suppose Conan is a Ph.D student who has proposed a novel anomaly detection
+technique for Internet traffic. He wants to demostrate the usefulness of this
+approach. To do this, he designs a scenario that 100 client computers accessing
+a server through the internet, 10 of which had already been compromised and
+controlled by botmaster through botnet. At some point, the botmaster will
+initiate a ddos attack by asking all compromised computers to send ping requests
+to the servers. The anomaly detection technique requires all the incoming and
+outcoming traffic of the server for at least two days.</p>
 <p>How can he collect the data he want? imalse provides different solutions at
-different abstract level. He decides to use <strong>TopoSimExperiment</strong> in which he can load
-some topology file generated by <a class="reference external" href="http://topology.eecs.umich.edu/inet/">Inet</a> topology
-generator and select <strong>ddos_ping_attack</strong> attacking scenario from the imalse software which
-provide exactly what he wants.</p>
+different abstract level. He decides to use <strong>TopoSimExperiment</strong> in which he
+can load some topology file generated by <a class="reference external" href="http://topology.eecs.umich.edu/inet/">Inet</a> topology generator and select
+<strong>ddos_ping_attack</strong> attacking scenario from the imalse software which provide
+exactly what he wants.</p>
 <p>The first question is since the method is not mature, Conan wants to test it
 under different parameter combinations. It will be forever if each simulation
-takes more than two days. Fortunately, by running the simulation under <strong>pure ns3 simulation mode</strong>
-Conan can finish one simulation with less 100 real seconds, though the time
-has past for more than two days in the simulator.</p>
+takes more than two days. Fortunately, by running the simulation under <strong>pure
+ns3 simulation mode</strong> Conan can finish one simulation with less 100 real
+seconds, though the time has past for more than two days in the simulator.</p>
 <p>After extensive testing, Conan has been quite confident about the performance of
 the anomaly detection techinique now. But he is still a little bit worried about
 whether the result of ns3 is convincing enough. As a result, he run a complete
@@ -100,15 +129,15 @@ simulation under <strong>netns3 simulation model</strong> and collect data. Of c
 time it runs more than two days, but he doesn&#8217;t care that much because he only
 need to run it for very few times. Conan generates some plots and writes a
 paper with data of <strong>netns3 simulation model</strong> and satisfied with this.</p>
-<p>A rich company named NetSecurity reads this paper and think it is a good method. They want to
-deploy it but need more realistic test before deployment, so they decide
-to test it under their intranet. They ask Conan for a copy of the code and
-select several computer in the intranet to join the botnet, each computer run an independent copy of
-imalse under <strong>emulation client mode</strong>, there is a computer serving as botmster
-and running a imalse under <strong>emulation server model</strong>(the server refers to the C&amp;C
-server in the botnet). The data of attacked server is recorded and analyzed with
-Conan&#8217;s tools. It turns out to be good, and the Company decide to use this
-method.</p>
+<p>A rich company named NetSecurity reads this paper and think it is a good method.
+They want to deploy it but need more realistic test before deployment, so they
+decide to test it under their intranet. They ask Conan for a copy of the code
+and select several computer in the intranet to join the botnet, each computer
+run an independent copy of imalse under <strong>emulation client mode</strong>, there is a
+computer serving as botmster and running a imalse under <strong>emulation server
+model</strong>(the server refers to the C&amp;C server in the botnet). The data of
+attacked server is recorded and analyzed with Conan&#8217;s tools. It turns out to be
+good, and the Company decide to use this method.</p>
 <p>As a lazy Ph.D student, Conan just need to write one copy of code to describe
 the secnario during the whole process. With the help of imalse, he can have more
 time to sleep and enjoy the classical music. :)</p>
@@ -120,8 +149,9 @@ time to sleep and enjoy the classical music. :)</p>
 seperate the botnet mechanism and the network.</p>
 <p>The general structure of Imalse is shown in the following figure:</p>
 <img alt="_images/genearal-structure.png" class="align-center" src="_images/genearal-structure.png" />
-<p><strong>Node</strong> and <strong>C</strong>ommand <strong>M</strong>eta <strong>D</strong>escription are the two key concepts in the design.
-<strong>Node</strong> is the abstraction of a real computer. A node should support:</p>
+<p><strong>Node</strong> and <strong>C</strong>ommand <strong>M</strong>eta <strong>D</strong>escription are the two key concepts
+in the design.  <strong>Node</strong> is the abstraction of a real computer. A node should
+support:</p>
 <blockquote>
 <div><ul class="simple">
 <li><strong>Basic Utility Functions</strong>: serveral basic utility calls, including
@@ -135,17 +165,24 @@ getting the system time, make node sleep, so on so forth</li>
 all APIs a node need to overload. If you want to extend the framework to support
 other type of simulator, please subclass <strong>BaseNode</strong> and implement all the
 virtual functions.</p>
-<p>a command is a basic event in the botnet. <strong>C</strong>ommand <strong>M</strong>eta <strong>D</strong>escription defines a set of
-commands for a node, namely it defines what event a node can generate. There are three types of <strong>CMD</strong>s:</p>
+<p>a command is a basic event. <strong>C</strong>ommand <strong>M</strong>eta <strong>D</strong>escription defines a
+set of commands for a node, namely it defines what event a node can generate.
+There are three types of <strong>CMD</strong>s:</p>
 <blockquote>
 <div><ol class="arabic simple">
-<li>Server <strong>CMD</strong></li>
-<li>Client <strong>CMD</strong></li>
-<li>Botmaster <strong>CMD</strong></li>
+<li>Server <strong>CMD</strong>: Command meta description for the server. Server usually
+will waiting attack command from botmaster and send corresponding commands to
+clients.</li>
+<li>Client <strong>CMD</strong>: Client will wait command from server and do
+correspondingactions in user&#8217;s comoputer. What a Client can do depends on
+the Node <strong>API</strong></li>
+<li>Botmaster <strong>CMD</strong>: Botmaster is actually a special client with higher
+privilege. Botmaster should verify itself by sending verify command and
+send attack commands to server.</li>
 </ol>
 </div></blockquote>
-<p>The basic information flow is, botmaster send commands to server, server will
-translate the commands and send commands to Clients.</p>
+<p>The basic procedure is that the botmaster send commands to the server, the server
+translates the commands and send commands to Clients.</p>
 <div class="section" id="basic-botnet-mechanism">
 <h3>Basic Botnet Mechanism:<a class="headerlink" href="#basic-botnet-mechanism" title="Permalink to this headline">¶</a></h3>
 <p>In <strong>core</strong> module, imalse provides a basic framework for the botnet and the
@@ -177,20 +214,55 @@ upload the file to a ftp server.</p>
 </li>
 </ol>
 </div></blockquote>
+<p>To implement a new scenario, you need to create a new folder in scenario
+folder. This folder actually is a new module in python. This module should
+provide the following classes: <strong>BotMaster</strong>, <strong>ClientCMD</strong>, <strong>ServerCMD</strong>.</p>
+<p>You can subclass the BotMaster ClientCMD and ServerCMD in core, which provide a
+botnet communication scheme and make the difference of real node, netns3 node
+and ns3 sim node to be transparent.</p>
+<dl class="docutils">
+<dt>An recommendation of implementation</dt>
+<dd><ol class="first last arabic simple">
+<li>put temporal pattern of attack into Botmaster <strong>CMD</strong>. In other words, in
+botmaster <strong>CMD</strong>, you can specify which attack should happen at what
+time. Botmaster can issue a <strong>file_scan</strong> attack command every 24 hours,
+or according to a possion distribution, etc.</li>
+<li>put geographical pattern of attack into Server <strong>CMD</strong>. In other words,
+which clients should join this attack.</li>
+<li>put action pattern of attack into Client <strong>CMD</strong>. A Client command will
+define a sequence of node actions, which is unique to this attack.</li>
+</ol>
+</dd>
+</dl>
+<img alt="_images/ImalseCMD.png" class="align-center" src="_images/ImalseCMD.png" />
 </div>
 <div class="section" id="experiment">
 <h3>Experiment<a class="headerlink" href="#experiment" title="Permalink to this headline">¶</a></h3>
-<p>Experiment is only used in <strong>simulation mode</strong>. Experiments need to do Topology and network
-configuration, user behaviour specification. This is usually the only part user need to code if he is
-using an existing scenario.</p>
-<p>Two types of experiments are avaliable in Imalse. 1. <strong>ImalseNetnsExperiment</strong> and 2. <strong>ImalsePureSimExperiment</strong>.
-<strong>ImalseNetnsExperiment</strong> is the base class for <strong>netns3 mode</strong> simulation. <strong>ImalsePureSimExperiment</strong> is
-the base class for pure simulation.</p>
-<p>In ROOT/experiments folder, we provide two samle of experiment. TopoExperiment
-is a experiment in which you can load topology generated by some topology
-generators, like <a class="reference external" href="http://topology.eecs.umich.edu/inet/">Inet</a> .
-StaticRouteExperiment is a experiment in which a small diamond shape topology in
-demoed and the routing tables for all nodes are manually specificed.</p>
+<p>Experiment is only used in <strong>simulation mode</strong>. Experiments need to do Topology
+and network configuration, user behaviour specification. This is usually the
+only part user need to code if he is using an existing scenario.</p>
+<p>In ROOT/experiments folder, we provide three samples of experiment.</p>
+<blockquote>
+<div><ul class="simple">
+<li><strong>StaticRouteExperiment</strong> is a experiment in which a small diamond shape
+topology in demoed and the routing tables for all nodes are manually
+specificed.</li>
+<li><strong>TopoExperiment</strong> is a experiment in which you can load topology
+generated by some topology generators, like <a class="reference external" href="http://topology.eecs.umich.edu/inet/">Inet</a> , the ip address of each node
+will be automatically assigned. The parameters you can customize are: 1.
+<em>NETWORK_BASE</em>, 2. <em>SERVER_ADDR</em>, 3. <em>IP_MASK</em>, 4. <em>server_id_set</em>, 5.
+<em>botmaster_id_set</em>, 6. <em>client_id_set</em>, 7. <em>Delay</em>, 8. <em>DataRate</em>. The
+delay and data rate for all links are the same. All parameters are the
+static member of <strong>TopoExperiment</strong> class and you just need to change them
+in the code accordingly.  You will need this if you only care about
+topology and too lazy to configure the network.</li>
+<li><strong>ManualTopoExperiment</strong> is simular to <strong>TopoExperiment</strong>, however, in
+<strong>ManualTopoExperiment</strong>, you can specify the delay and data rate of each
+link and also the ip address of every interface. Instead of hard code all
+parameters in the code, it will load a configuration script with python
+syntax. We provide a GUI editor to create such configuration script.</li>
+</ul>
+</div></blockquote>
 <p>When you want to implement you own version of experiment, you can put it in
 ROOT/experiments folder, there is class factory function in the
 ROOT/experiments/API.py, when you input the different <strong>&#8211;mode</strong> parameter in the command
@@ -210,13 +282,16 @@ the methods and members you definde with corresponding base class.</p>
 </ol>
 </div></blockquote>
 <p>For example, we define the <strong>TopoExperiment</strong> in <em>ROOT/experiments/TopoExperiment.py</em>,
-the definition of topology experimetn is as follows:</p>
+the definition of topology experiment is as follows:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">TopoExperiment</span><span class="p">(</span><span class="n">BaseClass</span><span class="p">):</span>
 </pre></div>
 </div>
-<p>It declares BaseClass as the base class, though <strong>BaseClass</strong> is not defined or imported in this file. It probably won&#8217;t pass
-the syntax checker like <em>pyflake</em> and <em>pylint</em>. To clarify this &#8216;strange&#8217; code , I will introduce the implementation details a little bit.
-If you don&#8217;t want to know the reason, just ignore this part.</p>
+<p>It declares BaseClass as the base class, though <strong>BaseClass</strong> is not defined or
+imported in this file. It probably won&#8217;t pass the syntax checker like <em>pyflake</em>
+and <em>pylint</em>. Actually <strong>BaseClass</strong> is a placeholder that will later be
+replaced by real implementation. To clarify this &#8216;strange&#8217; code , I will introduce the
+implementation details a little bit.  If you don&#8217;t want to know the reason,
+just ignore this part.</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">experiment_factory</span><span class="p">(</span><span class="n">experiment</span><span class="p">,</span> <span class="n">mode</span><span class="p">):</span>
     <span class="n">BaseClass</span> <span class="o">=</span> <span class="n">mode_map</span><span class="p">[</span><span class="n">mode</span><span class="p">]</span>
     <span class="n">exper_fname</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">ROOT</span> <span class="o">+</span> <span class="s">&#39;/experiments/&#39;</span> <span class="o">+</span> <span class="n">experiment</span> <span class="o">+</span> <span class="s">&#39;.py&#39;</span>
@@ -284,7 +359,9 @@ if you use command line tools.</p>
 editor is revised from GUI editor of <a class="reference external" href="http://cs.itd.nrl.navy.mil/work/core/">CORE</a> . A screenshot
 is as follows:</p>
 <img alt="_images/ImalseGUI.png" class="align-center" src="_images/ImalseGUI.png" style="height: 400px;" />
-<p>please refer to the <a class="reference external" href="http://pf.itd.nrl.navy.mil/core/core-html/Using-the-CORE-GUI.html#Using-the-CORE-GUI">CORE GUI Manual Page</a> and <a class="reference external" href="http://imunes.tel.fer.hr/imunes/dl/imunes_ug_20110907.pdf">IMUNES Manual</a> for basic usuage of the editor. You can look at the <a class="reference external" href="http://www.youtube.com/watch?v=PSXyEXFRSYs&amp;feature=plcp">GUI Demo</a> for the difference.</p>
+<p>please refer to the <a class="reference external" href="http://pf.itd.nrl.navy.mil/core/core-html/Using-the-CORE-GUI.html#Using-the-CORE-GUI">CORE GUI Manual Page</a>
+and <a class="reference external" href="http://imunes.tel.fer.hr/imunes/dl/imunes_ug_20110907.pdf">IMUNES Manual</a>
+for basic usuage of the editor. You can look at the <a class="reference external" href="http://www.youtube.com/watch?v=PSXyEXFRSYs&amp;feature=plcp">GUI Demo</a> for the difference.</p>
 </div>
 </div>
 <div class="section" id="demo">
@@ -296,15 +373,6 @@ is as follows:</p>
 <li><a class="reference external" href="http://www.youtube.com/watch?v=PSXyEXFRSYs&amp;feature=plcp">GUI usage</a></li>
 </ul>
 </div></blockquote>
-</div>
-<div class="section" id="extension">
-<h2>Extension:<a class="headerlink" href="#extension" title="Permalink to this headline">¶</a></h2>
-<p>To implement a new scenario, you need to create a new folder in scenario
-folder. This folder actually is a new module in python. This module should
-provide the following classes: <strong>BotMaster</strong>, <strong>ClientCMD</strong>, <strong>ServerCMD</strong>.</p>
-<p>You can subclass the BotMaster ClientCMD and ServerCMD in core, which provide a
-botnet communication scheme and make the difference of real node, netns3 node
-and ns3 sim node to be transparent.</p>
 </div>
 <div class="section" id="source-code">
 <h2>Source Code:<a class="headerlink" href="#source-code" title="Permalink to this headline">¶</a></h2>
@@ -366,6 +434,82 @@ version. The last thing you need to to is to change the ROOT and NS3_PATH in
 settings.py. ROOT should be the directory of the imalse source code and NS#_PATH
 should be the directory for the NS3.</p>
 </div>
+<div class="section" id="get-yourself-started">
+<h3>Get Yourself Started<a class="headerlink" href="#get-yourself-started" title="Permalink to this headline">¶</a></h3>
+<p>before you do anything, update the ROOT variable in settings.py to be the
+absolute path of current folder. no slash &#8216;/&#8217; at the end.</p>
+<dl class="docutils">
+<dt>if you want to use emulator, run</dt>
+<dd>$ ./emulate.py</dd>
+<dt>if you want to use simulator, you have two ways:</dt>
+<dd><ol class="first last arabic">
+<li><dl class="first docutils">
+<dt>going to NS3 path and type:</dt>
+<dd><p class="first last">$ ./waf shell</p>
+</dd>
+<dt>you will enter ns3 waf-sh. Then in this shell, go back to this folder and type</dt>
+<dd><p class="first last">$ ./simulate.py</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>if you are lazy. just update the NS3_PATH value in settings.py and type</dt>
+<dd><p class="first last">$ ./sim</p>
+</dd>
+</dl>
+</li>
+</ol>
+</dd>
+</dl>
+</div>
+</div>
+<div class="section" id="where-can-you-get-help">
+<h2>where can you get help<a class="headerlink" href="#where-can-you-get-help" title="Permalink to this headline">¶</a></h2>
+<p>You can go to the following webpage for help document
+<a class="reference external" href="http://people.bu.edu/wangjing/open-source/imalse/html/index.html">http://people.bu.edu/wangjing/open-source/imalse/html/index.html</a></p>
+<p>You can view wiki in the following webpage:
+<a class="reference external" href="https://bitbucket.org/hbhzwj/imalse/wiki/Home">https://bitbucket.org/hbhzwj/imalse/wiki/Home</a></p>
+<p>You can report issue in the following webpage:
+<a class="reference external" href="https://bitbucket.org/hbhzwj/imalse/issues?status=new&amp;status=open">https://bitbucket.org/hbhzwj/imalse/issues?status=new&amp;status=open</a></p>
+<div class="section" id="roadmap">
+<h3>ROADMAP<a class="headerlink" href="#roadmap" title="Permalink to this headline">¶</a></h3>
+<p>Imalse is just a newbie. The features I am considering to add:</p>
+<blockquote>
+<div><ul>
+<li><dl class="first docutils">
+<dt>Background Traffic Generator</dt>
+<dd><p class="first last">Now Imalse only describe the behaviour of abnormal nodes( which is so
+called &#8220;scenario&#8221;). Because of the lack of time, I haven&#8217;t implemented
+the behaviour for normal nodes. An immediate feature that need to be
+added is to provide some modes for the normal nodes. It may require
+different implementation for sim node, netns3 node and read node, but
+they need to provide unified interface. My preliminary idea is to use
+NS3 on-off application for sim node.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Full support of Common Open Research Emulator.</dt>
+<dd><p class="first last">The dependency of Imalse on CORE are two aspects. The CORE GUI is used with
+support of exporting Imalse Configuration Script. The netns3 mode rely on
+some components of the CORE. However, the whole procedure is not integrated
+and there are some features of CORE that has problems.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>More Practical Attacking Scenario and More APIs for Node</dt>
+<dd><p class="first last">Imalse is useful only when there are more pratical attacking scenario.
+Also, different scenario may require different APIs for nodes. For
+example, key logger may need a node API to record key log. Whenever a
+Node API is added, support for Sim Node, Net ns3 Node and real node need
+to be implemented.</p>
+</dd>
+</dl>
+</li>
+</ul>
+</div></blockquote>
+</div>
 </div>
 <div class="section" id="acknowledgement">
 <h2>Acknowledgement<a class="headerlink" href="#acknowledgement" title="Permalink to this headline">¶</a></h2>
@@ -404,6 +548,7 @@ future.</p>
   <ul>
 <li><a class="reference internal" href="#">Welcome to IMALSE&#8217;s documentation!</a><ul>
 <li><a class="reference internal" href="#introduction">Introduction</a><ul>
+<li><a class="reference internal" href="#comparison-with-other-tools">COMPARISON WITH OTHER TOOLS</a></li>
 <li><a class="reference internal" href="#typical-use-case">Typical Use Case</a></li>
 </ul>
 </li>
@@ -419,12 +564,16 @@ future.</p>
 </ul>
 </li>
 <li><a class="reference internal" href="#demo">Demo:</a></li>
-<li><a class="reference internal" href="#extension">Extension:</a></li>
 <li><a class="reference internal" href="#source-code">Source Code:</a></li>
 <li><a class="reference internal" href="#installation">Installation:</a><ul>
 <li><a class="reference internal" href="#installation-of-ns3">Installation of NS3</a></li>
 <li><a class="reference internal" href="#installation-of-common-open-research-emulator">Installation of Common Open Research Emulator</a></li>
 <li><a class="reference internal" href="#download-imalse">Download imalse</a></li>
+<li><a class="reference internal" href="#get-yourself-started">Get Yourself Started</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#where-can-you-get-help">where can you get help</a><ul>
+<li><a class="reference internal" href="#roadmap">ROADMAP</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#acknowledgement">Acknowledgement</a><ul>
@@ -463,6 +612,9 @@ future.</p>
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="General Index"
              >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
         <li><a href="#">imalse 0.0 alpha documentation</a> &raquo;</li> 
       </ul>
     </div>
