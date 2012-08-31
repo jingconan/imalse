@@ -1,8 +1,7 @@
 # ROOT should be the absolute path of the Imalse installation directory
-# ROOT = '/home/wangjing/Dropbox/GSOC/code/imalse'
-# ROOT = '/Users/wangjing/Dropbox/GSOC/code/imalse'
-ROOT = '/home/wangjing/Dropbox/imalse'
-
+# ROOT = '/home/wangjing/Dropbox/imalse_after_gsoc/'
+# ROOT = '/Users/wangjing/Dropbox/ns3_load_dot/';
+ROOT = '/home/wangjing/Dropbox/ns3_load_dot';
 import sys
 sys.path.insert(0, ROOT)
 

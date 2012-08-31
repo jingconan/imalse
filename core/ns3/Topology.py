@@ -3,6 +3,8 @@
    pybindgen is far from mature and cannot generate usable python binding
    for this module, so I simply reimplement it in python.
 """
+from __future__ import division, print_function
+
 class Link(object):
     # def __init__(self, fromName, fromPtr, toName, toPtr):
     def __init__(self, fromPtr, fromName, toPtr, toName):
@@ -48,10 +50,10 @@ def argsort(seq):
     return sorted(range(len(seq)), key=seq.__getitem__)
 
 class InetTopologyReader(TopologyReader):
-    """reader for `inet topology generator file<http://topology.eecs.umich.edu/inet/>`_
+    """reader for `inet topology generator file <http://topology.eecs.umich.edu/inet/>`_
     """
     def Read(self):
-        print 'Start to read InetTopologyReader file...'
+        print('Start to read InetTopologyReader file...')
         nodes = ns.network.NodeContainer()
         fid = open(self.m_fileName, 'r')
         i = -1
@@ -61,12 +63,12 @@ class InetTopologyReader(TopologyReader):
             line = fid.readline()
             if not line: break
             if i == 0:
-                totnode, totlink = [int(s.strip()) for s in line.rsplit(' ')]
+                totnode, totlink = [int(s.strip()) for s in line.rsplit()]
                 continue
             if i <= totnode: # ignore the positive information
                 continue
 
-            _from, _to, _lineBuffer = [s.strip() for s in line.rsplit('\t')]
+            _from, _to, _lineBuffer = [s.strip() for s in line.rsplit()]
 
             def get_or_create(name):
                 try:
@@ -86,7 +88,7 @@ class InetTopologyReader(TopologyReader):
             link = Link(_fromNode, _from, _toNode, _to)
             self.AddLink(link)
 
-        print 'finish scanning topology, there are [%i] nodes'%(nodes.GetN())
+        print( 'finish scanning topology, there are [%i] nodes'%(nodes.GetN()) )
 
         # can only deal with case that node name is string that can be changed int, like '1', '2' ...
         node_id_list = [int(name) for name in node_name_list]
@@ -176,7 +178,7 @@ class TopologyNet():
         inFile = topoHelp.GetTopologyReader()
         nodes = inFile.Read()
         if inFile.LinksSize() == 0:
-            print "fail to read file"
+            print("fail to read file")
             sys.exit(1)
         return inFile, nodes
 
@@ -186,14 +188,14 @@ class TopologyNet():
         stack = ns.internet.InternetStackHelper()
         nixRouting = Ipv4NixVectorHelper()
         staticRouting = ns.internet.Ipv4StaticRoutingHelper()
-        # olsr = ns3.OlsrHelper()
+        olsr = ns3.OlsrHelper()
 
         listRH = ns.internet.Ipv4ListRoutingHelper()
         listRH.Add(staticRouting, 0)
-        listRH.Add(nixRouting, 10)
-        # listRH.Add(olsr, 10)
+        # listRH.Add(nixRouting, 10)
+        listRH.Add(olsr, 10)
 
-        # stack.SetRoutingHelper(listRH)
+        stack.SetRoutingHelper(listRH)
         stack.Install(nodes)
 
     @staticmethod
@@ -249,7 +251,7 @@ class TopologyNet():
         return ndc, ipic
 
 
-from util import len2mask, get_net, get_net_addr, CIDR_to_subnet_mask
+from util import get_net_addr, CIDR_to_subnet_mask
 import settings
 # import ns3
 class ManualTopologyNet(TopologyNet):
@@ -274,6 +276,35 @@ class ManualTopologyNet(TopologyNet):
         if isinstance(i, tuple):
             return self.link_ndc_map[i]
         return self.link_ndc_map[self.get_link_name(i)]
+
+    def search_ipi(self, addr):
+        """search the ip interface from addr"""
+        for ipi_1, ipi_2 in self.ipic:
+            if str(ipi_1.GetAddress(0)) == addr:
+                return ipi_1
+
+            if str(ipi_2.GetAddress(0)) == addr:
+                return ipi_2
+
+            # print '-----------------'
+            # print ipi_1.GetAddress(0)
+            # print ipi_2.GetAddress(0)
+            # print '-----------------'
+
+    def search_node(self, addr):
+        addr = addr.rsplit('/')[0]
+        for i in xrange(self.nodes.GetN()):
+            node = self.nodes.Get(i)
+            ipv4 = node.GetObject(ns3.Ipv4.GetTypeId())
+            # local_addr = ipv4.GetAddress (1, 0).GetLocal ();
+            # import pdb;pdb.set_trace()
+            for a in xrange(ipv4.GetNInterfaces()):
+                for b in xrange(ipv4.GetNAddresses(a)):
+                    local_addr = ipv4.GetAddress (a, b).GetLocal ();
+                    if str(local_addr) == addr:
+                        return node
+
+
 
     def init_net_device(self, net_settings, *args, **kwargs):
         """Initial the ip address and network devices"""
@@ -335,6 +366,8 @@ class ManualTopologyNet(TopologyNet):
         # _ascii = ofstream("wifi-ap.tr")
         # p2p.EnableAsciiAll("test")
 
+        self.ipic = ipic
+
         return ipic
 
 
@@ -345,8 +378,8 @@ def main():
     topoHelper.SetFileName('../../net_config/Inet_toposample.txt')
     topoReader = topoHelper.GetTopologyReader()
     nodes = topoReader.Read()
-    print 'nodes, ', nodes
-    print 'node number, ', nodes.GetN()
+    print('nodes, ', nodes)
+    print('node number, ', nodes.GetN())
 
 if __name__ == "__main__":
     main()

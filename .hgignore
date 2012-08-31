@@ -3,6 +3,7 @@ syntax: glob
 **.pyc
 **_undo
 **.pcap
+**.dot
 
 syntax: regexp
 ^\.UNDO/*.*
