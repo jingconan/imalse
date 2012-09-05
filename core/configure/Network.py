@@ -21,7 +21,7 @@ class Network(Dot):
         Dot.__init__(self, 'SimConf', graph_type='graph')
         self.node_list = []
         self.NODE_NUM = 0
-        self.IPSrcSet, self.AnoSet, _ = GetIPAdress()
+        # self.IPSrcSet, self.AnoSet, _ = GetIPAdress()
         self.mv = None
         # self.Node = node_init_handle
 

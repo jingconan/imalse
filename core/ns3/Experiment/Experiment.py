@@ -67,7 +67,7 @@ class ImalseExperiment(object):
         botmaster_desc = scen.botmaster_desc
         server_desc = scen.server_desc
         client_desc = scen.client_desc
-        if srv_addr:
+        if srv_addr is not None:
             botmaster_desc['srv_addr'] = srv_addr
             server_desc['srv_addr'] = srv_addr
             client_desc['srv_addr'] = srv_addr
@@ -104,7 +104,9 @@ class ImalseExperiment(object):
         server_addr_set = self._get_server_addr()
         server_set = self._get_server_nodes()
         for i in xrange(self.node_num):
-            if i in self.server_id_set or self.get_node(i).NODE_TYPE.startswith('real'):
+            # if i in self.server_id_set or self.get_node(i).NODE_TYPE.startswith('real'):
+                # continue
+            if self.get_node(i).NODE_TYPE.startswith('real'):
                 continue
             self.get_node(i).server_addr_set = server_addr_set
             self.get_node(i).server_set = server_set

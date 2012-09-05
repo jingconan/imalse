@@ -28,9 +28,9 @@ def short_num_to_standard(s):
 
 class NS3Config(object):
     """config NS3 according to fs dot file"""
-    TOPOLOGY_FILE = settings.ROOT + '/share/topology.inet'
+    TOPOLOGY_FILE = settings.ROOT + '/share/bg_topology.inet'
     TOPOLOGY_TYPE = 'Inet'
-    NET_SETTINGS_FILE = settings.ROOT + '/share/net_settings_tmp.py'
+    NET_SETTINGS_FILE = settings.ROOT + '/share/bg_net_settings_tmp.py'
     def __init__(self, dot_file, trace_config):
         self.dot_file = dot_file
         self.dot_config = DotConfig(self.dot_file, trace_config)
@@ -107,7 +107,19 @@ class NS3Config(object):
                 for i in xrange(num):
                     self.add_onoff_app(start_time, end_time, *self.transform_para(**gen))
 
+def TopologyNetBT(dot_file, trace_config):
+    """Create a TopologyNet with Background traffic alread configured
+        - **dotfile** is the path of dot configuration file relative to ROOT directory
+        - **trace_config** is a dictionary contains the trace and bot server client information
+    """
+    # ns3_config = NS3Config(settings.ROOT + '/' + dot_file, trace_config)
+    ns3_config = NS3Config(dot_file, trace_config)
+    ns3_config.setup()
+    ns3_config.config_onoff_app()
+    return ns3_config.net
+
 def run_ns3(dot_file, trace_config, sim_time, visual):
+    """run ns3 simulation based on configuration in **dot_file** and **trace_flag**"""
     if visual:
         ns3.GlobalValue.Bind("SimulatorImplementationType",
                 ns3.StringValue("ns3::VisualSimulatorImpl"))

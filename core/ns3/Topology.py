@@ -65,7 +65,7 @@ class InetTopologyReader(TopologyReader):
             if i == 0:
                 totnode, totlink = [int(s.strip()) for s in line.rsplit()]
                 continue
-            if i <= totnode: # ignore the positive information
+            if i <= totnode: # ignore the position information
                 continue
 
             _from, _to, _lineBuffer = [s.strip() for s in line.rsplit()]
@@ -87,6 +87,8 @@ class InetTopologyReader(TopologyReader):
             # link = Link(_from, _fromNode, _to, _toNode)
             link = Link(_fromNode, _from, _toNode, _to)
             self.AddLink(link)
+
+        fid.close()
 
         print( 'finish scanning topology, there are [%i] nodes'%(nodes.GetN()) )
 
@@ -193,7 +195,7 @@ class TopologyNet():
         listRH = ns.internet.Ipv4ListRoutingHelper()
         listRH.Add(staticRouting, 0)
         # listRH.Add(nixRouting, 10)
-        listRH.Add(olsr, 10)
+        listRH.Add(olsr, 5)
 
         stack.SetRoutingHelper(listRH)
         stack.Install(nodes)

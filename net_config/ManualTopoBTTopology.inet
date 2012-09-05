@@ -1,0 +1,21 @@
+graph SimConf {
+n0 [mod_num=0, traffic="", ipdests="10.0.7.4/24 10.0.8.4/24 10.0.9.4/24 10.0.10.4/24 10.0.11.4/24 10.0.12.4/24", autoack="False"];
+n1 [s1_1="harpoon flowstart=exponential(1.000000) ipsrc=10.0.13.4/24 flowsize=normal(4000.000000,100.000000) lossrate=randomchoice(0.001) ipdst=10.0.8.4/24 dport=randomunifint(1025,65535) sport=randomchoice(22,80,443)", mod_num=0, ipdests="10.0.7.5/24 10.0.13.4/24", m1_1="modulator profile=((8000,),(1,)) start=0 generator=s1_1", traffic="m1_1", autoack="False"];
+n2 [mod_num=0, ipdests="10.0.8.5/24 10.0.14.4/24", s2_1="harpoon flowstart=exponential(1.000000) ipsrc=10.0.14.4/24 flowsize=normal(4000.000000,100.000000) lossrate=randomchoice(0.001) ipdst=10.0.12.4/24 dport=randomunifint(1025,65535) sport=randomchoice(22,80,443)", traffic="m2_1", m2_1="modulator profile=((8000,),(1,)) start=0 generator=s2_1", autoack="False"];
+n3 [mod_num=0, ipdests="10.0.9.5/24 10.0.15.4/24", traffic="m3_1", s3_1="harpoon flowstart=exponential(1.000000) ipsrc=10.0.9.5/24 flowsize=normal(4000.000000,100.000000) lossrate=randomchoice(0.001) ipdst=10.0.8.4/24 dport=randomunifint(1025,65535) sport=randomchoice(22,80,443)", m3_1="modulator profile=((8000,),(1,)) start=0 generator=s3_1", autoack="False"];
+n4 [mod_num=0, m4_1="modulator profile=((8000,),(1,)) start=0 generator=s4_1", ipdests="10.0.15.5/24", traffic="m4_1", s4_1="harpoon flowstart=exponential(1.000000) ipsrc=10.0.15.5/24 flowsize=normal(4000.000000,100.000000) lossrate=randomchoice(0.001) ipdst=10.0.7.4/24 dport=randomunifint(1025,65535) sport=randomchoice(22,80,443)", autoack="False"];
+n5 [mod_num=0, s5_1="harpoon flowstart=exponential(1.000000) ipsrc=10.0.10.5/24 flowsize=normal(4000.000000,100.000000) lossrate=randomchoice(0.001) ipdst=10.0.11.4/24 dport=randomunifint(1025,65535) sport=randomchoice(22,80,443)", ipdests="10.0.10.5/24", m5_1="modulator profile=((8000,),(1,)) start=0 generator=s5_1", traffic="m5_1", autoack="False"];
+n6 [mod_num=0, s6_1="harpoon flowstart=exponential(1.000000) ipsrc=10.0.11.5/24 flowsize=normal(4000.000000,100.000000) lossrate=randomchoice(0.001) ipdst=10.0.10.4/24 dport=randomunifint(1025,65535) sport=randomchoice(22,80,443)", ipdests="10.0.11.5/24", m6_1="modulator profile=((8000,),(1,)) start=0 generator=s6_1", traffic="m6_1", autoack="False"];
+n7 [mod_num=0, s7_1="harpoon flowstart=exponential(1.000000) ipsrc=10.0.14.5/24 flowsize=normal(4000.000000,100.000000) lossrate=randomchoice(0.001) ipdst=10.0.11.4/24 dport=randomunifint(1025,65535) sport=randomchoice(22,80,443)", ipdests="10.0.14.5/24", traffic="m7_1", m7_1="modulator profile=((8000,),(1,)) start=0 generator=s7_1", autoack="False"];
+n8 [s8_1="harpoon flowstart=exponential(1.000000) ipsrc=10.0.13.5/24 flowsize=normal(4000.000000,100.000000) lossrate=randomchoice(0.001) ipdst=10.0.8.4/24 dport=randomunifint(1025,65535) sport=randomchoice(22,80,443)", mod_num=0, ipdests="10.0.13.5/24", m8_1="modulator profile=((8000,),(1,)) start=0 generator=s8_1", traffic="m8_1", autoack="False"];
+n9 [mod_num=0, s9_1="harpoon flowstart=exponential(1.000000) ipsrc=10.0.12.5/24 flowsize=normal(4000.000000,100.000000) lossrate=randomchoice(0.001) ipdst=10.0.10.4/24 dport=randomunifint(1025,65535) sport=randomchoice(22,80,443)", ipdests="10.0.12.5/24", traffic="m9_1", m9_1="modulator profile=((8000,),(1,)) start=0 generator=s9_1", autoack="False"];
+n0 -- n1  [delay=0.01, capacity=10000000, weight=10];
+n0 -- n2  [delay=0.01, capacity=10000000, weight=10];
+n0 -- n3  [delay=0.01, capacity=10000000, weight=10];
+n0 -- n5  [delay=0.01, capacity=10000000, weight=10];
+n0 -- n6  [delay=0.01, capacity=10000000, weight=10];
+n0 -- n9  [delay=0.01, capacity=10000000, weight=10];
+n1 -- n8  [delay=0.01, capacity=10000000, weight=10];
+n2 -- n7  [delay=0.01, capacity=10000000, weight=10];
+n3 -- n4  [delay=0.01, capacity=10000000, weight=10];
+}

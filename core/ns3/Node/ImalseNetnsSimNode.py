@@ -161,6 +161,7 @@ class ImalseNetnsSimNode(ns3.Node, BaseNode):
         """Will set Connect callback function. If succeeded, self.recv will be called. otherwise
         the sock will be closed"""
         server_addr = self._search_server_addr(addr_port[0])
+        print 'addr_port, ', addr_port
         print 'server_addr, ', server_addr
         print 'serval local, ', self.server_addr_set[0].GetLocal()
         # import pdb;pdb.set_trace()
