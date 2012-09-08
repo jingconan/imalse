@@ -1,0 +1,40 @@
+NetAnim is an animator based on the multi-platform Qt 4 toolkit. NetAnim currently animates the simulation using an XML trace file collected during simulation.
+
+Detailed instructions are found at http://www.nsnam.org/wiki/index.php/NetAnim
+
+# Pre-requisites:
+* Debian/Ubuntu Linux distribution:
+  apt-get install qt4-dev-tools
+
+* Red Hat/Fedora based distribution:
+  yum install qt4
+  yum install qt4-devel
+
+* Mac/OSX
+  Qt4 : Install Qt4 (including Qt Creator if possible) from http://qt.nokia.com/downloads/
+
+# Build instructions
+
+  cd netanim
+  make clean
+  qmake NetAnim.pro  (For Mac/OSX Users: qmake -spec macx-g++ NetAnim.pro)
+  make
+
+  ---- Note: qmake could be "qmake-qt4" in some systems
+
+# Using NetAnim
+  1. After building NetAnim, run the executable like so
+
+  ./NetAnim
+
+  2. Click the file open button and choose the path to the XML animation trace file
+
+# Generating XML trace files
+
+  See the examples under "src/netanim/examples"
+  Run an example like so:
+  ./waf --run "dumbbell-animation --nLeftLeaf=5 --nRightLeaf=5 --animFile=dumbbell.xml"
+
+  For more detailed instruction visit http://www.nsnam.org/wiki/index.php/NetAnim
+
+

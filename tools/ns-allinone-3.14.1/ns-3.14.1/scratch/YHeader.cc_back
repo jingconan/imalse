@@ -1,0 +1,54 @@
+#include "YHeader.h"
+#include <iostream>
+
+TypeId
+YHeader::GetTypeId (void) 
+{
+    static TypeId tid = TypeId("YHeader")
+        .SetParent<Header> ()
+        .AddConstructor<YHeader> ()
+    ;
+    return tid;
+
+}
+
+TypeId
+YHeader::GetInstanceTypeId (void)
+{
+    return GetTypeId ();
+
+}
+
+unit32_t
+YHeader::GetSerializedSize (void) const
+{
+    return 6;
+}
+
+void
+YHeader::Serialize (Buffer::Iterator start) const
+{
+    start.WriteU8 (0xfe);
+    start.WriteU8 (0xef);
+    start.WriteHtonU32 (m_data);
+
+}
+
+uint32_t
+YHeader::Deserialize (Buffer::Iterator start)
+{
+    uint8_t tmp;
+    tmp = start.ReadU8 ();
+    NS_ASSERT (tmp == 0xfe);
+    tmp = start.ReadU8 ();
+    NS_ASSERT (tmp == 0xef);
+    m_data = start.ReadNtohU32();
+    return 6;
+}
+
+void
+Yheader::Print (std::ostream &os) const
+{
+    os << "data=" << m_data;
+}
+

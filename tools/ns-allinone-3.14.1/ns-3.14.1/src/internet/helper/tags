@@ -1,0 +1,269 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+Add	ipv4-interface-container.cc	/^Ipv4InterfaceContainer::Add (Ipv4InterfaceContainer other)$/;"	f	class:ns3::Ipv4InterfaceContainer
+Add	ipv4-interface-container.cc	/^Ipv4InterfaceContainer::Add (Ptr<Ipv4> ipv4, uint32_t interface)$/;"	f	class:ns3::Ipv4InterfaceContainer
+Add	ipv4-interface-container.cc	/^Ipv4InterfaceContainer::Add (std::string ipv4Name, uint32_t interface)$/;"	f	class:ns3::Ipv4InterfaceContainer
+Add	ipv4-interface-container.cc	/^void Ipv4InterfaceContainer::Add (std::pair<Ptr<Ipv4>, uint32_t> a)$/;"	f	class:ns3::Ipv4InterfaceContainer
+Add	ipv4-list-routing-helper.cc	/^Ipv4ListRoutingHelper::Add (const Ipv4RoutingHelper &routing, int16_t priority)$/;"	f	class:ns3::Ipv4ListRoutingHelper
+Add	ipv6-interface-container.cc	/^void Ipv6InterfaceContainer::Add (Ipv6InterfaceContainer& c)$/;"	f	class:ns3::Ipv6InterfaceContainer
+Add	ipv6-interface-container.cc	/^void Ipv6InterfaceContainer::Add (Ptr<Ipv6> ipv6, uint32_t interface)$/;"	f	class:ns3::Ipv6InterfaceContainer
+Add	ipv6-interface-container.cc	/^void Ipv6InterfaceContainer::Add (std::string ipv6Name, uint32_t interface)$/;"	f	class:ns3::Ipv6InterfaceContainer
+Add	ipv6-list-routing-helper.cc	/^Ipv6ListRoutingHelper::Add (const Ipv6RoutingHelper &routing, int16_t priority)$/;"	f	class:ns3::Ipv6ListRoutingHelper
+AddMulticastRoute	ipv4-static-routing-helper.cc	/^Ipv4StaticRoutingHelper::AddMulticastRoute ($/;"	f	class:ns3::Ipv4StaticRoutingHelper
+AddMulticastRoute	ipv6-static-routing-helper.cc	/^Ipv6StaticRoutingHelper::AddMulticastRoute ($/;"	f	class:ns3::Ipv6StaticRoutingHelper
+AsciiHooked	internet-stack-helper.cc	/^InternetStackHelper::AsciiHooked (Ptr<Ipv4> ipv4)$/;"	f	class:ns3::InternetStackHelper
+AsciiHooked	internet-stack-helper.cc	/^InternetStackHelper::AsciiHooked (Ptr<Ipv6> ipv6)$/;"	f	class:ns3::InternetStackHelper
+AsciiTraceHelperForIpv4	internet-trace-helper.h	/^  AsciiTraceHelperForIpv4 () {}$/;"	f	class:ns3::AsciiTraceHelperForIpv4
+AsciiTraceHelperForIpv4	internet-trace-helper.h	/^class AsciiTraceHelperForIpv4$/;"	c	namespace:ns3
+AsciiTraceHelperForIpv6	internet-trace-helper.h	/^  AsciiTraceHelperForIpv6 () {}$/;"	f	class:ns3::AsciiTraceHelperForIpv6
+AsciiTraceHelperForIpv6	internet-trace-helper.h	/^class AsciiTraceHelperForIpv6$/;"	c	namespace:ns3
+Assign	ipv4-address-helper.cc	/^Ipv4AddressHelper::Assign (const NetDeviceContainer &c)$/;"	f	class:ns3::Ipv4AddressHelper
+Assign	ipv6-address-helper.cc	/^Ipv6InterfaceContainer Ipv6AddressHelper::Assign (const NetDeviceContainer &c)$/;"	f	class:ns3::Ipv6AddressHelper
+Assign	ipv6-address-helper.cc	/^Ipv6InterfaceContainer Ipv6AddressHelper::Assign (const NetDeviceContainer &c, std::vector<bool> withConfiguration)$/;"	f	class:ns3::Ipv6AddressHelper
+AssignWithoutAddress	ipv6-address-helper.cc	/^Ipv6InterfaceContainer Ipv6AddressHelper::AssignWithoutAddress (const NetDeviceContainer &c)$/;"	f	class:ns3::Ipv6AddressHelper
+Begin	ipv4-interface-container.cc	/^Ipv4InterfaceContainer::Begin (void) const$/;"	f	class:ns3::Ipv4InterfaceContainer
+Begin	ipv6-interface-container.cc	/^Ipv6InterfaceContainer::Begin (void) const$/;"	f	class:ns3::Ipv6InterfaceContainer
+Copy	ipv4-global-routing-helper.cc	/^Ipv4GlobalRoutingHelper::Copy (void) const$/;"	f	class:ns3::Ipv4GlobalRoutingHelper
+Copy	ipv4-list-routing-helper.cc	/^Ipv4ListRoutingHelper::Copy (void) const $/;"	f	class:ns3::Ipv4ListRoutingHelper
+Copy	ipv4-static-routing-helper.cc	/^Ipv4StaticRoutingHelper::Copy (void) const$/;"	f	class:ns3::Ipv4StaticRoutingHelper
+Copy	ipv6-list-routing-helper.cc	/^Ipv6ListRoutingHelper::Copy (void) const $/;"	f	class:ns3::Ipv6ListRoutingHelper
+Copy	ipv6-static-routing-helper.cc	/^Ipv6StaticRoutingHelper::Copy (void) const$/;"	f	class:ns3::Ipv6StaticRoutingHelper
+Create	ipv4-global-routing-helper.cc	/^Ipv4GlobalRoutingHelper::Create (Ptr<Node> node) const$/;"	f	class:ns3::Ipv4GlobalRoutingHelper
+Create	ipv4-list-routing-helper.cc	/^Ipv4ListRoutingHelper::Create (Ptr<Node> node) const$/;"	f	class:ns3::Ipv4ListRoutingHelper
+Create	ipv4-static-routing-helper.cc	/^Ipv4StaticRoutingHelper::Create (Ptr<Node> node) const$/;"	f	class:ns3::Ipv4StaticRoutingHelper
+Create	ipv6-list-routing-helper.cc	/^Ipv6ListRoutingHelper::Create (Ptr<Node> node) const$/;"	f	class:ns3::Ipv6ListRoutingHelper
+Create	ipv6-static-routing-helper.cc	/^Ipv6StaticRoutingHelper::Create (Ptr<Node> node) const$/;"	f	class:ns3::Ipv6StaticRoutingHelper
+CreateAndAggregateObjectFromTypeId	internet-stack-helper.cc	/^InternetStackHelper::CreateAndAggregateObjectFromTypeId (Ptr<Node> node, const std::string typeId)$/;"	f	class:ns3::InternetStackHelper
+EnableAsciiIpv4	internet-trace-helper.cc	/^AsciiTraceHelperForIpv4::EnableAsciiIpv4 ($/;"	f	class:ns3::AsciiTraceHelperForIpv4
+EnableAsciiIpv4	internet-trace-helper.cc	/^AsciiTraceHelperForIpv4::EnableAsciiIpv4 (Ptr<OutputStreamWrapper> stream, Ipv4InterfaceContainer c)$/;"	f	class:ns3::AsciiTraceHelperForIpv4
+EnableAsciiIpv4	internet-trace-helper.cc	/^AsciiTraceHelperForIpv4::EnableAsciiIpv4 (Ptr<OutputStreamWrapper> stream, NodeContainer n)$/;"	f	class:ns3::AsciiTraceHelperForIpv4
+EnableAsciiIpv4	internet-trace-helper.cc	/^AsciiTraceHelperForIpv4::EnableAsciiIpv4 (Ptr<OutputStreamWrapper> stream, Ptr<Ipv4> ipv4, uint32_t interface)$/;"	f	class:ns3::AsciiTraceHelperForIpv4
+EnableAsciiIpv4	internet-trace-helper.cc	/^AsciiTraceHelperForIpv4::EnableAsciiIpv4 (Ptr<OutputStreamWrapper> stream, std::string ipv4Name, uint32_t interface)$/;"	f	class:ns3::AsciiTraceHelperForIpv4
+EnableAsciiIpv4	internet-trace-helper.cc	/^AsciiTraceHelperForIpv4::EnableAsciiIpv4 (std::string prefix, Ipv4InterfaceContainer c)$/;"	f	class:ns3::AsciiTraceHelperForIpv4
+EnableAsciiIpv4	internet-trace-helper.cc	/^AsciiTraceHelperForIpv4::EnableAsciiIpv4 (std::string prefix, NodeContainer n)$/;"	f	class:ns3::AsciiTraceHelperForIpv4
+EnableAsciiIpv4	internet-trace-helper.cc	/^AsciiTraceHelperForIpv4::EnableAsciiIpv4 (std::string prefix, Ptr<Ipv4> ipv4, uint32_t interface, bool explicitFilename)$/;"	f	class:ns3::AsciiTraceHelperForIpv4
+EnableAsciiIpv4	internet-trace-helper.cc	/^AsciiTraceHelperForIpv4::EnableAsciiIpv4 (std::string prefix, uint32_t nodeid, uint32_t interface, bool explicitFilename)$/;"	f	class:ns3::AsciiTraceHelperForIpv4
+EnableAsciiIpv4All	internet-trace-helper.cc	/^AsciiTraceHelperForIpv4::EnableAsciiIpv4All (Ptr<OutputStreamWrapper> stream)$/;"	f	class:ns3::AsciiTraceHelperForIpv4
+EnableAsciiIpv4All	internet-trace-helper.cc	/^AsciiTraceHelperForIpv4::EnableAsciiIpv4All (std::string prefix)$/;"	f	class:ns3::AsciiTraceHelperForIpv4
+EnableAsciiIpv4Impl	internet-trace-helper.cc	/^AsciiTraceHelperForIpv4::EnableAsciiIpv4Impl ($/;"	f	class:ns3::AsciiTraceHelperForIpv4
+EnableAsciiIpv4Impl	internet-trace-helper.cc	/^AsciiTraceHelperForIpv4::EnableAsciiIpv4Impl (Ptr<OutputStreamWrapper> stream, std::string prefix, Ipv4InterfaceContainer c)$/;"	f	class:ns3::AsciiTraceHelperForIpv4
+EnableAsciiIpv4Impl	internet-trace-helper.cc	/^AsciiTraceHelperForIpv4::EnableAsciiIpv4Impl (Ptr<OutputStreamWrapper> stream, std::string prefix, NodeContainer n)$/;"	f	class:ns3::AsciiTraceHelperForIpv4
+EnableAsciiIpv4Internal	internet-stack-helper.cc	/^InternetStackHelper::EnableAsciiIpv4Internal ($/;"	f	class:ns3::InternetStackHelper
+EnableAsciiIpv6	internet-trace-helper.cc	/^AsciiTraceHelperForIpv6::EnableAsciiIpv6 (Ptr<OutputStreamWrapper> stream, Ipv6InterfaceContainer c)$/;"	f	class:ns3::AsciiTraceHelperForIpv6
+EnableAsciiIpv6	internet-trace-helper.cc	/^AsciiTraceHelperForIpv6::EnableAsciiIpv6 (Ptr<OutputStreamWrapper> stream, NodeContainer n)$/;"	f	class:ns3::AsciiTraceHelperForIpv6
+EnableAsciiIpv6	internet-trace-helper.cc	/^AsciiTraceHelperForIpv6::EnableAsciiIpv6 (Ptr<OutputStreamWrapper> stream, Ptr<Ipv6> ipv6, uint32_t interface)$/;"	f	class:ns3::AsciiTraceHelperForIpv6
+EnableAsciiIpv6	internet-trace-helper.cc	/^AsciiTraceHelperForIpv6::EnableAsciiIpv6 (Ptr<OutputStreamWrapper> stream, std::string ipv6Name, uint32_t interface)$/;"	f	class:ns3::AsciiTraceHelperForIpv6
+EnableAsciiIpv6	internet-trace-helper.cc	/^AsciiTraceHelperForIpv6::EnableAsciiIpv6 (Ptr<OutputStreamWrapper> stream, uint32_t nodeid, uint32_t interface)$/;"	f	class:ns3::AsciiTraceHelperForIpv6
+EnableAsciiIpv6	internet-trace-helper.cc	/^AsciiTraceHelperForIpv6::EnableAsciiIpv6 (std::string prefix, Ipv6InterfaceContainer c)$/;"	f	class:ns3::AsciiTraceHelperForIpv6
+EnableAsciiIpv6	internet-trace-helper.cc	/^AsciiTraceHelperForIpv6::EnableAsciiIpv6 (std::string prefix, NodeContainer n)$/;"	f	class:ns3::AsciiTraceHelperForIpv6
+EnableAsciiIpv6	internet-trace-helper.cc	/^AsciiTraceHelperForIpv6::EnableAsciiIpv6 (std::string prefix, Ptr<Ipv6> ipv6, uint32_t interface, bool explicitFilename)$/;"	f	class:ns3::AsciiTraceHelperForIpv6
+EnableAsciiIpv6	internet-trace-helper.cc	/^AsciiTraceHelperForIpv6::EnableAsciiIpv6 (std::string prefix, std::string ipv6Name, uint32_t interface, bool explicitFilename)$/;"	f	class:ns3::AsciiTraceHelperForIpv6
+EnableAsciiIpv6	internet-trace-helper.cc	/^AsciiTraceHelperForIpv6::EnableAsciiIpv6 (std::string prefix, uint32_t nodeid, uint32_t interface, bool explicitFilename)$/;"	f	class:ns3::AsciiTraceHelperForIpv6
+EnableAsciiIpv6All	internet-trace-helper.cc	/^AsciiTraceHelperForIpv6::EnableAsciiIpv6All (Ptr<OutputStreamWrapper> stream)$/;"	f	class:ns3::AsciiTraceHelperForIpv6
+EnableAsciiIpv6All	internet-trace-helper.cc	/^AsciiTraceHelperForIpv6::EnableAsciiIpv6All (std::string prefix)$/;"	f	class:ns3::AsciiTraceHelperForIpv6
+EnableAsciiIpv6Impl	internet-trace-helper.cc	/^AsciiTraceHelperForIpv6::EnableAsciiIpv6Impl ($/;"	f	class:ns3::AsciiTraceHelperForIpv6
+EnableAsciiIpv6Impl	internet-trace-helper.cc	/^AsciiTraceHelperForIpv6::EnableAsciiIpv6Impl (Ptr<OutputStreamWrapper> stream, std::string prefix, Ipv6InterfaceContainer c)$/;"	f	class:ns3::AsciiTraceHelperForIpv6
+EnableAsciiIpv6Impl	internet-trace-helper.cc	/^AsciiTraceHelperForIpv6::EnableAsciiIpv6Impl (Ptr<OutputStreamWrapper> stream, std::string prefix, NodeContainer n)$/;"	f	class:ns3::AsciiTraceHelperForIpv6
+EnableAsciiIpv6Internal	internet-stack-helper.cc	/^InternetStackHelper::EnableAsciiIpv6Internal ($/;"	f	class:ns3::InternetStackHelper
+EnablePcapIpv4	internet-trace-helper.cc	/^PcapHelperForIpv4::EnablePcapIpv4 (std::string prefix, Ipv4InterfaceContainer c)$/;"	f	class:ns3::PcapHelperForIpv4
+EnablePcapIpv4	internet-trace-helper.cc	/^PcapHelperForIpv4::EnablePcapIpv4 (std::string prefix, NodeContainer n)$/;"	f	class:ns3::PcapHelperForIpv4
+EnablePcapIpv4	internet-trace-helper.cc	/^PcapHelperForIpv4::EnablePcapIpv4 (std::string prefix, Ptr<Ipv4> ipv4, uint32_t interface, bool explicitFilename)$/;"	f	class:ns3::PcapHelperForIpv4
+EnablePcapIpv4	internet-trace-helper.cc	/^PcapHelperForIpv4::EnablePcapIpv4 (std::string prefix, std::string ipv4Name, uint32_t interface, bool explicitFilename)$/;"	f	class:ns3::PcapHelperForIpv4
+EnablePcapIpv4	internet-trace-helper.cc	/^PcapHelperForIpv4::EnablePcapIpv4 (std::string prefix, uint32_t nodeid, uint32_t interface, bool explicitFilename)$/;"	f	class:ns3::PcapHelperForIpv4
+EnablePcapIpv4All	internet-trace-helper.cc	/^PcapHelperForIpv4::EnablePcapIpv4All (std::string prefix)$/;"	f	class:ns3::PcapHelperForIpv4
+EnablePcapIpv4Internal	internet-stack-helper.cc	/^InternetStackHelper::EnablePcapIpv4Internal (std::string prefix, Ptr<Ipv4> ipv4, uint32_t interface, bool explicitFilename)$/;"	f	class:ns3::InternetStackHelper
+EnablePcapIpv6	internet-trace-helper.cc	/^PcapHelperForIpv6::EnablePcapIpv6 (std::string prefix, Ipv6InterfaceContainer c)$/;"	f	class:ns3::PcapHelperForIpv6
+EnablePcapIpv6	internet-trace-helper.cc	/^PcapHelperForIpv6::EnablePcapIpv6 (std::string prefix, NodeContainer n)$/;"	f	class:ns3::PcapHelperForIpv6
+EnablePcapIpv6	internet-trace-helper.cc	/^PcapHelperForIpv6::EnablePcapIpv6 (std::string prefix, Ptr<Ipv6> ipv6, uint32_t interface, bool explicitFilename)$/;"	f	class:ns3::PcapHelperForIpv6
+EnablePcapIpv6	internet-trace-helper.cc	/^PcapHelperForIpv6::EnablePcapIpv6 (std::string prefix, std::string ipv6Name, uint32_t interface, bool explicitFilename)$/;"	f	class:ns3::PcapHelperForIpv6
+EnablePcapIpv6	internet-trace-helper.cc	/^PcapHelperForIpv6::EnablePcapIpv6 (std::string prefix, uint32_t nodeid, uint32_t interface, bool explicitFilename)$/;"	f	class:ns3::PcapHelperForIpv6
+EnablePcapIpv6All	internet-trace-helper.cc	/^PcapHelperForIpv6::EnablePcapIpv6All (std::string prefix)$/;"	f	class:ns3::PcapHelperForIpv6
+EnablePcapIpv6Internal	internet-stack-helper.cc	/^InternetStackHelper::EnablePcapIpv6Internal (std::string prefix, Ptr<Ipv6> ipv6, uint32_t interface, bool explicitFilename)$/;"	f	class:ns3::InternetStackHelper
+End	ipv4-interface-container.cc	/^Ipv4InterfaceContainer::End (void) const$/;"	f	class:ns3::Ipv4InterfaceContainer
+End	ipv6-interface-container.cc	/^Ipv6InterfaceContainer::End (void) const$/;"	f	class:ns3::Ipv6InterfaceContainer
+Get	ipv4-interface-container.cc	/^Ipv4InterfaceContainer::Get (uint32_t i) const$/;"	f	class:ns3::Ipv4InterfaceContainer
+GetAddress	ipv4-interface-container.cc	/^Ipv4InterfaceContainer::GetAddress (uint32_t i, uint32_t j) const$/;"	f	class:ns3::Ipv4InterfaceContainer
+GetAddress	ipv6-interface-container.cc	/^Ipv6Address Ipv6InterfaceContainer::GetAddress (uint32_t i, uint32_t j) const$/;"	f	class:ns3::Ipv6InterfaceContainer
+GetInterfaceIndex	ipv6-interface-container.cc	/^uint32_t Ipv6InterfaceContainer::GetInterfaceIndex (uint32_t i) const$/;"	f	class:ns3::Ipv6InterfaceContainer
+GetN	ipv4-interface-container.cc	/^Ipv4InterfaceContainer::GetN (void) const$/;"	f	class:ns3::Ipv4InterfaceContainer
+GetN	ipv6-interface-container.cc	/^uint32_t Ipv6InterfaceContainer::GetN () const$/;"	f	class:ns3::Ipv6InterfaceContainer
+GetStaticRouting	ipv4-static-routing-helper.cc	/^Ipv4StaticRoutingHelper::GetStaticRouting (Ptr<Ipv4> ipv4) const$/;"	f	class:ns3::Ipv4StaticRoutingHelper
+GetStaticRouting	ipv6-static-routing-helper.cc	/^Ipv6StaticRoutingHelper::GetStaticRouting (Ptr<Ipv6> ipv6) const$/;"	f	class:ns3::Ipv6StaticRoutingHelper
+INTERFACE_CONTEXT	internet-stack-helper.cc	187;"	d	file:
+INTERNET_STACK_HELPER_H	internet-stack-helper.h	22;"	d
+INTERNET_TRACE_HELPER_H	internet-trace-helper.h	20;"	d
+IPV4_ADDRESS_HELPER_H	ipv4-address-helper.h	20;"	d
+IPV4_GLOBAL_ROUTING_HELPER_H	ipv4-global-routing-helper.h	21;"	d
+IPV4_INTERFACE_CONTAINER_H	ipv4-interface-container.h	2;"	d
+IPV4_LIST_ROUTING_HELPER_H	ipv4-list-routing-helper.h	21;"	d
+IPV4_ROUTING_HELPER_H	ipv4-routing-helper.h	21;"	d
+IPV4_STATIC_ROUTING_HELPER_H	ipv4-static-routing-helper.h	20;"	d
+IPV6_ADDRESS_HELPER_H	ipv6-address-helper.h	23;"	d
+IPV6_INTERFACE_CONTAINER_H	ipv6-interface-container.h	22;"	d
+IPV6_LIST_ROUTING_HELPER_H	ipv6-list-routing-helper.h	21;"	d
+IPV6_ROUTING_HELPER_H	ipv6-routing-helper.h	22;"	d
+IPV6_STATIC_ROUTING_HELPER_H	ipv6-static-routing-helper.h	20;"	d
+Initialize	internet-stack-helper.cc	/^InternetStackHelper::Initialize ()$/;"	f	class:ns3::InternetStackHelper
+Install	internet-stack-helper.cc	/^InternetStackHelper::Install (NodeContainer c) const$/;"	f	class:ns3::InternetStackHelper
+Install	internet-stack-helper.cc	/^InternetStackHelper::Install (Ptr<Node> node) const$/;"	f	class:ns3::InternetStackHelper
+Install	internet-stack-helper.cc	/^InternetStackHelper::Install (std::string nodeName) const$/;"	f	class:ns3::InternetStackHelper
+InstallAll	internet-stack-helper.cc	/^InternetStackHelper::InstallAll (void) const$/;"	f	class:ns3::InternetStackHelper
+InterfaceFileMapIpv4	internet-stack-helper.cc	/^typedef std::map<InterfacePairIpv4, Ptr<PcapFileWrapper> > InterfaceFileMapIpv4;$/;"	t	namespace:ns3	file:
+InterfaceFileMapIpv6	internet-stack-helper.cc	/^typedef std::map<InterfacePairIpv6, Ptr<PcapFileWrapper> > InterfaceFileMapIpv6;$/;"	t	namespace:ns3	file:
+InterfacePairIpv4	internet-stack-helper.cc	/^typedef std::pair<Ptr<Ipv4>, uint32_t> InterfacePairIpv4; $/;"	t	namespace:ns3	file:
+InterfacePairIpv6	internet-stack-helper.cc	/^typedef std::pair<Ptr<Ipv6>, uint32_t> InterfacePairIpv6;$/;"	t	namespace:ns3	file:
+InterfaceStreamMapIpv4	internet-stack-helper.cc	/^typedef std::map<InterfacePairIpv4, Ptr<OutputStreamWrapper> > InterfaceStreamMapIpv4;$/;"	t	namespace:ns3	file:
+InterfaceStreamMapIpv6	internet-stack-helper.cc	/^typedef std::map<InterfacePairIpv6, Ptr<OutputStreamWrapper> > InterfaceStreamMapIpv6;$/;"	t	namespace:ns3	file:
+InterfaceVector	ipv4-interface-container.h	/^  typedef std::vector<std::pair<Ptr<Ipv4>,uint32_t> > InterfaceVector;$/;"	t	class:ns3::Ipv4InterfaceContainer
+InterfaceVector	ipv6-interface-container.h	/^  typedef std::vector<std::pair<Ptr<Ipv6>, uint32_t> > InterfaceVector;$/;"	t	class:ns3::Ipv6InterfaceContainer
+InternetStackHelper	internet-stack-helper.cc	/^InternetStackHelper::InternetStackHelper ()$/;"	f	class:ns3::InternetStackHelper
+InternetStackHelper	internet-stack-helper.cc	/^InternetStackHelper::InternetStackHelper (const InternetStackHelper &o)$/;"	f	class:ns3::InternetStackHelper
+InternetStackHelper	internet-stack-helper.h	/^class InternetStackHelper : public PcapHelperForIpv4, public PcapHelperForIpv6, $/;"	c	namespace:ns3
+Ipv4AddressHelper	ipv4-address-helper.cc	/^Ipv4AddressHelper::Ipv4AddressHelper ($/;"	f	class:ns3::Ipv4AddressHelper
+Ipv4AddressHelper	ipv4-address-helper.cc	/^Ipv4AddressHelper::Ipv4AddressHelper () $/;"	f	class:ns3::Ipv4AddressHelper
+Ipv4AddressHelper	ipv4-address-helper.h	/^class Ipv4AddressHelper$/;"	c	namespace:ns3
+Ipv4GlobalRoutingHelper	ipv4-global-routing-helper.cc	/^Ipv4GlobalRoutingHelper::Ipv4GlobalRoutingHelper ()$/;"	f	class:ns3::Ipv4GlobalRoutingHelper
+Ipv4GlobalRoutingHelper	ipv4-global-routing-helper.cc	/^Ipv4GlobalRoutingHelper::Ipv4GlobalRoutingHelper (const Ipv4GlobalRoutingHelper &o)$/;"	f	class:ns3::Ipv4GlobalRoutingHelper
+Ipv4GlobalRoutingHelper	ipv4-global-routing-helper.h	/^class Ipv4GlobalRoutingHelper  : public Ipv4RoutingHelper$/;"	c	namespace:ns3
+Ipv4InterfaceContainer	ipv4-interface-container.cc	/^Ipv4InterfaceContainer::Ipv4InterfaceContainer ()$/;"	f	class:ns3::Ipv4InterfaceContainer
+Ipv4InterfaceContainer	ipv4-interface-container.h	/^class Ipv4InterfaceContainer$/;"	c	namespace:ns3
+Ipv4L3ProtocolDropSinkWithContext	internet-stack-helper.cc	/^Ipv4L3ProtocolDropSinkWithContext ($/;"	f	namespace:ns3
+Ipv4L3ProtocolDropSinkWithoutContext	internet-stack-helper.cc	/^Ipv4L3ProtocolDropSinkWithoutContext ($/;"	f	namespace:ns3
+Ipv4L3ProtocolRxSinkWithContext	internet-stack-helper.cc	/^Ipv4L3ProtocolRxSinkWithContext ($/;"	f	namespace:ns3
+Ipv4L3ProtocolRxSinkWithoutContext	internet-stack-helper.cc	/^Ipv4L3ProtocolRxSinkWithoutContext ($/;"	f	namespace:ns3
+Ipv4L3ProtocolRxTxSink	internet-stack-helper.cc	/^Ipv4L3ProtocolRxTxSink (Ptr<const Packet> p, Ptr<Ipv4> ipv4, uint32_t interface)$/;"	f	namespace:ns3
+Ipv4L3ProtocolTxSinkWithContext	internet-stack-helper.cc	/^Ipv4L3ProtocolTxSinkWithContext ($/;"	f	namespace:ns3
+Ipv4L3ProtocolTxSinkWithoutContext	internet-stack-helper.cc	/^Ipv4L3ProtocolTxSinkWithoutContext ($/;"	f	namespace:ns3
+Ipv4ListRoutingHelper	ipv4-list-routing-helper.cc	/^Ipv4ListRoutingHelper::Ipv4ListRoutingHelper (const Ipv4ListRoutingHelper &o)$/;"	f	class:ns3::Ipv4ListRoutingHelper
+Ipv4ListRoutingHelper	ipv4-list-routing-helper.cc	/^Ipv4ListRoutingHelper::Ipv4ListRoutingHelper()$/;"	f	class:ns3::Ipv4ListRoutingHelper
+Ipv4ListRoutingHelper	ipv4-list-routing-helper.h	/^class Ipv4ListRoutingHelper : public Ipv4RoutingHelper$/;"	c	namespace:ns3
+Ipv4RoutingHelper	ipv4-routing-helper.h	/^class Ipv4RoutingHelper$/;"	c	namespace:ns3
+Ipv4StaticRoutingHelper	ipv4-static-routing-helper.cc	/^Ipv4StaticRoutingHelper::Ipv4StaticRoutingHelper (const Ipv4StaticRoutingHelper &o)$/;"	f	class:ns3::Ipv4StaticRoutingHelper
+Ipv4StaticRoutingHelper	ipv4-static-routing-helper.cc	/^Ipv4StaticRoutingHelper::Ipv4StaticRoutingHelper()$/;"	f	class:ns3::Ipv4StaticRoutingHelper
+Ipv4StaticRoutingHelper	ipv4-static-routing-helper.h	/^class Ipv4StaticRoutingHelper : public Ipv4RoutingHelper$/;"	c	namespace:ns3
+Ipv6AddressHelper	ipv6-address-helper.cc	/^Ipv6AddressHelper::Ipv6AddressHelper ()$/;"	f	class:ns3::Ipv6AddressHelper
+Ipv6AddressHelper	ipv6-address-helper.cc	/^Ipv6AddressHelper::Ipv6AddressHelper (Ipv6Address network, Ipv6Prefix prefix,$/;"	f	class:ns3::Ipv6AddressHelper
+Ipv6AddressHelper	ipv6-address-helper.h	/^class Ipv6AddressHelper$/;"	c	namespace:ns3
+Ipv6InterfaceContainer	ipv6-interface-container.cc	/^Ipv6InterfaceContainer::Ipv6InterfaceContainer ()$/;"	f	class:ns3::Ipv6InterfaceContainer
+Ipv6InterfaceContainer	ipv6-interface-container.h	/^class Ipv6InterfaceContainer$/;"	c	namespace:ns3
+Ipv6L3ProtocolDropSinkWithContext	internet-stack-helper.cc	/^Ipv6L3ProtocolDropSinkWithContext ($/;"	f	namespace:ns3
+Ipv6L3ProtocolDropSinkWithoutContext	internet-stack-helper.cc	/^Ipv6L3ProtocolDropSinkWithoutContext ($/;"	f	namespace:ns3
+Ipv6L3ProtocolRxSinkWithContext	internet-stack-helper.cc	/^Ipv6L3ProtocolRxSinkWithContext ($/;"	f	namespace:ns3
+Ipv6L3ProtocolRxSinkWithoutContext	internet-stack-helper.cc	/^Ipv6L3ProtocolRxSinkWithoutContext ($/;"	f	namespace:ns3
+Ipv6L3ProtocolRxTxSink	internet-stack-helper.cc	/^Ipv6L3ProtocolRxTxSink (Ptr<const Packet> p, Ptr<Ipv6> ipv6, uint32_t interface)$/;"	f	namespace:ns3
+Ipv6L3ProtocolTxSinkWithContext	internet-stack-helper.cc	/^Ipv6L3ProtocolTxSinkWithContext ($/;"	f	namespace:ns3
+Ipv6L3ProtocolTxSinkWithoutContext	internet-stack-helper.cc	/^Ipv6L3ProtocolTxSinkWithoutContext ($/;"	f	namespace:ns3
+Ipv6ListRoutingHelper	ipv6-list-routing-helper.cc	/^Ipv6ListRoutingHelper::Ipv6ListRoutingHelper ()$/;"	f	class:ns3::Ipv6ListRoutingHelper
+Ipv6ListRoutingHelper	ipv6-list-routing-helper.cc	/^Ipv6ListRoutingHelper::Ipv6ListRoutingHelper (const Ipv6ListRoutingHelper &o)$/;"	f	class:ns3::Ipv6ListRoutingHelper
+Ipv6ListRoutingHelper	ipv6-list-routing-helper.h	/^class Ipv6ListRoutingHelper : public Ipv6RoutingHelper$/;"	c	namespace:ns3
+Ipv6RoutingHelper	ipv6-routing-helper.h	/^class Ipv6RoutingHelper$/;"	c	namespace:ns3
+Ipv6StaticRoutingHelper	ipv6-static-routing-helper.cc	/^Ipv6StaticRoutingHelper::Ipv6StaticRoutingHelper ()$/;"	f	class:ns3::Ipv6StaticRoutingHelper
+Ipv6StaticRoutingHelper	ipv6-static-routing-helper.cc	/^Ipv6StaticRoutingHelper::Ipv6StaticRoutingHelper (const Ipv6StaticRoutingHelper &o)$/;"	f	class:ns3::Ipv6StaticRoutingHelper
+Ipv6StaticRoutingHelper	ipv6-static-routing-helper.h	/^class Ipv6StaticRoutingHelper : public Ipv6RoutingHelper$/;"	c	namespace:ns3
+Iterator	ipv4-interface-container.h	/^  typedef std::vector<std::pair<Ptr<Ipv4>, uint32_t> >::const_iterator Iterator;$/;"	t	class:ns3::Ipv4InterfaceContainer
+Iterator	ipv6-interface-container.h	/^  typedef std::vector<std::pair<Ptr<Ipv6>, uint32_t> >::const_iterator Iterator;$/;"	t	class:ns3::Ipv6InterfaceContainer
+NS_DEPRECATED	ipv6-address-helper.h	/^  void NewNetwork (Ipv6Address network, Ipv6Prefix prefix) NS_DEPRECATED;$/;"	m	class:ns3::Ipv6AddressHelper
+N_BITS	ipv4-address-helper.cc	/^const uint32_t N_BITS = 32;$/;"	m	namespace:ns3	file:
+NewAddress	ipv4-address-helper.cc	/^Ipv4AddressHelper::NewAddress (void)$/;"	f	class:ns3::Ipv4AddressHelper
+NewAddress	ipv6-address-helper.cc	/^Ipv6Address Ipv6AddressHelper::NewAddress (Address addr)$/;"	f	class:ns3::Ipv6AddressHelper
+NewAddress	ipv6-address-helper.cc	/^Ipv6Address Ipv6AddressHelper::NewAddress (void)$/;"	f	class:ns3::Ipv6AddressHelper
+NewNetwork	ipv4-address-helper.cc	/^Ipv4AddressHelper::NewNetwork (void)$/;"	f	class:ns3::Ipv4AddressHelper
+NewNetwork	ipv6-address-helper.cc	/^void Ipv6AddressHelper::NewNetwork (Ipv6Address network, Ipv6Prefix prefix)$/;"	f	class:ns3::Ipv6AddressHelper
+NewNetwork	ipv6-address-helper.cc	/^void Ipv6AddressHelper::NewNetwork (void)$/;"	f	class:ns3::Ipv6AddressHelper
+NumAddressBits	ipv4-address-helper.cc	/^Ipv4AddressHelper::NumAddressBits (uint32_t maskbits) const$/;"	f	class:ns3::Ipv4AddressHelper
+PcapHelperForIpv4	internet-trace-helper.h	/^  PcapHelperForIpv4 () {}$/;"	f	class:ns3::PcapHelperForIpv4
+PcapHelperForIpv4	internet-trace-helper.h	/^class PcapHelperForIpv4$/;"	c	namespace:ns3
+PcapHelperForIpv6	internet-trace-helper.h	/^  PcapHelperForIpv6 () {}$/;"	f	class:ns3::PcapHelperForIpv6
+PcapHelperForIpv6	internet-trace-helper.h	/^class PcapHelperForIpv6$/;"	c	namespace:ns3
+PcapHooked	internet-stack-helper.cc	/^InternetStackHelper::PcapHooked (Ptr<Ipv4> ipv4)$/;"	f	class:ns3::InternetStackHelper
+PcapHooked	internet-stack-helper.cc	/^InternetStackHelper::PcapHooked (Ptr<Ipv6> ipv6)$/;"	f	class:ns3::InternetStackHelper
+PopulateRoutingTables	ipv4-global-routing-helper.cc	/^Ipv4GlobalRoutingHelper::PopulateRoutingTables (void)$/;"	f	class:ns3::Ipv4GlobalRoutingHelper
+Print	ipv4-routing-helper.cc	/^Ipv4RoutingHelper::Print (Ptr<Node> node, Ptr<OutputStreamWrapper> stream) const$/;"	f	class:ns3::Ipv4RoutingHelper
+Print	ipv6-routing-helper.cc	/^Ipv6RoutingHelper::Print (Ptr<Node> node, Ptr<OutputStreamWrapper> stream) const$/;"	f	class:ns3::Ipv6RoutingHelper
+PrintEvery	ipv4-routing-helper.cc	/^Ipv4RoutingHelper::PrintEvery (Time printInterval, Ptr<Node> node, Ptr<OutputStreamWrapper> stream) const$/;"	f	class:ns3::Ipv4RoutingHelper
+PrintEvery	ipv6-routing-helper.cc	/^Ipv6RoutingHelper::PrintEvery (Time printInterval, Ptr<Node> node, Ptr<OutputStreamWrapper> stream) const$/;"	f	class:ns3::Ipv6RoutingHelper
+PrintRoutingTableAllAt	ipv4-routing-helper.cc	/^Ipv4RoutingHelper::PrintRoutingTableAllAt (Time printTime, Ptr<OutputStreamWrapper> stream) const$/;"	f	class:ns3::Ipv4RoutingHelper
+PrintRoutingTableAllAt	ipv6-routing-helper.cc	/^Ipv6RoutingHelper::PrintRoutingTableAllAt (Time printTime, Ptr<OutputStreamWrapper> stream) const$/;"	f	class:ns3::Ipv6RoutingHelper
+PrintRoutingTableAllEvery	ipv4-routing-helper.cc	/^Ipv4RoutingHelper::PrintRoutingTableAllEvery (Time printInterval, Ptr<OutputStreamWrapper> stream) const$/;"	f	class:ns3::Ipv4RoutingHelper
+PrintRoutingTableAllEvery	ipv6-routing-helper.cc	/^Ipv6RoutingHelper::PrintRoutingTableAllEvery (Time printInterval, Ptr<OutputStreamWrapper> stream) const$/;"	f	class:ns3::Ipv6RoutingHelper
+PrintRoutingTableAt	ipv4-routing-helper.cc	/^Ipv4RoutingHelper::PrintRoutingTableAt (Time printTime, Ptr<Node> node, Ptr<OutputStreamWrapper> stream) const$/;"	f	class:ns3::Ipv4RoutingHelper
+PrintRoutingTableAt	ipv6-routing-helper.cc	/^Ipv6RoutingHelper::PrintRoutingTableAt (Time printTime, Ptr<Node> node, Ptr<OutputStreamWrapper> stream) const$/;"	f	class:ns3::Ipv6RoutingHelper
+PrintRoutingTableEvery	ipv4-routing-helper.cc	/^Ipv4RoutingHelper::PrintRoutingTableEvery (Time printInterval,Ptr<Node> node, Ptr<OutputStreamWrapper> stream) const$/;"	f	class:ns3::Ipv4RoutingHelper
+PrintRoutingTableEvery	ipv6-routing-helper.cc	/^Ipv6RoutingHelper::PrintRoutingTableEvery (Time printInterval,Ptr<Node> node, Ptr<OutputStreamWrapper> stream) const$/;"	f	class:ns3::Ipv6RoutingHelper
+RecomputeRoutingTables	ipv4-global-routing-helper.cc	/^Ipv4GlobalRoutingHelper::RecomputeRoutingTables (void)$/;"	f	class:ns3::Ipv4GlobalRoutingHelper
+Reset	internet-stack-helper.cc	/^InternetStackHelper::Reset (void)$/;"	f	class:ns3::InternetStackHelper
+SetBase	ipv4-address-helper.cc	/^Ipv4AddressHelper::SetBase ($/;"	f	class:ns3::Ipv4AddressHelper
+SetBase	ipv6-address-helper.cc	/^void Ipv6AddressHelper::SetBase (Ipv6Address network, Ipv6Prefix prefix,$/;"	f	class:ns3::Ipv6AddressHelper
+SetDefaultMulticastRoute	ipv4-static-routing-helper.cc	/^Ipv4StaticRoutingHelper::SetDefaultMulticastRoute ($/;"	f	class:ns3::Ipv4StaticRoutingHelper
+SetDefaultRoute	ipv6-interface-container.cc	/^void Ipv6InterfaceContainer::SetDefaultRoute (uint32_t i, uint32_t router)$/;"	f	class:ns3::Ipv6InterfaceContainer
+SetIpv4StackInstall	internet-stack-helper.cc	/^InternetStackHelper::SetIpv4StackInstall (bool enable)$/;"	f	class:ns3::InternetStackHelper
+SetIpv6StackInstall	internet-stack-helper.cc	/^void InternetStackHelper::SetIpv6StackInstall (bool enable)$/;"	f	class:ns3::InternetStackHelper
+SetMetric	ipv4-interface-container.cc	/^Ipv4InterfaceContainer::SetMetric (uint32_t i, uint16_t metric)$/;"	f	class:ns3::Ipv4InterfaceContainer
+SetRouter	ipv6-interface-container.cc	/^void Ipv6InterfaceContainer::SetRouter (uint32_t i, bool router)$/;"	f	class:ns3::Ipv6InterfaceContainer
+SetRoutingHelper	internet-stack-helper.cc	/^InternetStackHelper::SetRoutingHelper (const Ipv4RoutingHelper &routing)$/;"	f	class:ns3::InternetStackHelper
+SetRoutingHelper	internet-stack-helper.cc	/^InternetStackHelper::SetRoutingHelper (const Ipv6RoutingHelper &routing)$/;"	f	class:ns3::InternetStackHelper
+SetTcp	internet-stack-helper.cc	/^InternetStackHelper::SetTcp (const std::string tid)$/;"	f	class:ns3::InternetStackHelper
+SetTcp	internet-stack-helper.cc	/^InternetStackHelper::SetTcp (std::string tid, std::string n0, const AttributeValue &v0)$/;"	f	class:ns3::InternetStackHelper
+g_interfaceFileMapIpv4	internet-stack-helper.cc	/^static InterfaceFileMapIpv4 g_interfaceFileMapIpv4; \/**< A mapping of Ipv4\/interface pairs to pcap files *\/$/;"	m	namespace:ns3	file:
+g_interfaceFileMapIpv6	internet-stack-helper.cc	/^static InterfaceFileMapIpv6 g_interfaceFileMapIpv6; \/**< A mapping of Ipv6\/interface pairs to pcap files *\/$/;"	m	namespace:ns3	file:
+g_interfaceStreamMapIpv4	internet-stack-helper.cc	/^static InterfaceStreamMapIpv4 g_interfaceStreamMapIpv4; \/**< A mapping of Ipv4\/interface pairs to ascii streams *\/$/;"	m	namespace:ns3	file:
+g_interfaceStreamMapIpv6	internet-stack-helper.cc	/^static InterfaceStreamMapIpv6 g_interfaceStreamMapIpv6; \/**< A mapping of Ipv6\/interface pairs to pcap files *\/$/;"	m	namespace:ns3	file:
+m_address	ipv4-address-helper.h	/^  uint32_t m_address;$/;"	m	class:ns3::Ipv4AddressHelper
+m_base	ipv4-address-helper.h	/^  uint32_t m_base;$/;"	m	class:ns3::Ipv4AddressHelper
+m_base	ipv6-address-helper.h	/^  uint64_t m_base;$/;"	m	class:ns3::Ipv6AddressHelper
+m_iid	ipv6-address-helper.h	/^  uint64_t m_iid;$/;"	m	class:ns3::Ipv6AddressHelper
+m_interfaces	ipv4-interface-container.h	/^  InterfaceVector m_interfaces;$/;"	m	class:ns3::Ipv4InterfaceContainer
+m_interfaces	ipv6-interface-container.h	/^  InterfaceVector m_interfaces;$/;"	m	class:ns3::Ipv6InterfaceContainer
+m_ipv4Enabled	internet-stack-helper.h	/^  bool m_ipv4Enabled;$/;"	m	class:ns3::InternetStackHelper
+m_ipv6Enabled	internet-stack-helper.h	/^  bool m_ipv6Enabled;$/;"	m	class:ns3::InternetStackHelper
+m_list	ipv4-list-routing-helper.h	/^  std::list<std::pair<const Ipv4RoutingHelper *,int16_t> > m_list;$/;"	m	class:ns3::Ipv4ListRoutingHelper
+m_list	ipv6-list-routing-helper.h	/^  std::list<std::pair<const Ipv6RoutingHelper *,int16_t> > m_list;$/;"	m	class:ns3::Ipv6ListRoutingHelper
+m_mask	ipv4-address-helper.h	/^  uint32_t m_mask;$/;"	m	class:ns3::Ipv4AddressHelper
+m_max	ipv4-address-helper.h	/^  uint32_t m_max;$/;"	m	class:ns3::Ipv4AddressHelper
+m_network	ipv4-address-helper.h	/^  uint32_t m_network;$/;"	m	class:ns3::Ipv4AddressHelper
+m_network	ipv6-address-helper.h	/^  uint8_t m_network[16];$/;"	m	class:ns3::Ipv6AddressHelper
+m_prefix	ipv6-address-helper.h	/^  uint8_t m_prefix[16];$/;"	m	class:ns3::Ipv6AddressHelper
+m_routing	internet-stack-helper.h	/^  const Ipv4RoutingHelper *m_routing;$/;"	m	class:ns3::InternetStackHelper
+m_routingv6	internet-stack-helper.h	/^  const Ipv6RoutingHelper *m_routingv6;$/;"	m	class:ns3::InternetStackHelper
+m_shift	ipv4-address-helper.h	/^  uint32_t m_shift;$/;"	m	class:ns3::Ipv4AddressHelper
+m_tcpFactory	internet-stack-helper.h	/^  ObjectFactory m_tcpFactory;$/;"	m	class:ns3::InternetStackHelper
+ns3	internet-stack-helper.cc	/^namespace ns3 {$/;"	n	file:
+ns3	internet-stack-helper.h	/^namespace ns3 {$/;"	n
+ns3	internet-trace-helper.cc	/^namespace ns3 {$/;"	n	file:
+ns3	internet-trace-helper.h	/^namespace ns3 {$/;"	n
+ns3	ipv4-address-helper.cc	/^namespace ns3 {$/;"	n	file:
+ns3	ipv4-address-helper.h	/^namespace ns3 {$/;"	n
+ns3	ipv4-global-routing-helper.cc	/^namespace ns3 {$/;"	n	file:
+ns3	ipv4-global-routing-helper.h	/^namespace ns3 {$/;"	n
+ns3	ipv4-interface-container.cc	/^namespace ns3 {$/;"	n	file:
+ns3	ipv4-interface-container.h	/^namespace ns3 {$/;"	n
+ns3	ipv4-list-routing-helper.cc	/^namespace ns3 {$/;"	n	file:
+ns3	ipv4-list-routing-helper.h	/^namespace ns3 {$/;"	n
+ns3	ipv4-routing-helper.cc	/^namespace ns3 {$/;"	n	file:
+ns3	ipv4-routing-helper.h	/^namespace ns3 {$/;"	n
+ns3	ipv4-static-routing-helper.cc	/^namespace ns3 {$/;"	n	file:
+ns3	ipv4-static-routing-helper.h	/^namespace ns3 {$/;"	n
+ns3	ipv6-address-helper.cc	/^namespace ns3 $/;"	n	file:
+ns3	ipv6-address-helper.h	/^namespace ns3 {$/;"	n
+ns3	ipv6-interface-container.cc	/^namespace ns3 $/;"	n	file:
+ns3	ipv6-interface-container.h	/^namespace ns3$/;"	n
+ns3	ipv6-list-routing-helper.cc	/^namespace ns3 {$/;"	n	file:
+ns3	ipv6-list-routing-helper.h	/^namespace ns3 {$/;"	n
+ns3	ipv6-routing-helper.cc	/^namespace ns3 {$/;"	n	file:
+ns3	ipv6-routing-helper.h	/^namespace ns3 {$/;"	n
+ns3	ipv6-static-routing-helper.cc	/^namespace ns3 {$/;"	n	file:
+ns3	ipv6-static-routing-helper.h	/^namespace ns3 {$/;"	n
+operator =	internet-stack-helper.cc	/^InternetStackHelper::operator = (const InternetStackHelper &o)$/;"	f	class:ns3::InternetStackHelper
+~AsciiTraceHelperForIpv4	internet-trace-helper.h	/^  virtual ~AsciiTraceHelperForIpv4 () {}$/;"	f	class:ns3::AsciiTraceHelperForIpv4
+~AsciiTraceHelperForIpv6	internet-trace-helper.h	/^  virtual ~AsciiTraceHelperForIpv6 () {}$/;"	f	class:ns3::AsciiTraceHelperForIpv6
+~InternetStackHelper	internet-stack-helper.cc	/^InternetStackHelper::~InternetStackHelper ()$/;"	f	class:ns3::InternetStackHelper
+~Ipv4ListRoutingHelper	ipv4-list-routing-helper.cc	/^Ipv4ListRoutingHelper::~Ipv4ListRoutingHelper()$/;"	f	class:ns3::Ipv4ListRoutingHelper
+~Ipv4RoutingHelper	ipv4-routing-helper.cc	/^Ipv4RoutingHelper::~Ipv4RoutingHelper ()$/;"	f	class:ns3::Ipv4RoutingHelper
+~Ipv6ListRoutingHelper	ipv6-list-routing-helper.cc	/^Ipv6ListRoutingHelper::~Ipv6ListRoutingHelper()$/;"	f	class:ns3::Ipv6ListRoutingHelper
+~Ipv6RoutingHelper	ipv6-routing-helper.cc	/^Ipv6RoutingHelper::~Ipv6RoutingHelper ()$/;"	f	class:ns3::Ipv6RoutingHelper
+~PcapHelperForIpv4	internet-trace-helper.h	/^  virtual ~PcapHelperForIpv4 () {}$/;"	f	class:ns3::PcapHelperForIpv4
+~PcapHelperForIpv6	internet-trace-helper.h	/^  virtual ~PcapHelperForIpv6 () {}$/;"	f	class:ns3::PcapHelperForIpv6

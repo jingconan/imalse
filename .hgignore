@@ -4,6 +4,7 @@ syntax: glob
 **_undo
 **.pcap
 **.dot
+build
 
 syntax: regexp
 ^\.UNDO/*.*
