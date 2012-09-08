@@ -10,8 +10,9 @@ from util import run_command, fatal, CommandError
 
 
 def build_nsc():
-    run_command([sys.executable, 'scons.py'])
-    
+    # run_command([sys.executable, 'scons.py'])
+    pass
+
 
 def build_netanim(qmakepath):
     qmake = 'qmake'
@@ -30,11 +31,11 @@ def build_netanim(qmakepath):
 		print "qmake-qt4 found"
     except:
 	print "Could not find qmake-qt4 in the default path"
-	
+
     if qmakepath:
 	print "Setting qmake to user provided path"
         qmake = qmakepath
-    try:    
+    try:
     	if sys.platform in ['darwin']:
     		run_command([qmake, '-spec', 'macx-g++', 'NetAnim.pro'])
     	else:
@@ -119,6 +120,7 @@ def main(argv):
                       help=("Add these options to ns-3's \"waf build\" command"),
                       default='', dest='build_options')
     (options, args) = parser.parse_args()
+    options.disable_nsc = True
 
     cwd = os.getcwd()
 
