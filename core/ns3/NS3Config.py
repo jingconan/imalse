@@ -21,12 +21,16 @@ from RandomVariable import RV
 #####################################
 ####              API            ####
 #####################################
-def TopologyNetBT(dot_file, trace_config):
+def TopologyNetBT(dot_file, trace_config, **kwargs):
     """return a TopologyNet with Background traffic already configured
         - **dotfile** is the path of dot configuration file relative to ROOT directory
         - **trace_config** is a dictionary contains the trace and bot server client information
     """
     ns3_config = NS3Config(dot_file, trace_config)
+    # set other parameters
+    for k, v in kwargs.iteritems():
+        ns3_config.__dict__[k] = v
+
     ns3_config.setup()
     ns3_config.config_onoff_app()
     return ns3_config.net
@@ -89,14 +93,20 @@ class NS3Config(object):
                 self.TOPOLOGY_TYPE,
                 self.NodeCreator,
                 net_settings,
+                routing_helper_list = self.routing_helper_list,
                 )
         self.net.set_trace()
 
     def add_onoff_app(self, start_time, end_time, local, remote, on_time, off_time, data_rate, sport, dport):
         """add one ns3 onoff application to the network
         """
+        # ignore the network prefix length if there is
+        if '/' in remote: remote = remote.rsplit('/')[0]
+        if '/' in local: local = local.rsplit('/')[0]
+
         ### Install OnOff Application ###
         socketType = "ns3::UdpSocketFactory"
+        # socketType = "ns3::TcpSocketFactory"
         helper = ns3.OnOffHelper(socketType,
                 ns3.InetSocketAddress(remote, dport))
 

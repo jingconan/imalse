@@ -7,6 +7,7 @@ import settings
 from core.ns3.NS3Config import TopologyNetBT
 from experiments import experiment_factory
 from core.configure import gen_anomaly_dot
+import ns3
 
 ManualTopoExperiment = experiment_factory('ManualTopoExperiment', BaseClass)
 from util import Namespace
@@ -36,6 +37,14 @@ class ManualTopoBTExperiment(ManualTopoExperiment):
     """This is a extension of manual topology experiment which add background traffic
     to the network. """
     DOT_FILE = settings.ROOT + '/net_config/ManualTopoBTTopology.dot'
+
+    # routing protocol list, 'type':priority
+    routing_helper_list = {
+            'static':0,
+            'nix':5,
+            # 'olsr':10,
+            }
+
     def initparser(self, parser):
         ManualTopoExperiment.initparser(self, parser)
 
@@ -99,10 +108,12 @@ class ManualTopoBTExperiment(ManualTopoExperiment):
         net_settings = self.load_net_settings()
         self.load_exper_settings(net_settings)
 
-        # back_traf = self.load_back_traf() # get back_traf parameter
+        # Generate dot file that describe the background traffic.
         dot_file, trace_config = self.gen_back_traf_dot(net_settings)
 
-        self.net = TopologyNetBT(dot_file, trace_config)
+        ns3.LogComponentEnable("OnOffApplication", ns3.LOG_LEVEL_INFO)
+        self.net = TopologyNetBT(dot_file, trace_config,
+                routing_helper_list = self.routing_helper_list)
 
         self.net.set_trace()
         self._install_cmds(srv_addr = self.SERVER_ADDR)

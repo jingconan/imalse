@@ -1,7 +1,7 @@
 # ROOT should be the absolute path of the Imalse installation directory
 # ROOT = '/home/wangjing/Dropbox/GSOC/code/imalse'
 # ROOT = '/Users/wangjing/Dropbox/GSOC/code/imalse'
-ROOT = '/home/wangjing/Dropbox/imalse'
+# ROOT = '/home/wangjing/Dropbox/imalse'
 ROOT = '/home/wangjing/LocalResearch/imalse'
 
 import sys
