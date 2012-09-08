@@ -18,13 +18,48 @@ import ns3
 from random import randint
 from RandomVariable import RV
 
+#####################################
+####              API            ####
+#####################################
+def TopologyNetBT(dot_file, trace_config):
+    """return a TopologyNet with Background traffic already configured
+        - **dotfile** is the path of dot configuration file relative to ROOT directory
+        - **trace_config** is a dictionary contains the trace and bot server client information
+    """
+    ns3_config = NS3Config(dot_file, trace_config)
+    ns3_config.setup()
+    ns3_config.config_onoff_app()
+    return ns3_config.net
+
+def run_ns3(dot_file, trace_config, sim_time, visual):
+    """run ns3 simulation based on configuration in **dot_file** and **trace_flag**"""
+    if visual:
+        ns3.GlobalValue.Bind("SimulatorImplementationType",
+                ns3.StringValue("ns3::VisualSimulatorImpl"))
+
+    ns3.LogComponentEnable("OnOffApplication", ns3.LOG_LEVEL_INFO)
+    ns3.LogComponentEnable("OnOffApplication", ns3.LOG_LEVEL_INFO)
+
+    ns3_config = NS3Config(settings.ROOT + '/' + dot_file, trace_config)
+    ns3_config.setup()
+    ns3_config.config_onoff_app()
+    ns3.Simulator.Stop(ns3.Seconds(sim_time))
+    ns3.Simulator.Run()
+    ns3.Simulator.Destroy()
+
+##################################################################
+####    Not recommend to call functions in this part directly ####
+##################################################################
 def short_num_to_standard(s):
+    """change short text notation to standard numerica value"""
     replace_map = {
             'kbps':'1000',
                 }
     for k, v in replace_map.iteritems():
         s = s.replace(k, v)
     return s
+
+from RandomVarLib import *
 
 class NS3Config(object):
     """config NS3 according to fs dot file"""
@@ -47,6 +82,7 @@ class NS3Config(object):
         return ImalseNetnsSimNode()
 
     def setup(self):
+        """set up the network"""
         net_settings = self.load_net_settings()
         self.net = ManualTopologyNet(
                 self.TOPOLOGY_FILE,
@@ -56,30 +92,35 @@ class NS3Config(object):
                 )
         self.net.set_trace()
 
-    def add_onoff_app(self, start_time, end_time, local, remote, on_time, off_time, data_rate):
+    def add_onoff_app(self, start_time, end_time, local, remote, on_time, off_time, data_rate, sport, dport):
         """add one ns3 onoff application to the network
         """
-        port = randint(1000, 65535)
-        # helper = ns3.OnOffHelper("ns3::TcpSocketFactory",
-        helper = ns3.OnOffHelper("ns3::UdpSocketFactory",
-                ns3.InetSocketAddress(remote, port))
+        ### Install OnOff Application ###
+        socketType = "ns3::UdpSocketFactory"
+        helper = ns3.OnOffHelper(socketType,
+                ns3.InetSocketAddress(remote, dport))
 
         helper.SetAttribute("StartTime", ns3.TimeValue(ns3.Time(str(start_time)+'s')))
         helper.SetAttribute("StopTime", ns3.TimeValue(ns3.Time(str(end_time)+'s')))
-        #helper.SetAttribute("StartTime", ns3.TimeValue(ns3.Seconds(start_time)))
-        # helper.SetAttribute("StopTime", ns3.TimeValue(ns3.Seconds(end_time)))
 
         # helper.SetAttribute("Remote", ns3.AddressValue(ns3.Ipv4Address(remote)))
+        local_inet = ns3.InetSocketAddress(local, sport)
+        helper.SetAttribute("Local", ns3.AddressValue(local_inet))
+
         helper.SetAttribute("DataRate", ns3.StringValue(str(data_rate) + 'b/s'))
         helper.SetAttribute("OnTime", ns3.RandomVariableValue(on_time.to_ns3()))
         helper.SetAttribute("OffTime", ns3.RandomVariableValue(off_time.to_ns3()))
 
-        # helper.SetAttribute("DataRate", ns3.StringValue("10kb/s"))
-        # helper.SetAttribute("OnTime", ns3.RandomVariableValue(ns3.ExponentialVariable(0.1)))
-        # helper.SetAttribute("OffTime", ns3.RandomVariableValue(ns3.UniformVariable (0.1, 0.2)))
-
         local_node = self.net.search_node(local)
         helper.Install(local_node)
+
+        ### Install Sink Application ####
+        sinkLocalAddress = ns3.Address(ns3.InetSocketAddress (ns3.Ipv4Address.GetAny (), dport))
+        sinkHelper = ns3.PacketSinkHelper(socketType, sinkLocalAddress)
+        helper.SetAttribute("StartTime", ns3.TimeValue(ns3.Time(str(start_time)+'s')))
+        helper.SetAttribute("StopTime", ns3.TimeValue(ns3.Time(str(end_time)+'s')))
+        remote_node = self.net.search_node(remote)
+        sinkHelper.Install (remote_node);
 
         print("""add an onoff application with
                 start_time: %f
@@ -90,13 +131,13 @@ class NS3Config(object):
                 off_time: %s"""%(start_time, end_time, local, remote, on_time, off_time))
 
     @staticmethod
-    def transform_para(flowsize, flowstart, ipsrc, ipdst, **argv):
+    def transform_para(flowsize, flowstart, ipsrc, ipdst, sport, dport, **argv):
         """transform the parameter for generator desription to the NS3 onoff application parameters"""
         # data_rate = StringValue('1kbps') # constant data rate
         data_rate = 1000
         on_time = RV(flowsize) / data_rate
         off_time = RV(flowstart)
-        return ipsrc, ipdst, on_time, off_time, data_rate
+        return ipsrc, ipdst, on_time, off_time, data_rate, eval(sport).next(), eval(dport).next()
 
     def config_onoff_app(self):
         """ config on off application according to the modulator profile"""
@@ -106,33 +147,6 @@ class NS3Config(object):
                 gen = self.dot_config.get_gen(node, generator)
                 for i in xrange(num):
                     self.add_onoff_app(start_time, end_time, *self.transform_para(**gen))
-
-def TopologyNetBT(dot_file, trace_config):
-    """Create a TopologyNet with Background traffic alread configured
-        - **dotfile** is the path of dot configuration file relative to ROOT directory
-        - **trace_config** is a dictionary contains the trace and bot server client information
-    """
-    # ns3_config = NS3Config(settings.ROOT + '/' + dot_file, trace_config)
-    ns3_config = NS3Config(dot_file, trace_config)
-    ns3_config.setup()
-    ns3_config.config_onoff_app()
-    return ns3_config.net
-
-def run_ns3(dot_file, trace_config, sim_time, visual):
-    """run ns3 simulation based on configuration in **dot_file** and **trace_flag**"""
-    if visual:
-        ns3.GlobalValue.Bind("SimulatorImplementationType",
-                ns3.StringValue("ns3::VisualSimulatorImpl"))
-
-    ns3.LogComponentEnable("OnOffApplication", ns3.LOG_LEVEL_INFO)
-    ns3.LogComponentEnable("OnOffApplication", ns3.LOG_LEVEL_INFO)
-
-    ns3_config = NS3Config(settings.ROOT + '/' + dot_file, trace_config)
-    ns3_config.setup()
-    ns3_config.config_onoff_app()
-    ns3.Simulator.Stop(ns3.Seconds(sim_time))
-    ns3.Simulator.Run()
-    ns3.Simulator.Destroy()
 
 if __name__ == "__main__":
     run_ns3('res.dot', [], 3000, False)

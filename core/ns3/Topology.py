@@ -140,6 +140,11 @@ import ns3
 import sys
 class TopologyNet():
     """Load Topology File and Contruct the Network Accordingly"""
+    routing_helper_list = {
+            'static':0,
+            'nix':5,
+            'olsr':10,
+            }
     def __init__(self, _input, _format, NodeCreator, *args, **kwargs):
         self._input = _input
         self._format = _format
@@ -158,7 +163,17 @@ class TopologyNet():
 
     def install_stack(self):
         """Install Internet Stack"""
-        self._install_stack(self.nodes)
+        stack = ns.internet.InternetStackHelper()
+        nix = Ipv4NixVectorHelper()
+        static = ns.internet.Ipv4StaticRoutingHelper()
+        olsr= ns3.OlsrHelper()
+
+        listRH = ns.internet.Ipv4ListRoutingHelper()
+        for k, v in self.routing_helper_list.iteritems():
+            listRH.Add(locals()[k], v)
+
+        stack.SetRoutingHelper(listRH)
+        stack.Install(self.nodes)
 
     def init_link(self):
         """Construct Point to Point Link in the Network"""
@@ -183,22 +198,6 @@ class TopologyNet():
             print("fail to read file")
             sys.exit(1)
         return inFile, nodes
-
-    @staticmethod
-    def _install_stack(nodes):
-        """install the network stack for all nodes"""
-        stack = ns.internet.InternetStackHelper()
-        nixRouting = Ipv4NixVectorHelper()
-        staticRouting = ns.internet.Ipv4StaticRoutingHelper()
-        olsr = ns3.OlsrHelper()
-
-        listRH = ns.internet.Ipv4ListRoutingHelper()
-        listRH.Add(staticRouting, 0)
-        # listRH.Add(nixRouting, 10)
-        listRH.Add(olsr, 5)
-
-        stack.SetRoutingHelper(listRH)
-        stack.Install(nodes)
 
     @staticmethod
     def _init_link(inFile):
