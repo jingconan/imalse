@@ -33,7 +33,17 @@ class ManualTopoExperiment(TopoExperiment):
         self.server_id_set = ns.server_id_set
         self.botmaster_id_set = ns.botmaster_id_set
         self.client_id_set = ns.client_id_set
-        self.SERVER_ADDR, self.NETWORK_BASE, self.IP_MASK = CIDR_to_subnet_mask(ns.server_addr[0]);
+        # print 'ns.server_addr, ', ns.server_addr
+        # self.SERVER_ADDR, self.NETWORK_BASE, self.IP_MASK = CIDR_to_subnet_mask(ns.server_addr[0]);
+
+        if len(ns.server_addr) == 0:
+            self.SERVER_ADDR = ''
+            self.NETWORK_BASE = ''
+            self.IP_MASK = ''
+        else:
+            self.SERVER_ADDR, self.NETWORK_BASE, self.IP_MASK = CIDR_to_subnet_mask(ns.server_addr[0]);
+
+
 
     def setup(self):
         BaseClass.setup(self)

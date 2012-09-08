@@ -143,14 +143,15 @@ class TopologyNet():
     routing_helper_list = {
             'static':0,
             'nix':5,
-            'olsr':10,
+            # 'olsr':10,
             }
     def __init__(self, _input, _format, NodeCreator, *args, **kwargs):
         self._input = _input
         self._format = _format
         self.NodeCreator = NodeCreator
         self.load_file()
-        self.install_stack()
+
+        self.install_stack(kwargs.get('routing_helper_list', None))
         self.init_link()
         self.init_net_device(*args, **kwargs)
 
@@ -161,8 +162,11 @@ class TopologyNet():
         """Load Topology File"""
         self.inFile, self.nodes = self._load_file(self._input, self._format, self.NodeCreator)
 
-    def install_stack(self):
+    def install_stack(self, routing_helper_list=None):
         """Install Internet Stack"""
+        if routing_helper_list is not None:
+            self.routing_helper_list = routing_helper_list
+
         stack = ns.internet.InternetStackHelper()
         nix = Ipv4NixVectorHelper()
         static = ns.internet.Ipv4StaticRoutingHelper()
