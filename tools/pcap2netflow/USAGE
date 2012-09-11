@@ -1,0 +1,21 @@
+use softflowd to export the pcap file to 
+this tool is only usable at **ix system
+
+the command will be like
+softflowd -r [PCAP_FILE_NAME] -n [host:port]
+
+softflowd will send the flow data to [host:port], we need to use flowd to
+capture the data
+
+visit this website for the installation and configuraion of flowd
+http://www.isrcomputing.com/knowledge-base/networking-tips/256-flowd-and-cisco-asa-firewall.html
+
+basically you need to edit the configure file: /usr/local/etc/flowd.conf
+
+log "var/log/flowd"
+listen on [host:port]  # the same port with softflowd
+flow source [IP] 
+store ALL
+dicard all
+
+

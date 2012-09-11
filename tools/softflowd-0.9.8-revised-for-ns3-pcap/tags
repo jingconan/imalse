@@ -1,0 +1,469 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+CB_CTXT	softflowd.c	/^struct CB_CTXT {$/;"	s	file:
+CE_EXPIRE_ALL	softflowd.c	749;"	d	file:
+CE_EXPIRE_FORCED	softflowd.c	750;"	d	file:
+CE_EXPIRE_NORMAL	softflowd.c	748;"	d	file:
+DATALINK	softflowd.c	/^struct DATALINK {$/;"	s	file:
+DAYS	convtime.c	33;"	d	file:
+DEFAULT_CTLSOCK	common.h	82;"	d
+DEFAULT_EXPIRY_INTERVAL	softflowd.h	56;"	d
+DEFAULT_GENERAL_TIMEOUT	softflowd.h	54;"	d
+DEFAULT_ICMP_TIMEOUT	softflowd.h	53;"	d
+DEFAULT_MAXIMUM_LIFETIME	softflowd.h	55;"	d
+DEFAULT_MAX_FLOWS	softflowd.h	62;"	d
+DEFAULT_PIDFILE	common.h	79;"	d
+DEFAULT_TCP_FIN_TIMEOUT	softflowd.h	51;"	d
+DEFAULT_TCP_RST_TIMEOUT	softflowd.h	50;"	d
+DEFAULT_TCP_TIMEOUT	softflowd.h	49;"	d
+DEFAULT_UDP_TIMEOUT	softflowd.h	52;"	d
+EXPIRY	softflowd.h	/^struct EXPIRY {$/;"	s
+EXPIRY_ENTRY	treetype.h	59;"	d
+EXPIRY_ENTRY	treetype.h	71;"	d
+EXPIRY_FIND	treetype.h	63;"	d
+EXPIRY_FIND	treetype.h	75;"	d
+EXPIRY_FOREACH	treetype.h	65;"	d
+EXPIRY_FOREACH	treetype.h	77;"	d
+EXPIRY_GENERATE	treetype.h	61;"	d
+EXPIRY_GENERATE	treetype.h	73;"	d
+EXPIRY_HEAD	treetype.h	58;"	d
+EXPIRY_HEAD	treetype.h	70;"	d
+EXPIRY_INIT	treetype.h	68;"	d
+EXPIRY_INIT	treetype.h	80;"	d
+EXPIRY_INSERT	treetype.h	62;"	d
+EXPIRY_INSERT	treetype.h	74;"	d
+EXPIRY_MIN	treetype.h	66;"	d
+EXPIRY_MIN	treetype.h	78;"	d
+EXPIRY_NEXT	treetype.h	67;"	d
+EXPIRY_NEXT	treetype.h	79;"	d
+EXPIRY_PROTOTYPE	treetype.h	60;"	d
+EXPIRY_PROTOTYPE	treetype.h	72;"	d
+EXPIRY_REMOVE	treetype.h	64;"	d
+EXPIRY_REMOVE	treetype.h	76;"	d
+FLOW	softflowd.h	/^struct FLOW {$/;"	s
+FLOWTRACK	softflowd.h	/^struct FLOWTRACK {$/;"	s
+FLOW_ENTRY	treetype.h	31;"	d
+FLOW_ENTRY	treetype.h	43;"	d
+FLOW_FIND	treetype.h	35;"	d
+FLOW_FIND	treetype.h	47;"	d
+FLOW_FOREACH	treetype.h	37;"	d
+FLOW_FOREACH	treetype.h	49;"	d
+FLOW_GENERATE	treetype.h	33;"	d
+FLOW_GENERATE	treetype.h	45;"	d
+FLOW_HEAD	treetype.h	30;"	d
+FLOW_HEAD	treetype.h	42;"	d
+FLOW_INIT	treetype.h	40;"	d
+FLOW_INIT	treetype.h	52;"	d
+FLOW_INSERT	treetype.h	34;"	d
+FLOW_INSERT	treetype.h	46;"	d
+FLOW_MIN	treetype.h	38;"	d
+FLOW_MIN	treetype.h	50;"	d
+FLOW_NEXT	treetype.h	39;"	d
+FLOW_NEXT	treetype.h	51;"	d
+FLOW_PROTOTYPE	treetype.h	32;"	d
+FLOW_PROTOTYPE	treetype.h	44;"	d
+FLOW_REMOVE	treetype.h	36;"	d
+FLOW_REMOVE	treetype.h	48;"	d
+HOURS	convtime.c	32;"	d	file:
+IPV6_FLOWINFO_MASK	common.h	98;"	d
+IPV6_FLOWLABEL_MASK	common.h	101;"	d
+IPV6_VERSION	common.h	92;"	d
+IPV6_VERSION_MASK	common.h	95;"	d
+IP_OFFMASK	common.h	89;"	d
+LIBPCAP_SNAPLEN_V4	softflowd.h	43;"	d
+LIBPCAP_SNAPLEN_V6	softflowd.h	44;"	d
+MAX	common.h	112;"	d
+MIN	common.h	109;"	d
+MINUTES	convtime.c	31;"	d	file:
+NAMLEN	closefrom.c	30;"	d	file:
+NAMLEN	closefrom.c	33;"	d	file:
+NETFLOW_SENDER	softflowd.c	/^struct NETFLOW_SENDER {$/;"	s	file:
+NETFLOW_TARGET	softflowd.c	/^struct NETFLOW_TARGET {$/;"	s	file:
+NF1_FLOW	netflow1.c	/^struct NF1_FLOW {$/;"	s	file:
+NF1_HEADER	netflow1.c	/^struct NF1_HEADER {$/;"	s	file:
+NF1_MAXFLOWS	netflow1.c	58;"	d	file:
+NF1_MAXPACKET_SIZE	netflow1.c	59;"	d	file:
+NF5_FLOW	netflow5.c	/^struct NF5_FLOW {$/;"	s	file:
+NF5_HEADER	netflow5.c	/^struct NF5_HEADER {$/;"	s	file:
+NF5_MAXFLOWS	netflow5.c	56;"	d	file:
+NF5_MAXPACKET_SIZE	netflow5.c	57;"	d	file:
+NF9_DATA_FLOWSET_HEADER	netflow9.c	/^struct NF9_DATA_FLOWSET_HEADER {$/;"	s	file:
+NF9_DEFAULT_TEMPLATE_INTERVAL	netflow9.c	108;"	d	file:
+NF9_FIRST_SWITCHED	netflow9.c	71;"	d	file:
+NF9_FLOWSET_HEADER_COMMON	netflow9.c	/^struct NF9_FLOWSET_HEADER_COMMON {$/;"	s	file:
+NF9_HEADER	netflow9.c	/^struct NF9_HEADER {$/;"	s	file:
+NF9_IN_BYTES	netflow9.c	58;"	d	file:
+NF9_IN_PACKETS	netflow9.c	59;"	d	file:
+NF9_IN_PROTOCOL	netflow9.c	61;"	d	file:
+NF9_IPV4_DST_ADDR	netflow9.c	68;"	d	file:
+NF9_IPV4_SRC_ADDR	netflow9.c	65;"	d	file:
+NF9_IPV6_DST_ADDR	netflow9.c	74;"	d	file:
+NF9_IPV6_SRC_ADDR	netflow9.c	73;"	d	file:
+NF9_IP_PROTOCOL_VERSION	netflow9.c	76;"	d	file:
+NF9_L4_DST_PORT	netflow9.c	67;"	d	file:
+NF9_L4_SRC_PORT	netflow9.c	64;"	d	file:
+NF9_LAST_SWITCHED	netflow9.c	70;"	d	file:
+NF9_MIN_RECORD_FLOWSET_ID	netflow9.c	55;"	d	file:
+NF9_OPTIONS_FLOWSET_ID	netflow9.c	54;"	d	file:
+NF9_SOFTFLOWD_DATA_COMMON	netflow9.c	/^struct NF9_SOFTFLOWD_DATA_COMMON {$/;"	s	file:
+NF9_SOFTFLOWD_DATA_V4	netflow9.c	/^struct NF9_SOFTFLOWD_DATA_V4 {$/;"	s	file:
+NF9_SOFTFLOWD_DATA_V6	netflow9.c	/^struct NF9_SOFTFLOWD_DATA_V6 {$/;"	s	file:
+NF9_SOFTFLOWD_MAX_PACKET_SIZE	netflow9.c	104;"	d	file:
+NF9_SOFTFLOWD_TEMPLATE	netflow9.c	/^struct NF9_SOFTFLOWD_TEMPLATE {$/;"	s	file:
+NF9_SOFTFLOWD_TEMPLATE_NRECORDS	netflow9.c	79;"	d	file:
+NF9_SOFTFLOWD_V4_TEMPLATE_ID	netflow9.c	105;"	d	file:
+NF9_SOFTFLOWD_V6_TEMPLATE_ID	netflow9.c	106;"	d	file:
+NF9_TCP_FLAGS	netflow9.c	63;"	d	file:
+NF9_TEMPLATE_FLOWSET_HEADER	netflow9.c	/^struct NF9_TEMPLATE_FLOWSET_HEADER {$/;"	s	file:
+NF9_TEMPLATE_FLOWSET_ID	netflow9.c	53;"	d	file:
+NF9_TEMPLATE_FLOWSET_RECORD	netflow9.c	/^struct NF9_TEMPLATE_FLOWSET_RECORD {$/;"	s	file:
+OPEN_MAX	closefrom.c	46;"	d	file:
+PP_BAD_PACKET	softflowd.c	510;"	d	file:
+PP_MALLOC_FAIL	softflowd.c	511;"	d	file:
+PP_OK	softflowd.c	509;"	d	file:
+PRIVDROP_CHROOT_DIR	softflowd.h	37;"	d
+PRIVDROP_USER	softflowd.h	34;"	d
+PROGNAME	common.h	73;"	d
+PROGVER	common.h	76;"	d
+RB_AUGMENT	sys-tree.h	332;"	d
+RB_BLACK	sys-tree.h	303;"	d
+RB_COLOR	sys-tree.h	316;"	d
+RB_EMPTY	sys-tree.h	318;"	d
+RB_ENTRY	sys-tree.h	305;"	d
+RB_FIND	sys-tree.h	667;"	d
+RB_FOREACH	sys-tree.h	672;"	d
+RB_GENERATE	sys-tree.h	389;"	d
+RB_HEAD	sys-tree.h	291;"	d
+RB_INF	sys-tree.h	663;"	d
+RB_INIT	sys-tree.h	299;"	d
+RB_INITIALIZER	sys-tree.h	296;"	d
+RB_INSERT	sys-tree.h	665;"	d
+RB_LEFT	sys-tree.h	313;"	d
+RB_MAX	sys-tree.h	670;"	d
+RB_MIN	sys-tree.h	669;"	d
+RB_NEGINF	sys-tree.h	662;"	d
+RB_NEXT	sys-tree.h	668;"	d
+RB_PARENT	sys-tree.h	315;"	d
+RB_PROTOTYPE	sys-tree.h	376;"	d
+RB_RED	sys-tree.h	304;"	d
+RB_REMOVE	sys-tree.h	666;"	d
+RB_RIGHT	sys-tree.h	314;"	d
+RB_ROOT	sys-tree.h	317;"	d
+RB_ROTATE_LEFT	sys-tree.h	335;"	d
+RB_ROTATE_RIGHT	sys-tree.h	355;"	d
+RB_SET	sys-tree.h	320;"	d
+RB_SET_BLACKRED	sys-tree.h	326;"	d
+RCSID	common.h	84;"	d
+R_FLUSH	softflowd.h	/^		R_MAXLIFE, R_OVERBYTES, R_OVERFLOWS, R_FLUSH$/;"	e	enum:EXPIRY::__anon2
+R_GENERAL	softflowd.h	/^		R_GENERAL, R_TCP, R_TCP_RST, R_TCP_FIN, R_UDP, R_ICMP, $/;"	e	enum:EXPIRY::__anon2
+R_ICMP	softflowd.h	/^		R_GENERAL, R_TCP, R_TCP_RST, R_TCP_FIN, R_UDP, R_ICMP, $/;"	e	enum:EXPIRY::__anon2
+R_MAXLIFE	softflowd.h	/^		R_MAXLIFE, R_OVERBYTES, R_OVERFLOWS, R_FLUSH$/;"	e	enum:EXPIRY::__anon2
+R_OVERBYTES	softflowd.h	/^		R_MAXLIFE, R_OVERBYTES, R_OVERFLOWS, R_FLUSH$/;"	e	enum:EXPIRY::__anon2
+R_OVERFLOWS	softflowd.h	/^		R_MAXLIFE, R_OVERBYTES, R_OVERFLOWS, R_FLUSH$/;"	e	enum:EXPIRY::__anon2
+R_TCP	softflowd.h	/^		R_GENERAL, R_TCP, R_TCP_RST, R_TCP_FIN, R_UDP, R_ICMP, $/;"	e	enum:EXPIRY::__anon2
+R_TCP_FIN	softflowd.h	/^		R_GENERAL, R_TCP, R_TCP_RST, R_TCP_FIN, R_UDP, R_ICMP, $/;"	e	enum:EXPIRY::__anon2
+R_TCP_RST	softflowd.h	/^		R_GENERAL, R_TCP, R_TCP_RST, R_TCP_FIN, R_UDP, R_ICMP, $/;"	e	enum:EXPIRY::__anon2
+R_UDP	softflowd.h	/^		R_GENERAL, R_TCP, R_TCP_RST, R_TCP_FIN, R_UDP, R_ICMP, $/;"	e	enum:EXPIRY::__anon2
+SECONDS	convtime.c	30;"	d	file:
+SPLAY_ASSEMBLE	sys-tree.h	105;"	d
+SPLAY_EMPTY	sys-tree.h	78;"	d
+SPLAY_ENTRY	sys-tree.h	69;"	d
+SPLAY_FIND	sys-tree.h	278;"	d
+SPLAY_FOREACH	sys-tree.h	285;"	d
+SPLAY_GENERATE	sys-tree.h	156;"	d
+SPLAY_HEAD	sys-tree.h	57;"	d
+SPLAY_INF	sys-tree.h	274;"	d
+SPLAY_INIT	sys-tree.h	65;"	d
+SPLAY_INITIALIZER	sys-tree.h	62;"	d
+SPLAY_INSERT	sys-tree.h	276;"	d
+SPLAY_LEFT	sys-tree.h	75;"	d
+SPLAY_LINKLEFT	sys-tree.h	93;"	d
+SPLAY_LINKRIGHT	sys-tree.h	99;"	d
+SPLAY_MAX	sys-tree.h	282;"	d
+SPLAY_MIN	sys-tree.h	280;"	d
+SPLAY_NEGINF	sys-tree.h	273;"	d
+SPLAY_NEXT	sys-tree.h	279;"	d
+SPLAY_PROTOTYPE	sys-tree.h	114;"	d
+SPLAY_REMOVE	sys-tree.h	277;"	d
+SPLAY_RIGHT	sys-tree.h	76;"	d
+SPLAY_ROOT	sys-tree.h	77;"	d
+SPLAY_ROTATE_LEFT	sys-tree.h	87;"	d
+SPLAY_ROTATE_RIGHT	sys-tree.h	81;"	d
+STATISTIC	softflowd.h	/^struct STATISTIC {$/;"	s
+TRACK_FULL	softflowd.h	70;"	d
+TRACK_IP_ONLY	softflowd.h	72;"	d
+TRACK_IP_PROTO	softflowd.h	71;"	d
+WEEKS	convtime.c	34;"	d	file:
+_BSD_SOURCE	common.h	30;"	d
+_LOG_H	log.h	28;"	d
+_PATH_DEVNULL	common.h	105;"	d
+_SFD_COMMON_H	common.h	26;"	d
+_SOFTFLOWD_H	softflowd.h	26;"	d
+_SYS_TREE_H_	sys-tree.h	28;"	d
+__dead	common.h	120;"	d
+__packed	common.h	/^} __packed;$/;"	v	typeref:struct:ip6_ext
+__packed	common.h	123;"	d
+__packed	netflow9.c	/^} __packed;$/;"	v	typeref:struct:NF9_DATA_FLOWSET_HEADER
+__packed	netflow9.c	/^} __packed;$/;"	v	typeref:struct:NF9_FLOWSET_HEADER_COMMON
+__packed	netflow9.c	/^} __packed;$/;"	v	typeref:struct:NF9_HEADER
+__packed	netflow9.c	/^} __packed;$/;"	v	typeref:struct:NF9_SOFTFLOWD_DATA_COMMON
+__packed	netflow9.c	/^} __packed;$/;"	v	typeref:struct:NF9_SOFTFLOWD_DATA_V4
+__packed	netflow9.c	/^} __packed;$/;"	v	typeref:struct:NF9_SOFTFLOWD_DATA_V6
+__packed	netflow9.c	/^} __packed;$/;"	v	typeref:struct:NF9_SOFTFLOWD_TEMPLATE
+__packed	netflow9.c	/^} __packed;$/;"	v	typeref:struct:NF9_TEMPLATE_FLOWSET_HEADER
+__packed	netflow9.c	/^} __packed;$/;"	v	typeref:struct:NF9_TEMPLATE_FLOWSET_RECORD
+accept_control	softflowd.c	/^accept_control(int lsock, struct NETFLOW_TARGET *target, struct FLOWTRACK *ft,$/;"	f	file:
+addr	softflowd.h	/^	} addr[2];				\/* Endpoint addresses *\/$/;"	m	struct:FLOW	typeref:union:FLOW::__anon1
+af	softflowd.h	/^	int af;					\/* Address family of flow *\/$/;"	m	struct:FLOW
+argv_join	softflowd.c	/^argv_join(int argc, char **argv)$/;"	f	file:
+as_func_failure	configure	/^as_func_failure () {$/;"	f
+as_func_ret_failure	configure	/^as_func_ret_failure () {$/;"	f
+as_func_ret_success	configure	/^as_func_ret_success () {$/;"	f
+as_func_success	configure	/^as_func_success () {$/;"	f
+bad_packets	softflowd.h	/^	u_int64_t bad_packets;			\/* # of bad packets *\/$/;"	m	struct:FLOWTRACK
+bytes	netflow9.c	/^	u_int32_t bytes, packets;$/;"	m	struct:NF9_SOFTFLOWD_DATA_COMMON	file:
+c	netflow9.c	/^	struct NF9_FLOWSET_HEADER_COMMON c;$/;"	m	struct:NF9_DATA_FLOWSET_HEADER	typeref:struct:NF9_DATA_FLOWSET_HEADER::NF9_FLOWSET_HEADER_COMMON	file:
+c	netflow9.c	/^	struct NF9_FLOWSET_HEADER_COMMON c;$/;"	m	struct:NF9_TEMPLATE_FLOWSET_HEADER	typeref:struct:NF9_TEMPLATE_FLOWSET_HEADER::NF9_FLOWSET_HEADER_COMMON	file:
+c	netflow9.c	/^	struct NF9_SOFTFLOWD_DATA_COMMON c;$/;"	m	struct:NF9_SOFTFLOWD_DATA_V4	typeref:struct:NF9_SOFTFLOWD_DATA_V4::NF9_SOFTFLOWD_DATA_COMMON	file:
+c	netflow9.c	/^	struct NF9_SOFTFLOWD_DATA_COMMON c;$/;"	m	struct:NF9_SOFTFLOWD_DATA_V6	typeref:struct:NF9_SOFTFLOWD_DATA_V6::NF9_SOFTFLOWD_DATA_COMMON	file:
+check_expired	softflowd.c	/^check_expired(struct FLOWTRACK *ft, struct NETFLOW_TARGET *target, int ex)$/;"	f	file:
+closefrom	closefrom.c	/^closefrom(int lowfd)$/;"	f
+connsock	softflowd.c	/^connsock(struct sockaddr_storage *addr, socklen_t len, int hoplimit)$/;"	f	file:
+convtime	convtime.c	/^convtime(const char *s)$/;"	f
+count	netflow9.c	/^	u_int16_t template_id, count;$/;"	m	struct:NF9_TEMPLATE_FLOWSET_HEADER	file:
+daemon	daemon.c	/^daemon(int nochdir, int noclose)$/;"	f
+datalink_check	softflowd.c	/^datalink_check(int linktype, const u_int8_t *pkt, u_int32_t caplen, int *af)$/;"	f	file:
+delete_all_flows	softflowd.c	/^delete_all_flows(struct FLOWTRACK *ft)$/;"	f	file:
+dest_as	netflow5.c	/^	u_int16_t src_as, dest_as;$/;"	m	struct:NF5_FLOW	file:
+dest_ip	netflow1.c	/^	u_int32_t src_ip, dest_ip, nexthop_ip;$/;"	m	struct:NF1_FLOW	file:
+dest_ip	netflow5.c	/^	u_int32_t src_ip, dest_ip, nexthop_ip;$/;"	m	struct:NF5_FLOW	file:
+dest_port	netflow1.c	/^	u_int16_t src_port, dest_port;$/;"	m	struct:NF1_FLOW	file:
+dest_port	netflow5.c	/^	u_int16_t src_port, dest_port;$/;"	m	struct:NF5_FLOW	file:
+dialect	softflowd.c	/^	const struct NETFLOW_SENDER *dialect;$/;"	m	struct:NETFLOW_TARGET	typeref:struct:NETFLOW_TARGET::NETFLOW_SENDER	file:
+dirent	closefrom.c	32;"	d	file:
+dlt	softflowd.c	/^	int dlt;		\/* BPF datalink type *\/$/;"	m	struct:DATALINK	file:
+do_listen	collector.pl	/^sub do_listen($$)$/;"	s
+drop_privs	softflowd.c	/^drop_privs(void)$/;"	f	file:
+dst_addr	netflow9.c	/^	u_int32_t src_addr, dst_addr;$/;"	m	struct:NF9_SOFTFLOWD_DATA_V4	file:
+dst_addr	netflow9.c	/^	u_int8_t src_addr[16], dst_addr[16];$/;"	m	struct:NF9_SOFTFLOWD_DATA_V6	file:
+dst_mask	netflow5.c	/^	u_int8_t src_mask, dst_mask;$/;"	m	struct:NF5_FLOW	file:
+dst_port	netflow9.c	/^	u_int16_t src_port, dst_port;$/;"	m	struct:NF9_SOFTFLOWD_DATA_COMMON	file:
+dump_flows	softflowd.c	/^dump_flows(struct FLOWTRACK *ft, FILE *out)$/;"	f	file:
+duration	softflowd.h	/^	struct STATISTIC duration;		\/* Flow duration *\/$/;"	m	struct:FLOWTRACK	typeref:struct:FLOWTRACK::STATISTIC
+duration_pp	softflowd.h	/^	struct STATISTIC duration_pp[256];$/;"	m	struct:FLOWTRACK	typeref:struct:FLOWTRACK::STATISTIC
+engine_id	netflow5.c	/^	u_int8_t engine_type, engine_id, reserved1, reserved2;$/;"	m	struct:NF5_HEADER	file:
+engine_type	netflow5.c	/^	u_int8_t engine_type, engine_id, reserved1, reserved2;$/;"	m	struct:NF5_HEADER	file:
+expired_flush	softflowd.h	/^	u_int64_t expired_flush;$/;"	m	struct:FLOWTRACK
+expired_general	softflowd.h	/^	u_int64_t expired_general;$/;"	m	struct:FLOWTRACK
+expired_icmp	softflowd.h	/^	u_int64_t expired_icmp;$/;"	m	struct:FLOWTRACK
+expired_maxflows	softflowd.h	/^	u_int64_t expired_maxflows;$/;"	m	struct:FLOWTRACK
+expired_maxlife	softflowd.h	/^	u_int64_t expired_maxlife;$/;"	m	struct:FLOWTRACK
+expired_overbytes	softflowd.h	/^	u_int64_t expired_overbytes;$/;"	m	struct:FLOWTRACK
+expired_tcp	softflowd.h	/^	u_int64_t expired_tcp;$/;"	m	struct:FLOWTRACK
+expired_tcp_fin	softflowd.h	/^	u_int64_t expired_tcp_fin;$/;"	m	struct:FLOWTRACK
+expired_tcp_rst	softflowd.h	/^	u_int64_t expired_tcp_rst;$/;"	m	struct:FLOWTRACK
+expired_udp	softflowd.h	/^	u_int64_t expired_udp;$/;"	m	struct:FLOWTRACK
+expires_at	softflowd.h	/^	u_int32_t expires_at;			\/* time_t *\/$/;"	m	struct:EXPIRY
+expiries	softflowd.h	/^	EXPIRY_HEAD(EXPIRIES, EXPIRY) expiries;	\/* Top of expiries tree *\/$/;"	m	struct:FLOWTRACK
+expiry	softflowd.h	/^	struct EXPIRY *expiry;			\/* Pointer to expiry record *\/$/;"	m	struct:FLOW	typeref:struct:FLOW::EXPIRY
+expiry_compare	softflowd.c	/^expiry_compare(struct EXPIRY *a, struct EXPIRY *b)$/;"	f	file:
+expiry_interval	softflowd.h	/^	int expiry_interval;			\/* Interval between expiries *\/ $/;"	m	struct:FLOWTRACK
+fatal	softflowd.c	/^	int fatal;$/;"	m	struct:CB_CTXT	file:
+fd	softflowd.c	/^	int fd;$/;"	m	struct:NETFLOW_TARGET	file:
+first_switched	netflow9.c	/^	u_int32_t first_switched, last_switched;$/;"	m	struct:NF9_SOFTFLOWD_DATA_COMMON	file:
+flow	softflowd.h	/^	struct FLOW *flow;			\/* pointer to flow *\/$/;"	m	struct:EXPIRY	typeref:struct:EXPIRY::FLOW
+flow_cb	softflowd.c	/^flow_cb(u_char *user_data, const struct pcap_pkthdr* phdr, $/;"	f	file:
+flow_compare	softflowd.c	/^flow_compare(struct FLOW *a, struct FLOW *b)$/;"	f	file:
+flow_finish	netflow1.c	/^	u_int32_t flow_start, flow_finish;$/;"	m	struct:NF1_FLOW	file:
+flow_finish	netflow5.c	/^	u_int32_t flow_start, flow_finish;$/;"	m	struct:NF5_FLOW	file:
+flow_last	softflowd.h	/^	struct timeval flow_last;		\/* Time of last traffic *\/$/;"	m	struct:FLOW	typeref:struct:FLOW::timeval
+flow_octets	netflow1.c	/^	u_int32_t flow_packets, flow_octets;$/;"	m	struct:NF1_FLOW	file:
+flow_octets	netflow5.c	/^	u_int32_t flow_packets, flow_octets;$/;"	m	struct:NF5_FLOW	file:
+flow_packets	netflow1.c	/^	u_int32_t flow_packets, flow_octets;$/;"	m	struct:NF1_FLOW	file:
+flow_packets	netflow5.c	/^	u_int32_t flow_packets, flow_octets;$/;"	m	struct:NF5_FLOW	file:
+flow_seq	softflowd.h	/^	u_int64_t flow_seq;			\/* Flow ID *\/$/;"	m	struct:FLOW
+flow_sequence	netflow5.c	/^	u_int32_t uptime_ms, time_sec, time_nanosec, flow_sequence;$/;"	m	struct:NF5_HEADER	file:
+flow_start	netflow1.c	/^	u_int32_t flow_start, flow_finish;$/;"	m	struct:NF1_FLOW	file:
+flow_start	netflow5.c	/^	u_int32_t flow_start, flow_finish;$/;"	m	struct:NF5_FLOW	file:
+flow_start	softflowd.h	/^	struct timeval flow_start;		\/* Time of creation *\/$/;"	m	struct:FLOW	typeref:struct:FLOW::timeval
+flow_update_expiry	softflowd.c	/^flow_update_expiry(struct FLOWTRACK *ft, struct FLOW *flow)$/;"	f	file:
+flows	netflow1.c	/^	u_int16_t version, flows;$/;"	m	struct:NF1_HEADER	file:
+flows	netflow5.c	/^	u_int16_t version, flows;$/;"	m	struct:NF5_HEADER	file:
+flows	netflow9.c	/^	u_int16_t version, flows;$/;"	m	struct:NF9_HEADER	file:
+flows	softflowd.h	/^	FLOW_HEAD(FLOWS, FLOW) flows;		\/* Top of flow tree *\/$/;"	m	struct:FLOWTRACK
+flows_dropped	softflowd.h	/^	u_int64_t flows_dropped;		\/* # of flows dropped *\/$/;"	m	struct:FLOWTRACK
+flows_expired	softflowd.h	/^	u_int64_t flows_expired;		\/* # expired *\/$/;"	m	struct:FLOWTRACK
+flows_exported	softflowd.h	/^	u_int64_t flows_exported;		\/* # of flows sent *\/$/;"	m	struct:FLOWTRACK
+flows_force_expired	softflowd.h	/^	u_int64_t flows_force_expired;		\/* # of flows forced out *\/$/;"	m	struct:FLOWTRACK
+flows_pp	softflowd.h	/^	u_int64_t flows_pp[256];$/;"	m	struct:FLOWTRACK
+flowset_id	netflow9.c	/^	u_int16_t flowset_id, length;$/;"	m	struct:NF9_FLOWSET_HEADER_COMMON	file:
+force_expire	softflowd.c	/^force_expire(struct FLOWTRACK *ft, u_int32_t num_to_expire)$/;"	f	file:
+format_flow	softflowd.c	/^format_flow(struct FLOW *flow)$/;"	f	file:
+format_flow_brief	softflowd.c	/^format_flow_brief(struct FLOW *flow)$/;"	f	file:
+format_time	softflowd.c	/^format_time(time_t t)$/;"	f	file:
+frag_packets	softflowd.h	/^	u_int64_t frag_packets;			\/* # of fragmented packets *\/$/;"	m	struct:FLOWTRACK
+ft	softflowd.c	/^	struct FLOWTRACK *ft;$/;"	m	struct:CB_CTXT	typeref:struct:CB_CTXT::FLOWTRACK	file:
+ft_is_be	softflowd.c	/^	int ft_is_be;		\/* Set if frametype is big-endian *\/$/;"	m	struct:DATALINK	file:
+ft_len	softflowd.c	/^	int ft_len;		\/* Datalink frametype length *\/$/;"	m	struct:DATALINK	file:
+ft_mask	softflowd.c	/^	u_int32_t ft_mask;	\/* Mask applied to frametype *\/$/;"	m	struct:DATALINK	file:
+ft_off	softflowd.c	/^	int ft_off;		\/* Datalink frametype offset *\/$/;"	m	struct:DATALINK	file:
+ft_v4	softflowd.c	/^	u_int32_t ft_v4;	\/* IPv4 frametype *\/$/;"	m	struct:DATALINK	file:
+ft_v6	softflowd.c	/^	u_int32_t ft_v6;	\/* IPv6 frametype *\/$/;"	m	struct:DATALINK	file:
+func	softflowd.c	/^	netflow_send_func_t *func;$/;"	m	struct:NETFLOW_SENDER	file:
+fuptime	collector.pl	/^sub fuptime($)$/;"	s
+general_timeout	softflowd.h	/^	int general_timeout;			\/* Everything else *\/$/;"	m	struct:FLOWTRACK
+graceful_shutdown_request	softflowd.c	/^static int graceful_shutdown_request = 0;	$/;"	v	file:
+h	netflow9.c	/^	struct NF9_TEMPLATE_FLOWSET_HEADER h;$/;"	m	struct:NF9_SOFTFLOWD_TEMPLATE	typeref:struct:NF9_SOFTFLOWD_TEMPLATE::NF9_TEMPLATE_FLOWSET_HEADER	file:
+icmp_timeout	softflowd.h	/^	int icmp_timeout;			\/* ICMP flows *\/$/;"	m	struct:FLOWTRACK
+if_index_in	netflow1.c	/^	u_int16_t if_index_in, if_index_out;$/;"	m	struct:NF1_FLOW	file:
+if_index_in	netflow5.c	/^	u_int16_t if_index_in, if_index_out;$/;"	m	struct:NF5_FLOW	file:
+if_index_out	netflow1.c	/^	u_int16_t if_index_in, if_index_out;$/;"	m	struct:NF1_FLOW	file:
+if_index_out	netflow5.c	/^	u_int16_t if_index_in, if_index_out;$/;"	m	struct:NF5_FLOW	file:
+init_flowtrack	softflowd.c	/^init_flowtrack(struct FLOWTRACK *ft)$/;"	f	file:
+int16_t	common.h	/^typedef OUR_CFG_INT16_T int16_t;$/;"	t
+int32_t	common.h	/^typedef OUR_CFG_INT32_T int32_t;$/;"	t
+int64_t	common.h	/^typedef OUR_CFG_INT64_T int64_t;$/;"	t
+int8_t	common.h	/^typedef OUR_CFG_INT8_T int8_t;$/;"	t
+ip6_ext	common.h	/^struct ip6_ext {$/;"	s
+ip6_flowlabel	softflowd.h	/^	u_int32_t ip6_flowlabel[2];		\/* IPv6 Flowlabel *\/$/;"	m	struct:FLOW
+ip6e_len	common.h	/^	u_int8_t ip6e_len;$/;"	m	struct:ip6_ext
+ip6e_nxt	common.h	/^	u_int8_t ip6e_nxt;$/;"	m	struct:ip6_ext
+ipproto	netflow9.c	/^	u_int8_t protocol, tcp_flags, ipproto;$/;"	m	struct:NF9_SOFTFLOWD_DATA_COMMON	file:
+ipv4_to_flowrec	softflowd.c	/^ipv4_to_flowrec(struct FLOW *flow, const u_int8_t *pkt, size_t caplen, $/;"	f	file:
+ipv6_to_flowrec	softflowd.c	/^ipv6_to_flowrec(struct FLOW *flow, const u_int8_t *pkt, size_t caplen, $/;"	f	file:
+last_switched	netflow9.c	/^	u_int32_t first_switched, last_switched;$/;"	m	struct:NF9_SOFTFLOWD_DATA_COMMON	file:
+length	netflow9.c	/^	u_int16_t flowset_id, length;$/;"	m	struct:NF9_FLOWSET_HEADER_COMMON	file:
+length	netflow9.c	/^	u_int16_t type, length;$/;"	m	struct:NF9_TEMPLATE_FLOWSET_RECORD	file:
+linktype	softflowd.c	/^	int linktype;$/;"	m	struct:CB_CTXT	file:
+loginit	log.c	/^loginit(const char *ident, int to_stderr)$/;"	f
+logit	log.c	/^logit(int level, const char *fmt,...)$/;"	f
+logstderr	log.c	/^static int logstderr = 0;$/;"	v	file:
+lt	softflowd.c	/^static const struct DATALINK lt[] = {$/;"	v	typeref:struct:DATALINK	file:
+main	softflowctl.c	/^main(int argc, char **argv)$/;"	f
+main	softflowd.c	/^main(int argc, char **argv)$/;"	f
+max	softflowd.h	/^	double min, mean, max;$/;"	m	struct:STATISTIC
+maximum_lifetime	softflowd.h	/^	int maximum_lifetime;			\/* Maximum life for flows *\/$/;"	m	struct:FLOWTRACK
+mean	softflowd.h	/^	double min, mean, max;$/;"	m	struct:STATISTIC
+min	softflowd.h	/^	double min, mean, max;$/;"	m	struct:STATISTIC
+netflow9_resend_template	netflow9.c	/^netflow9_resend_template(void)$/;"	f
+netflow_send_func_t	softflowd.c	/^typedef int (netflow_send_func_t)(struct FLOW **, int, int, u_int64_t *,$/;"	t	file:
+next_expire	softflowd.c	/^next_expire(struct FLOWTRACK *ft)$/;"	f	file:
+next_flow_seq	softflowd.h	/^	u_int64_t next_flow_seq;		\/* Next flow ID *\/$/;"	m	struct:FLOWTRACK
+nexthop_ip	netflow1.c	/^	u_int32_t src_ip, dest_ip, nexthop_ip;$/;"	m	struct:NF1_FLOW	file:
+nexthop_ip	netflow5.c	/^	u_int32_t src_ip, dest_ip, nexthop_ip;$/;"	m	struct:NF5_FLOW	file:
+nf	softflowd.c	/^static const struct NETFLOW_SENDER nf[] = {$/;"	v	typeref:struct:NETFLOW_SENDER	file:
+nf9_init_template	netflow9.c	/^nf9_init_template(void)$/;"	f	file:
+nf9_pkts_until_template	netflow9.c	/^static int nf9_pkts_until_template = -1;$/;"	v	file:
+nf_flow_to_flowset	netflow9.c	/^nf_flow_to_flowset(const struct FLOW *flow, u_char *packet, u_int len,$/;"	f	file:
+non_ip_packets	softflowd.h	/^	u_int64_t non_ip_packets;		\/* # of not-IP packets *\/$/;"	m	struct:FLOWTRACK
+num_flows	softflowd.h	/^	unsigned int num_flows;			\/* # of active flows *\/$/;"	m	struct:FLOWTRACK
+octets	softflowd.h	/^	struct STATISTIC octets;		\/* Bytes (bidir) *\/$/;"	m	struct:FLOWTRACK	typeref:struct:FLOWTRACK::STATISTIC
+octets	softflowd.h	/^	u_int32_t octets[2];			\/* Octets so far *\/$/;"	m	struct:FLOW
+octets_pp	softflowd.h	/^	u_int64_t octets_pp[256];$/;"	m	struct:FLOWTRACK
+offsetof	common.h	115;"	d
+package_sequence	netflow9.c	/^	u_int32_t package_sequence, source_id;$/;"	m	struct:NF9_HEADER	file:
+packets	netflow9.c	/^	u_int32_t bytes, packets;$/;"	m	struct:NF9_SOFTFLOWD_DATA_COMMON	file:
+packets	softflowd.h	/^	struct STATISTIC packets;		\/* Packets (bidir) *\/$/;"	m	struct:FLOWTRACK	typeref:struct:FLOWTRACK::STATISTIC
+packets	softflowd.h	/^	u_int32_t packets[2];			\/* Packets so far *\/$/;"	m	struct:FLOW
+packets_pp	softflowd.h	/^	u_int64_t packets_pp[256];$/;"	m	struct:FLOWTRACK
+packets_sent	softflowd.h	/^	u_int64_t packets_sent;			\/* # netflow packets sent *\/$/;"	m	struct:FLOWTRACK
+pad1	netflow1.c	/^	u_int16_t pad1;$/;"	m	struct:NF1_FLOW	file:
+pad1	netflow5.c	/^	u_int8_t pad1;$/;"	m	struct:NF5_FLOW	file:
+pad2	netflow1.c	/^	u_int8_t pad2, pad3, pad4;$/;"	m	struct:NF1_FLOW	file:
+pad2	netflow5.c	/^	u_int16_t pad2;$/;"	m	struct:NF5_FLOW	file:
+pad3	netflow1.c	/^	u_int8_t pad2, pad3, pad4;$/;"	m	struct:NF1_FLOW	file:
+pad4	netflow1.c	/^	u_int8_t pad2, pad3, pad4;$/;"	m	struct:NF1_FLOW	file:
+parse_hostport	softflowd.c	/^parse_hostport(const char *s, struct sockaddr *addr, socklen_t *len)$/;"	f	file:
+port	softflowd.h	/^	u_int16_t port[2];			\/* Endpoint ports *\/$/;"	m	struct:FLOW
+print_timeouts	softflowd.c	/^print_timeouts(struct FLOWTRACK *ft, FILE *out)$/;"	f	file:
+process_nf_v1	collector.pl	/^sub process_nf_v1($$)$/;"	s
+process_nf_v5	collector.pl	/^sub process_nf_v5($$)$/;"	s
+process_packet	softflowd.c	/^process_packet(struct FLOWTRACK *ft, const u_int8_t *pkt, int af,$/;"	f	file:
+protocol	netflow1.c	/^	u_int8_t protocol, tos, tcp_flags;$/;"	m	struct:NF1_FLOW	file:
+protocol	netflow5.c	/^	u_int8_t tcp_flags, protocol, tos;$/;"	m	struct:NF5_FLOW	file:
+protocol	netflow9.c	/^	u_int8_t protocol, tcp_flags, ipproto;$/;"	m	struct:NF9_SOFTFLOWD_DATA_COMMON	file:
+protocol	softflowd.h	/^	u_int8_t protocol;			\/* Protocol *\/$/;"	m	struct:FLOW
+prototypes	configure	/^   function prototypes and stuff, but not '\\xHH' hex character constants.$/;"	f
+r	netflow9.c	/^	struct NF9_TEMPLATE_FLOWSET_RECORD r[NF9_SOFTFLOWD_TEMPLATE_NRECORDS];$/;"	m	struct:NF9_SOFTFLOWD_TEMPLATE	typeref:struct:NF9_SOFTFLOWD_TEMPLATE::NF9_TEMPLATE_FLOWSET_RECORD	file:
+rcsid	closefrom.c	/^static const char rcsid[] = "$Sudo: closefrom.c,v 1.6 2004\/06\/01 20:51:56 millert Exp $";$/;"	v	file:
+rcsid	daemon.c	/^static char rcsid[] = "$OpenBSD: daemon.c,v 1.5 2003\/07\/15 17:32:41 deraadt Exp $";$/;"	v	file:
+rcsid	strlcat.c	/^static char *rcsid = "$OpenBSD: strlcat.c,v 1.11 2003\/06\/17 21:56:24 millert Exp $";$/;"	v	file:
+rcsid	strlcpy.c	/^static char *rcsid = "$OpenBSD: strlcpy.c,v 1.8 2003\/06\/17 21:56:24 millert Exp $";$/;"	v	file:
+reason	softflowd.h	/^	} reason;$/;"	m	struct:EXPIRY	typeref:enum:EXPIRY::__anon2
+reserved1	netflow1.c	/^	u_int32_t reserved1;$/;"	m	struct:NF1_FLOW	file:
+reserved1	netflow5.c	/^	u_int8_t engine_type, engine_id, reserved1, reserved2;$/;"	m	struct:NF5_HEADER	file:
+reserved2	netflow5.c	/^	u_int8_t engine_type, engine_id, reserved1, reserved2;$/;"	m	struct:NF5_HEADER	file:
+send_netflow_v1	netflow1.c	/^send_netflow_v1(struct FLOW **flows, int num_flows, int nfsock,$/;"	f
+send_netflow_v5	netflow5.c	/^send_netflow_v5(struct FLOW **flows, int num_flows, int nfsock,$/;"	f
+send_netflow_v9	netflow9.c	/^send_netflow_v9(struct FLOW **flows, int num_flows, int nfsock,$/;"	f
+set_timeout	softflowd.c	/^set_timeout(struct FLOWTRACK *ft, const char *to_spec)$/;"	f	file:
+setup_packet_capture	softflowd.c	/^setup_packet_capture(struct pcap **pcap, int *linktype, $/;"	f	file:
+sighand_graceful_shutdown	softflowd.c	/^static void sighand_graceful_shutdown(int signum)$/;"	f	file:
+sighand_other	softflowd.c	/^static void sighand_other(int signum)$/;"	f	file:
+skiplen	softflowd.c	/^	int skiplen;		\/* Number of bytes to skip datalink header *\/$/;"	m	struct:DATALINK	file:
+source_id	netflow9.c	/^	u_int32_t package_sequence, source_id;$/;"	m	struct:NF9_HEADER	file:
+src_addr	netflow9.c	/^	u_int32_t src_addr, dst_addr;$/;"	m	struct:NF9_SOFTFLOWD_DATA_V4	file:
+src_addr	netflow9.c	/^	u_int8_t src_addr[16], dst_addr[16];$/;"	m	struct:NF9_SOFTFLOWD_DATA_V6	file:
+src_as	netflow5.c	/^	u_int16_t src_as, dest_as;$/;"	m	struct:NF5_FLOW	file:
+src_ip	netflow1.c	/^	u_int32_t src_ip, dest_ip, nexthop_ip;$/;"	m	struct:NF1_FLOW	file:
+src_ip	netflow5.c	/^	u_int32_t src_ip, dest_ip, nexthop_ip;$/;"	m	struct:NF5_FLOW	file:
+src_mask	netflow5.c	/^	u_int8_t src_mask, dst_mask;$/;"	m	struct:NF5_FLOW	file:
+src_port	netflow1.c	/^	u_int16_t src_port, dest_port;$/;"	m	struct:NF1_FLOW	file:
+src_port	netflow5.c	/^	u_int16_t src_port, dest_port;$/;"	m	struct:NF5_FLOW	file:
+src_port	netflow9.c	/^	u_int16_t src_port, dst_port;$/;"	m	struct:NF9_SOFTFLOWD_DATA_COMMON	file:
+statistics	softflowd.c	/^statistics(struct FLOWTRACK *ft, FILE *out, pcap_t *pcap)$/;"	f	file:
+strlcat	strlcat.c	/^strlcat(char *dst, const char *src, size_t siz)$/;"	f
+strlcpy	strlcpy.c	/^strlcpy(char *dst, const char *src, size_t siz)$/;"	f
+system_boot_time	softflowd.h	/^	struct timeval system_boot_time;	\/* SysUptime *\/$/;"	m	struct:FLOWTRACK	typeref:struct:FLOWTRACK::timeval
+tcp_fin_timeout	softflowd.h	/^	int tcp_fin_timeout;			\/* TCP flows after bidi FIN *\/$/;"	m	struct:FLOWTRACK
+tcp_flags	netflow1.c	/^	u_int8_t protocol, tos, tcp_flags;$/;"	m	struct:NF1_FLOW	file:
+tcp_flags	netflow5.c	/^	u_int8_t tcp_flags, protocol, tos;$/;"	m	struct:NF5_FLOW	file:
+tcp_flags	netflow9.c	/^	u_int8_t protocol, tcp_flags, ipproto;$/;"	m	struct:NF9_SOFTFLOWD_DATA_COMMON	file:
+tcp_flags	softflowd.h	/^	u_int8_t tcp_flags[2];			\/* Cumulative OR of flags *\/$/;"	m	struct:FLOW
+tcp_rst_timeout	softflowd.h	/^	int tcp_rst_timeout;			\/* TCP flows after RST *\/$/;"	m	struct:FLOWTRACK
+tcp_timeout	softflowd.h	/^	int tcp_timeout;			\/* Open TCP connections *\/$/;"	m	struct:FLOWTRACK
+template_id	netflow9.c	/^	u_int16_t template_id, count;$/;"	m	struct:NF9_TEMPLATE_FLOWSET_HEADER	file:
+time_nanosec	netflow1.c	/^	u_int32_t uptime_ms, time_sec, time_nanosec;$/;"	m	struct:NF1_HEADER	file:
+time_nanosec	netflow5.c	/^	u_int32_t uptime_ms, time_sec, time_nanosec, flow_sequence;$/;"	m	struct:NF5_HEADER	file:
+time_sec	netflow1.c	/^	u_int32_t uptime_ms, time_sec, time_nanosec;$/;"	m	struct:NF1_HEADER	file:
+time_sec	netflow5.c	/^	u_int32_t uptime_ms, time_sec, time_nanosec, flow_sequence;$/;"	m	struct:NF5_HEADER	file:
+time_sec	netflow9.c	/^	u_int32_t uptime_ms, time_sec;$/;"	m	struct:NF9_HEADER	file:
+timestamp	collector.pl	/^sub timestamp()$/;"	s
+timeval_sub_ms	softflowd.c	/^timeval_sub_ms(const struct timeval *t1, const struct timeval *t2)$/;"	f
+tos	netflow1.c	/^	u_int8_t protocol, tos, tcp_flags;$/;"	m	struct:NF1_FLOW	file:
+tos	netflow5.c	/^	u_int8_t tcp_flags, protocol, tos;$/;"	m	struct:NF5_FLOW	file:
+total_packets	softflowd.h	/^	u_int64_t total_packets;		\/* # of good packets *\/$/;"	m	struct:FLOWTRACK
+track_level	softflowd.h	/^	int track_level;			\/* See TRACK_* above *\/$/;"	m	struct:FLOWTRACK
+transport_to_flowrec	softflowd.c	/^transport_to_flowrec(struct FLOW *flow, const u_int8_t *pkt, $/;"	f	file:
+trp	softflowd.h	/^	EXPIRY_ENTRY(EXPIRY) trp;		\/* Tree pointer *\/$/;"	m	struct:EXPIRY
+trp	softflowd.h	/^	FLOW_ENTRY(FLOW) trp;			\/* Tree pointer *\/$/;"	m	struct:FLOW
+type	netflow9.c	/^	u_int16_t type, length;$/;"	m	struct:NF9_TEMPLATE_FLOWSET_RECORD	file:
+u_int16_t	common.h	/^typedef OUR_CFG_U_INT16_T u_int16_t;$/;"	t
+u_int32_t	common.h	/^typedef OUR_CFG_U_INT32_T u_int32_t;$/;"	t
+u_int64_t	common.h	/^typedef OUR_CFG_U_INT64_T u_int64_t;$/;"	t
+u_int8_t	common.h	/^typedef OUR_CFG_U_INT8_T u_int8_t;$/;"	t
+udp_timeout	softflowd.h	/^	int udp_timeout;			\/* UDP flows *\/$/;"	m	struct:FLOWTRACK
+unix_listener	softflowd.c	/^unix_listener(const char *path)$/;"	f	file:
+update_expiry_stats	softflowd.c	/^update_expiry_stats(struct FLOWTRACK *ft, struct EXPIRY *e)$/;"	f	file:
+update_statistic	softflowd.c	/^update_statistic(struct STATISTIC *s, double new, double n)$/;"	f	file:
+update_statistics	softflowd.c	/^update_statistics(struct FLOWTRACK *ft, struct FLOW *flow)$/;"	f	file:
+uptime_ms	netflow1.c	/^	u_int32_t uptime_ms, time_sec, time_nanosec;$/;"	m	struct:NF1_HEADER	file:
+uptime_ms	netflow5.c	/^	u_int32_t uptime_ms, time_sec, time_nanosec, flow_sequence;$/;"	m	struct:NF5_HEADER	file:
+uptime_ms	netflow9.c	/^	u_int32_t uptime_ms, time_sec;$/;"	m	struct:NF9_HEADER	file:
+usage	softflowctl.c	/^usage(void)$/;"	f	file:
+usage	softflowd.c	/^usage(void)$/;"	f	file:
+v4	softflowd.h	/^		struct in_addr v4;$/;"	m	union:FLOW::__anon1	typeref:struct:FLOW::__anon1::in_addr
+v4_template	netflow9.c	/^static struct NF9_SOFTFLOWD_TEMPLATE v4_template;$/;"	v	typeref:struct:NF9_SOFTFLOWD_TEMPLATE	file:
+v6	softflowd.h	/^		struct in6_addr v6;$/;"	m	union:FLOW::__anon1	typeref:struct:FLOW::__anon1::in6_addr
+v6_capable	softflowd.c	/^	int v6_capable;$/;"	m	struct:NETFLOW_SENDER	file:
+v6_template	netflow9.c	/^static struct NF9_SOFTFLOWD_TEMPLATE v6_template;$/;"	v	typeref:struct:NF9_SOFTFLOWD_TEMPLATE	file:
+verbose_flag	softflowd.c	/^static int verbose_flag = 0;		\/* Debugging flag *\/$/;"	v	file:
+version	netflow1.c	/^	u_int16_t version, flows;$/;"	m	struct:NF1_HEADER	file:
+version	netflow5.c	/^	u_int16_t version, flows;$/;"	m	struct:NF5_HEADER	file:
+version	netflow9.c	/^	u_int16_t version, flows;$/;"	m	struct:NF9_HEADER	file:
+version	softflowd.c	/^	int version;$/;"	m	struct:NETFLOW_SENDER	file:
+want_v6	softflowd.c	/^	int want_v6;$/;"	m	struct:CB_CTXT	file:

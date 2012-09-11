@@ -1,0 +1,6 @@
+FLOW recv_time 2012-09-11T01:19:10.610454 proto 6 tcpflags 12 tos 00 agent [127.0.0.1] src [10.0.9.5]:49153 dst [10.0.12.4]:3333 packets 10 octets 400 
+FLOW recv_time 2012-09-11T01:19:10.610454 proto 6 tcpflags 12 tos 00 agent [127.0.0.1] src [10.0.12.4]:3333 dst [10.0.9.5]:49153 packets 14 octets 1235 
+FLOW recv_time 2012-09-11T01:19:10.610454 proto 6 tcpflags 12 tos 00 agent [127.0.0.1] src [10.0.12.4]:3333 dst [10.0.15.5]:49153 packets 14 octets 1235 
+FLOW recv_time 2012-09-11T01:19:10.610454 proto 6 tcpflags 12 tos 00 agent [127.0.0.1] src [10.0.15.5]:49153 dst [10.0.12.4]:3333 packets 10 octets 400 
+FLOW recv_time 2012-09-11T01:19:10.610454 proto 17 tcpflags 00 tos 00 agent [127.0.0.1] src [10.0.15.5]:443 dst [10.0.9.4]:54105 packets 1564 octets 844560 
+FLOW recv_time 2012-09-11T01:19:10.610454 proto 17 tcpflags 00 tos 00 agent [127.0.0.1] src [10.0.15.4]:443 dst [10.0.11.4]:59424 packets 1564 octets 844560 
