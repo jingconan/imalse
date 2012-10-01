@@ -16,9 +16,9 @@ class DotConfig(object):
     server_id_set = [  ]
     server_addr = [ ]
 
-    def __init__(self, f_name, trace_config):
+    def __init__(self, f_name):
         self._loadconfig(f_name)
-        self.__dict__.update(trace_config)
+        # self.__dict__.update(trace_config)
 
     def _loadconfig(self, config):
         self.graph = networkx.nx_pydot.read_dot(config)
@@ -100,12 +100,17 @@ class DotConfig(object):
             return [ip.strip('"') for ip in ipstr.rsplit(' ')]
 
         def find_addr_in_same_net(a, b):
+            """find the two addresses in the same network from the address list a and b
+            """
             # routing_prefix_len = lambda a: int(a.rsplit('/')[1]) if '/' in a else self.DEFAULT_ROUTING_PREFIX
             aug_routing_prefix_len = lambda a: a if '/' in a else (a + '/' + str(self.DEFAULT_ROUTING_PREFIX))
 
             def same_net(au, bu):
+                """return True if au and bu are in the same network"""
                 a_addr, a_net, a_mask = CIDR_to_subnet_mask(au)
                 b_addr, b_net, b_mask = CIDR_to_subnet_mask(bu)
+                # print 'a_net, ', a_net
+                # print 'b_net, ', b_net
                 return get_net(a_net, a_mask) == get_net(b_net, b_mask)
 
             for addr1, addr2 in itertools.product(a, b):
@@ -118,9 +123,14 @@ class DotConfig(object):
         for (src_nid, dst_nid), attr in self.link_attr.iteritems():
             src_ips = get_ips(src_nid)
             dst_ips = get_ips(dst_nid)
+            # print 'src_ips, ', src_ips
+            # print 'dst_ips, ', dst_ips
+            # import pdb;pdb.set_trace()
             res = find_addr_in_same_net(src_ips, dst_ips)
+            print 'res, ', res
             if not res:
-                raise Exception('there is no address for nodes in the same net')
+                raise Exception("The two nodes don't have two address in the same net, \
+                        maybe you specify the wrong ip address?")
             self.link_to_ip_map[(src_nid, dst_nid)] = res
 
         fid = open(fname, 'w')
@@ -130,18 +140,18 @@ class DotConfig(object):
 
         fid.write('link_attr = ' + pprint.pformat(self.link_attr, indent=4)+'\n')
         fid.write('link_to_ip_map = ' + pprint.pformat(self.link_to_ip_map, indent=4)+'\n')
-        fid.write("""
-pcap_nodes = %s
-pcap_links = %s
-botmaster_id_set = %s
-client_id_set = %s
-server_id_set = %s
-server_addr = %s"""%(self.pcap_nodes, self.pcap_links,
-        self.botmaster_id_set,
-        self.client_id_set,
-        self.server_id_set,
-        self.server_addr))
-        fid.close()
+#         fid.write("""
+# pcap_nodes = %s
+# pcap_links = %s
+# botmaster_id_set = %s
+# client_id_set = %s
+# server_id_set = %s
+# server_addr = %s"""%(self.pcap_nodes, self.pcap_links,
+#         self.botmaster_id_set,
+#         self.client_id_set,
+#         self.server_id_set,
+#         self.server_addr))
+#         fid.close()
         return self.link_attr, self.link_to_ip_map
 
     def export_inet(self, fname):

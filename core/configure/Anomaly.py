@@ -45,7 +45,10 @@ def insert_break_pt(b, dur, num):
     nt = copy.deepcopy(t)
     new_num = list(copy.deepcopy(num))
     i = get_pos(t, b)
-    if i == -1 or i == len(t) - 1:
+
+    if i is None:
+        raise Exception('[insert_break_pt], maybe you have insert an anomaly in an unsuitable time? ')
+    elif i == -1 or i == len(t) - 1:
         return dur, num, i+1;
     else:
         nt.insert(i+1, b)
@@ -61,8 +64,20 @@ class BadConfigError(Exception):
 
 
 import copy
-class Anomaly:
-    '''basis class for anomaly. Its subclass will provide run() method'''
+class Anomaly(object):
+    """basis class for anomaly. Its subclass will provide run() method
+    ano_desc:
+        **T**: start, end time for the anomaly
+        **change**: a dictionary specify how the attributes of the existing modules are
+            changed. the value is a string, if the first char is '=', it means change the attribute
+            to the value behind '='. If the first char is '+', it means add the attribute by
+            the value behind '+'. Likewise if the first char is 'x', it means multiply the attribute by
+            the value behind 'x'.
+            for example:
+                change = {'flow_size_mean':'x2', 'flow_arrival_rate':'=6', 'flow_size_var=+3'},
+            means: change the flow_size_mean to two times of the orginal value, change flow_arrival_rate
+            to be 6 and add the flow_size_var by 3.
+    """
     def __init__(self, ano_desc):
         self.ano_desc = ano_desc
         self.ano_node = None
@@ -81,8 +96,8 @@ class Anomaly:
         normal_profile_2 = ( tuple(d[i2:]), tuple(n[i2:]) )
         return normal_profile_1, abnormal_profile, normal_profile_2
 
-    def cut_profile(profile, status):
-        """cut into three pieces"""
+    # def cut_profile(profile, status):
+        # """cut into three pieces"""
 
     def _infect_modulator(self, ano_t, m_id, mod):
         ano_node = self.ano_node
@@ -105,6 +120,9 @@ class Anomaly:
                 profile=ap,
                 generator = [ self.new_generator ])
 
+        # export para to help to export ano flo
+        self._export_ano_flow_para(self.new_generator)
+
         # st = mod_start + float(np.sum(np1[0])) + float(np.sum(ap[0]))
         st = mod_start + float(sum(np1[0])) + float(sum(ap[0]))
         assert(st == end)
@@ -114,9 +132,9 @@ class Anomaly:
         del ano_node.modulator[m_id]
         del ano_node.generator[s_id]
 
-    def _export_ano_flow_para(self):
+    def _export_ano_flow_para(self, new_generator):
         """export para to help to export ano flows"""
-        ano_flow_para = copy.deepcopy(self.new_generator.para)
+        ano_flow_para = copy.deepcopy(new_generator.para)
         ano_flow_para['ano_type'] = self.ano_desc['anoType']
         pickle.dump(ano_flow_para, open(settings.EXPORT_ABNORMAL_FLOW_PARA_FILE, 'w')) # For export abnormal flows
 
@@ -126,10 +144,35 @@ class Anomaly:
         ano_t = self.ano_desc['T']
 
         m_back = copy.deepcopy(self.ano_node.modulator)
-        for m_id, mod in m_back.iteritems(): # For each modulator
+
+        for m_id, mod in m_back.iteritems(): # infect each modulator, change attribute by ratio
             self._infect_modulator(ano_t, m_id, mod)
 
-        self._export_ano_flow_para()
+class AddModulatorAnomaly(Anomaly):
+    """instead of changing parameters of existing modulators, simply add new modulators
+    ano_desc:
+        - **dst_nodes**: the destination node of the modulators, will add one modulator
+            for each dst_nodes
+        - **gen_desc**: the descriptor for the generator of the modulator
+        - **T**: a two element list or tuple, the start, end time for the anomaly.
+    """
+    def run(self, net):
+        self.ano_node = net.node_list[self.ano_desc['ano_node_seq']]
+        self.net = net
+        self._config_traffic()
+
+    def _config_traffic(self):
+        """add modulator to each srv"""
+        nn = len(self.net.node_list)
+        srv_node_list = [self.net.node_list[i] for i in xrange(nn) if i in self.ano_desc['dst_nodes'] ]
+        start, end = self.ano_desc['T']
+        for srv_node in srv_node_list:
+            gen_desc = Load(self.ano_desc['gen_desc'])
+            gen_desc['ipsrc'] = choose_ip_addr(self.ano_node.ipdests).rsplit('/')[0]
+            gen_desc['ipdst'] = choose_ip_addr(srv_node.ipdests).rsplit('/')[0]
+            self.ano_node.add_modulator(start=str(start),
+                    profile='((%d,),(1,))' %(end-start),
+                    generator=[get_generator(gen_desc)] )
 
 
 from Edge import NEdge
@@ -171,8 +214,8 @@ class AtypicalUserAnomaly(Anomaly):
         start, end = self.ano_desc['T']
         for srv_node in srv_node_list:
             gen_desc = Load(self.ano_desc['gen_desc'])
-            gen_desc['ipsrc'] = choose_ip_addr(self.ano_node.ipdests)
-            gen_desc['ipdst'] = choose_ip_addr(srv_node.ipdests)
+            gen_desc['ipsrc'] = choose_ip_addr(self.ano_node.ipdests).rsplit('/')[0]
+            gen_desc['ipdst'] = choose_ip_addr(srv_node.ipdests).rsplit('/')[0]
             self.ano_node.add_modulator(start=str(start),
                     profile='((%d,),(1,))' %(end-start),
                     generator=get_generator(gen_desc) )

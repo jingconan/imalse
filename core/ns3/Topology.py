@@ -142,8 +142,8 @@ class TopologyNet():
     """Load Topology File and Contruct the Network Accordingly"""
     routing_helper_list = {
             'static':0,
-            'nix':5,
-            # 'olsr':10,
+            # 'nix':5,
+            'olsr':10,
             }
     def __init__(self, _input, _format, NodeCreator, *args, **kwargs):
         self._input = _input
@@ -271,10 +271,12 @@ class ManualTopologyNet(TopologyNet):
         return self.net_settings.link_attr.get(self.get_link_name(i), default)
 
     def set_trace(self):
-        for n in self.net_settings.pcap_nodes:
+        # for n in self.net_settings.pcap_nodes:
+        for n in self.net_settings['pcap_nodes']:
             self.p2p.EnablePcap(settings.ROOT + "/res/trace-node", ns3.NodeContainer(self.nodes.Get(n)), 0)
 
-        for l in self.net_settings.pcap_links:
+        # for l in self.net_settings.pcap_links:
+        for l in self.net_settings['pcap_links']:
             self.p2p.EnablePcap(settings.ROOT + "/res/trace-link", self.get_link_ndc(l))
 
     def get_link_ndc(self, i):
@@ -312,7 +314,8 @@ class ManualTopologyNet(TopologyNet):
 
 
     def init_net_device(self, net_settings, *args, **kwargs):
-        """Initial the ip address and network devices"""
+        """Initial the ip address and network devices
+        """
         self.net_settings = net_settings
         totlinks = self.inFile.LinksSize()
         p2p = ns3.PointToPointHelper()
@@ -338,12 +341,16 @@ class ManualTopologyNet(TopologyNet):
         ipic = [] #ip interface container
         for i in xrange(totlinks):
             ips = self.net_settings.link_to_ip_map.get(self.get_link_name(i), None)
+
+            # Use the default base when the ip address is not explictly specified,
+            # create new network for each p2p link
             if not ips:
                 # ipic.append( defaultAddressHelper.Assign(ndc[i]) )
                 ipic.append( defaultAddressHelper.Assign(self.get_link_ndc(i)) )
                 addressHelper.NewNetwork()
                 continue
 
+            # Assign ip address for node 1
             addr, netBase, mask = CIDR_to_subnet_mask(ips[0])
             net_addr = get_net_addr(addr, mask)
             addressHelper.SetBase(
@@ -353,7 +360,9 @@ class ManualTopologyNet(TopologyNet):
                     )
             # ip1 = addressHelper.Assign(ns3.NetDeviceContainer(ndc[i].Get(0)))
             ip1 = addressHelper.Assign(ns3.NetDeviceContainer(self.get_link_ndc(i).Get(0)))
+            # self.get_link_ndc(i).Get(0).SetAddress(ns3.Ip)
 
+            # Assign ip address for node 2
             addr, netBase, mask = CIDR_to_subnet_mask(ips[1])
             net_addr = get_net_addr(addr, mask)
             addressHelper.SetBase(
@@ -366,14 +375,85 @@ class ManualTopologyNet(TopologyNet):
             ipic.append((ip1, ip2))
 
         self.p2p = p2p
+        self.ipic = ipic
 
         # from ns.core import ofstream
         # _ascii = ofstream("wifi-ap.tr")
         # p2p.EnableAsciiAll("test")
 
-        self.ipic = ipic
-
         return ipic
+
+
+class ComplexNet(ManualTopologyNet):
+    """ Complex Network contains different types of Subnets.
+
+    For example, some parts is Csma Network, which some other parts is
+    PointToPoint Network.
+    """
+    def _modify_address_helper(self, addressHelper, cidr_addr):
+        """ modify the netbase, mask and and base of the address helper
+        """
+        addr, netBase, mask = CIDR_to_subnet_mask(cidr_addr)
+        netAddr = get_net_addr(addr, mask)
+        addressHelper.SetBase(
+                network=ns3.Ipv4Address(netBase),
+                mask = ns3.Ipv4Mask(mask),
+                base = ns3.Ipv4Address(netAddr),
+                )
+        return addressHelper
+
+    def init_link(self):
+        pass
+
+    def _initSubnet(self, type_, desc):
+        """ Initialize subnet in the complex network.
+
+        - **type_**: can be ['PointToPoint', 'Csma']
+        - **desc**: parameters for ['']
+        """
+        # defaultAddressHelper = self._get_address_helper(desc[''])
+        helperMap = {
+                'PointToPoint': ns3.PointToPointHelper,
+                'Csma': ns3.CsmaHelper,
+                }
+        helper = helperMap[type_]()
+        for nodes, ips in desc['IpMap'].iteritems():
+
+            # set channel attribute
+            channelAttribute = desc.get('ChannelAttribute', {}).get(nodes, desc.get('ChannelAttributeDefault', {}))
+            for attr, val in channelAttribute.iteritems():
+                helper.SetChannelAttribute(attr, ns.core.StringValue(val))
+
+            # set device attribute
+            deviceAttribute = desc.get('DeviceAttribute', {}).get(nodes, desc.get('DeviceAttributeDefault', {}))
+            for attr, val in deviceAttribute.iteritems():
+                helper.SetDeviceAttribute(attr, ns.core.StringValue(val))
+
+            # create node container with all nodes in the channel
+            channelContainer = ns3.NodeContainer()
+            for n in nodes:
+                # print('n : %i'%(n))
+                # print('nN : %i'%(self.nodes.GetN()))
+                channelContainer.Add(self.nodes.Get(n))
+
+            # create channel and correspondings NetDevices
+            self.netDevices[nodes] = helper.Install( channelContainer )
+
+            # assign Ip address for each net devices
+            addressHelper = ns3.Ipv4AddressHelper()
+            i = -1
+            for n, ip in zip(nodes, ips):
+                i += 1
+                addressHelper = self._modify_address_helper(addressHelper, ip)
+                print('address for node ', n, ' has bee assigned, ip, ', ip)
+                ip = addressHelper.Assign(ns3.NetDeviceContainer(self.netDevices[nodes].Get(i)))
+
+
+    def init_net_device(self, net_settings, *args, **kwargs):
+        self.net_settings = net_settings
+        self.netDevices = {}
+        for type_, desc in net_settings['nets'].iteritems():
+            self._initSubnet(type_, desc)
 
 
 def main():

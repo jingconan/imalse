@@ -66,17 +66,39 @@ def short_num_to_standard(s):
 
 from RandomVarLib import *
 
-class BackgroundTrafficConfig(object):
+class NS3Config(object):
     """config NS3 according to fs dot file"""
     TOPOLOGY_FILE = settings.ROOT + '/share/bg_topology.inet'
     TOPOLOGY_TYPE = 'Inet'
     NET_SETTINGS_FILE = settings.ROOT + '/share/bg_net_settings_tmp.py'
-    def __init__(self, dot_file, net):
+    def __init__(self, dot_file, trace_config):
         self.dot_file = dot_file
-        self.dot_config = DotConfig(self.dot_file)
+        self.dot_config = DotConfig(self.dot_file, trace_config)
         self.dot_config.export_inet(self.TOPOLOGY_FILE)
         self.dot_config.export_net_settings(self.NET_SETTINGS_FILE)
-        self.net = net
+
+    def load_net_settings(self):
+        s = {}
+        execfile(self.NET_SETTINGS_FILE, s)
+        # return Namespace(s)
+        return s
+
+    @staticmethod
+    def NodeCreator():
+        return ImalseNetnsSimNode()
+
+    def setup(self):
+        """set up the network"""
+        net_settings = self.load_net_settings()
+        # self.net = ManualTopologyNet(
+        self.net = ComplexNet(
+                self.TOPOLOGY_FILE,
+                self.TOPOLOGY_TYPE,
+                self.NodeCreator,
+                net_settings,
+                routing_helper_list = self.routing_helper_list,
+                )
+        self.net.set_trace()
 
     def add_onoff_app(self, start_time, end_time, local, remote, on_time, off_time, data_rate, sport, dport):
         """add one ns3 onoff application to the network
@@ -102,7 +124,6 @@ class BackgroundTrafficConfig(object):
         helper.SetAttribute("OnTime", ns3.RandomVariableValue(on_time.to_ns3()))
         helper.SetAttribute("OffTime", ns3.RandomVariableValue(off_time.to_ns3()))
 
-        print('local, ', local)
         local_node = self.net.search_node(local)
         helper.Install(local_node)
 
@@ -112,7 +133,6 @@ class BackgroundTrafficConfig(object):
         helper.SetAttribute("StartTime", ns3.TimeValue(ns3.Time(str(start_time)+'s')))
         helper.SetAttribute("StopTime", ns3.TimeValue(ns3.Time(str(end_time)+'s')))
         remote_node = self.net.search_node(remote)
-        print('remote, ', remote)
         sinkHelper.Install (remote_node);
 
         print("""add an onoff application with
