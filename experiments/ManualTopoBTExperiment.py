@@ -51,7 +51,7 @@ class ManualTopoBTExperiment(ManualTopoExperiment):
         parser.set_defaults(back_traf="net_config/back_traf.py",
                 )
         parser.add_option('--back_traf', dest="back_traf",
-                help='parameters for back ground traffic',
+                help='confgiuration files for back ground traffic',
                 )
 
     def load_back_traf(self, **kwargs):

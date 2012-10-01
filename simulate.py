@@ -25,7 +25,6 @@ parser = argparse.ArgumentParser(description='imalse')
 parser.add_argument('-e', '--experiment', default='TopoExperiment',
         help='specify the experiment. Avaliable experiments are [%s]'%(" |").join(exper_options)
         )
-
 parser.add_argument('--mode', default='sim',
         help="specify the mode, can be ['netns3' | 'sim'], default is 'sim'. "
         )
