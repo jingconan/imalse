@@ -36,7 +36,7 @@ nets = {
 
 pcap_nodes = [ 0 ]
 pcap_links = [  ]
-botmaster_id_set = [ 8 ]
+botmaster_id_set = [ 7 ]
 client_id_set = [ 2, 3, 4, 5, 6 ]
 server_id_set = [ 8 ]
 server_addr = [  ]

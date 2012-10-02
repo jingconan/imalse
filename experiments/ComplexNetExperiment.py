@@ -24,8 +24,8 @@ class ComplexNetExperiment(ManualTopoExperiment):
     # routing protocol list, 'type':priority
     routing_helper_list = {
             'static':0,
-            # 'nix':5,
-            'olsr':10,
+            'nix':5,
+            # 'olsr':10,
             }
 
     def initparser(self, parser):
@@ -170,4 +170,4 @@ class ComplexNetExperiment(ManualTopoExperiment):
         # print('finish running start nodes')
 
         # create routing table
-        ns3.Ipv4GlobalRoutingHelper.PopulateRoutingTables()
+        # ns3.Ipv4GlobalRoutingHelper.PopulateRoutingTables()
