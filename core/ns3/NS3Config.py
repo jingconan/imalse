@@ -10,51 +10,13 @@ to belongs to the same flow.
 from __future__ import division, print_function
 
 import settings
-from Node import ImalseNetnsSimNode
-from Topology import ManualTopologyNet
-from Topology import ComplexNet
-from DotConfig import DotConfig
-from util import Namespace
 import ns3
-from random import randint
-from RandomVariable import RV
 
-#####################################
-####              API            ####
-#####################################
-def TopologyNetBT(dot_file, trace_config, **kwargs):
-    """return a TopologyNet with Background traffic already configured
-        - **dotfile** is the path of dot configuration file relative to ROOT directory
-        - **trace_config** is a dictionary contains the trace and bot server client information
-    """
-    ns3_config = NS3Config(dot_file, trace_config)
-    # set other parameters
-    for k, v in kwargs.iteritems():
-        ns3_config.__dict__[k] = v
+from DotConfig import DotConfig
+# from RandomVariable import RV
+# from RandomVarLib import *
+from RandomVariable import *
 
-    ns3_config.setup()
-    ns3_config.config_onoff_app()
-    return ns3_config.net
-
-def run_ns3(dot_file, trace_config, sim_time, visual):
-    """run ns3 simulation based on configuration in **dot_file** and **trace_flag**"""
-    if visual:
-        ns3.GlobalValue.Bind("SimulatorImplementationType",
-                ns3.StringValue("ns3::VisualSimulatorImpl"))
-
-    ns3.LogComponentEnable("OnOffApplication", ns3.LOG_LEVEL_INFO)
-    ns3.LogComponentEnable("OnOffApplication", ns3.LOG_LEVEL_INFO)
-
-    ns3_config = NS3Config(settings.ROOT + '/' + dot_file, trace_config)
-    ns3_config.setup()
-    ns3_config.config_onoff_app()
-    ns3.Simulator.Stop(ns3.Seconds(sim_time))
-    ns3.Simulator.Run()
-    ns3.Simulator.Destroy()
-
-##################################################################
-####    Not recommend to call functions in this part directly ####
-##################################################################
 def short_num_to_standard(s):
     """change short text notation to standard numerica value"""
     replace_map = {
@@ -64,10 +26,13 @@ def short_num_to_standard(s):
         s = s.replace(k, v)
     return s
 
-from RandomVarLib import *
 
 class BackgroundTrafficConfig(object):
-    """config NS3 according to fs dot file"""
+    """Add background traffic pattern to the NS3 Simulator
+
+    The background traffic is specifed by a DOT file
+    """
+
     TOPOLOGY_FILE = settings.ROOT + '/share/bg_topology.inet'
     TOPOLOGY_TYPE = 'Inet'
     NET_SETTINGS_FILE = settings.ROOT + '/share/bg_net_settings_tmp.py'
@@ -78,7 +43,7 @@ class BackgroundTrafficConfig(object):
         self.dot_config.export_net_settings(self.NET_SETTINGS_FILE)
         self.net = net
 
-    def add_onoff_app(self, start_time, end_time, local, remote, on_time, off_time, data_rate, sport, dport):
+    def _add_onoff_app(self, start_time, end_time, local, remote, on_time, off_time, data_rate, sport, dport):
         """add one ns3 onoff application to the network
         """
         # ignore the network prefix length if there is
@@ -125,7 +90,8 @@ class BackgroundTrafficConfig(object):
 
     @staticmethod
     def transform_para(flowsize, flowstart, ipsrc, ipdst, sport, dport, **argv):
-        """transform the parameter for generator desription to the NS3 onoff application parameters"""
+        """transform the parameter for generator desription to the NS3 onoff application parameters
+        """
         # data_rate = StringValue('1kbps') # constant data rate
         data_rate = 1000
         on_time = RV(flowsize) / data_rate
@@ -139,7 +105,7 @@ class BackgroundTrafficConfig(object):
             for start_time, end_time, num, generator in mod_profs: # for each modulator
                 gen = self.dot_config.get_gen(node, generator)
                 for i in xrange(num):
-                    self.add_onoff_app(start_time, end_time, *self.transform_para(**gen))
+                    self._add_onoff_app(start_time, end_time, *self.transform_para(**gen))
 
 if __name__ == "__main__":
     run_ns3('res.dot', [], 3000, False)

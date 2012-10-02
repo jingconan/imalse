@@ -261,14 +261,27 @@ import settings
 # import ns3
 class ManualTopologyNet(TopologyNet):
     """Topology network with manual ip settings"""
+
+    def _modify_address_helper(self, addressHelper, cidr_addr):
+        """ modify the netbase, mask and and base of the address helper
+        """
+        addr, netBase, mask = CIDR_to_subnet_mask(cidr_addr)
+        netAddr = get_net_addr(addr, mask)
+        addressHelper.SetBase(
+                network=ns3.Ipv4Address(netBase),
+                mask = ns3.Ipv4Mask(mask),
+                base = ns3.Ipv4Address(netAddr),
+                )
+        return addressHelper
+
     def get_link_name(self, i):
         link = self.inFile.m_linksList[i]
         link_name = (int(link.GetFromNodeName()), int(link.GetToNodeName()) )
         return link_name
 
     def get_link_attr(self, i):
-        default = self.net_settings.link_attr_default
-        return self.net_settings.link_attr.get(self.get_link_name(i), default)
+        default = self.net_settings['link_attr_default']
+        return self.net_settings['link_attr'].get(self.get_link_name(i), default)
 
     def set_trace(self):
         # for n in self.net_settings.pcap_nodes:
@@ -308,8 +321,11 @@ class ManualTopologyNet(TopologyNet):
             for a in xrange(ipv4.GetNInterfaces()):
                 for b in xrange(ipv4.GetNAddresses(a)):
                     local_addr = ipv4.GetAddress (a, b).GetLocal ();
+                    print(' lcao_addr, ', local_addr)
                     if str(local_addr) == addr:
                         return node
+
+        raise Exception('cannot find node with addr: '+ str(addr))
 
 
 
@@ -329,7 +345,7 @@ class ManualTopologyNet(TopologyNet):
 
         # Create little subnets, one for each couple of nodes
         defaultAddressHelper = ns3.Ipv4AddressHelper()
-        defaultAddr, defaultNetBase, defaultMask = CIDR_to_subnet_mask(net_settings.ipv4_net_addr_base)
+        defaultAddr, defaultNetBase, defaultMask = CIDR_to_subnet_mask(net_settings['ipv4_net_addr_base'])
         netAddr = get_net_addr(defaultAddr, defaultMask)
         defaultAddressHelper.SetBase(
                 network=ns3.Ipv4Address(defaultNetBase),
@@ -337,42 +353,36 @@ class ManualTopologyNet(TopologyNet):
                 base = ns3.Ipv4Address(netAddr),
                 )
 
+        # FIXME, THE ORDER HERE WITH THE ORDER in FS CONFIGURE MAY BE
+        # DIFFERENT
         addressHelper = ns3.Ipv4AddressHelper()
         ipic = [] #ip interface container
         for i in xrange(totlinks):
-            ips = self.net_settings.link_to_ip_map.get(self.get_link_name(i), None)
+
+            ips = self.net_settings['link_to_ip_map'].get(self.get_link_name(i), None)
 
             # Use the default base when the ip address is not explictly specified,
             # create new network for each p2p link
             if not ips:
-                # ipic.append( defaultAddressHelper.Assign(ndc[i]) )
+                raise Exception('Sorry, in current version of ManualTopologyNet ' +
+                        'You have to specify the link_to_ip_map for ALL LINKS!')
+                print(self.get_link_name(i), 'use default address helper')
                 ipic.append( defaultAddressHelper.Assign(self.get_link_ndc(i)) )
                 addressHelper.NewNetwork()
                 continue
 
-            # Assign ip address for node 1
-            addr, netBase, mask = CIDR_to_subnet_mask(ips[0])
-            net_addr = get_net_addr(addr, mask)
-            addressHelper.SetBase(
-                    network=ns3.Ipv4Address(netBase),
-                    mask = ns3.Ipv4Mask(mask),
-                    base = ns3.Ipv4Address(net_addr),
-                    )
-            # ip1 = addressHelper.Assign(ns3.NetDeviceContainer(ndc[i].Get(0)))
-            ip1 = addressHelper.Assign(ns3.NetDeviceContainer(self.get_link_ndc(i).Get(0)))
-            # self.get_link_ndc(i).Get(0).SetAddress(ns3.Ip)
+            addressHelper = ns3.Ipv4AddressHelper()
+            j = -1
+            ipic_tmp = []
+            for ip in ips:
+                j += 1
+                print('address, ', ip)
+                addressHelper = self._modify_address_helper(addressHelper, ip)
+                ipc = addressHelper.Assign(ns3.NetDeviceContainer(self.get_link_ndc(i).Get(j)))
+                ipic_tmp.append(ipc)
+            ipic.append(ipic_tmp)
 
-            # Assign ip address for node 2
-            addr, netBase, mask = CIDR_to_subnet_mask(ips[1])
-            net_addr = get_net_addr(addr, mask)
-            addressHelper.SetBase(
-                    network=ns3.Ipv4Address(netBase),
-                    mask = ns3.Ipv4Mask(mask),
-                    base = ns3.Ipv4Address(net_addr)
-                    )
-            # ip2 = addressHelper.Assign(ns3.NetDeviceContainer(ndc[i].Get(1)))
-            ip2 = addressHelper.Assign(ns3.NetDeviceContainer(self.get_link_ndc(i).Get(1)))
-            ipic.append((ip1, ip2))
+
 
         self.p2p = p2p
         self.ipic = ipic
@@ -390,6 +400,30 @@ class ComplexNet(ManualTopologyNet):
     For example, some parts is Csma Network, which some other parts is
     PointToPoint Network.
     """
+    def __init__(self, NodeCreator, net_settings, *args, **kwargs):
+        self.NodeCreator = NodeCreator
+        self._create_nodes(net_settings, NodeCreator)
+        self.install_stack(kwargs.get('routing_helper_list', None))
+        self.init_net_device(net_settings, *args, **kwargs)
+
+        # create routing table
+        ns3.Ipv4GlobalRoutingHelper.PopulateRoutingTables()
+
+    def _create_nodes(self, net_settings, NodeCreator):
+        """create nodes, self.nodes will be a node container"""
+        # get the number of nodes in the network
+        print('net_settings, ', net_settings)
+        max_node = []
+        for type_, desc in net_settings['nets'].iteritems():
+            max_node.append(max( max(v) for v in desc['IpMap'].keys()))
+        node_num = max(max_node) + 1
+        print('node_num, ', node_num)
+
+        self.nodes = ns3.NodeContainer()
+        for i in xrange(node_num):
+            node = NodeCreator()
+            self.nodes.Add(node)
+
     def _modify_address_helper(self, addressHelper, cidr_addr):
         """ modify the netbase, mask and and base of the address helper
         """
@@ -401,9 +435,6 @@ class ComplexNet(ManualTopologyNet):
                 base = ns3.Ipv4Address(netAddr),
                 )
         return addressHelper
-
-    def init_link(self):
-        pass
 
     def _initSubnet(self, type_, desc):
         """ Initialize subnet in the complex network.

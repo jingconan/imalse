@@ -4,29 +4,20 @@ import itertools
 from util import get_net, CIDR_to_subnet_mask
 
 class DotConfig(object):
-    """load dot configurationn. """
+    """load DOT fomat background traffic configurationn.
+
+    """
     # DEFAULT_ROUTING_PREFIX = 8
     DEFAULT_ROUTING_PREFIX = 24
 
-    # the fs dot file doesn't have the botnet and trace information.
-    pcap_nodes = [ 0, 1, 2 ]
-    pcap_links = [ (0, 2) ]
-    botmaster_id_set = [  ]
-    client_id_set = [ ]
-    server_id_set = [  ]
-    server_addr = [ ]
-
     def __init__(self, f_name):
-        self._loadconfig(f_name)
-        # self.__dict__.update(trace_config)
-
-    def _loadconfig(self, config):
-        self.graph = networkx.nx_pydot.read_dot(config)
+        self.graph = networkx.nx_pydot.read_dot(f_name)
 
     @staticmethod
     def nid(node_name):
         """get node id from **node_name**, node_name should start
-        with n and follows with a digit"""
+        with n and follows with a digit
+        """
         return int(node_name[1:])
     @staticmethod
     def nname(nid):
@@ -87,10 +78,11 @@ class DotConfig(object):
 
     def export_net_settings(self, fname):
         """export **link_attr**, **link_to_ip_map**, from the dot configuration
-        get **link_attr** first, then for each link, search the ipdests for
+
+        Get **link_attr** first, then for each link, search the ipdests for
         the node. Find two ipaddress share with the same prefix, add corresponding
-        item to link_to_ip_map. if the net
-        length in the CIDR format is not specified, use the default value of
+        item to link_to_ip_map. if the net length in the CIDR format is not specified,
+        use the default value of
         24.
         """
         self._load_link_attr()
@@ -140,18 +132,6 @@ class DotConfig(object):
 
         fid.write('link_attr = ' + pprint.pformat(self.link_attr, indent=4)+'\n')
         fid.write('link_to_ip_map = ' + pprint.pformat(self.link_to_ip_map, indent=4)+'\n')
-#         fid.write("""
-# pcap_nodes = %s
-# pcap_links = %s
-# botmaster_id_set = %s
-# client_id_set = %s
-# server_id_set = %s
-# server_addr = %s"""%(self.pcap_nodes, self.pcap_links,
-#         self.botmaster_id_set,
-#         self.client_id_set,
-#         self.server_id_set,
-#         self.server_addr))
-#         fid.close()
         return self.link_attr, self.link_to_ip_map
 
     def export_inet(self, fname):

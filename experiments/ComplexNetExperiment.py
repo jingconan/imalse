@@ -1,43 +1,25 @@
 """
-Manual Topology Experiment with Background Traffic
+Complex Network Experiment with Background Traffic
 
+This experiment will deal with heterogeneous network
+that consists of not only PointToPointLink but also
+CsmaNetwork, etc
 """
-from __future__ import print_function, division
+from __future__ import print_function
 import settings
 from core.ns3.NS3Config import BackgroundTrafficConfig
-from core.ns3.Topology import ManualTopologyNet
+from core.ns3.Topology import ComplexNet
 from experiments import experiment_factory
 from core.configure import gen_anomaly_dot
 import ns3
-import copy
 
 ManualTopoExperiment = experiment_factory('ManualTopoExperiment', BaseClass)
 
 zeros = lambda s:[[0 for i in xrange(s[1])] for j in xrange(s[0])]
+import copy
 
-def get_inet_adj_mat(fname):
-    fid = open(fname, 'r')
-    i = -1
-    while True:
-        i += 1
-        line = fid.readline()
-        if not line: break
-        if i == 0:
-            totnode, totlink = [int(s.strip()) for s in line.rsplit()]
-            adj_mat = zeros([totnode, totnode])
-            continue
-        if i <= totnode: # ignore the position information
-            continue
-
-        _from, _to, _lineBuffer = [s.strip() for s in line.rsplit()]
-        adj_mat[int(_from)][int(_to)] = 1
-    fid.close()
-
-    return adj_mat
-
-class ManualTopoBTExperiment(ManualTopoExperiment):
-    """ This is a extension of Manual topology experiment it
-    add background traffic to the network.
+class ComplexNetExperiment(ManualTopoExperiment):
+    """This experiment deals with hetergenous network
     """
     # routing protocol list, 'type':priority
     routing_helper_list = {
@@ -72,12 +54,39 @@ class ManualTopoBTExperiment(ManualTopoExperiment):
         execfile(f_name, s)
         return s if encap is None else encap(s)
 
-    def transform_to_net_desc(self, net_settings):
-        """add topology from topoloy file"""
+    @staticmethod
+    def transform_to_net_desc(net_settings):
+        """ Transform the net_setting used by ComplextNet to net_desc paramter used by fs configure
+
+        The net specification parameter in *Imalse* and *fs* configure module
+        are quite different. This function tranform a net_setting parameter to
+        a net_desc parameter used by fs/configure module
+        we don't need topology in the dot file to be exactly the same.
+        we just need the ip address for each interface.
+
+        """
         net_desc = copy.copy(net_settings) # shallow copy
         net_desc['node_type'] = 'NNode'
         net_desc['node_para'] = {}
-        net_desc['topo'] = get_inet_adj_mat(settings.ROOT + '/' + self.options.topology_file)
+
+        # Create a Suitable Topology. For CSMA network. It will simply
+        # create circle topology.
+        net_desc['link_to_ip_map'] = {}
+        for type_, desc in net_desc['nets'].iteritems():
+            if type_ == 'PointToPoint':
+                net_desc['link_to_ip_map'].update(desc['IpMap'])
+            elif type_ == "Csma":
+                for nodes, ips in desc['IpMap'].iteritems():
+                    for i in xrange(len(nodes) - 1):
+                        net_desc['link_to_ip_map'].update({ (nodes[i], nodes[i+1]):(ips[i], ips[i+1]) })
+
+        pairs = net_desc['link_to_ip_map'].keys()
+        g_size = max(max(pairs)) + 1
+        topo = zeros((g_size, g_size))
+        for x, y in pairs:
+            topo[x][y] = 1
+        net_desc['topo'] = topo
+
         return net_desc
 
     def load_exper_settings(self, ns):
@@ -138,46 +147,11 @@ class ManualTopoBTExperiment(ManualTopoExperiment):
         # Generate dot file that describe the background traffic.
         dot_file = self.gen_back_traf_dot(net_settings)
 
-        self.net = ManualTopologyNet(
-                # os.path.abspath(self.options.topology_file),
-                settings.ROOT + '/' + self.options.topology_file,
-                self.options.topology_type,
-                self.NodeCreator,
-                net_settings,
-                )
-
-
-        bg_cofig = BackgroundTrafficConfig(dot_file, self.net)
-        bg_cofig.config_onoff_app()
-
-        self.net.set_trace()
-        self._install_cmds(srv_addr = self.SERVER_ADDR)
-        self.print_srv_addr()
-        self._set_server_info()
-        self.start_nodes()
-
-    def setup(self):
-        BaseClass.setup(self)
-        # net_settings = self.load_net_settings()
-        net_settings = self.load_para(
-                f_name = settings.ROOT + '/' + self.options.net_settings,
-                )
-        self.load_exper_settings(net_settings)
-
-        # Generate dot file that describe the background traffic.
-        dot_file = self.gen_back_traf_dot(net_settings)
-
         ns3.LogComponentEnable("OnOffApplication", ns3.LOG_LEVEL_INFO)
-        self.load_exper_settings(net_settings)
-
-        self.net = ManualTopologyNet(
-                # os.path.abspath(self.options.topology_file),
-                settings.ROOT + '/' + self.options.topology_file,
-                self.options.topology_type,
+        self.net = ComplexNet(
                 self.NodeCreator,
                 net_settings,
                 )
-        self.net.set_trace()
 
         bg_cofig = BackgroundTrafficConfig(dot_file, self.net)
         bg_cofig.config_onoff_app()
@@ -187,3 +161,4 @@ class ManualTopoBTExperiment(ManualTopoExperiment):
         self.print_srv_addr()
         self._set_server_info()
         self.start_nodes()
+
