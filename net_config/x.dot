@@ -1,5 +1,0 @@
-graph SimConf {
-    n0 [ipdests="127.129.92.19"]
-    n1 [ipdests="127.126.151.10"]
-    n1 -- n0  [delay=0.01, capacity=10000000, weight=10];
-}

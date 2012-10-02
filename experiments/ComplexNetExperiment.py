@@ -5,7 +5,7 @@ This experiment will deal with heterogeneous network
 that consists of not only PointToPointLink but also
 CsmaNetwork, etc
 """
-from __future__ import print_function
+from __future__ import print_function, division
 import settings
 from core.ns3.NS3Config import BackgroundTrafficConfig
 from core.ns3.Topology import ComplexNet
@@ -24,16 +24,16 @@ class ComplexNetExperiment(ManualTopoExperiment):
     # routing protocol list, 'type':priority
     routing_helper_list = {
             'static':0,
-            'nix':5,
-            # 'olsr':10,
+            # 'nix':5,
+            'olsr':10,
             }
 
     def initparser(self, parser):
         ManualTopoExperiment.initparser(self, parser)
 
-        parser.set_defaults(back_traf="net_config/back_traf.py",
-                )
-        parser.add_option('--back_traf', dest="back_traf",
+        # parser.set_defaults(back_traf="net_config/back_traf.py",
+                # )
+        parser.add_option('--back_traf', dest="back_traf", default=None,
                 help='confgiuration files for back ground traffic',
                 )
         parser.add_option('--dot_file', default='net_config/ManualTopoBTConf.dot',
@@ -144,21 +144,27 @@ class ComplexNetExperiment(ManualTopoExperiment):
         net_settings = self.load_para(f_name = settings.ROOT + '/' + self.options.net_settings)
         self.load_exper_settings(net_settings)
 
-        # Generate dot file that describe the background traffic.
-        dot_file = self.gen_back_traf_dot(net_settings)
-
-        ns3.LogComponentEnable("OnOffApplication", ns3.LOG_LEVEL_INFO)
         self.net = ComplexNet(
                 self.NodeCreator,
                 net_settings,
+                routing_helper_list = self.routing_helper_list,
                 )
 
-        bg_cofig = BackgroundTrafficConfig(dot_file, self.net)
-        bg_cofig.config_onoff_app()
+        if self.options.back_traf:
+            # Generate dot file that describe the background traffic.
+            dot_file = self.gen_back_traf_dot(net_settings)
+            ns3.LogComponentEnable("OnOffApplication", ns3.LOG_LEVEL_INFO)
+            bg_cofig = BackgroundTrafficConfig(dot_file, self.net)
+            bg_cofig.config_onoff_app()
 
         self.net.set_trace()
+        print('finish running set_trace')
         self._install_cmds(srv_addr = self.SERVER_ADDR)
+        # print('finish running install_cmds')
         self.print_srv_addr()
+        # print('finish running print_srv_addr')
         self._set_server_info()
+        # print('finish running set_server_info')
         self.start_nodes()
+        # print('finish running start nodes')
 

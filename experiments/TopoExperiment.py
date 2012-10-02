@@ -55,6 +55,7 @@ class TopoExperiment(BaseClass):
         self.start_nodes()
 
     def start_nodes(self):
+        # import pdb;pdb.set_trace()
         # start servers
         for i in self.server_id_set:
             # print 'node [%i] type [%s] start at [%f]s'%(i, 'server', 0)

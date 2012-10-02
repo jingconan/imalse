@@ -177,8 +177,6 @@ class ManualTopoBTExperiment(ManualTopoExperiment):
                 self.NodeCreator,
                 net_settings,
                 )
-        self.net.set_trace()
-
         bg_cofig = BackgroundTrafficConfig(dot_file, self.net)
         bg_cofig.config_onoff_app()
 

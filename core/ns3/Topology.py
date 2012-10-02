@@ -321,7 +321,7 @@ class ManualTopologyNet(TopologyNet):
             for a in xrange(ipv4.GetNInterfaces()):
                 for b in xrange(ipv4.GetNAddresses(a)):
                     local_addr = ipv4.GetAddress (a, b).GetLocal ();
-                    print(' lcao_addr, ', local_addr)
+                    # print(' lcao_addr, ', local_addr)
                     if str(local_addr) == addr:
                         return node
 
@@ -412,12 +412,10 @@ class ComplexNet(ManualTopologyNet):
     def _create_nodes(self, net_settings, NodeCreator):
         """create nodes, self.nodes will be a node container"""
         # get the number of nodes in the network
-        print('net_settings, ', net_settings)
         max_node = []
         for type_, desc in net_settings['nets'].iteritems():
             max_node.append(max( max(v) for v in desc['IpMap'].keys()))
         node_num = max(max_node) + 1
-        print('node_num, ', node_num)
 
         self.nodes = ns3.NodeContainer()
         for i in xrange(node_num):
@@ -448,6 +446,7 @@ class ComplexNet(ManualTopologyNet):
                 'Csma': ns3.CsmaHelper,
                 }
         helper = helperMap[type_]()
+        self.helpers[type_] = helper
         for nodes, ips in desc['IpMap'].iteritems():
 
             # set channel attribute
@@ -483,9 +482,13 @@ class ComplexNet(ManualTopologyNet):
     def init_net_device(self, net_settings, *args, **kwargs):
         self.net_settings = net_settings
         self.netDevices = {}
+        self.helpers = {}
         for type_, desc in net_settings['nets'].iteritems():
             self._initSubnet(type_, desc)
 
+    def set_trace(self):
+        for type_, helper in self.helpers.iteritems():
+            helper.EnablePcapAll(settings.ROOT+"/res/trace")
 
 def main():
     topoHelper = TopologyReaderHelper()
