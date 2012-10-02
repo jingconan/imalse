@@ -277,5 +277,31 @@ class ImalseNetnsSimNode(ns3.Node, BaseNode):
     ##    File System              #####
     ####################################
     def ping(self, sock, data, threaded):
-        print 'ImalseNetnsSimNode.ping: this is just a stub, please finish it'
+        """The attributes you can customize
 
+        **StartTime**
+        **StopTime**
+        **Remote**: The address of the machine we want to ping.
+        **Verbose**: Produce usual output.
+        **Interval**: Wait interval seconds between sending each packet.
+        **Size**: The number of data bytes to be sent, real packet will
+                be 8 (ICMP) + 20 (IP) bytes longer.
+        """
+        # print 'ImalseNetnsSimNode.ping: this is just a stub, please finish it'
+        print 'data, ', data
+        print 'here, '
+        remote = data.get('remote')[0]
+        remote_addr = ns3.Ipv4Address(remote)
+
+        helper = ns3.V4PingHelper(remote_addr)
+
+        start_time = data.get('start_time')[0]
+        stop_time = data.get('stop_time')[0]
+        helper.SetAttribute("StartTime", ns3.TimeValue(ns3.Time(str(start_time)+'s')))
+        helper.SetAttribute("StopTime", ns3.TimeValue(ns3.Time(str(stop_time)+'s')))
+
+       # helper.SetAttribute("Remote", ns3.AddressValue(remote_inet))
+
+        # interval = data.get('Interval')
+        # helper.SetAttribute("Interval", ns3.TimeValue(str(interval) + 's'))
+        helper.Install(self)

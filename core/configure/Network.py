@@ -61,8 +61,8 @@ class Network(Dot):
         traffic for any combination of self.norm_desc['src_nodes']
         and self.norm_desc['dst_Nodes']
         """
-        dst_node_list = [self.node_list[i] for i in self.norm_desc['dst_nodes']]
         for i in self.norm_desc['src_nodes']:
+            dst_node_list = [self.node_list[j] for j in self.norm_desc['dst_nodes'] if j != i] # don't send traffic to itself
             self.node_list[i].init_traffic(self.norm_desc, dst_node_list)
 
     def _topo(self, topo):

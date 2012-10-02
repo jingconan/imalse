@@ -168,6 +168,7 @@ class ManualTopoBTExperiment(ManualTopoExperiment):
         dot_file = self.gen_back_traf_dot(net_settings)
 
         ns3.LogComponentEnable("OnOffApplication", ns3.LOG_LEVEL_INFO)
+        ns3.LogComponentEnable("V4PingApplication", ns3.LOG_LEVEL_INFO)
         self.load_exper_settings(net_settings)
 
         self.net = ManualTopologyNet(

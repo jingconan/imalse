@@ -150,6 +150,7 @@ class ComplexNetExperiment(ManualTopoExperiment):
                 routing_helper_list = self.routing_helper_list,
                 )
 
+        ns3.LogComponentEnable("V4Ping", ns3.LOG_LEVEL_INFO)
         if self.options.back_traf:
             # Generate dot file that describe the background traffic.
             dot_file = self.gen_back_traf_dot(net_settings)
