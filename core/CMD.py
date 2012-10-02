@@ -36,7 +36,8 @@ class CMD(object):
     def _set_logger(self):
         logging.basicConfig()
         self.logger = logging.getLogger(self.name)
-        self.logger.setLevel(logging.DEBUG)
+        # self.logger.setLevel(logging.DEBUG)
+        self.logger.setLevel(logging.WARNING)
 
     def _trigger(self, event_name, *argv, **kwargv):
         """trigger an event, event hander is a class member function"""

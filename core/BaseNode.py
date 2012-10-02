@@ -12,7 +12,8 @@ class BaseNode(object):
     def _set_logger(self):
         logging.basicConfig()
         self.logger = logging.getLogger(self.name)
-        self.logger.setLevel(logging.DEBUG)
+        # self.logger.setLevel(logging.DEBUG)
+        self.logger.setLevel(logging.WARNING)
 
     def start(self):
         """start the node"""

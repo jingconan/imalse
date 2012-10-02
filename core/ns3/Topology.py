@@ -142,7 +142,7 @@ class TopologyNet():
     """Load Topology File and Contruct the Network Accordingly"""
     routing_helper_list = {
             'static':0,
-            # 'nix':5,
+            'nix':5,
             'olsr':10,
             }
     def __init__(self, _input, _format, NodeCreator, *args, **kwargs):

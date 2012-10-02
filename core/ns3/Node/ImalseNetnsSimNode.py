@@ -112,6 +112,7 @@ class ImalseNetnsSimNode(ns3.Node, BaseNode):
         sock.Listen()
 
     def recv(self, sock, bufsize, dispatcher=None, threaded=False):
+        # print('Node [%s] has set recv dispatcher [%s] for sock [%s]'%(self.name, dispatcher, str(sock)) )
         self.logger.debug('Node [%s] has set recv dispatcher [%s] for sock [%s]'%(self.name, dispatcher, str(sock)) )
         sock.SetRecvCallback(dispatcher)
         self.logger.debug('Node [%s] has finish set recv dispatcher for sock [%s]'%(self.name, str(sock)) )
@@ -124,6 +125,7 @@ class ImalseNetnsSimNode(ns3.Node, BaseNode):
         parse the data into approariate format and handle the data to
         cmd.dispatcher()
         """
+        print 'dispatcher'
 #FIXME this function was not exculated in pure simulation mode
         # if self.name == "sim_n%s" %(2):
             # import pdb;pdb.set_trace()
@@ -175,8 +177,10 @@ class ImalseNetnsSimNode(ns3.Node, BaseNode):
                 )
 
         def connect_succeeded(sock):
+            print 'Node [%s] connect succeeded'%(self.name)
             self.logger.debug('Node [%s] connect succeeded'%(self.name) )
-            self.recv(sock, 512, self.dispatcher)
+            # self.recv(sock, 512, self.dispatcher)
+            self.after(0, self.recv, sock, 512, self.dispatcher)
 
         def connect_failed(sock):
             self.logger.debug('Node [%s] connect failed'%(self.name) )
@@ -184,7 +188,12 @@ class ImalseNetnsSimNode(ns3.Node, BaseNode):
 
         sock.SetConnectCallback(connect_succeeded, connect_failed)
         ret = sock.Connect(inetAddr)
-        # print 'ret, ', ret
+        if ret == -1:
+            print 'node [%s] cannot connect to server'%(self.name)
+            # raise Exception('node [%s] cannot connect to server'%(self.name) )
+        print 'node %s connected to server'%(self.name)
+
+        # self.recv(sock, 512, self.dispatcher)
         # x = inetAddr.GetIpv4()
         # from inspect import getmembers
         # for a, b in getmembers(x): print a, b

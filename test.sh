@@ -7,6 +7,9 @@
 # ./sim -e ComplexNetExperiment --net_settings=net_config/aro_demo/nf_net_settings.py -s file_exfiltration -t 1000 --Simulator=Visual
 # ./sim -e ComplexNetExperiment --net_settings=net_config/aro_demo/nf_net_settings.py -s file_exfiltration -t 100
 
-./sim -e ComplexNetExperiment --net_settings=net_config/aro_demo/nf_net_settings.py -s file_exfiltration -t 100 --back_traf=net_config/aro_demo/back_traf.py
+# ./sim -e ComplexNetExperiment --net_settings=net_config/aro_demo/nf_net_settings.py -s file_exfiltration -t 100 --back_traf=net_config/aro_demo/back_traf.py
+# ./sim -e ComplexNetExperiment --net_settings=net_config/aro_demo/nf_net_settings.py -s file_exfiltration -t 100
+# ./sim -e ComplexNetExperiment --net_settings=net_config/aro_demo/nf_net_settings.py -s ddos_ping_flooding -t 100
+./sim -e ComplexNetExperiment --net_settings=net_config/aro_demo/nf_net_settings.py -s file_exfiltration -t 100
 
 

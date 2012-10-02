@@ -32,14 +32,12 @@ class ClientCMD(CMD):
 
     def request_connect(self):
         """request a connection to server"""
-        self.logger.debug('request_connect')
         sock = self.node.create_sock({'type':'server', 'proto':'tcp'})
         self.sock = sock
         if self.node.NODE_TYPE.startswith('real'):
             event = self.node.connect(sock, (self.srv_addr, self.srv_port))
             self._trigger(event)
         elif self.node.NODE_TYPE.startswith('sim'):
-            self.logger.debug('sim connect')
             event = self.node.connect(sock, (self.srv_addr, self.srv_port))
 
     def connection_refused(self):
@@ -61,6 +59,7 @@ class ClientCMD(CMD):
     def recv_ack(self):
         """call back when receive ack message from server"""
         self.logger.info("connection constructed")
+        print 'connection constructed'
         self.node.recv(self.sock, 512, self.dispatcher)
 
     def echo(self, sock, data):

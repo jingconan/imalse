@@ -165,6 +165,9 @@ class ComplexNetExperiment(ManualTopoExperiment):
         # print('finish running print_srv_addr')
         self._set_server_info()
         # print('finish running set_server_info')
+
         self.start_nodes()
         # print('finish running start nodes')
 
+        # create routing table
+        ns3.Ipv4GlobalRoutingHelper.PopulateRoutingTables()

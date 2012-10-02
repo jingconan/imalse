@@ -65,6 +65,7 @@ class BotMasterOneCMD(BotMaster):
         """
         Bot Master that verify itself and send command. One command wil be
         sent automatically.
+
         - **desc** specify the server information
         - **master_password**
         - **interval** the interval between two consequent command.
@@ -79,17 +80,24 @@ class BotMasterOneCMD(BotMaster):
         self.num = num
 
     def recv_ack(self):
+        """after receive the ack , botmaster will send password to verify
+        itself. After that, server will second commands out periodically.
+        This botmaster will take no responsibility to check whether the commands
+        have been excucted or not.
+        """
         self.logger.debug('botmaster one command recv_ack has been recorded')
         self.node.send(self.sock,
                 self._cmd_to_json('event=verify_master;password=%s;'%(self.master_password)))
-        print 'self.node.send(self.sock) finishe'
+
+        # Sleep for a while to make sure it has been verified
         self.node.sleep(self.interval)
-        print 'sleep has been called'
+
+        self.logger.info('Botmaster will start to issue the command [%s]'%(self.cmd_str))
         idx = self.num
         while True:
             if idx == 0: break
             idx -= 1
-            print 'send command out'
+            # print 'send command out', self.cmd_str
             self.node.send(self.sock,
                     self._cmd_to_json(self.cmd_str) )
             self.node.sleep(self.interval)

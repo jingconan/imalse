@@ -16,6 +16,7 @@ class ClientCMD(core.ClientCMD):
         core.ClientCMD.__init__(self, desc)
 
     def send_ping(self, sock, data):
+        print 'send_ping in ClientCMD'
         self.node.ping(sock,data, threaded=True)
 
     def stop_ping(self, sock):
