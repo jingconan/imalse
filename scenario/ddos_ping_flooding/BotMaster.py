@@ -13,7 +13,7 @@ class BotMaster(core.BotMaster.BotMasterOneCMD):
     cmd_attr = ['event=forward_to_bots',
             'bot_event=send_ping',
             'remote=10.200.1.1',
-            'start_time=100',
+            'start_time=300',
             'stop_time=500',
             'r_port=12345',
             ]
